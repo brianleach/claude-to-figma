@@ -30,6 +30,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Build first so workspace packages can resolve each other's
+      # `dist/index.d.ts` during typecheck. (`@claude-to-figma/ir`'s
+      # types only exist after tsup runs.)
+      - name: Build
+        run: pnpm -r build
+
       - name: Typecheck
         run: pnpm -r typecheck
 
@@ -38,6 +44,3 @@ jobs:
 
       - name: Lint
         run: pnpm lint
-
-      - name: Build
-        run: pnpm -r build

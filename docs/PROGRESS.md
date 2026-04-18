@@ -12,26 +12,40 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M2 (not started)
-**Last tag:** `m1`
-**Next action:** scaffold `packages/cli` with commander + parse5; emit IR
-for inline-styled HTML; add 3 fixtures + snapshot tests. See M2 section
-below.
+**Active milestone:** M3 (not started)
+**Last tag:** `m2`
+**Next action:** add lightningcss; resolve external `<link>`, `<style>`,
+and inline CSS via a minimal cascade (specificity, source order,
+`!important`, inheritance, `--vars`). Emit IR with computed styles. See
+M3 section below.
 
 ## Working branch
 
-`main` exists on the remote as of the M1 promotion and is the canonical
-branch going forward. `claude/claude-to-figma-build-zTq1Q` is still the
-only branch the bootstrap harness can push to, so any web-Claude session
-will continue working there; local sessions should use the normal
-per-milestone branch flow from `KICKSTART.md` against `main`.
+`main` is the canonical branch. From M2 onward we follow the standard
+per-milestone flow from `KICKSTART.md`:
+
+```
+git checkout main && git pull
+git checkout -b m{N}-{short-name}
+# work + commit
+# verify all gates
+git checkout main && git merge --squash m{N}-{short-name}
+git commit -m "feat(m{N}): {summary}"
+git tag -a m{N} -m "M{N}: {description}"
+git push && git push --tags
+git branch -D m{N}-{short-name}
+```
+
+The bootstrap branch `claude/claude-to-figma-build-zTq1Q` is abandoned
+as of 2026-04-18. Do not push to it. Do not branch from it. It remains
+on the remote for archive only.
 
 ## Milestone overview
 
 | #   | Status | Tag | Verified by | Notes                                                       |
 | --- | ------ | --- | ----------- | ----------------------------------------------------------- |
 | M1  | ✅ done | `m1` | bleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
-| M2  | ⬜ not started | — | —           | CLI scaffold + parse5, inline styles only.                  |
+| M2  | ✅ done | `m2` | bleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
 | M3  | ⬜ not started | — | —           | Full CSS resolution (cascade, inheritance, `--vars`).       |
 | M4  | ⬜ not started | — | —           | yoga-layout integration.                                    |
 | M5  | ⬜ not started | — | —           | Flex → Figma auto-layout mapping.                           |
@@ -100,24 +114,20 @@ git push --tags
 
 ---
 
-## M2 — CLI with trivial HTML (not started)
+## M2 — CLI with trivial HTML
 
-### Scope reminder
+**Branch:** `m2-html-parser` (squash-merged into `main`)
 
-- Scaffold `packages/cli` with commander
-- Parse HTML with parse5 (inline styles only)
-- Emit valid IR for nested divs + text
-- No flex, no layout computation yet
-- CLI: `claude-to-figma convert <input.html> -o <output.json>`
-- Snapshot tests for 3 fixture HTML files
+### Standard gates
 
-### Gates to pass
+- [x] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
 
-- [ ] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
-- [ ] V-M2-FIXTURES — 3 fixtures: `simple-divs.html`, `nested-divs.html`, `text-heavy.html`
-- [ ] V-M2-SNAPSHOT — snapshot tests pass
-- [ ] V-M2-IR-VALID — each fixture's IR parses against zod (explicit test)
-- [ ] V-M2-ROUNDTRIP — user manually verifies `simple-divs.html` IR in the plugin → `M2 verified`
+### Milestone gates
+
+- [x] V-M2-FIXTURES — `simple-divs.html`, `nested-divs.html`, `text-heavy.html` under `packages/cli/test/fixtures/`
+- [x] V-M2-SNAPSHOT — 3 snapshots written and asserted
+- [x] V-M2-IR-VALID — each fixture's IR parses against zod
+- [x] V-M2-ROUNDTRIP — verified by bleach in Figma desktop on 2026-04-18 using `simple-divs.html`. Visual overlap of text inside frames is by design (no layout engine yet — deferred to M4/M5).
 
 ---
 
@@ -198,3 +208,5 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — `docs/KICKSTART.md` and `docs/PROGRESS.md` added so the spec and state are versioned in-repo.
 - `2026-04-18` — manual M1 verification in Figma surfaced an override bug: text overrides were keyed by Figma `n.name`/`n.id` instead of IR id, so all instances rendered master text. Fixed in `974367f` by stamping `irId` via `setPluginData` and looking it up first in `applyOverrides`. Re-verified.
 - `2026-04-18` — M1 tagged `m1`. `main` created on remote from this commit; promoted to canonical branch.
+- `2026-04-18` — Abandoned the bootstrap branch `claude/claude-to-figma-build-zTq1Q`. M2+ use the standard per-milestone branch workflow from `KICKSTART.md` (branch off `main`, squash-merge back, tag, delete). User intent: open-source the project after M8.
+- `2026-04-18` — M2 shipped on `m2-html-parser`: CLI scaffold, inline-style parser, parse5 walker, 3 fixtures, 12 new tests (30 total). Verified manually in Figma; tagged `m2`.

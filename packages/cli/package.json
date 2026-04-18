@@ -1,0 +1,37 @@
+{
+  "name": "@claude-to-figma/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CLI that parses Claude Design HTML exports into IR JSON",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "claude-to-figma": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@claude-to-figma/ir": "workspace:*",
+    "commander": "12.1.0",
+    "parse5": "7.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "tsup": "8.3.5",
+    "typescript": "5.6.3",
+    "vitest": "2.1.8"
+  }
+}

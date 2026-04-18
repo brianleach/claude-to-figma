@@ -256,9 +256,9 @@ Begin with M1. Output the initial file tree, then implement.
 
 ## Deviations from the spec (documented)
 
-The harness this build runs under restricts pushes to one branch
-(`claude/claude-to-figma-build-zTq1Q`), so the "branch off main, squash-merge
-back, tag, delete local branch" workflow is flattened: all commits land on the
-single working branch with per-milestone tags. Every other rule —
-Conventional Commits, per-gate verification, STOP points, additive IR
-evolution — is followed as written.
+**M1 (resolved 2026-04-18):** the bootstrap harness restricted pushes to a
+single branch, so M1 was built on `claude/claude-to-figma-build-zTq1Q` rather
+than the `m1-*` branch the spec calls for. After M1 verified, `main` was
+created on the remote from that branch's HEAD and tagged `m1`. From M2
+onward the standard per-milestone branch flow is in use; the bootstrap
+branch is abandoned.

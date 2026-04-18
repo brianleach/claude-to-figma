@@ -1,0 +1,48 @@
+name: Deploy landing to GitHub Pages
+
+# Deploy the dogfood landing page from examples/landing/source/ to
+# https://brianleach.github.io/claude-to-figma/. Triggered by changes
+# to the source files (or the workflow itself), or manually.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/landing/source/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages deploys are not idempotent — serialize and don't cancel
+# in-flight runs.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: build · upload · deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload landing source as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: examples/landing/source
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

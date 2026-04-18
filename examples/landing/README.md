@@ -80,7 +80,11 @@ follow-up milestone; when the render matches the browser we'll add a
 
 ## Hosting
 
-When the project is open-sourced, this directory will be served via
-GitHub Pages so anyone can see the live page at
-`https://brianleach.github.io/claude-to-figma/landing/source/`. Until
-then, open `source/index.html` locally in a browser.
+The page is live at
+**[brianleach.github.io/claude-to-figma](https://brianleach.github.io/claude-to-figma/)** —
+deployed automatically from `examples/landing/source/` by the
+[`pages.yml`](../../.github/workflows/pages.yml) GitHub Actions
+workflow on every push to `main` that touches the source files.
+
+Locally: `open source/index.html` (or `python3 -m http.server` from
+this directory if you need to test relative-asset behavior).

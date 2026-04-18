@@ -31,6 +31,7 @@ import {
   computeCascade,
   parseStylesheets,
 } from './cascade/index.js';
+import { detectComponents } from './detect/index.js';
 import { type LayoutMap, computeLayout, mapFlexChild, mapFlexContainer } from './layout/index.js';
 import {
   parseColor,
@@ -82,13 +83,19 @@ interface BuildContext {
 export interface ConvertResult {
   document: IRDocument;
   warnings: string[];
-  stats: { nodes: number };
+  stats: { nodes: number; components: number; instances: number };
 }
 
 export interface ConvertOptions {
   name?: string;
   /** Directory the input HTML lives in. Used to resolve relative `<link>` hrefs. */
   baseDir?: string;
+  /**
+   * Minimum number of identical subtrees needed to promote them to a
+   * shared component. Default 3. Set to 0 (or any value > tree size) to
+   * disable component detection entirely.
+   */
+  componentThreshold?: number;
 }
 
 export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertResult {
@@ -119,7 +126,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   const root = buildFrameFromElement(body, ctx, 'root');
   registerFont(ctx, DEFAULT_TEXT_STYLE.fontFamily, DEFAULT_TEXT_STYLE.fontStyle);
 
-  const document: IRDocument = {
+  const baseDocument: IRDocument = {
     version: IR_VERSION,
     name: opts.name ?? 'Untitled',
     root,
@@ -133,7 +140,17 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
     },
   };
 
-  return { document, warnings: ctx.warnings, stats: { nodes: ctx.idCounter } };
+  const detection = detectComponents(baseDocument, { threshold: opts.componentThreshold });
+
+  return {
+    document: detection.document,
+    warnings: ctx.warnings,
+    stats: {
+      nodes: ctx.idCounter,
+      components: detection.stats.components,
+      instances: detection.stats.instances,
+    },
+  };
 }
 
 // ---------------------------------------------------------------------------

@@ -28,3 +28,4 @@ What changes — good and bad — that decision implies.
 | 0001 | [IR as the product](./0001-ir-as-product.md)                       | accepted |
 | 0002 | [postcss instead of lightningcss for parsing](./0002-postcss-vs-lightningcss.md) | accepted |
 | 0003 | [`space-around` / `space-evenly` collapse to `SPACE_BETWEEN`](./0003-space-around-collapses-to-space-between.md) | accepted |
+| 0004 | [What goes into the component-detection hash](./0004-component-detection-hash-rules.md) | accepted |

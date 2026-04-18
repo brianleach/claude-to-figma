@@ -15,6 +15,8 @@ const FIXTURES = [
   'flex-justify-variations',
   'flex-align-variations',
   'flex-wrap',
+  'card-grid',
+  'nav-with-items',
 ] as const;
 type Fixture = (typeof FIXTURES)[number];
 

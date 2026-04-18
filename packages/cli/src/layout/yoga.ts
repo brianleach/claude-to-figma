@@ -53,10 +53,21 @@ export function computeLayout(root: P5Element, styles: Map<P5Element, ComputedSt
 
     let index = 0;
     for (const child of el.childNodes) {
-      if (!isElement(child)) continue;
-      if (IGNORED_TAGS.has(child.tagName.toLowerCase())) continue;
-      yoga.insertChild(buildYoga(child), index);
-      index += 1;
+      if (isElement(child)) {
+        if (IGNORED_TAGS.has(child.tagName.toLowerCase())) continue;
+        yoga.insertChild(buildYoga(child), index);
+        index += 1;
+      } else if (child.nodeName === '#text' && 'value' in child) {
+        // Bare text inside a frame: the IR walker wraps it in an anonymous
+        // TEXT IR node, so yoga needs a matching measure node here or the
+        // parent frame collapses to height 0.
+        const text = child.value.trim();
+        if (!text) continue;
+        const textYoga = Yoga.Node.create();
+        textYoga.setMeasureFunc(buildBareTextMeasureFn(text, style));
+        yoga.insertChild(textYoga, index);
+        index += 1;
+      }
     }
     return yoga;
   };
@@ -92,6 +103,14 @@ function buildMeasureFn(el: P5Element, style: ComputedStyle) {
     fontSize,
     lineHeight,
   });
+}
+
+/** Same heuristic, but the parent's resolved style provides the font size /
+ * line-height (since bare-text nodes inherit typography from their parent). */
+function buildBareTextMeasureFn(characters: string, parentStyle: ComputedStyle) {
+  const fontSize = parsePx(parentStyle.get('font-size')) ?? 16;
+  const lineHeight = parseLineHeight(parentStyle.get('line-height')) ?? { unit: 'AUTO' };
+  return measureText({ characters, fontSize, lineHeight });
 }
 
 // ---------------------------------------------------------------------------

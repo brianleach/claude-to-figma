@@ -1,5 +1,424 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
+{
+  "components": [
+    {
+      "id": "card",
+      "name": "Card",
+      "root": {
+        "childLayout": {
+          "layoutAlign": "STRETCH",
+          "layoutGrow": 0,
+          "layoutPositioning": "AUTO",
+        },
+        "children": [
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "children": [
+              {
+                "characters": "Fast",
+                "fills": [
+                  {
+                    "color": {
+                      "a": 1,
+                      "b": 0.16470588235294117,
+                      "g": 0.09019607843137255,
+                      "r": 0.058823529411764705,
+                    },
+                    "opacity": 1,
+                    "type": "SOLID",
+                    "visible": true,
+                  },
+                ],
+                "id": "card.frame-0.text-0",
+                "name": "Fast",
+                "opacity": 1,
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontStyle": "Semi Bold",
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0,
+                  },
+                  "lineHeight": {
+                    "unit": "AUTO",
+                  },
+                  "textAlign": "LEFT",
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE",
+                },
+                "type": "TEXT",
+                "visible": true,
+              },
+            ],
+            "effects": [],
+            "fills": [],
+            "geometry": {
+              "height": 20,
+              "width": 208,
+              "x": 16,
+              "y": 16,
+            },
+            "id": "card.frame-0",
+            "name": ".title",
+            "opacity": 1,
+            "strokes": [],
+            "type": "FRAME",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "children": [
+              {
+                "characters": "Ships HTML to Figma in seconds.",
+                "fills": [
+                  {
+                    "color": {
+                      "a": 1,
+                      "b": 0.4117647058823529,
+                      "g": 0.3333333333333333,
+                      "r": 0.2784313725490196,
+                    },
+                    "opacity": 1,
+                    "type": "SOLID",
+                    "visible": true,
+                  },
+                ],
+                "id": "card.frame-1.text-0",
+                "name": "Ships HTML to Figma in seconds.",
+                "opacity": 1,
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontStyle": "Regular",
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0,
+                  },
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 140,
+                  },
+                  "textAlign": "LEFT",
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE",
+                },
+                "type": "TEXT",
+                "visible": true,
+              },
+            ],
+            "effects": [],
+            "fills": [],
+            "geometry": {
+              "height": 40,
+              "width": 208,
+              "x": 16,
+              "y": 44,
+            },
+            "id": "card.frame-1",
+            "name": ".body",
+            "opacity": 1,
+            "strokes": [],
+            "type": "FRAME",
+            "visible": true,
+          },
+        ],
+        "cornerRadius": 12,
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 1,
+              "g": 1,
+              "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 140,
+          "width": 240,
+          "x": 24,
+          "y": 24,
+        },
+        "id": "card",
+        "layout": {
+          "clipsContent": false,
+          "counterAxisAlignItems": "MIN",
+          "counterAxisSizingMode": "FIXED",
+          "counterAxisSpacing": 8,
+          "itemSpacing": 8,
+          "layoutMode": "VERTICAL",
+          "layoutWrap": "NO_WRAP",
+          "paddingBottom": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+          "primaryAxisAlignItems": "MIN",
+          "primaryAxisSizingMode": "FIXED",
+        },
+        "name": ".card",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    },
+  ],
+  "fonts": [
+    {
+      "family": "Inter",
+      "style": "Semi Bold",
+    },
+    {
+      "family": "Inter",
+      "style": "Regular",
+    },
+  ],
+  "images": [],
+  "metadata": {
+    "generator": "@claude-to-figma/cli",
+    "source": "card-grid.html",
+  },
+  "name": "card-grid.html",
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 24,
+              "y": 24,
+            },
+            "id": "instance-1",
+            "name": ".card",
+            "opacity": 1,
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 280,
+              "y": 24,
+            },
+            "id": "instance-2",
+            "name": ".card",
+            "opacity": 1,
+            "overrides": {
+              "card.frame-0.text-0": {
+                "characters": "Editable",
+              },
+              "card.frame-1.text-0": {
+                "characters": "Real frames, real auto-layout, real components.",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 536,
+              "y": 24,
+            },
+            "id": "instance-3",
+            "name": ".card",
+            "opacity": 1,
+            "overrides": {
+              "card.frame-0.text-0": {
+                "characters": "Open",
+              },
+              "card.frame-1.text-0": {
+                "characters": "MIT-licensed. Extend the IR, swap the plugin.",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 24,
+              "y": 180,
+            },
+            "id": "instance-4",
+            "name": ".card",
+            "opacity": 1,
+            "overrides": {
+              "card.frame-0.text-0": {
+                "characters": "Typed",
+              },
+              "card.frame-1.text-0": {
+                "characters": "IR is zod-defined and TS-inferred.",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 280,
+              "y": 180,
+            },
+            "id": "instance-5",
+            "name": ".card",
+            "opacity": 1,
+            "overrides": {
+              "card.frame-0.text-0": {
+                "characters": "Tested",
+              },
+              "card.frame-1.text-0": {
+                "characters": "120 tests across the workspace.",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "STRETCH",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "card",
+            "geometry": {
+              "height": 140,
+              "width": 240,
+              "x": 536,
+              "y": 180,
+            },
+            "id": "instance-6",
+            "name": ".card",
+            "opacity": 1,
+            "overrides": {
+              "card.frame-0.text-0": {
+                "characters": "Composable",
+              },
+              "card.frame-1.text-0": {
+                "characters": "CLI and plugin can be swapped independently.",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+        ],
+        "effects": [],
+        "fills": [],
+        "geometry": {
+          "height": 344,
+          "width": 800,
+          "x": 0,
+          "y": 0,
+        },
+        "id": "div-31",
+        "layout": {
+          "clipsContent": false,
+          "counterAxisAlignItems": "MIN",
+          "counterAxisSizingMode": "FIXED",
+          "counterAxisSpacing": 16,
+          "itemSpacing": 16,
+          "layoutMode": "HORIZONTAL",
+          "layoutWrap": "WRAP",
+          "paddingBottom": 24,
+          "paddingLeft": 24,
+          "paddingRight": 24,
+          "paddingTop": 24,
+          "primaryAxisAlignItems": "MIN",
+          "primaryAxisSizingMode": "FIXED",
+        },
+        "name": ".grid",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    ],
+    "effects": [],
+    "fills": [
+      {
+        "color": {
+          "a": 1,
+          "b": 0.9686274509803922,
+          "g": 0.9607843137254902,
+          "r": 0.9607843137254902,
+        },
+        "opacity": 1,
+        "type": "SOLID",
+        "visible": true,
+      },
+    ],
+    "geometry": {
+      "height": 360,
+      "width": 800,
+      "x": 0,
+      "y": 0,
+    },
+    "id": "root",
+    "name": "body",
+    "opacity": 1,
+    "strokes": [],
+    "type": "FRAME",
+    "visible": true,
+  },
+  "styles": {
+    "paints": [],
+    "texts": [],
+  },
+  "version": 1,
+}
+`;
+
 exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
 {
   "components": [],
@@ -2642,6 +3061,313 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
     "geometry": {
       "height": 240,
       "width": 400,
+      "x": 0,
+      "y": 0,
+    },
+    "id": "root",
+    "name": "body",
+    "opacity": 1,
+    "strokes": [],
+    "type": "FRAME",
+    "visible": true,
+  },
+  "styles": {
+    "paints": [],
+    "texts": [],
+  },
+  "version": 1,
+}
+`;
+
+exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
+{
+  "components": [
+    {
+      "id": "item",
+      "name": "Item",
+      "root": {
+        "childLayout": {
+          "layoutAlign": "INHERIT",
+          "layoutGrow": 0,
+          "layoutPositioning": "AUTO",
+        },
+        "children": [
+          {
+            "characters": "Home",
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.9764705882352941,
+                  "g": 0.9607843137254902,
+                  "r": 0.9450980392156862,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": {
+              "height": 17,
+              "width": 31,
+              "x": 12,
+              "y": 11,
+            },
+            "id": "item.text-0",
+            "name": ".label",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontStyle": "Medium",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+        ],
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 0,
+              "b": 0,
+              "g": 0,
+              "r": 0,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 40,
+          "width": 55,
+          "x": 327,
+          "y": 20,
+        },
+        "id": "item",
+        "layout": {
+          "clipsContent": false,
+          "counterAxisAlignItems": "CENTER",
+          "counterAxisSizingMode": "FIXED",
+          "counterAxisSpacing": 0,
+          "itemSpacing": 0,
+          "layoutMode": "HORIZONTAL",
+          "layoutWrap": "NO_WRAP",
+          "paddingBottom": 8,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 8,
+          "primaryAxisAlignItems": "MIN",
+          "primaryAxisSizingMode": "FIXED",
+        },
+        "name": ".item",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    },
+  ],
+  "fonts": [
+    {
+      "family": "Inter",
+      "style": "Medium",
+    },
+    {
+      "family": "Inter",
+      "style": "Regular",
+    },
+  ],
+  "images": [],
+  "metadata": {
+    "generator": "@claude-to-figma/cli",
+    "source": "nav-with-items.html",
+  },
+  "name": "nav-with-items.html",
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "item",
+            "geometry": {
+              "height": 40,
+              "width": 55,
+              "x": 327,
+              "y": 20,
+            },
+            "id": "instance-1",
+            "name": ".item",
+            "opacity": 1,
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "item",
+            "geometry": {
+              "height": 40,
+              "width": 55,
+              "x": 414,
+              "y": 20,
+            },
+            "id": "instance-2",
+            "name": ".item",
+            "opacity": 1,
+            "overrides": {
+              "item.text-0": {
+                "characters": "Docs",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "item",
+            "geometry": {
+              "height": 40,
+              "width": 78,
+              "x": 501,
+              "y": 20,
+            },
+            "id": "instance-3",
+            "name": ".item",
+            "opacity": 1,
+            "overrides": {
+              "item.text-0": {
+                "characters": "Pricing",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "item",
+            "geometry": {
+              "height": 40,
+              "width": 55,
+              "x": 611,
+              "y": 20,
+            },
+            "id": "instance-4",
+            "name": ".item",
+            "opacity": 1,
+            "overrides": {
+              "item.text-0": {
+                "characters": "Blog",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+          {
+            "childLayout": {
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "layoutPositioning": "AUTO",
+            },
+            "componentId": "item",
+            "geometry": {
+              "height": 40,
+              "width": 78,
+              "x": 698,
+              "y": 20,
+            },
+            "id": "instance-5",
+            "name": ".item",
+            "opacity": 1,
+            "overrides": {
+              "item.text-0": {
+                "characters": "Contact",
+              },
+            },
+            "type": "INSTANCE",
+            "visible": true,
+          },
+        ],
+        "effects": [],
+        "fills": [],
+        "geometry": {
+          "height": 80,
+          "width": 800,
+          "x": 0,
+          "y": 0,
+        },
+        "id": "div-11",
+        "layout": {
+          "clipsContent": false,
+          "counterAxisAlignItems": "CENTER",
+          "counterAxisSizingMode": "FIXED",
+          "counterAxisSpacing": 32,
+          "itemSpacing": 32,
+          "layoutMode": "HORIZONTAL",
+          "layoutWrap": "NO_WRAP",
+          "paddingBottom": 0,
+          "paddingLeft": 24,
+          "paddingRight": 24,
+          "paddingTop": 0,
+          "primaryAxisAlignItems": "MAX",
+          "primaryAxisSizingMode": "FIXED",
+        },
+        "name": ".nav",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    ],
+    "effects": [],
+    "fills": [
+      {
+        "color": {
+          "a": 1,
+          "b": 0.16470588235294117,
+          "g": 0.09019607843137255,
+          "r": 0.058823529411764705,
+        },
+        "opacity": 1,
+        "type": "SOLID",
+        "visible": true,
+      },
+    ],
+    "geometry": {
+      "height": 80,
+      "width": 800,
       "x": 0,
       "y": 0,
     },

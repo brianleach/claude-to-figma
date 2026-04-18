@@ -1,23 +1,25 @@
 # claude-to-figma
 
-**Convert Claude Design HTML exports into fully editable Figma files** — real
+**Convert [claude.ai/design](https://claude.ai/design) HTML exports into fully editable Figma files** — real
 frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
 
-> **Status:** in active development. M1–M5 shipped on `main` — IR + Figma
+> **Status:** in active development. M1–M6 shipped on `main` — IR + Figma
 > plugin, CLI with parse5, full CSS cascade engine (external stylesheets,
 > specificity, `!important`, inheritance, `var()`), yoga-layout integration
-> for block + flex geometry, and CSS flex → Figma auto-layout mapping so
-> built frames are real auto-layout, editable in Figma. See the
-> [milestones](#milestones) table below for what's built and what's next.
+> for block + flex geometry, CSS flex → Figma auto-layout mapping so built
+> frames are real auto-layout, and component detection that promotes
+> repeated markup to a component definition + instances with text
+> overrides. See the [milestones](#milestones) table below for what's
+> built and what's next.
 
 ---
 
 ## Why this exists
 
-[Claude Design](https://claude.ai/) can export what you make to **Canva, PDF,
-PPTX, and HTML** — but not to Figma. A lot of design teams, and most product
+[claude.ai/design](https://claude.ai/design) can export what you make to **Canva,
+PDF, PPTX, and HTML** — but not to Figma. A lot of design teams, and most product
 teams, live in Figma. The obvious workaround is "screenshot the HTML and drop
 the PNG into Figma," but that produces a dead artifact: you can't edit a text
 style, you can't swap a button, you can't reuse a component. The moment a
@@ -52,7 +54,7 @@ you should get:
 
 ```
 ┌──────────────────────┐
-│ Claude Design HTML   │  (index.html + styles.css + assets/)
+│ claude.ai/design HTML │  (index.html + styles.css + assets/)
 └──────────┬───────────┘
            │
            ▼
@@ -149,7 +151,7 @@ Three packages, pnpm workspaces:
 │   ├── ir/          shared IR schema (zod) + inferred TS types
 │   ├── cli/         Node CLI: HTML+CSS → IR JSON
 │   └── plugin/      Figma plugin: IR JSON → Figma scene graph
-├── fixtures/        gitignored, for real Claude Design exports
+├── fixtures/        gitignored, for real claude.ai/design exports
 ├── biome.json       lint + format (Biome, no ESLint / Prettier)
 ├── tsconfig.base.json   strict + noUncheckedIndexedAccess
 └── pnpm-workspace.yaml
@@ -181,11 +183,11 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
 | M3  | ✅ done | Full CSS resolution: external `<link>`, `<style>` blocks, inline. Cascade + inheritance + `var()`. |
 | M4  | ✅ done | [yoga-layout](https://github.com/facebook/yoga) 3.2.1 integration. Block + flex layout, padding/margin shorthands, heuristic text measurement. |
 | M5  | ✅ done | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`, `flex-grow`, position-absolute children. |
-| M6  | next    | Component detection via subtree hashing. Repeated markup → component + instances.                |
-| M7  | pending | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming.   |
-| M8  | pending | Real-world harness, docs, known limitations, end-to-end testing on real Claude Design exports.   |
+| M6  | ✅ done | Component detection via subtree hashing. Repeated markup → component + instances with per-instance text overrides. |
+| M7  | next    | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming.   |
+| M8  | pending | Real-world harness, docs, known limitations, end-to-end testing on real claude.ai/design exports.   |
 
-### What ships today (M1 → M5)
+### What ships today (M1 → M6)
 
 - `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
   component instances, paint + text style registries, component registry,
@@ -216,13 +218,21 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
   wrap) and decorates each child with `childLayout` (layoutPositioning,
   layoutGrow, layoutAlign). The Figma plugin builds these as real
   auto-layout frames — drag a child after build and the layout responds.
+- `packages/cli/src/detect` (**M6**): subtree-hash-based component
+  detection. After the walker emits the IR, every FRAME gets a structural
+  fingerprint (type + name + layout + fills + strokes + effects + recursive
+  children — geometry and content are excluded so legitimate variations
+  in size and copy stay matched). Groups of ≥3 identical subtrees
+  (configurable via `--component-threshold <n>`) are promoted to a shared
+  component definition, and each occurrence is replaced with an INSTANCE
+  that carries per-text overrides for differing copy. Outer patterns only
+  in M6 — nested repeat detection is left for a later milestone.
 
-101 cli tests + 17 ir + 1 plugin = **119 across the workspace**.
+126 cli tests + 17 ir + 1 plugin = **144 across the workspace**.
 
-What's not in yet (M6–M8): component detection by subtree hashing (M6),
-token extraction with paint/text style naming heuristics (M7), and the
-real-world harness for end-to-end testing on actual Claude Design exports
-(M8).
+What's not in yet (M7–M8): token extraction with paint/text style
+naming heuristics (M7), and the real-world harness for end-to-end
+testing on actual claude.ai/design exports (M8).
 
 ---
 
@@ -301,7 +311,7 @@ Not accepting PRs yet — the project's on a milestone-by-milestone build
 schedule and each milestone has explicit verification gates. Once M8 ships,
 contribution guidelines and the fixture-authoring process go in `CONTRIBUTING.md`.
 
-Bug reports and real Claude Design exports (anonymized) that break the
+Bug reports and real claude.ai/design exports (anonymized) that break the
 converter are welcome via issues.
 
 ### Design principles

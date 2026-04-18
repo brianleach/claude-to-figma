@@ -12,13 +12,14 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M6 (not started)
-**Last tag:** `m5`
-**Next action:** detect repeated subtrees by hashing structure +
-class signature, promote groups of ≥3 identical instances to a
-component definition + INSTANCE references. Use the most common root
-class as the component name; fall back to `Component{N}`. Default
-threshold 3, configurable via CLI flag. See M6 section below.
+**Active milestone:** M7 (not started)
+**Last tag:** `m6`
+**Next action:** extract unique paint and text combinations across the IR
+into named entries in `styles.paints` / `styles.texts`. Naming heuristic
+should classify by frequency / size (`color/primary`, `color/surface`;
+`heading/lg`, `body/md`, ...). Plugin already creates Figma PaintStyles
++ TextStyles from the registry; this milestone wires the CLI side. See
+M7 section below.
 
 ## Working branch
 
@@ -58,7 +59,7 @@ on the remote for archive only.
 | M3  | ✅ done | `m3` | bleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
 | M4  | ✅ done | `m4` | bleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
 | M5  | ✅ done | `m5` | bleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
-| M6  | ⬜ not started | — | —           | Component detection via subtree hashing.                    |
+| M6  | ✅ done | `m6` | bleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
 | M7  | ⬜ not started | — | —           | Token extraction (paint + text styles).                     |
 | M8  | ⬜ not started | — | —           | Real-world harness + docs + LIMITATIONS.md.                 |
 
@@ -204,15 +205,25 @@ KICKSTART specifies lightningcss for CSS parsing. We use **postcss** because lig
 
 ---
 
-## M6 — Component detection (not started)
+## M6 — Component detection
 
-### Gates to pass
+**Branch:** `m6-component-detection` (in progress)
 
-- [ ] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
-- [ ] V-M6-DETECTION-TESTS — ≥ 10 tests (hashing, repeat detection, naming)
-- [ ] V-M6-FIXTURES — `card-grid.html` (6 cards), `nav-with-items.html` (5 nav items)
-- [ ] V-M6-IR — components registry populated, children are `INSTANCE` nodes
-- [ ] V-M6-PLUGIN — user verifies component master edits propagate → `M6 verified`
+### Standard gates
+
+- [x] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
+
+### Milestone gates
+
+- [x] V-M6-DETECTION-TESTS — 19 tests (7 hashSubtree cases, 9 detect unit cases, 3 end-to-end through convertHtml)
+- [x] V-M6-FIXTURES — `card-grid.html` (6 identical .card frames in a wrapping flex grid), `nav-with-items.html` (5 .item rows in a flex nav)
+- [x] V-M6-IR — components registry populated; original card + nav-item DOM positions become INSTANCE nodes referencing the master id; differing copy lands as per-instance `overrides[masterId].characters`
+- [ ] V-M6-PLUGIN — user verifies in Figma that `card-grid.html` produces a real component with 6 instances, and editing the master propagates to all → `M6 verified`
+
+### Notes
+
+- Geometry is intentionally excluded from the structural hash — content-driven sizing means legitimate instances of the same component have different widths. See `docs/adr/0004-component-detection-hash-rules.md`.
+- Outer patterns only — if cards each contain 3 buttons, M6 promotes Card (the outer pattern) and leaves the inner buttons alone. Nested-component detection is deferred.
 
 ---
 
@@ -252,3 +263,5 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — M3 shipped on `m3-css-cascade`: cascade engine (selectors, specificity, !important, inheritance, var() with fallback + cycle bail), 2 fixtures, 26 new tests (62 total). Used postcss instead of lightningcss — documented deviation. Verified in Figma; tagged `m3`.
 - `2026-04-18` — M4 shipped on `m4-yoga-layout`: yoga-layout 3.2.1 integration with CSS → Yoga style mapper (display, position, dimensions, padding/margin shorthands, border, flex container + item, gap), heuristic text measurement, shared classify.ts module. 2 new fixtures, 7 new tests (74 total). M2/M3 fixtures updated to use `position: relative` per CSS spec.
 - `2026-04-18` — M5 shipped on `m5-auto-layout`: flex → auto-layout mapper emits `layout` on flex frames and `childLayout` on their items. 3 new fixtures, 36 new mapping tests (119 total in workspace). First ADR set added under `docs/adr/`. Verified in Figma; tagged `m5`.
+- `2026-04-18` — Spotted that GitHub still had `claude/claude-to-figma-build-zTq1Q` set as the repo default branch (so the homepage compared against it instead of just showing main). Switched the default to `main` via `gh api repos/brianleach/claude-to-figma -X PATCH -f default_branch=main`. Bootstrap branch left in place as an archive.
+- `2026-04-18` — M6 shipped on `m6-component-detection`: subtree-hash detection promotes ≥3 identical FRAMEs to a shared component, with per-instance text overrides. 2 new fixtures, 19 new tests (144 total). New ADR 0004 documents what the structural hash includes/excludes. Verified in Figma; tagged `m6`.

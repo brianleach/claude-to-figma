@@ -1,136 +1,255 @@
 # claude-to-figma
 
-Convert Claude Design HTML exports into editable Figma files with semantic
-structure — frames, auto-layout, components, and design tokens. Not a
-rasterizer.
+**Convert Claude Design HTML exports into fully editable Figma files** — real
+frames, real auto-layout, real components, real design tokens. Not a
+pixel-perfect screenshot importer. Not a raster trace. A proper semantic
+translation from the DOM into Figma's scene graph.
 
-**Status:** under active construction. See `Milestones` below.
+> **Status:** in active development. M1 (IR + plugin round-trip) is shipped on
+> `main`. See the [milestones](#milestones) table below for what's built and
+> what's next.
 
-## Why
+---
 
-Claude Design exports to Canva, PDF, PPTX, and HTML — but not Figma. HTML is
-the richest export format (preserves DOM semantics, CSS, structure), so we
-treat HTML → Figma as a proper semantic conversion: `div` → `FrameNode`,
-`display: flex` → auto-layout, repeated subtrees → components, unique colors
-and text combos → shared styles.
+## Why this exists
 
-## Architecture
+[Claude Design](https://claude.ai/) can export what you make to **Canva, PDF,
+PPTX, and HTML** — but not to Figma. A lot of design teams, and most product
+teams, live in Figma. The obvious workaround is "screenshot the HTML and drop
+the PNG into Figma," but that produces a dead artifact: you can't edit a text
+style, you can't swap a button, you can't reuse a component. The moment a
+designer wants to iterate, they rebuild the entire thing by hand.
+
+HTML is the richest of those export formats — it preserves DOM semantics, CSS,
+structure, and text — so it's the natural source for a proper conversion. That
+conversion is what `claude-to-figma` does.
+
+### What "fully editable" means here
+
+When you run `claude-to-figma` on an HTML export and load the result in Figma,
+you should get:
+
+- **Frames, not raster images.** Every `<div>` becomes a `FrameNode`, every
+  heading a `TextNode`. Change the text, and it stays text.
+- **Auto-layout that actually works.** `display: flex; gap: 16px;
+  justify-content: space-between` becomes a horizontal auto-layout frame with
+  `itemSpacing: 16` and `primaryAxisAlignItems: SPACE_BETWEEN`. Drop a new
+  child in and Figma lays it out correctly.
+- **Components, not duplicated subtrees.** If the source HTML has six
+  identical card markups, the output has one `Card` component and six
+  instances. Edit the master, all instances update.
+- **Named design tokens.** Repeated colors become paint styles
+  (`color/primary`, `color/surface`), repeated text combos become text styles
+  (`heading/md`, `body/sm`). They show up in Figma's local styles panel,
+  ready to be published to a library.
+
+---
+
+## How it works
 
 ```
-Claude Design HTML  →  CLI (parse5 + lightningcss + yoga)
-                          │
-                          ▼
-                   IR JSON (packages/ir)
-                          │
-                          ▼
-                  Figma Plugin (Plugin API)
-                          │
-                          ▼
-                   Editable Figma file
+┌──────────────────────┐
+│ Claude Design HTML   │  (index.html + styles.css + assets/)
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│ CLI  (packages/cli — Node)                                   │
+│                                                              │
+│   parse5         — parse HTML into the DOM                   │
+│   lightningcss   — parse CSS, resolve shorthands             │
+│   cascade engine — resolve specificity, inheritance, --vars  │
+│   yoga-layout    — compute box geometry for every node       │
+│   flex→auto-layout mapper                                    │
+│   component detector (subtree hashing)                       │
+│   token extractor (paints + text styles + naming heuristics) │
+│   sharp          — decode + embed images                     │
+└──────────┬───────────────────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ IR JSON              │  ← shared schema (packages/ir, zod + TS)
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│ Figma plugin  (packages/plugin — Figma Plugin API)           │
+│                                                              │
+│   validate IR with zod                                       │
+│   preload every font from the manifest                       │
+│   register paint + text styles                               │
+│   register component masters                                 │
+│   walk the IR, build the Figma scene graph                   │
+│   apply per-instance text overrides                          │
+└──────────┬───────────────────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Editable Figma file  │
+└──────────────────────┘
 ```
 
-Monorepo, three packages:
+### Why an IR?
 
-| Package                   | Role                                                                |
-| ------------------------- | ------------------------------------------------------------------- |
-| `packages/ir`             | Shared IR schema (zod) + inferred TypeScript types. Imported by both. |
-| `packages/cli`            | Node CLI. Parses HTML/CSS, computes layout, emits IR JSON.          |
-| `packages/plugin`         | Figma plugin. Reads IR, builds the scene graph via the Plugin API.  |
+Both halves of the pipeline are small on purpose, and the IR is where the
+actual meaning lives. The CLI doesn't know anything about the Figma Plugin
+API; the plugin doesn't know anything about HTML or CSS. Both depend only on
+the IR schema in `packages/ir`, which is a single zod definition with TS
+types inferred from it.
 
-The IR is the product. Both halves are dumb.
+That shape makes the IR the product:
+
+- **It's the contract.** Schema changes are visible in type checks on both
+  sides. Breaking changes bump the `version` field.
+- **It's debuggable.** Every conversion produces a JSON file you can open,
+  diff, edit, and replay.
+- **It's replaceable.** Swap the plugin for a Sketch or Penpot builder later
+  and only that half changes. Swap the CLI for "Figma export → IR" and the
+  pipeline runs in reverse.
+
+### CSS → Figma semantic mapping
+
+| CSS                                 | Figma                                      |
+| ----------------------------------- | ------------------------------------------ |
+| `display: flex`, `flex-direction`   | `layoutMode: HORIZONTAL / VERTICAL`        |
+| `gap`, `row-gap`, `column-gap`      | `itemSpacing`, `counterAxisSpacing`        |
+| `padding`                           | `paddingTop / Right / Bottom / Left`       |
+| `justify-content`                   | `primaryAxisAlignItems`                    |
+| `align-items`                       | `counterAxisAlignItems`                    |
+| `flex-wrap: wrap`                   | `layoutWrap: WRAP`                         |
+| `flex: 1`                           | `layoutGrow: 1`                            |
+| `position: absolute`                | `layoutPositioning: ABSOLUTE`              |
+| Repeated subtree                    | Component + instances                      |
+| Repeated color                      | Paint style in the styles registry         |
+| Repeated text combo                 | Text style in the styles registry          |
+
+---
+
+## Monorepo layout
+
+Three packages, pnpm workspaces:
+
+```
+.
+├── packages/
+│   ├── ir/          shared IR schema (zod) + inferred TS types
+│   ├── cli/         Node CLI: HTML+CSS → IR JSON
+│   └── plugin/      Figma plugin: IR JSON → Figma scene graph
+├── fixtures/        gitignored, for real Claude Design exports
+├── biome.json       lint + format (Biome, no ESLint / Prettier)
+├── tsconfig.base.json   strict + noUncheckedIndexedAccess
+└── pnpm-workspace.yaml
+```
+
+Stack:
+
+- **TypeScript** everywhere, strict mode, `noUncheckedIndexedAccess`
+- **pnpm** workspaces
+- **zod** for IR schema + runtime validation
+- **tsup** for IR build
+- **esbuild** for plugin bundle (IIFE)
+- **vitest** for tests
+- **Biome** for lint + format
+
+---
 
 ## Milestones
 
-| M   | Summary                                                                                          |
-| --- | ------------------------------------------------------------------------------------------------ |
-| M1  | IR schema + Figma plugin that round-trips a hand-written sample.                                 |
-| M2  | CLI with parse5, trivial HTML → IR (inline styles only).                                         |
-| M3  | Full CSS resolution (external + `<style>` + inline, cascade, inheritance, `--vars`).             |
-| M4  | Yoga layout integration — computed geometry for every node.                                      |
-| M5  | Flex → Figma auto-layout mapping (layoutMode, alignment, wrap, gap, padding).                    |
-| M6  | Component detection via subtree hashing.                                                          |
-| M7  | Token extraction — paint and text styles, named by heuristic.                                    |
-| M8  | Real-world testing harness + docs + known limitations.                                           |
+Each milestone ends with a committed, tagged release. Standard gates per
+milestone: typecheck clean, Biome clean, tests passing, build succeeds, git
+status clean. Milestone-specific verification gates (manual Figma checks,
+snapshot tests, cascade tests, etc.) live in the milestone notes.
 
-## Running M1
+| #   | Status  | Summary                                                                                         |
+| --- | ------- | ----------------------------------------------------------------------------------------------- |
+| M1  | ✅ done | IR schema + Figma plugin. Hand-written sample IR round-trips into an editable Figma scene.       |
+| M2  | next    | CLI scaffold with parse5. Inline styles only. Emits valid IR from trivial HTML fixtures.         |
+| M3  | pending | Full CSS resolution: external stylesheets, `<style>` blocks, inline. Cascade + inheritance + `--vars`. |
+| M4  | pending | [yoga-layout](https://github.com/facebook/yoga) integration. Absolute geometry for every node.   |
+| M5  | pending | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`. |
+| M6  | pending | Component detection via subtree hashing. Repeated markup → component + instances.                |
+| M7  | pending | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming.   |
+| M8  | pending | Real-world harness, docs, known limitations, end-to-end testing on real Claude Design exports.   |
 
-M1 lets you round-trip a hand-written IR document through the plugin into a
-real Figma scene graph. No CLI yet.
+### What ships today (M1)
 
-### 1. Install dependencies
+- `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
+  component instances, paint + text style registries, component registry,
+  font manifest, image manifest. 17 schema tests pass.
+- `packages/plugin`: Figma plugin that validates IR with zod, preloads fonts
+  (fails loud on missing ones), registers paint and text styles, registers
+  component masters, walks the IR, builds the scene graph, and applies
+  per-instance text overrides.
+- `packages/ir/examples/sample.json`: hand-written 1440×900 page with a
+  header (logo + nav) and three card instances backed by a single component,
+  demonstrating shared paint + text styles and component reuse.
+
+`packages/cli` is a placeholder until M2.
+
+---
+
+## Try M1
 
 ```bash
+git clone https://github.com/brianleach/claude-to-figma.git
+cd claude-to-figma
 pnpm install
-```
-
-### 2. Build the plugin
-
-```bash
 pnpm -r build
 ```
 
-That produces `packages/plugin/code.js` and `packages/plugin/ui.html` next to
-the manifest.
+Then in **Figma desktop** (plugins can't be side-loaded in the browser):
 
-### 3. Load the plugin in Figma desktop
+1. **Menu → Plugins → Development → Import plugin from manifest…**
+2. Select `packages/plugin/manifest.json`.
+3. Run: **Plugins → Development → claude-to-figma**.
+4. Copy the contents of `packages/ir/examples/sample.json` into the textarea.
+5. Click **Build**.
 
-1. Open **Figma desktop** (plugins can't be side-loaded in the browser).
-2. From any file: **Menu → Plugins → Development → Import plugin from manifest…**
-3. Select `packages/plugin/manifest.json`.
-4. Run the plugin: **Plugins → Development → claude-to-figma**.
-
-### 4. Build the sample
-
-In the plugin window:
-
-1. Copy the contents of `packages/ir/examples/sample.json`.
-2. Paste into the textarea.
-3. Click **Build**.
-
-You should see a 1440×900 page frame with a header row (logo + nav) and a
-grid of three card instances. The cards are real Figma component instances —
-edit the master and all three update. Shared paint and text styles appear in
-the local styles panel.
+You should get a 1440×900 page frame with a header row and three card
+instances. Edit the `Card` component master — all three instances update.
+The local styles panel should have `color/*` paints and `text/*` text styles.
 
 ### Troubleshooting
 
-- **`Missing fonts`** — install Inter Regular / Medium / Bold locally, or edit
+- `Missing fonts` — install Inter Regular / Medium / Bold locally, or edit
   `sample.json` to point at fonts you have.
-- **`IR validation failed`** — the status panel lists the first five zod
-  issues with their JSON paths. Fix and re-paste.
+- `IR validation failed` — the plugin status panel lists the first five zod
+  issues with their JSON paths.
+
+---
 
 ## Development
 
 ```bash
 pnpm install
-pnpm -r typecheck        # tsc --noEmit across all packages
-pnpm -r test             # vitest across all packages
-pnpm -r build            # tsup + esbuild across all packages
+pnpm -r typecheck        # tsc --noEmit across the workspace
+pnpm -r test             # vitest across the workspace
+pnpm -r build            # tsup (ir) + esbuild (plugin)
 pnpm lint                # biome check
 pnpm lint:fix            # biome check --write
 ```
 
-### Layout
+### Contributing
 
-```
-.
-├── biome.json
-├── package.json
-├── pnpm-workspace.yaml
-├── tsconfig.base.json
-├── fixtures/                         # real Claude Design exports (gitignored)
-└── packages/
-    ├── ir/
-    │   ├── src/schema.ts             # zod schemas + TS types
-    │   ├── test/schema.test.ts
-    │   └── examples/sample.json      # M1 round-trip fixture
-    └── plugin/
-        ├── manifest.json
-        ├── esbuild.config.mjs
-        └── src/
-            ├── code.ts               # IR → Figma scene graph
-            └── ui.html               # paste IR + Build
-```
+Not accepting PRs yet — the project's on a milestone-by-milestone build
+schedule and each milestone has explicit verification gates. Once M8 ships,
+contribution guidelines and the fixture-authoring process go in `CONTRIBUTING.md`.
+
+Bug reports and real Claude Design exports (anonymized) that break the
+converter are welcome via issues.
+
+### Design principles
+
+- **The IR is the product.** Never break it casually; evolve it additively.
+  Bump `version` on breaking changes.
+- **Both halves are dumb.** The CLI doesn't know about Figma. The plugin
+  doesn't know about HTML. Meaning lives in the IR.
+- **Semantic, not pixel-perfect.** We're optimizing for editability in Figma,
+  not for exact visual fidelity. Sometimes those trade off.
+- **No tricks that rot.** No headless-browser screenshots, no heuristics that
+  look at pixel color to guess structure. Structure comes from the DOM.
+
+---
 
 ## License
 

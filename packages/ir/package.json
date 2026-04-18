@@ -15,7 +15,10 @@
     },
     "./examples/sample.json": "./examples/sample.json"
   },
-  "files": ["dist", "examples"],
+  "files": [
+    "dist",
+    "examples"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "22.9.0",
+    "@vitest/coverage-v8": "2.1.8",
     "tsup": "8.3.5",
     "typescript": "5.6.3",
     "vitest": "2.1.8"

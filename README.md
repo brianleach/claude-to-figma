@@ -5,10 +5,11 @@ frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
 
-> **Status:** in active development. M1–M4 shipped on `main` — IR + Figma
+> **Status:** in active development. M1–M5 shipped on `main` — IR + Figma
 > plugin, CLI with parse5, full CSS cascade engine (external stylesheets,
-> specificity, `!important`, inheritance, `var()`), and yoga-layout
-> integration so block + flex layouts compute real geometry. See the
+> specificity, `!important`, inheritance, `var()`), yoga-layout integration
+> for block + flex geometry, and CSS flex → Figma auto-layout mapping so
+> built frames are real auto-layout, editable in Figma. See the
 > [milestones](#milestones) table below for what's built and what's next.
 
 ---
@@ -91,23 +92,34 @@ you should get:
 └──────────────────────┘
 ```
 
-### Why an IR?
+### What's an IR?
 
-Both halves of the pipeline are small on purpose, and the IR is where the
-actual meaning lives. The CLI doesn't know anything about the Figma Plugin
-API; the plugin doesn't know anything about HTML or CSS. Both depend only on
-the IR schema in `packages/ir`, which is a single zod definition with TS
-types inferred from it.
+**IR = Intermediate Representation** — a standard compiler concept. It's a
+neutral, structured format that sits between two ends of a translation
+pipeline. Neither end talks to the other directly; both talk to the IR.
 
-That shape makes the IR the product:
+In this project the IR is a JSON document describing a design as a tree of
+typed nodes (`FRAME`, `TEXT`, `IMAGE`, `VECTOR`, `INSTANCE`) plus
+registries for shared styles, components, and fonts. The schema lives in
+[`packages/ir/src/schema.ts`](./packages/ir/src/schema.ts) (zod), and a
+hand-written example sits at
+[`packages/ir/examples/sample.json`](./packages/ir/examples/sample.json).
 
-- **It's the contract.** Schema changes are visible in type checks on both
-  sides. Breaking changes bump the `version` field.
-- **It's debuggable.** Every conversion produces a JSON file you can open,
-  diff, edit, and replay.
-- **It's replaceable.** Swap the plugin for a Sketch or Penpot builder later
-  and only that half changes. Swap the CLI for "Figma export → IR" and the
-  pipeline runs in reverse.
+Why bother with one instead of going HTML → Figma directly:
+
+- **Decoupling.** The CLI knows nothing about the Figma Plugin API. The
+  plugin knows nothing about HTML or CSS. Both depend only on the IR
+  schema.
+- **Debuggability.** Every conversion produces a real file you can open,
+  diff, edit by hand, replay, or commit as a fixture.
+- **Replaceability.** Swap the plugin for a Sketch / Penpot builder later
+  and only that half changes. Same IR, different consumer.
+- **Stable contract.** The schema carries an `IR_VERSION` and evolves
+  additively; breaking changes bump the version.
+
+This decision and other architectural calls (postcss vs lightningcss,
+auto-layout mapping trade-offs, etc.) are written up in
+[`docs/adr/`](./docs/adr/).
 
 ### CSS → Figma semantic mapping
 
@@ -168,12 +180,12 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
 | M2  | ✅ done | CLI scaffold with parse5. Inline styles only. Emits valid IR from trivial HTML fixtures.         |
 | M3  | ✅ done | Full CSS resolution: external `<link>`, `<style>` blocks, inline. Cascade + inheritance + `var()`. |
 | M4  | ✅ done | [yoga-layout](https://github.com/facebook/yoga) 3.2.1 integration. Block + flex layout, padding/margin shorthands, heuristic text measurement. |
-| M5  | next    | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`. |
-| M6  | pending | Component detection via subtree hashing. Repeated markup → component + instances.                |
+| M5  | ✅ done | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`, `flex-grow`, position-absolute children. |
+| M6  | next    | Component detection via subtree hashing. Repeated markup → component + instances.                |
 | M7  | pending | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming.   |
 | M8  | pending | Real-world harness, docs, known limitations, end-to-end testing on real Claude Design exports.   |
 
-### What ships today (M1 → M4)
+### What ships today (M1 → M5)
 
 - `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
   component instances, paint + text style registries, component registry,
@@ -191,21 +203,26 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
   selector subset (tag / class / id / descendant / child / `:root`), then
   resolve `!important`, specificity, source order, inheritance, and `var()`
   references (with fallback and cycle bail-out).
-- `packages/cli/src/layout` (**M4**): yoga-layout 3.2.1 integration. Maps
-  cascade-resolved styles to a Yoga tree, runs `calculateLayout`, returns
-  parent-relative geometry per element. Covers block stacking, flex
-  containers (direction / gap / justify / align), padding and margin
-  (longhands and 1–4 value shorthands), positioning (static / relative /
-  absolute / fixed with top/right/bottom/left), and a heuristic text
-  measurement callback so text gets a real height. Block elements emit as
-  flex columns to inherit parent width like real CSS block layout.
+- `packages/cli/src/layout/yoga.ts` (**M4**): yoga-layout 3.2.1 integration.
+  Maps cascade-resolved styles to a Yoga tree, runs `calculateLayout`,
+  returns parent-relative geometry per element. Covers block stacking,
+  flex containers, padding and margin (longhands + 1–4 value shorthands),
+  positioning (`static` / `relative` / `absolute` / `fixed`), and a
+  heuristic text measurement callback. Block elements emit as flex columns
+  so children inherit parent width like real CSS block layout.
+- `packages/cli/src/layout/auto-layout.ts` (**M5**): CSS flex → Figma
+  auto-layout mapper. Decorates flex frames with `layout` (layoutMode,
+  itemSpacing, counterAxisSpacing, padding edges, justify/align,
+  wrap) and decorates each child with `childLayout` (layoutPositioning,
+  layoutGrow, layoutAlign). The Figma plugin builds these as real
+  auto-layout frames — drag a child after build and the layout responds.
 
-56 cli tests + 17 ir + 1 plugin = **74 across the workspace**.
+101 cli tests + 17 ir + 1 plugin = **119 across the workspace**.
 
-What's not in yet (M5–M8): flex-frame nodes still emit geometry only —
-M5 will add `layout: { layoutMode, itemSpacing, ... }` so the Figma
-plugin produces real auto-layout frames. Component detection (M6),
-token extraction (M7), and the real-world harness (M8) follow.
+What's not in yet (M6–M8): component detection by subtree hashing (M6),
+token extraction with paint/text style naming heuristics (M7), and the
+real-world harness for end-to-end testing on actual Claude Design exports
+(M8).
 
 ---
 
@@ -260,9 +277,10 @@ instances update.
   the IR to point at fonts you have.
 - `IR validation failed` — the plugin status panel lists the first five zod
   issues with their JSON paths.
-- **Block + flex layouts compute** — yoga lays out the page; geometry is
-  real. Flex frames are still emitted as plain frames with absolute
-  positions, not Figma auto-layout frames — that mapping arrives in M5.
+- **Auto-layout works in Figma** — flex frames built by the CLI become
+  real Figma auto-layout frames. Drag a child in or out and the layout
+  responds. Geometry comes from yoga; the auto-layout fields are
+  metadata for editability.
 
 ---
 

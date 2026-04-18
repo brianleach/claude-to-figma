@@ -12,14 +12,13 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M5 (not started)
-**Last tag:** `m4`
-**Next action:** map `display: flex` (and `inline-flex`) to Figma
-auto-layout: emit `layoutMode: HORIZONTAL/VERTICAL` plus itemSpacing,
-counterAxisSpacing, padding edges, primary/counterAxisAlignItems,
-layoutWrap. The cascade + yoga modules already compute everything
-needed; this milestone just teaches the IR walker to emit auto-layout
-fields on flex frames instead of geometry-only. See M5 section below.
+**Active milestone:** M6 (not started)
+**Last tag:** `m5`
+**Next action:** detect repeated subtrees by hashing structure +
+class signature, promote groups of ≥3 identical instances to a
+component definition + INSTANCE references. Use the most common root
+class as the component name; fall back to `Component{N}`. Default
+threshold 3, configurable via CLI flag. See M6 section below.
 
 ## Working branch
 
@@ -58,7 +57,7 @@ on the remote for archive only.
 | M2  | ✅ done | `m2` | bleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
 | M3  | ✅ done | `m3` | bleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
 | M4  | ✅ done | `m4` | bleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
-| M5  | ⬜ not started | — | —           | Flex → Figma auto-layout mapping.                           |
+| M5  | ✅ done | `m5` | bleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
 | M6  | ⬜ not started | — | —           | Component detection via subtree hashing.                    |
 | M7  | ⬜ not started | — | —           | Token extraction (paint + text styles).                     |
 | M8  | ⬜ not started | — | —           | Real-world harness + docs + LIMITATIONS.md.                 |
@@ -184,14 +183,24 @@ KICKSTART specifies lightningcss for CSS parsing. We use **postcss** because lig
 
 ---
 
-## M5 — Flex → auto-layout mapping (not started)
+## M5 — Flex → auto-layout mapping
 
-### Gates to pass
+**Branch:** `m5-auto-layout` (in progress)
 
-- [ ] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
-- [ ] V-M5-MAPPING-TESTS — ≥ 20 mapping tests
-- [ ] V-M5-FIXTURES — `flex-justify-variations.html`, `flex-align-variations.html`, `flex-wrap.html`
-- [ ] V-M5-VISUAL — user confirms generated frames behave as real auto-layout → `M5 verified`
+### Standard gates
+
+- [x] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
+
+### Milestone gates
+
+- [x] V-M5-MAPPING-TESTS — 36 mapping tests covering display gating, every flex-direction value, gap shorthand and per-axis longhands with axis-swap on vertical mode, padding longhands and 1–4 value shorthand, every justify-content (`space-around`/`space-evenly` collapse to `SPACE_BETWEEN` — closest Figma primitive, yoga still computes faithful pixel positions), every align-items value, wrap, child positioning (AUTO / ABSOLUTE), `flex-grow` → `layoutGrow`, parent-stretch defaults, `align-self` overrides
+- [x] V-M5-FIXTURES — `flex-justify-variations.html`, `flex-align-variations.html`, `flex-wrap.html`
+- [ ] V-M5-VISUAL — user confirms generated frames behave as real auto-layout (drag a child in, layout responds correctly) → `M5 verified`
+
+### Notes
+
+- The walker decorates flex frames with `layout` (LayoutProps) and their children with `childLayout` (ChildLayout). Geometry stays from yoga — these fields are pure structural metadata for the Figma plugin.
+- See `docs/adr/0003-space-around-collapses-to-space-between.md` for the rationale on the SPACE_BETWEEN collapse.
 
 ---
 
@@ -242,3 +251,4 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — M2 shipped on `m2-html-parser`: CLI scaffold, inline-style parser, parse5 walker, 3 fixtures, 12 new tests (30 total). Verified manually in Figma; tagged `m2`.
 - `2026-04-18` — M3 shipped on `m3-css-cascade`: cascade engine (selectors, specificity, !important, inheritance, var() with fallback + cycle bail), 2 fixtures, 26 new tests (62 total). Used postcss instead of lightningcss — documented deviation. Verified in Figma; tagged `m3`.
 - `2026-04-18` — M4 shipped on `m4-yoga-layout`: yoga-layout 3.2.1 integration with CSS → Yoga style mapper (display, position, dimensions, padding/margin shorthands, border, flex container + item, gap), heuristic text measurement, shared classify.ts module. 2 new fixtures, 7 new tests (74 total). M2/M3 fixtures updated to use `position: relative` per CSS spec.
+- `2026-04-18` — M5 shipped on `m5-auto-layout`: flex → auto-layout mapper emits `layout` on flex frames and `childLayout` on their items. 3 new fixtures, 36 new mapping tests (119 total in workspace). First ADR set added under `docs/adr/`. Verified in Figma; tagged `m5`.

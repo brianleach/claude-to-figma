@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        width: 800px;
+        height: 360px;
+        background-color: #ffffff;
+        font-family: Inter, sans-serif;
+      }
+      .row {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        height: 80px;
+        padding: 0 16px;
+        background-color: #f1f5f9;
+        margin-bottom: 16px;
+      }
+      .start    { align-items: flex-start; }
+      .center   { align-items: center; }
+      .end      { align-items: flex-end; }
+      .stretch  { align-items: stretch; }
+      .pill {
+        width: 80px;
+        height: 32px;
+        background-color: #2563eb;
+        border-radius: 16px;
+      }
+      /* For the stretch row we drop the explicit height so children can grow */
+      .stretch .pill {
+        height: auto;
+        align-self: stretch;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row start">
+      <div class="pill" id="as1"></div>
+      <div class="pill" id="as2"></div>
+    </div>
+    <div class="row center">
+      <div class="pill" id="ac1"></div>
+      <div class="pill" id="ac2"></div>
+    </div>
+    <div class="row end">
+      <div class="pill" id="ae1"></div>
+      <div class="pill" id="ae2"></div>
+    </div>
+    <div class="row stretch">
+      <div class="pill" id="ax1"></div>
+      <div class="pill" id="ax2"></div>
+    </div>
+  </body>
+</html>

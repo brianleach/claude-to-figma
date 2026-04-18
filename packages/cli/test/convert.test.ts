@@ -12,6 +12,9 @@ const FIXTURES = [
   'cascade-edge-cases',
   'flex-basic',
   'flex-nested',
+  'flex-justify-variations',
+  'flex-align-variations',
+  'flex-wrap',
 ] as const;
 type Fixture = (typeof FIXTURES)[number];
 

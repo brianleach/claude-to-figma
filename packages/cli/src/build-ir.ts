@@ -31,7 +31,7 @@ import {
   computeCascade,
   parseStylesheets,
 } from './cascade/index.js';
-import { type LayoutMap, computeLayout } from './layout/index.js';
+import { type LayoutMap, computeLayout, mapFlexChild, mapFlexContainer } from './layout/index.js';
 import {
   parseColor,
   parseFontFamily,
@@ -160,11 +160,14 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   const geometry = geometryOf(ctx, el);
   const fills = readBackgroundFills(style);
   const cornerRadius = parsePx(style.get('border-radius'));
+  const layout = mapFlexContainer(style);
 
   const children: IRNode[] = [];
   for (const child of el.childNodes) {
     const built = buildChild(child, el, ctx);
-    if (built) children.push(built);
+    if (!built) continue;
+    decorateChildLayout(built, el, child, ctx);
+    children.push(built);
   }
 
   const frame: FrameNode = {
@@ -179,8 +182,28 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
     effects: [],
     children,
   };
+  if (layout) frame.layout = layout;
   if (cornerRadius != null) frame.cornerRadius = cornerRadius;
   return frame;
+}
+
+/**
+ * Decorate the just-built IR node with `childLayout` if its parent element
+ * is a flex container. The decoration is structural metadata for the Figma
+ * plugin (layoutPositioning, layoutGrow, layoutAlign) — geometry already
+ * came from yoga.
+ */
+function decorateChildLayout(
+  built: IRNode,
+  parentEl: P5Element,
+  childNode: P5ChildNode,
+  ctx: BuildContext,
+): void {
+  if (!isElement(childNode)) return;
+  const parentStyle = styleOf(ctx, parentEl);
+  const childStyle = styleOf(ctx, childNode);
+  const childLayout = mapFlexChild(parentStyle, childStyle);
+  if (childLayout) built.childLayout = childLayout;
 }
 
 function buildText(el: P5Element, ctx: BuildContext): TextNode | null {

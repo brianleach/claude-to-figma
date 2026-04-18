@@ -1,0 +1,367 @@
+{
+  "version": 1,
+  "name": "M1 Sample",
+  "metadata": {
+    "generator": "hand-written sample for M1 round-trip",
+    "source": "packages/ir/examples/sample.json"
+  },
+  "fonts": [
+    { "family": "Inter", "style": "Regular" },
+    { "family": "Inter", "style": "Medium" },
+    { "family": "Inter", "style": "Bold" }
+  ],
+  "images": [],
+  "styles": {
+    "paints": [
+      {
+        "id": "color/surface",
+        "name": "color/surface",
+        "paints": [{ "type": "SOLID", "color": { "r": 0.98, "g": 0.98, "b": 0.99, "a": 1 } }]
+      },
+      {
+        "id": "color/card",
+        "name": "color/card",
+        "paints": [{ "type": "SOLID", "color": { "r": 1, "g": 1, "b": 1, "a": 1 } }]
+      },
+      {
+        "id": "color/primary",
+        "name": "color/primary",
+        "paints": [{ "type": "SOLID", "color": { "r": 0.2, "g": 0.4, "b": 0.95, "a": 1 } }]
+      },
+      {
+        "id": "color/text",
+        "name": "color/text",
+        "paints": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.08, "b": 0.1, "a": 1 } }]
+      },
+      {
+        "id": "color/muted",
+        "name": "color/muted",
+        "paints": [{ "type": "SOLID", "color": { "r": 0.4, "g": 0.42, "b": 0.5, "a": 1 } }]
+      },
+      {
+        "id": "color/on-primary",
+        "name": "color/on-primary",
+        "paints": [{ "type": "SOLID", "color": { "r": 1, "g": 1, "b": 1, "a": 1 } }]
+      }
+    ],
+    "texts": [
+      {
+        "id": "text/heading-md",
+        "name": "text/heading-md",
+        "style": {
+          "fontFamily": "Inter",
+          "fontStyle": "Bold",
+          "fontSize": 20,
+          "lineHeight": { "unit": "PIXELS", "value": 28 },
+          "letterSpacing": { "unit": "PIXELS", "value": 0 },
+          "textAlign": "LEFT"
+        }
+      },
+      {
+        "id": "text/body-md",
+        "name": "text/body-md",
+        "style": {
+          "fontFamily": "Inter",
+          "fontStyle": "Regular",
+          "fontSize": 14,
+          "lineHeight": { "unit": "PIXELS", "value": 20 },
+          "letterSpacing": { "unit": "PIXELS", "value": 0 },
+          "textAlign": "LEFT"
+        }
+      },
+      {
+        "id": "text/label",
+        "name": "text/label",
+        "style": {
+          "fontFamily": "Inter",
+          "fontStyle": "Medium",
+          "fontSize": 14,
+          "lineHeight": { "unit": "PIXELS", "value": 20 },
+          "letterSpacing": { "unit": "PIXELS", "value": 0 },
+          "textAlign": "CENTER"
+        }
+      },
+      {
+        "id": "text/logo",
+        "name": "text/logo",
+        "style": {
+          "fontFamily": "Inter",
+          "fontStyle": "Bold",
+          "fontSize": 18,
+          "lineHeight": { "unit": "PIXELS", "value": 24 },
+          "letterSpacing": { "unit": "PIXELS", "value": 0 }
+        }
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "card",
+      "name": "Card",
+      "root": {
+        "type": "FRAME",
+        "id": "card.root",
+        "name": "Card",
+        "layout": {
+          "layoutMode": "VERTICAL",
+          "itemSpacing": 12,
+          "paddingTop": 20,
+          "paddingRight": 20,
+          "paddingBottom": 20,
+          "paddingLeft": 20,
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "MIN",
+          "primaryAxisSizingMode": "AUTO",
+          "counterAxisSizingMode": "FIXED"
+        },
+        "fillStyleId": "color/card",
+        "fills": [{ "type": "SOLID", "color": { "r": 1, "g": 1, "b": 1 } }],
+        "cornerRadius": 12,
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": { "r": 0, "g": 0, "b": 0, "a": 0.08 },
+            "offset": { "x": 0, "y": 2 },
+            "radius": 8,
+            "spread": 0
+          }
+        ],
+        "geometry": { "x": 0, "y": 0, "width": 280, "height": 180 },
+        "children": [
+          {
+            "type": "TEXT",
+            "id": "card.title",
+            "name": "Title",
+            "characters": "Card Title",
+            "textStyleId": "text/heading-md",
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontStyle": "Bold",
+              "fontSize": 20,
+              "lineHeight": { "unit": "PIXELS", "value": 28 }
+            },
+            "fillStyleId": "color/text",
+            "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.08, "b": 0.1 } }]
+          },
+          {
+            "type": "TEXT",
+            "id": "card.body",
+            "name": "Body",
+            "characters": "A short description that explains what this card is about.",
+            "textStyleId": "text/body-md",
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontStyle": "Regular",
+              "fontSize": 14,
+              "lineHeight": { "unit": "PIXELS", "value": 20 }
+            },
+            "fillStyleId": "color/muted",
+            "fills": [{ "type": "SOLID", "color": { "r": 0.4, "g": 0.42, "b": 0.5 } }]
+          },
+          {
+            "type": "FRAME",
+            "id": "card.button",
+            "name": "Button",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 8,
+              "paddingTop": 10,
+              "paddingRight": 16,
+              "paddingBottom": 10,
+              "paddingLeft": 16,
+              "primaryAxisAlignItems": "CENTER",
+              "counterAxisAlignItems": "CENTER",
+              "primaryAxisSizingMode": "AUTO",
+              "counterAxisSizingMode": "AUTO"
+            },
+            "fillStyleId": "color/primary",
+            "fills": [{ "type": "SOLID", "color": { "r": 0.2, "g": 0.4, "b": 0.95 } }],
+            "cornerRadius": 8,
+            "children": [
+              {
+                "type": "TEXT",
+                "id": "card.button.label",
+                "name": "Label",
+                "characters": "Learn more",
+                "textStyleId": "text/label",
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontStyle": "Medium",
+                  "fontSize": 14,
+                  "lineHeight": { "unit": "PIXELS", "value": 20 },
+                  "textAlign": "CENTER"
+                },
+                "fillStyleId": "color/on-primary",
+                "fills": [{ "type": "SOLID", "color": { "r": 1, "g": 1, "b": 1 } }]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "root": {
+    "type": "FRAME",
+    "id": "root",
+    "name": "Page",
+    "geometry": { "x": 0, "y": 0, "width": 1440, "height": 900 },
+    "layout": {
+      "layoutMode": "VERTICAL",
+      "itemSpacing": 16,
+      "paddingTop": 24,
+      "paddingRight": 24,
+      "paddingBottom": 24,
+      "paddingLeft": 24,
+      "primaryAxisAlignItems": "MIN",
+      "counterAxisAlignItems": "MIN",
+      "primaryAxisSizingMode": "FIXED",
+      "counterAxisSizingMode": "FIXED"
+    },
+    "fillStyleId": "color/surface",
+    "fills": [{ "type": "SOLID", "color": { "r": 0.98, "g": 0.98, "b": 0.99 } }],
+    "children": [
+      {
+        "type": "FRAME",
+        "id": "header",
+        "name": "Header",
+        "layout": {
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 24,
+          "paddingTop": 16,
+          "paddingRight": 24,
+          "paddingBottom": 16,
+          "paddingLeft": 24,
+          "primaryAxisAlignItems": "SPACE_BETWEEN",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "AUTO"
+        },
+        "geometry": { "x": 0, "y": 0, "width": 1392, "height": 64 },
+        "fillStyleId": "color/card",
+        "fills": [{ "type": "SOLID", "color": { "r": 1, "g": 1, "b": 1 } }],
+        "cornerRadius": 12,
+        "children": [
+          {
+            "type": "TEXT",
+            "id": "header.logo",
+            "name": "Logo",
+            "characters": "claude-to-figma",
+            "textStyleId": "text/logo",
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontStyle": "Bold",
+              "fontSize": 18,
+              "lineHeight": { "unit": "PIXELS", "value": 24 }
+            },
+            "fillStyleId": "color/primary",
+            "fills": [{ "type": "SOLID", "color": { "r": 0.2, "g": 0.4, "b": 0.95 } }]
+          },
+          {
+            "type": "FRAME",
+            "id": "header.nav",
+            "name": "Nav",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 20,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "primaryAxisSizingMode": "AUTO",
+              "counterAxisSizingMode": "AUTO"
+            },
+            "fills": [],
+            "children": [
+              {
+                "type": "TEXT",
+                "id": "header.nav.1",
+                "name": "Home",
+                "characters": "Home",
+                "textStyleId": "text/body-md",
+                "textStyle": { "fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 14 },
+                "fillStyleId": "color/text",
+                "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.08, "b": 0.1 } }]
+              },
+              {
+                "type": "TEXT",
+                "id": "header.nav.2",
+                "name": "Docs",
+                "characters": "Docs",
+                "textStyleId": "text/body-md",
+                "textStyle": { "fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 14 },
+                "fillStyleId": "color/text",
+                "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.08, "b": 0.1 } }]
+              },
+              {
+                "type": "TEXT",
+                "id": "header.nav.3",
+                "name": "GitHub",
+                "characters": "GitHub",
+                "textStyleId": "text/body-md",
+                "textStyle": { "fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 14 },
+                "fillStyleId": "color/text",
+                "fills": [{ "type": "SOLID", "color": { "r": 0.08, "g": 0.08, "b": 0.1 } }]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "id": "grid",
+        "name": "Card grid",
+        "layout": {
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 16,
+          "paddingTop": 16,
+          "paddingRight": 0,
+          "paddingBottom": 16,
+          "paddingLeft": 0,
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "MIN",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "AUTO",
+          "layoutWrap": "WRAP"
+        },
+        "fills": [],
+        "children": [
+          {
+            "type": "INSTANCE",
+            "id": "card-instance-1",
+            "name": "Card 1",
+            "componentId": "card",
+            "geometry": { "x": 0, "y": 0, "width": 280, "height": 180 },
+            "overrides": {
+              "card.title": { "characters": "Fast" },
+              "card.body": { "characters": "Ships HTML → Figma in seconds, not minutes." }
+            }
+          },
+          {
+            "type": "INSTANCE",
+            "id": "card-instance-2",
+            "name": "Card 2",
+            "componentId": "card",
+            "geometry": { "x": 0, "y": 0, "width": 280, "height": 180 },
+            "overrides": {
+              "card.title": { "characters": "Editable" },
+              "card.body": { "characters": "Frames, auto-layout, components. Real Figma primitives." }
+            }
+          },
+          {
+            "type": "INSTANCE",
+            "id": "card-instance-3",
+            "name": "Card 3",
+            "componentId": "card",
+            "geometry": { "x": 0, "y": 0, "width": 280, "height": 180 },
+            "overrides": {
+              "card.title": { "characters": "Open" },
+              "card.body": { "characters": "MIT-licensed. Extend the IR, swap the plugin." }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

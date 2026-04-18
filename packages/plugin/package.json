@@ -1,0 +1,25 @@
+{
+  "name": "@claude-to-figma/plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Figma plugin that builds a scene graph from claude-to-figma IR",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "build:watch": "node esbuild.config.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@claude-to-figma/ir": "workspace:*",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "1.106.0",
+    "@types/node": "22.9.0",
+    "esbuild": "0.24.0",
+    "typescript": "5.6.3",
+    "vitest": "2.1.8"
+  }
+}

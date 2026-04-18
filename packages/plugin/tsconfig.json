@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "types": ["@figma/plugin-typings", "node"],
+    "noEmit": true,
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@claude-to-figma/ir": ["../ir/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*", "esbuild.config.mjs"],
+  "exclude": ["dist", "node_modules", "code.js", "ui.js"]
+}

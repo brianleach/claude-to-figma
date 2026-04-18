@@ -12,25 +12,25 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M1 (awaiting manual verification)
-**Last tag:** _none yet_
-**Next action:** user manually verifies M1 in Figma desktop using
-`packages/ir/examples/sample.json` → replies `M1 verified` → we tag `m1` and
-start M2.
+**Active milestone:** M2 (not started)
+**Last tag:** `m1`
+**Next action:** scaffold `packages/cli` with commander + parse5; emit IR
+for inline-styled HTML; add 3 fixtures + snapshot tests. See M2 section
+below.
 
 ## Working branch
 
-The harness that bootstrapped this project can only push to
-`claude/claude-to-figma-build-zTq1Q`. When working from a local machine,
-you can use the normal per-milestone branch flow from `KICKSTART.md` —
-either branch off the HEAD of `claude/...-build-zTq1Q` or reset `main` to
-it first. The `KICKSTART.md` "Deviations" section notes this.
+`main` exists on the remote as of the M1 promotion and is the canonical
+branch going forward. `claude/claude-to-figma-build-zTq1Q` is still the
+only branch the bootstrap harness can push to, so any web-Claude session
+will continue working there; local sessions should use the normal
+per-milestone branch flow from `KICKSTART.md` against `main`.
 
 ## Milestone overview
 
 | #   | Status | Tag | Verified by | Notes                                                       |
 | --- | ------ | --- | ----------- | ----------------------------------------------------------- |
-| M1  | 🟡 awaiting manual verify | — | —     | IR + plugin + sample. All automated gates green.            |
+| M1  | ✅ done | `m1` | bleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
 | M2  | ⬜ not started | — | —           | CLI scaffold + parse5, inline styles only.                  |
 | M3  | ⬜ not started | — | —           | Full CSS resolution (cascade, inheritance, `--vars`).       |
 | M4  | ⬜ not started | — | —           | yoga-layout integration.                                    |
@@ -59,7 +59,7 @@ Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not st
 
 - [x] V-M1-SAMPLE — `sample.json` validates against zod (covered in `packages/ir/test/schema.test.ts`)
 - [x] V-M1-PLUGIN-BUILD — esbuild bundled `code.js` (143 kb) without errors
-- [ ] V-M1-PLUGIN-MANUAL — **user verification pending in Figma desktop**
+- [x] V-M1-PLUGIN-MANUAL — verified by bleach in Figma desktop on 2026-04-18 (after override fix `974367f`)
 - [x] V-M1-PLUGIN-SIZE — 580 lines (code.ts 400 + ui.html 180), under 1000
 
 ### How to manually verify M1
@@ -196,3 +196,5 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — M1 scaffolded + all automated gates pass; pushed 6 commits to `claude/claude-to-figma-build-zTq1Q`; awaiting manual Figma verification.
 - `2026-04-18` — README rewritten from M1-only to full project overview (commit `ffbfbe7`).
 - `2026-04-18` — `docs/KICKSTART.md` and `docs/PROGRESS.md` added so the spec and state are versioned in-repo.
+- `2026-04-18` — manual M1 verification in Figma surfaced an override bug: text overrides were keyed by Figma `n.name`/`n.id` instead of IR id, so all instances rendered master text. Fixed in `974367f` by stamping `irId` via `setPluginData` and looking it up first in `applyOverrides`. Re-verified.
+- `2026-04-18` — M1 tagged `m1`. `main` created on remote from this commit; promoted to canonical branch.

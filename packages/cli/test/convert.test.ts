@@ -4,18 +4,26 @@ import { IRDocumentSchema } from '@claude-to-figma/ir';
 import { describe, expect, it } from 'vitest';
 import { convertHtml } from '../src/convert.js';
 
-const FIXTURES = ['simple-divs', 'nested-divs', 'text-heavy'] as const;
+const FIXTURES = [
+  'simple-divs',
+  'nested-divs',
+  'text-heavy',
+  'external-css',
+  'cascade-edge-cases',
+] as const;
 type Fixture = (typeof FIXTURES)[number];
 
+const FIXTURE_DIR = resolve(__dirname, 'fixtures');
+
 function loadFixture(name: Fixture): string {
-  return readFileSync(resolve(__dirname, 'fixtures', `${name}.html`), 'utf8');
+  return readFileSync(resolve(FIXTURE_DIR, `${name}.html`), 'utf8');
 }
 
 describe('convertHtml', () => {
   for (const name of FIXTURES) {
     describe(name, () => {
       const html = loadFixture(name);
-      const result = convertHtml(html, { name: `${name}.html` });
+      const result = convertHtml(html, { name: `${name}.html`, baseDir: FIXTURE_DIR });
 
       it('emits stable IR snapshot', () => {
         expect(result.document).toMatchSnapshot();
@@ -38,9 +46,9 @@ describe('convertHtml', () => {
     });
   }
 
-  it('warns when an element has no inline width or height', () => {
+  it('warns when an element has no width or height', () => {
     const result = convertHtml('<html><body><div>nothing</div></body></html>', { name: 'no-geom' });
-    expect(result.warnings.some((w) => w.includes('no inline width/height'))).toBe(true);
+    expect(result.warnings.some((w) => w.includes('no width/height'))).toBe(true);
   });
 
   it('flattens text-only elements into a single TEXT node', () => {

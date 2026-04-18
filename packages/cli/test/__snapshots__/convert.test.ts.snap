@@ -1,5 +1,546 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
+{
+  "components": [],
+  "fonts": [
+    {
+      "family": "Inter",
+      "style": "Bold",
+    },
+    {
+      "family": "Inter",
+      "style": "Italic",
+    },
+    {
+      "family": "Inter",
+      "style": "Regular",
+    },
+  ],
+  "images": [],
+  "metadata": {
+    "generator": "@claude-to-figma/cli",
+    "source": "cascade-edge-cases.html",
+  },
+  "name": "cascade-edge-cases.html",
+  "root": {
+    "children": [
+      {
+        "children": [],
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.5333333333333333,
+              "g": 0.5333333333333333,
+              "r": 0.5333333333333333,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 80,
+          "width": 80,
+          "x": 20,
+          "y": 20,
+        },
+        "id": "div-1",
+        "name": "box",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+      {
+        "children": [],
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0,
+              "g": 1,
+              "r": 0,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 80,
+          "width": 80,
+          "x": 120,
+          "y": 20,
+        },
+        "id": "div-2",
+        "name": "panel",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+      {
+        "children": [],
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0,
+              "g": 0.5333333333333333,
+              "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 80,
+          "width": 80,
+          "x": 220,
+          "y": 20,
+        },
+        "id": "div-3",
+        "name": "shouter",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+      {
+        "children": [],
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 1,
+              "g": 1,
+              "r": 0,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 80,
+          "width": 80,
+          "x": 320,
+          "y": 20,
+        },
+        "id": "div-4",
+        "name": "fallback",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+      {
+        "children": [
+          {
+            "characters": "A title",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.9215686274509803,
+                  "g": 0.38823529411764707,
+                  "r": 0.1450980392156863,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-5",
+            "name": ".heading",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontStyle": "Bold",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+          {
+            "characters": "An italic blue paragraph by inheritance.",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.9215686274509803,
+                  "g": 0.38823529411764707,
+                  "r": 0.1450980392156863,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-6",
+            "name": "An italic blue paragraph by inhe",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontStyle": "Italic",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+          {
+            "characters": "A non-italic blue span.",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.9215686274509803,
+                  "g": 0.38823529411764707,
+                  "r": 0.1450980392156863,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-7",
+            "name": "A non-italic blue span.",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontStyle": "Regular",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+        ],
+        "effects": [],
+        "fills": [],
+        "geometry": {
+          "height": 240,
+          "width": 540,
+          "x": 20,
+          "y": 120,
+        },
+        "id": "div-8",
+        "name": "article",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    ],
+    "effects": [],
+    "fills": [
+      {
+        "color": {
+          "a": 1,
+          "b": 1,
+          "g": 1,
+          "r": 1,
+        },
+        "opacity": 1,
+        "type": "SOLID",
+        "visible": true,
+      },
+    ],
+    "geometry": {
+      "height": 400,
+      "width": 600,
+      "x": 0,
+      "y": 0,
+    },
+    "id": "root",
+    "name": "body",
+    "opacity": 1,
+    "strokes": [],
+    "type": "FRAME",
+    "visible": true,
+  },
+  "styles": {
+    "paints": [],
+    "texts": [],
+  },
+  "version": 1,
+}
+`;
+
+exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
+{
+  "components": [],
+  "fonts": [
+    {
+      "family": "Inter",
+      "style": "Semi Bold",
+    },
+    {
+      "family": "Inter",
+      "style": "Regular",
+    },
+    {
+      "family": "Inter",
+      "style": "Medium",
+    },
+  ],
+  "images": [],
+  "metadata": {
+    "generator": "@claude-to-figma/cli",
+    "source": "external-css.html",
+  },
+  "name": "external-css.html",
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "characters": "Hello",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.10196078431372549,
+                  "g": 0.10196078431372549,
+                  "r": 0.10196078431372549,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-1",
+            "name": ".title",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontStyle": "Semi Bold",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+          {
+            "characters": "A short paragraph that introduces the card.",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 0.5019607843137255,
+                  "g": 0.4470588235294118,
+                  "r": 0.4196078431372549,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-2",
+            "name": ".body",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontStyle": "Regular",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "PERCENT",
+                "value": 150,
+              },
+              "textAlign": "LEFT",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+        ],
+        "cornerRadius": 12,
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 1,
+              "g": 1,
+              "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 180,
+          "width": 320,
+          "x": 40,
+          "y": 40,
+        },
+        "id": "div-3",
+        "name": "card",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+      {
+        "children": [
+          {
+            "characters": "Get started",
+            "fills": [
+              {
+                "color": {
+                  "a": 1,
+                  "b": 1,
+                  "g": 1,
+                  "r": 1,
+                },
+                "opacity": 1,
+                "type": "SOLID",
+                "visible": true,
+              },
+            ],
+            "geometry": undefined,
+            "id": "text-4",
+            "name": ".label",
+            "opacity": 1,
+            "textStyle": {
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontStyle": "Medium",
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0,
+              },
+              "lineHeight": {
+                "unit": "AUTO",
+              },
+              "textAlign": "CENTER",
+              "textCase": "ORIGINAL",
+              "textDecoration": "NONE",
+            },
+            "type": "TEXT",
+            "visible": true,
+          },
+        ],
+        "cornerRadius": 8,
+        "effects": [],
+        "fills": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9215686274509803,
+              "g": 0.38823529411764707,
+              "r": 0.1450980392156863,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+        "geometry": {
+          "height": 40,
+          "width": 160,
+          "x": 40,
+          "y": 260,
+        },
+        "id": "div-5",
+        "name": "cta",
+        "opacity": 1,
+        "strokes": [],
+        "type": "FRAME",
+        "visible": true,
+      },
+    ],
+    "effects": [],
+    "fills": [
+      {
+        "color": {
+          "a": 1,
+          "b": 0.9686274509803922,
+          "g": 0.9607843137254902,
+          "r": 0.9607843137254902,
+        },
+        "opacity": 1,
+        "type": "SOLID",
+        "visible": true,
+      },
+    ],
+    "geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 0,
+      "y": 0,
+    },
+    "id": "root",
+    "name": "body",
+    "opacity": 1,
+    "strokes": [],
+    "type": "FRAME",
+    "visible": true,
+  },
+  "styles": {
+    "paints": [],
+    "texts": [],
+  },
+  "version": 1,
+}
+`;
+
 exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
 {
   "components": [],

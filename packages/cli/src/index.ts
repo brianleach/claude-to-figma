@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { Command } from 'commander';
 import { convertHtml } from './convert.js';
 
@@ -23,6 +23,7 @@ program
     const html = await readFile(inputPath, 'utf8');
     const result = convertHtml(html, {
       name: opts.name ?? inputPath.split('/').pop() ?? 'Untitled',
+      baseDir: dirname(inputPath),
     });
     await writeFile(outputPath, `${JSON.stringify(result.document, null, 2)}\n`, 'utf8');
     if (!opts.silent) {

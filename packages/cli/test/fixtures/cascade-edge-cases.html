@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      :root {
+        --primary: #ff0000;
+        --secondary: var(--primary);
+      }
+
+      body {
+        width: 600px;
+        height: 400px;
+        background-color: #ffffff;
+        font-family: Inter;
+        color: #111111;
+      }
+
+      /* Source-order tiebreak: second .box wins over first */
+      .box {
+        background-color: #cccccc;
+      }
+      .box {
+        background-color: #888888;
+      }
+
+      /* Specificity: id beats class */
+      .panel {
+        background-color: #ff0000;
+      }
+      #panel {
+        background-color: #00ff00;
+      }
+
+      /* !important wins even against higher-specificity inline */
+      #shouter {
+        background-color: #ff8800 !important;
+      }
+
+      /* var() with fallback when --missing is undefined */
+      .fallback {
+        background-color: var(--missing, #00ffff);
+      }
+
+      /* Inheritance: text inside .article picks up the color */
+      .article {
+        color: #2563eb;
+      }
+
+      /* Descendant: only paragraphs inside .article get italic */
+      .article p {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box" class="box" style="width: 80px; height: 80px; left: 20px; top: 20px;"></div>
+
+    <div id="panel" class="panel" style="width: 80px; height: 80px; left: 120px; top: 20px;"></div>
+
+    <div id="shouter" style="width: 80px; height: 80px; left: 220px; top: 20px; background-color: #000000;"></div>
+
+    <div class="fallback" id="fallback" style="width: 80px; height: 80px; left: 320px; top: 20px;"></div>
+
+    <div class="article" id="article" style="width: 540px; height: 240px; left: 20px; top: 120px;">
+      <h2 class="heading" style="font-size: 18px; font-weight: 700;">A title</h2>
+      <p style="font-size: 14px;">An italic blue paragraph by inheritance.</p>
+      <span style="font-size: 12px;">A non-italic blue span.</span>
+    </div>
+  </body>
+</html>

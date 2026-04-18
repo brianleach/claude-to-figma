@@ -1,10 +1,12 @@
 /**
  * HTML parse5 tree → IRDocument.
  *
- * M2 only handles inline styles. The walker classifies each element as a
- * FRAME, TEXT, IMAGE, or VECTOR node and emits geometry strictly from
- * inline width/height/top/left. Anything that needs the cascade or a layout
- * engine is deferred to M3 / M4.
+ * As of M3 the walker reads computed styles produced by the cascade engine
+ * (cascade/), not raw inline `style="..."` strings. Geometry still comes
+ * strictly from `width/height/top/left` because no layout engine is in
+ * place yet (M4 adds yoga). Inheritance, !important, source order,
+ * specificity, and var() are all handled by the cascade — the walker just
+ * consumes the resolved property → value map per element.
  */
 
 import {
@@ -20,15 +22,15 @@ import {
   type VectorNode,
 } from '@claude-to-figma/ir';
 import { type DefaultTreeAdapterTypes, parse } from 'parse5';
-
-type P5ChildNode = DefaultTreeAdapterTypes.ChildNode;
-type P5Document = DefaultTreeAdapterTypes.Document;
-type P5Element = DefaultTreeAdapterTypes.Element;
-type P5TextNode = DefaultTreeAdapterTypes.TextNode;
+import {
+  type ComputedStyle,
+  collectStylesheets,
+  computeCascade,
+  parseStylesheets,
+} from './cascade/index.js';
 import {
   parseColor,
   parseFontFamily,
-  parseInlineStyle,
   parseLetterSpacing,
   parseLineHeight,
   parsePx,
@@ -37,6 +39,11 @@ import {
   parseTextTransform,
   weightToFigmaStyle,
 } from './style.js';
+
+type P5ChildNode = DefaultTreeAdapterTypes.ChildNode;
+type P5Document = DefaultTreeAdapterTypes.Document;
+type P5Element = DefaultTreeAdapterTypes.Element;
+type P5TextNode = DefaultTreeAdapterTypes.TextNode;
 
 const TEXT_TAGS = new Set([
   'h1',
@@ -76,13 +83,18 @@ const DEFAULT_TEXT_STYLE: TextStyle = {
   textCase: 'ORIGINAL',
 };
 
+const DEFAULT_TEXT_FILLS: Paint[] = [
+  { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 }, opacity: 1, visible: true },
+];
+
+const EMPTY_STYLE: ComputedStyle = new Map();
+
 interface BuildContext {
   warnings: string[];
   idCounter: number;
   fontKeys: Set<string>;
   fonts: FontManifestEntry[];
-  inheritedTextStyle: TextStyle;
-  inheritedTextColor: Paint[] | undefined;
+  styles: Map<P5Element, ComputedStyle>;
 }
 
 export interface ConvertResult {
@@ -93,25 +105,32 @@ export interface ConvertResult {
 
 export interface ConvertOptions {
   name?: string;
+  /** Directory the input HTML lives in. Used to resolve relative `<link>` hrefs. */
+  baseDir?: string;
 }
 
 export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertResult {
   const tree = parse(html) as P5Document;
   const body = findElement(tree.childNodes, 'body');
-  const ctx: BuildContext = {
-    warnings: [],
-    idCounter: 0,
-    fontKeys: new Set(),
-    fonts: [],
-    inheritedTextStyle: DEFAULT_TEXT_STYLE,
-    inheritedTextColor: undefined,
-  };
-
   if (!body) {
     throw new Error('parse5 returned a document without a <body> — this should be unreachable');
   }
-  const root = buildFrameFromElement(body, ctx, 'root');
+  const head = findElement(tree.childNodes, 'head');
 
+  const collected = collectStylesheets(body, { baseDir: opts.baseDir }, head);
+  const rules = parseStylesheets(collected.sheets.map((s) => s.css));
+  const htmlEl = findElement(tree.childNodes, 'html');
+  const cascade = computeCascade(rules, htmlEl ?? body);
+
+  const ctx: BuildContext = {
+    warnings: [...collected.warnings],
+    idCounter: 0,
+    fontKeys: new Set(),
+    fonts: [],
+    styles: cascade.styles,
+  };
+
+  const root = buildFrameFromElement(body, ctx, 'root');
   registerFont(ctx, DEFAULT_TEXT_STYLE.fontFamily, DEFAULT_TEXT_STYLE.fontStyle);
 
   const document: IRDocument = {
@@ -144,29 +163,26 @@ function buildNodeFromElement(el: P5Element, ctx: BuildContext): IRNode | null {
   if (tag === 'br') return null;
 
   if (TEXT_TAGS.has(tag) && containsOnlyText(el)) {
-    return buildText(el, ctx, tag);
+    return buildText(el, ctx);
   }
 
   return buildFrameFromElement(el, ctx);
 }
 
 function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string): FrameNode {
-  const style = parseInlineStyle(getAttr(el, 'style'));
+  const style = styleOf(ctx, el);
   const geometry = readGeometry(style);
   const fills = readBackgroundFills(style);
-
   const cornerRadius = parsePx(style.get('border-radius'));
 
-  const inheritedReset = pushInheritance(ctx, style);
   const children: IRNode[] = [];
   for (const child of el.childNodes) {
-    const built = buildChild(child, ctx);
+    const built = buildChild(child, el, ctx);
     if (built) children.push(built);
   }
-  popInheritance(ctx, inheritedReset);
 
   if (!geometry) {
-    ctx.warnings.push(`frame <${el.tagName}> has no inline width/height — defaulted to 0×0`);
+    ctx.warnings.push(`frame <${el.tagName}> has no width/height — defaulted to 0×0`);
   }
 
   const frame: FrameNode = {
@@ -185,20 +201,18 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   return frame;
 }
 
-function buildText(el: P5Element, ctx: BuildContext, _tag: string): TextNode | null {
+function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
   const characters = collectText(el);
   if (!characters) return null;
 
-  const style = parseInlineStyle(getAttr(el, 'style'));
-  const textStyle = resolveTextStyle(ctx.inheritedTextStyle, style);
+  const style = styleOf(ctx, el);
+  const textStyle = resolveTextStyle(style);
   registerFont(ctx, textStyle.fontFamily, textStyle.fontStyle);
 
   const fillColor = parseColor(style.get('color'));
   const fills: Paint[] = fillColor
     ? [{ type: 'SOLID', color: fillColor, opacity: 1, visible: true }]
-    : (ctx.inheritedTextColor ?? [
-        { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 }, opacity: 1, visible: true },
-      ]);
+    : DEFAULT_TEXT_FILLS;
 
   const geometry = readGeometry(style);
 
@@ -216,7 +230,7 @@ function buildText(el: P5Element, ctx: BuildContext, _tag: string): TextNode | n
 }
 
 function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
-  const style = parseInlineStyle(getAttr(el, 'style'));
+  const style = styleOf(ctx, el);
   const widthAttr = parsePx(getAttr(el, 'width'));
   const heightAttr = parsePx(getAttr(el, 'height'));
   const geometry = readGeometry(style) ?? {
@@ -242,10 +256,10 @@ function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
 }
 
 function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
-  const style = parseInlineStyle(getAttr(el, 'style'));
+  const style = styleOf(ctx, el);
   const geometry = readGeometry(style);
   const path = collectFirstPath(el) ?? '';
-  if (!path) ctx.warnings.push(`<svg> had no <path d="..."> — emitted with empty path`);
+  if (!path) ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
 
   return {
     type: 'VECTOR',
@@ -264,12 +278,17 @@ function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
 // Children helpers
 // ---------------------------------------------------------------------------
 
-function buildChild(child: P5ChildNode, ctx: BuildContext): IRNode | null {
+function buildChild(child: P5ChildNode, parent: P5Element, ctx: BuildContext): IRNode | null {
   if (isElement(child)) return buildNodeFromElement(child, ctx);
   if (isTextNode(child)) {
     const trimmed = child.value.trim();
     if (!trimmed) return null;
     // Bare text directly inside a frame: wrap in an anonymous TEXT node.
+    // Inherits typography + color from the parent frame's computed style.
+    const parentStyle = styleOf(ctx, parent);
+    const textStyle = resolveTextStyle(parentStyle);
+    registerFont(ctx, textStyle.fontFamily, textStyle.fontStyle);
+    const fillColor = parseColor(parentStyle.get('color'));
     return {
       type: 'TEXT',
       id: nextId(ctx, 'text'),
@@ -277,10 +296,10 @@ function buildChild(child: P5ChildNode, ctx: BuildContext): IRNode | null {
       opacity: 1,
       visible: true,
       characters: trimmed,
-      textStyle: ctx.inheritedTextStyle,
-      fills: ctx.inheritedTextColor ?? [
-        { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 }, opacity: 1, visible: true },
-      ],
+      textStyle,
+      fills: fillColor
+        ? [{ type: 'SOLID', color: fillColor, opacity: 1, visible: true }]
+        : DEFAULT_TEXT_FILLS,
     };
   }
   return null;
@@ -324,11 +343,11 @@ function collectFirstPath(el: P5Element): string | undefined {
 }
 
 // ---------------------------------------------------------------------------
-// Style application
+// Style application — operates on a ComputedStyle (Map<string, string>)
 // ---------------------------------------------------------------------------
 
 function readGeometry(
-  style: ReturnType<typeof parseInlineStyle>,
+  style: ComputedStyle,
 ): { x: number; y: number; width: number; height: number } | undefined {
   const w = parsePx(style.get('width'));
   const h = parsePx(style.get('height'));
@@ -338,14 +357,14 @@ function readGeometry(
   return { x, y, width: w ?? 0, height: h ?? 0 };
 }
 
-function readBackgroundFills(style: ReturnType<typeof parseInlineStyle>): Paint[] {
+function readBackgroundFills(style: ComputedStyle): Paint[] {
   const bg = style.get('background-color') ?? style.get('background');
   const color = parseColor(bg);
   if (!color) return [];
   return [{ type: 'SOLID', color, opacity: 1, visible: true }];
 }
 
-function parseOpacity(style: ReturnType<typeof parseInlineStyle>): number {
+function parseOpacity(style: ComputedStyle): number {
   const raw = style.get('opacity');
   if (!raw) return 1;
   const n = Number(raw);
@@ -353,24 +372,22 @@ function parseOpacity(style: ReturnType<typeof parseInlineStyle>): number {
   return Math.max(0, Math.min(1, n));
 }
 
-function resolveTextStyle(
-  inherited: TextStyle,
-  style: ReturnType<typeof parseInlineStyle>,
-): TextStyle {
-  const family = parseFontFamily(style.get('font-family')) ?? inherited.fontFamily;
+function resolveTextStyle(style: ComputedStyle): TextStyle {
+  const family = parseFontFamily(style.get('font-family')) ?? DEFAULT_TEXT_STYLE.fontFamily;
   const italic = (style.get('font-style')?.toLowerCase() ?? '').includes('italic');
   const figmaStyle = style.get('font-weight')
     ? weightToFigmaStyle(style.get('font-weight'), italic)
     : italic
       ? weightToFigmaStyle('400', true)
-      : inherited.fontStyle;
-  const size = parsePx(style.get('font-size')) ?? inherited.fontSize;
-  const lineHeight = parseLineHeight(style.get('line-height')) ?? inherited.lineHeight;
-  const letterSpacing = parseLetterSpacing(style.get('letter-spacing')) ?? inherited.letterSpacing;
-  const textAlign = parseTextAlign(style.get('text-align')) ?? inherited.textAlign;
+      : DEFAULT_TEXT_STYLE.fontStyle;
+  const size = parsePx(style.get('font-size')) ?? DEFAULT_TEXT_STYLE.fontSize;
+  const lineHeight = parseLineHeight(style.get('line-height')) ?? DEFAULT_TEXT_STYLE.lineHeight;
+  const letterSpacing =
+    parseLetterSpacing(style.get('letter-spacing')) ?? DEFAULT_TEXT_STYLE.letterSpacing;
+  const textAlign = parseTextAlign(style.get('text-align')) ?? DEFAULT_TEXT_STYLE.textAlign;
   const textDecoration =
-    parseTextDecoration(style.get('text-decoration')) ?? inherited.textDecoration;
-  const textCase = parseTextTransform(style.get('text-transform')) ?? inherited.textCase;
+    parseTextDecoration(style.get('text-decoration')) ?? DEFAULT_TEXT_STYLE.textDecoration;
+  const textCase = parseTextTransform(style.get('text-transform')) ?? DEFAULT_TEXT_STYLE.textCase;
 
   return {
     fontFamily: family,
@@ -384,25 +401,8 @@ function resolveTextStyle(
   };
 }
 
-function pushInheritance(
-  ctx: BuildContext,
-  style: ReturnType<typeof parseInlineStyle>,
-): { textStyle: TextStyle; textColor: Paint[] | undefined } {
-  const prev = { textStyle: ctx.inheritedTextStyle, textColor: ctx.inheritedTextColor };
-  ctx.inheritedTextStyle = resolveTextStyle(ctx.inheritedTextStyle, style);
-  const color = parseColor(style.get('color'));
-  if (color) {
-    ctx.inheritedTextColor = [{ type: 'SOLID', color, opacity: 1, visible: true }];
-  }
-  return prev;
-}
-
-function popInheritance(
-  ctx: BuildContext,
-  prev: { textStyle: TextStyle; textColor: Paint[] | undefined },
-): void {
-  ctx.inheritedTextStyle = prev.textStyle;
-  ctx.inheritedTextColor = prev.textColor;
+function styleOf(ctx: BuildContext, el: P5Element): ComputedStyle {
+  return ctx.styles.get(el) ?? EMPTY_STYLE;
 }
 
 function registerFont(ctx: BuildContext, family: string, fontStyle: string): void {
@@ -452,4 +452,3 @@ function nextId(ctx: BuildContext, prefix: string): string {
   ctx.idCounter += 1;
   return `${prefix}-${ctx.idCounter}`;
 }
-

@@ -5,9 +5,10 @@ frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
 
-> **Status:** in active development. M1 (IR + plugin round-trip) is shipped on
-> `main`. See the [milestones](#milestones) table below for what's built and
-> what's next.
+> **Status:** in active development. M1–M3 shipped on `main` — IR + Figma
+> plugin, CLI scaffold with parse5, and a full CSS cascade engine (external
+> stylesheets, specificity, `!important`, inheritance, `var()`). See the
+> [milestones](#milestones) table below for what's built and what's next.
 
 ---
 
@@ -57,7 +58,7 @@ you should get:
 │ CLI  (packages/cli — Node)                                   │
 │                                                              │
 │   parse5         — parse HTML into the DOM                   │
-│   lightningcss   — parse CSS, resolve shorthands             │
+│   postcss        — parse CSS into rules + declarations       │
 │   cascade engine — resolve specificity, inheritance, --vars  │
 │   yoga-layout    — compute box geometry for every node       │
 │   flex→auto-layout mapper                                    │
@@ -163,15 +164,15 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
 | #   | Status  | Summary                                                                                         |
 | --- | ------- | ----------------------------------------------------------------------------------------------- |
 | M1  | ✅ done | IR schema + Figma plugin. Hand-written sample IR round-trips into an editable Figma scene.       |
-| M2  | next    | CLI scaffold with parse5. Inline styles only. Emits valid IR from trivial HTML fixtures.         |
-| M3  | pending | Full CSS resolution: external stylesheets, `<style>` blocks, inline. Cascade + inheritance + `--vars`. |
-| M4  | pending | [yoga-layout](https://github.com/facebook/yoga) integration. Absolute geometry for every node.   |
+| M2  | ✅ done | CLI scaffold with parse5. Inline styles only. Emits valid IR from trivial HTML fixtures.         |
+| M3  | ✅ done | Full CSS resolution: external `<link>`, `<style>` blocks, inline. Cascade + inheritance + `var()`. |
+| M4  | next    | [yoga-layout](https://github.com/facebook/yoga) integration. Absolute geometry for every node.   |
 | M5  | pending | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`. |
 | M6  | pending | Component detection via subtree hashing. Repeated markup → component + instances.                |
 | M7  | pending | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming.   |
 | M8  | pending | Real-world harness, docs, known limitations, end-to-end testing on real Claude Design exports.   |
 
-### What ships today (M1)
+### What ships today (M1 → M3)
 
 - `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
   component instances, paint + text style registries, component registry,
@@ -183,12 +184,27 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
 - `packages/ir/examples/sample.json`: hand-written 1440×900 page with a
   header (logo + nav) and three card instances backed by a single component,
   demonstrating shared paint + text styles and component reuse.
+- `packages/cli` (**M2**): commander-based CLI; parse5 walker classifies each
+  element (frame / text / image / vector / instance) and emits valid IR.
+- `packages/cli/src/cascade` (**M3**): three-phase cascade engine —
+  collect external `<link>` + `<style>` + inline declarations, match a
+  minimal selector subset (tag / class / id / descendant / child / `:root`),
+  then resolve `!important`, specificity, source order, inheritance for the
+  standard inheritable properties, and `var()` references (with fallback
+  and cycle bail-out). Inline styles win at non-important origin; author
+  rules with `!important` win over plain inline.
 
-`packages/cli` is a placeholder until M2.
+44 cli tests + 17 ir + 1 plugin = **62 across the workspace**.
+
+What's not in yet (M4–M8): box-layout computation (yoga), flex →
+auto-layout mapping, component detection, token extraction, real-world
+harness. Today every node still gets geometry only from inline
+`width/height/top/left` — child elements without those will pile up at
+the parent's `(0, 0)` until M4/M5 land.
 
 ---
 
-## Try M1
+## Try it
 
 ```bash
 git clone https://github.com/brianleach/claude-to-figma.git
@@ -197,24 +213,51 @@ pnpm install
 pnpm -r build
 ```
 
-Then in **Figma desktop** (plugins can't be side-loaded in the browser):
+### A. CLI: HTML → IR JSON (M2 + M3)
+
+Convert any inline-styled or CSS-driven HTML into IR:
+
+```bash
+node packages/cli/dist/index.js convert \
+  packages/cli/test/fixtures/external-css.html \
+  -o /tmp/external-css.ir.json
+```
+
+Three demo fixtures live under `packages/cli/test/fixtures/`:
+
+- `simple-divs.html` — inline-styled card + CTA
+- `external-css.html` + `styles.css` — token-driven mini design system using
+  `:root` variables, `var()`, and class selectors
+- `cascade-edge-cases.html` — `!important` precedence, specificity ties,
+  `var()` fallback, inheritance, descendant selectors
+
+Warnings (e.g. elements without explicit width/height) print to stderr.
+Pass `--silent` to suppress them.
+
+### B. Plugin: paste IR JSON → editable Figma (M1)
+
+In **Figma desktop** (plugins can't be side-loaded in the browser):
 
 1. **Menu → Plugins → Development → Import plugin from manifest…**
 2. Select `packages/plugin/manifest.json`.
 3. Run: **Plugins → Development → claude-to-figma**.
-4. Copy the contents of `packages/ir/examples/sample.json` into the textarea.
+4. Paste the IR — either `packages/ir/examples/sample.json` (hand-written,
+   shows the component + instance + style story) or any output from the CLI.
 5. Click **Build**.
 
-You should get a 1440×900 page frame with a header row and three card
-instances. Edit the `Card` component master — all three instances update.
-The local styles panel should have `color/*` paints and `text/*` text styles.
+The hand-written sample produces a 1440×900 page with a header and three
+card instances backed by one component — edit the master, all three
+instances update.
 
 ### Troubleshooting
 
 - `Missing fonts` — install Inter Regular / Medium / Bold locally, or edit
-  `sample.json` to point at fonts you have.
+  the IR to point at fonts you have.
 - `IR validation failed` — the plugin status panel lists the first five zod
   issues with their JSON paths.
+- **Children pile up at (0, 0)** — expected before M4/M5. The CLI emits
+  geometry only for elements with inline `width/height/top/left`. Layout
+  computation lands in M4 (yoga) and flex → auto-layout in M5.
 
 ---
 

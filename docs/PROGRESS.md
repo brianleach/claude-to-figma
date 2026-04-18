@@ -30,12 +30,20 @@ git checkout main && git pull
 git checkout -b m{N}-{short-name}
 # work + commit
 # verify all gates
+# update README.md — milestones table, status line, "What ships today",
+# CLI/plugin usage, architecture diagram if the stack changed
 git checkout main && git merge --squash m{N}-{short-name}
 git commit -m "feat(m{N}): {summary}"
 git tag -a m{N} -m "M{N}: {description}"
 git push && git push --tags
 git branch -D m{N}-{short-name}
 ```
+
+**Standing checklist before squash-merge:** PROGRESS.md updated (status
+line, milestone row, gate list, log entry) AND `README.md` updated (move
+milestone from "next/pending" to "✅ done", refresh "What ships today",
+update Try-it commands or troubleshooting if user-facing surface changed,
+update architecture diagram if dependencies changed).
 
 The bootstrap branch `claude/claude-to-figma-build-zTq1Q` is abandoned
 as of 2026-04-18. Do not push to it. Do not branch from it. It remains

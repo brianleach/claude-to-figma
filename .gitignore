@@ -9,6 +9,7 @@ build/
 
 # Figma plugin build outputs
 packages/plugin/code.js
+packages/plugin/ui.html
 packages/plugin/ui.js
 packages/plugin/bundle/
 

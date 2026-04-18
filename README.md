@@ -212,87 +212,37 @@ bootstrapped the project is in
 
 ---
 
-## Milestones
+## What works today
 
-Each milestone ends with a committed, tagged release. Standard gates per
-milestone: typecheck clean, Biome clean, tests passing, build succeeds, git
-status clean. Milestone-specific verification gates (manual Figma checks,
-snapshot tests, cascade tests, etc.) live in the milestone notes.
+- **CSS cascade.** External `<link>`, `<style>` blocks, inline styles.
+  Specificity, `!important`, inheritance, `var()` (with fallback +
+  cycle bail-out). Selector subset is tag / class / id / descendant /
+  child / `:root` — see [LIMITATIONS](./LIMITATIONS.md) for what's not
+  matched.
+- **Layout.** Yoga-computed geometry for block + flex. Padding / margin
+  shorthands. Position static / relative / absolute / fixed. Flex →
+  Figma auto-layout mapping (`layoutMode`, `itemSpacing`, padding edges,
+  justify / align, wrap, `layoutGrow`, ABSOLUTE positioning).
+- **Components.** Subtree-hash detection promotes ≥3 identical FRAMEs
+  (configurable via `--component-threshold`) to a shared component plus
+  instances with per-text overrides. Geometry and content excluded
+  from the hash so legitimate size / copy variation stays matched.
+- **Tokens.** Repeated colors → named paint styles
+  (`color/primary` / `secondary` / `accent` / `{hex}`). Repeated text
+  combos → named text styles (`heading/lg`, `body/md`, …). Both land
+  in Figma's local styles panel.
+- **Real-world harness.** `pnpm --filter @claude-to-figma/cli
+  test:integration` walks `fixtures/claude-design/` and runs
+  conversion on every `*.html`. `--hydrate` flag pre-renders
+  JS-bundled exports via headless Chromium. `--font-fallback`
+  substitutes typefaces you can't install locally.
 
-| #   | Status  | Summary                                                                                         |
-| --- | ------- | ----------------------------------------------------------------------------------------------- |
-| M1  | ✅ done | IR schema + Figma plugin. Hand-written sample IR round-trips into an editable Figma scene.       |
-| M2  | ✅ done | CLI scaffold with parse5. Inline styles only. Emits valid IR from trivial HTML fixtures.         |
-| M3  | ✅ done | Full CSS resolution: external `<link>`, `<style>` blocks, inline. Cascade + inheritance + `var()`. |
-| M4  | ✅ done | [yoga-layout](https://github.com/facebook/yoga) 3.2.1 integration. Block + flex layout, padding/margin shorthands, heuristic text measurement. |
-| M5  | ✅ done | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`, `flex-grow`, position-absolute children. |
-| M6  | ✅ done | Component detection via subtree hashing. Repeated markup → component + instances with per-instance text overrides. |
-| M7  | ✅ done | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming (color/primary, heading/lg, body/md, ...). |
-| M8  | ✅ done | Real-world harness (`pnpm test:integration`), `--verbose` / `--report` CLI flags, `LIMITATIONS.md`, `CONTRIBUTING.md`, README polish. |
+**176 tests** across the workspace (158 cli + 17 ir + 1 plugin).
+**Known limits** live in [`LIMITATIONS.md`](./LIMITATIONS.md) — read
+it before assuming a real Claude Design export will round-trip cleanly.
 
-### What ships today (M1 → M8)
-
-- `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
-  component instances, paint + text style registries, component registry,
-  font manifest, image manifest.
-- `packages/plugin`: Figma plugin that validates IR with zod, preloads fonts
-  (fails loud on missing ones), registers paint and text styles, registers
-  component masters, walks the IR, builds the scene graph, and applies
-  per-instance text overrides.
-- `packages/ir/examples/sample.json`: hand-written 1440×900 page with a
-  header (logo + nav) and three card instances backed by a single component.
-- `packages/cli` (**M2**): commander-based CLI; parse5 walker classifies each
-  element (frame / text / image / vector / instance) and emits valid IR.
-- `packages/cli/src/cascade` (**M3**): three-phase cascade engine — collect
-  external `<link>` + `<style>` + inline declarations, match a minimal
-  selector subset (tag / class / id / descendant / child / `:root`), then
-  resolve `!important`, specificity, source order, inheritance, and `var()`
-  references (with fallback and cycle bail-out).
-- `packages/cli/src/layout/yoga.ts` (**M4**): yoga-layout 3.2.1 integration.
-  Maps cascade-resolved styles to a Yoga tree, runs `calculateLayout`,
-  returns parent-relative geometry per element. Covers block stacking,
-  flex containers, padding and margin (longhands + 1–4 value shorthands),
-  positioning (`static` / `relative` / `absolute` / `fixed`), and a
-  heuristic text measurement callback. Block elements emit as flex columns
-  so children inherit parent width like real CSS block layout.
-- `packages/cli/src/layout/auto-layout.ts` (**M5**): CSS flex → Figma
-  auto-layout mapper. Decorates flex frames with `layout` (layoutMode,
-  itemSpacing, counterAxisSpacing, padding edges, justify/align,
-  wrap) and decorates each child with `childLayout` (layoutPositioning,
-  layoutGrow, layoutAlign). The Figma plugin builds these as real
-  auto-layout frames — drag a child after build and the layout responds.
-- `packages/cli/src/detect` (**M6**): subtree-hash-based component
-  detection. After the walker emits the IR, every FRAME gets a structural
-  fingerprint (type + name + layout + fills + strokes + effects + recursive
-  children — geometry and content are excluded so legitimate variations
-  in size and copy stay matched). Groups of ≥3 identical subtrees
-  (configurable via `--component-threshold <n>`) are promoted to a shared
-  component definition, and each occurrence is replaced with an INSTANCE
-  that carries per-text overrides for differing copy. Outer patterns only
-  in M6 — nested repeat detection is left for a later milestone.
-- `packages/cli/src/extract` (**M7**): token extraction. Unique solid
-  colors and text-style combos across the whole IR (root + component
-  masters) get named entries in `styles.paints` / `styles.texts`, and
-  every FRAME / TEXT that uses one carries a `fillStyleId` /
-  `textStyleId` reference. Naming heuristic: pure white / black get
-  `color/white` / `color/black`; the next three by frequency get
-  `color/primary`, `color/secondary`, `color/accent`; the rest fall back
-  to `color/{hex}`. Text styles bucket by size + weight (`heading/xl`
-  through `caption`) with collision fallback to `text/{size}-{weight}`.
-  See [ADR 0005](./docs/adr/0005-token-extraction-naming.md).
-- `packages/cli/src/harness.ts` + `scripts/integration.ts` (**M8**):
-  real-world testing harness. Walks `fixtures/claude-design/`
-  (gitignored — your content stays on your machine), runs conversion
-  on every `*.html` file, and prints a one-row-per-fixture summary
-  with stats and warnings. The CLI gains `--verbose` and `--report`
-  flags for debugging real exports. Limits are written up in
-  [`LIMITATIONS.md`](./LIMITATIONS.md); contribution flow in
-  [`CONTRIBUTING.md`](./CONTRIBUTING.md).
-
-158 cli tests + 17 ir + 1 plugin = **176 across the workspace**.
-
-**Known limits live in [`LIMITATIONS.md`](./LIMITATIONS.md)** — read it
-before assuming a real Claude Design export will round-trip cleanly.
+Per-milestone history (M1–M8 with verification gates and tags) is in
+[`docs/PROGRESS.md`](./docs/PROGRESS.md).
 
 ---
 

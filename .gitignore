@@ -36,6 +36,10 @@ coverage/
 .vscode/*
 !.vscode/settings.json
 .idea/
+*.swp
+*.swo
+*~
+*.local
 
 # OS
 .DS_Store

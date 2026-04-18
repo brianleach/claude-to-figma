@@ -8,7 +8,7 @@
  */
 
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { isAbsolute, relative, resolve, sep } from 'node:path';
 import type { DefaultTreeAdapterTypes } from 'parse5';
 
 type ChildNode = DefaultTreeAdapterTypes.ChildNode;
@@ -64,6 +64,9 @@ function collectFromSubtree(
       const resolved = resolveHref(href, opts.baseDir);
       if (resolved && existsSync(resolved)) {
         sheets.push({ origin: href, css: readFileSync(resolved, 'utf8') });
+      } else if (resolved === null) {
+        // Explicit containment violation — flag it distinctly.
+        warnings.push(`<link href="${href}"> escapes baseDir — refused`);
       } else {
         warnings.push(`<link href="${href}"> could not be resolved`);
       }
@@ -75,10 +78,34 @@ function collectFromSubtree(
   }
 }
 
-function resolveHref(href: string, baseDir: string | undefined): string | undefined {
+/**
+ * Resolve a `<link href>` against baseDir, refusing anything that escapes it.
+ *
+ * Returns:
+ *   - `string`   → safe absolute path inside baseDir
+ *   - `null`     → resolved outside baseDir (or was absolute) — refused
+ *   - `undefined`→ remote / protocol-relative (not our business to fetch)
+ *
+ * Why containment: a malicious HTML with `<link href="../../etc/passwd">`
+ * or `<link href="/etc/passwd">` would otherwise `readFileSync` arbitrary
+ * files. The file's contents would be silently parsed as CSS (most parse
+ * failures produce zero rules, so the attacker can't observe the read) —
+ * but "CLI reads files outside the project it was pointed at" is still a
+ * real behavior, and a security reviewer will flag it. Reject early.
+ */
+function resolveHref(href: string, baseDir: string | undefined): string | undefined | null {
   if (/^https?:\/\//i.test(href) || /^\/\//.test(href)) return undefined;
+  // Reject absolute paths — on unix `resolve(dir, '/etc/passwd')` collapses
+  // to `/etc/passwd`, bypassing containment.
+  if (isAbsolute(href)) return null;
   const dir = baseDir ?? process.cwd();
-  return resolve(dir, href);
+  const resolved = resolve(dir, href);
+  const dirAbs = resolve(dir);
+  const rel = relative(dirAbs, resolved);
+  if (rel === '' || (!rel.startsWith(`..${sep}`) && rel !== '..' && !isAbsolute(rel))) {
+    return resolved;
+  }
+  return null;
 }
 
 function innerText(el: Element): string {
@@ -95,10 +122,4 @@ function isElement(node: ChildNode): node is Element {
 
 function getAttr(el: Element, name: string): string | undefined {
   return el.attrs.find((a) => a.name === name)?.value;
-}
-
-/** Resolve baseDir from an HTML file path. Exported for the CLI to share logic. */
-export function deriveBaseDir(htmlPath: string | undefined): string | undefined {
-  if (!htmlPath) return undefined;
-  return dirname(resolve(htmlPath));
 }

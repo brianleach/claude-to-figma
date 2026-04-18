@@ -1,4 +1,4 @@
-export { collectStylesheets, deriveBaseDir } from './collect.js';
+export { collectStylesheets } from './collect.js';
 export type { CollectResult, CollectedSheet, CollectOptions } from './collect.js';
 export { parseStylesheet, parseStylesheets } from './parse.js';
 export { computeCascade } from './cascade.js';

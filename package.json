@@ -4,9 +4,23 @@
   "private": true,
   "description": "Convert Claude Design HTML exports into editable Figma files",
   "license": "MIT",
+  "author": "Brian Leach",
+  "keywords": [
+    "figma",
+    "claude-design",
+    "html",
+    "css",
+    "design-to-code",
+    "figma-plugin",
+    "auto-layout"
+  ],
+  "homepage": "https://github.com/brianleach/claude-to-figma#readme",
+  "bugs": {
+    "url": "https://github.com/brianleach/claude-to-figma/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/brianleach/claude-to-figma.git"
+    "url": "git+https://github.com/brianleach/claude-to-figma.git"
   },
   "scripts": {
     "build": "pnpm -r build",
@@ -18,7 +32,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "typescript": "5.6.3",
-    "vitest": "2.1.8",
+    "vitest": "2.1.9",
     "tsup": "8.3.5"
   },
   "packageManager": "pnpm@9.12.3",

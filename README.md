@@ -1,9 +1,21 @@
 # claude-to-figma
 
+[![CI](https://github.com/brianleach/claude-to-figma/actions/workflows/ci.yml/badge.svg)](https://github.com/brianleach/claude-to-figma/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node: >=20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
+
 **Convert [Claude Design](https://claude.ai/design) HTML exports into fully editable Figma files** — real
 frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
+
+![Landing page rendered in the browser — terracotta on cream, the page this tool generates for itself](./examples/landing/screenshots/browser.png)
+
+> *The page above was generated in Claude Design, converted through this
+> CLI, and is included as the repo's dogfood example in
+> [`examples/landing/`](./examples/landing/). The Figma render from that
+> IR isn't yet at parity — the [known issues](./examples/landing/README.md#known-issues-in-the-current-render)
+> are the next polish target.*
 
 > **Status:** M1–M8 shipped on `main` — full pipeline from Claude Design
 > HTML to an editable Figma scene with cascaded styles, yoga-computed
@@ -164,6 +176,38 @@ Stack:
 - **vitest** for tests
 - **Biome** for lint + format
 
+### Repo tour (where to start reading)
+
+Most of the interesting logic lives in small, focused modules. Rough
+reading order for someone getting oriented:
+
+- [`packages/ir/src/schema.ts`](./packages/ir/src/schema.ts) — the IR
+  contract. Every node type, every style registry, every override
+  shape. Everything else in the repo is downstream of this file.
+- [`packages/cli/src/cascade/`](./packages/cli/src/cascade) — CSS
+  resolution. `collect.ts` pulls stylesheets, `cascade.ts` walks the
+  rule set with specificity / inheritance / `var()`.
+- [`packages/cli/src/layout/yoga.ts`](./packages/cli/src/layout/yoga.ts)
+  — Yoga integration + text measurement heuristic.
+- [`packages/cli/src/layout/auto-layout.ts`](./packages/cli/src/layout/auto-layout.ts)
+  — flex → Figma auto-layout mapping. The most "translation-y" file in
+  the repo.
+- [`packages/cli/src/detect/hash.ts`](./packages/cli/src/detect/hash.ts)
+  — structural hashing for component detection (what's included,
+  what's excluded, why).
+- [`packages/cli/src/extract/`](./packages/cli/src/extract) — token
+  extraction and the naming heuristic (`color/primary`, `heading/lg`).
+- [`packages/plugin/src/code.ts`](./packages/plugin/src/code.ts) — the
+  Figma plugin: validates the IR, preloads fonts, registers styles,
+  walks the IR, builds the scene graph, applies overrides.
+
+ADRs for architectural calls live in
+[`docs/adr/`](./docs/adr/). Known gaps in
+[`LIMITATIONS.md`](./LIMITATIONS.md). Project state in
+[`docs/PROGRESS.md`](./docs/PROGRESS.md). The original prompt that
+bootstrapped the project is in
+[`docs/KICKSTART.md`](./docs/KICKSTART.md).
+
 ---
 
 ## Milestones
@@ -288,7 +332,8 @@ node packages/cli/dist/index.js convert \
 | `--silent`                    | off     | Suppress per-warning lines on stderr.                                          |
 | `-v, --verbose`               | off     | Print a per-pass breakdown after each conversion.                              |
 | `--report <path>`             | —       | Write a JSON report (stats + warnings + timestamps) alongside the IR.           |
-| `--hydrate`                   | off     | Pre-render the input in headless Chromium before parsing. Required for JS-bundled exports like Claude Design's `*.standalone.html`. Needs `pnpm exec playwright install chromium`. |
+| `--hydrate`                   | off     | Pre-render the input in headless Chromium before parsing. Required for JS-bundled exports like Claude Design's `*.standalone.html`. Needs `pnpm exec playwright install chromium`. The page runs with network offline and a `file://`-only route blocker — still, don't point `--hydrate` at HTML from sources you don't trust. |
+| `--viewport <WxH>`            | `1440x900` | Viewport dimensions for `--hydrate` rendering. Matches Claude Design's default desktop breakpoint. Use e.g. `--viewport 1280x720` if a page renders for a specific narrower target. |
 | `--font-fallback <family>`    | —       | Substitute every font family in the output with this one. Use when you can't install the originals locally (`Inter` is a safe default — ships with most systems). |
 
 The CLI also has a `fonts` subcommand that prints the shopping list of

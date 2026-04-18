@@ -4,6 +4,17 @@
   "private": true,
   "description": "Shared IR schema (zod) and inferred TypeScript types for claude-to-figma",
   "license": "MIT",
+  "author": "Brian Leach",
+  "keywords": ["figma", "ir", "intermediate-representation", "zod", "claude-to-figma"],
+  "homepage": "https://github.com/brianleach/claude-to-figma#readme",
+  "bugs": {
+    "url": "https://github.com/brianleach/claude-to-figma/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianleach/claude-to-figma.git",
+    "directory": "packages/ir"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -15,23 +26,21 @@
     },
     "./examples/sample.json": "./examples/sample.json"
   },
-  "files": [
-    "dist",
-    "examples"
-  ],
+  "files": ["dist", "examples"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build && pnpm test"
   },
   "dependencies": {
     "zod": "3.23.8"
   },
   "devDependencies": {
     "@types/node": "22.9.0",
-    "@vitest/coverage-v8": "2.1.8",
+    "@vitest/coverage-v8": "2.1.9",
     "tsup": "8.3.5",
     "typescript": "5.6.3",
-    "vitest": "2.1.8"
+    "vitest": "2.1.9"
   }
 }

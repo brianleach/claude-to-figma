@@ -53,14 +53,14 @@ on the remote for archive only.
 
 | #   | Status | Tag | Verified by | Notes                                                       |
 | --- | ------ | --- | ----------- | ----------------------------------------------------------- |
-| M1  | ✅ done | `m1` | bleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
-| M2  | ✅ done | `m2` | bleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
-| M3  | ✅ done | `m3` | bleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
-| M4  | ✅ done | `m4` | bleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
-| M5  | ✅ done | `m5` | bleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
-| M6  | ✅ done | `m6` | bleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
-| M7  | ✅ done | `m7` | bleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
-| M8  | ✅ done | `m8` | bleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (18 entries), CONTRIBUTING.md, README polish. |
+| M1  | ✅ done | `m1` | brianleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
+| M2  | ✅ done | `m2` | brianleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
+| M3  | ✅ done | `m3` | brianleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
+| M4  | ✅ done | `m4` | brianleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
+| M5  | ✅ done | `m5` | brianleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
+| M6  | ✅ done | `m6` | brianleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
+| M7  | ✅ done | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
+| M8  | ✅ done | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
 
@@ -257,7 +257,7 @@ KICKSTART specifies lightningcss for CSS parsing. We use **postcss** because lig
 ### Milestone gates
 
 - [x] V-M8-HARNESS — `runHarness({ fixturesDir })` returns cleanly when the directory does not exist or has no `*.html` files (the open-source default state). 5 vitest tests under `test/harness.test.ts` lock the empty-state, success-with-stats, recursive-walk, and report-write paths.
-- [x] V-M8-DOCS — `LIMITATIONS.md` lists 18 known limitations across CSS, layout, components, tokens, and packaging. `CONTRIBUTING.md` covers branch / commit / PR conventions. README has a Usage section with a flag table, demo-fixture matrix, harness instructions, and a Troubleshooting table.
+- [x] V-M8-DOCS — `LIMITATIONS.md` lists 19 known limitations across CSS, layout, components, tokens, and packaging. `CONTRIBUTING.md` covers branch / commit / PR conventions. README has a Usage section with a flag table, demo-fixture matrix, harness instructions, and a Troubleshooting table.
 - [x] V-M8-REAL — verified by bleach in Figma desktop on 2026-04-18 with a real Claude Design "VibeTraders Landing" export (`*.html` + `*.standalone.html` formats). Both required `--hydrate` to get past the runtime-bundling wrapper; `--font-fallback Inter` rendered the page successfully without installing the original Google Fonts. Layout, components (10 detected, 35 instances), and colors all rendered correctly; only typography was wrong (Inter substituted for Fraunces / DM Sans / JetBrains Mono).
 
 ---
@@ -279,6 +279,6 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — Spotted that GitHub still had `claude/claude-to-figma-build-zTq1Q` set as the repo default branch (so the homepage compared against it instead of just showing main). Switched the default to `main` via `gh api repos/brianleach/claude-to-figma -X PATCH -f default_branch=main`. Bootstrap branch left in place as an archive.
 - `2026-04-18` — M6 shipped on `m6-component-detection`: subtree-hash detection promotes ≥3 identical FRAMEs to a shared component, with per-instance text overrides. 2 new fixtures, 19 new tests (144 total). New ADR 0004 documents what the structural hash includes/excludes. Verified in Figma; tagged `m6`.
 - `2026-04-18` — M7 shipped on `m7-token-extraction`: paint + text style extraction with frequency- and size-based naming (color/primary, color/{hex}, heading/lg, body/md, ...). 27 new tests (180 total in workspace). 12 fixture snapshots refreshed. New ADR 0005 captures the naming heuristic. Verified in Figma; tagged `m7`.
-- `2026-04-18` — M8 shipped on `m8-real-world-harness`: `runHarness` + `scripts/integration.ts` walking `fixtures/claude-design/`, `--verbose` / `--report` flags, `LIMITATIONS.md` (18 entries), `CONTRIBUTING.md`, README polish (Install, Usage with flag table + demo-fixture matrix + harness, Troubleshooting table). 5 new tests (181 total).
+- `2026-04-18` — M8 shipped on `m8-real-world-harness`: `runHarness` + `scripts/integration.ts` walking `fixtures/claude-design/`, `--verbose` / `--report` flags, `LIMITATIONS.md` (19 entries), `CONTRIBUTING.md`, README polish (Install, Usage with flag table + demo-fixture matrix + harness, Troubleshooting table). 5 new tests (176 total).
 - `2026-04-18` — V-M8-REAL surfaced four real-world issues that all got fixed in the same milestone: (1) Claude Design ships JS-bundled HTML; added `--hydrate` flag (Playwright headless Chromium, ~100 MB browser binary) — fixes both `*.standalone.html` and `*.html` (React+Babel-from-unpkg) formats. (2) Default Playwright viewport (1280×720) put responsive pages in the wrong breakpoint; added `--viewport WxH`, default 1440×900. (3) Figma plugin can't install fonts — added `claude-to-figma fonts` subcommand to print the shopping list, plus `--font-fallback <Family>` for the "I don't want to install" escape hatch. (4) CSS `system-ui` was leaking into the IR's font manifest as a real font; `parseFontFamily` now skips generic CSS keywords. (5) Figma's vector path parser needs whitespace-separated tokens (compact SVG `M0,65L100,50` was rejected); added `normalizeSvgPath` and made the plugin fail-soft on per-vector errors.
 - `2026-04-18` — M8 verified end-to-end on a real Claude Design "VibeTraders Landing" export; tagged `m8`. Project is feature-complete for the M1–M8 scope.

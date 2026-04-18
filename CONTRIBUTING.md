@@ -72,6 +72,55 @@ pnpm lint           # biome check
    render of the same source HTML.
 4. Include a `Closes #N` line in the PR body if it fixes a tracked issue.
 
+## AI Contributions
+
+> Heavily inspired and influenced by [Ghostty's AI policy](https://github.com/ghostty-org/ghostty/blob/main/AI_POLICY.md).
+
+This project itself was bootstrapped using AI tools — the original
+prompt that produced the M1–M8 build is checked in at
+[`docs/KICKSTART.md`](./docs/KICKSTART.md). So we're not anti-AI. But
+we are anti-low-effort, and AI without human judgment in the loop tends
+to produce exactly that.
+
+A few rules for AI-assisted contributions:
+
+- **All AI usage in any form must be disclosed.** Name the tool you
+  used (Claude Code, Cursor, Amp, Copilot, etc.) in the PR description,
+  along with how the work was AI-assisted (e.g. "scaffolded by Claude
+  Code, then hand-edited and tested," vs. "generated end-to-end with
+  minimal review").
+
+- **AI-driven PRs are only accepted against an existing issue.**
+  Drive-by AI PRs that don't reference an accepted issue will be closed.
+  If AI use isn't disclosed but a maintainer suspects it, the PR will
+  be closed. Open a discussion or attach to an existing one if you want
+  to share exploratory AI-generated code.
+
+- **AI-assisted PRs must be fully verified by you, the human.** Don't
+  submit hypothetically correct code. Run `pnpm -r typecheck && pnpm -r test
+  && pnpm lint`. If your change touches the Figma plugin, build it and
+  verify in Figma. If your change touches the converter, run it
+  end-to-end on a real fixture. Don't write code for surfaces you
+  can't manually test.
+
+- **Issues and discussions can use AI assistance, but require a
+  human-in-the-loop.** AI-generated content must be reviewed *and
+  edited* by a human before submission. AI tends to be verbose and
+  noisy — trim it down. Maintainer time is the scarce resource.
+
+- **No AI-generated media.** Text and code only. No AI-generated
+  screenshots, diagrams, logos, audio, or video.
+
+These rules apply to outside contributions. Maintainers may use AI at
+their own discretion (and disclose accordingly in commit messages or PR
+descriptions).
+
+### There are humans here
+
+Every issue and PR is read by humans. Approaching that boundary with
+unverified, low-effort, AI-spit-out work is rude — it shifts the
+verification burden from you to the maintainer. Please don't.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the

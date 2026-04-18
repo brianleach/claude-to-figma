@@ -9,6 +9,14 @@
  * usable when --hydrate isn't requested. The browser binary is a
  * separate ~100 MB install (`pnpm exec playwright install chromium`)
  * — we surface a clear error if it's missing.
+ *
+ * Security: `--hydrate` runs arbitrary JavaScript from the input HTML
+ * inside Chromium. The loaded page is isolated by `offline: true` (so
+ * it can't exfiltrate anything via `fetch` / `XHR` / form POST) and a
+ * route blocker that only permits `file://` and `data:` requests. Still,
+ * don't point `--hydrate` at HTML from a source you don't trust — the
+ * Chromium sandbox isn't impenetrable, and `file://` reads of sibling
+ * assets are allowed by design.
  */
 
 import { resolve } from 'node:path';
@@ -38,12 +46,24 @@ export async function hydrateHtml(htmlPath: string, opts: HydrateOptions = {}): 
 
   const browser = await chromium.launch();
   try {
-    const page = await browser.newPage({
+    // `offline: true` kills fetch / XHR / WebSocket / form POST — the page
+    // can't phone home. Route blocker below refuses everything that isn't
+    // file:// or data: (defense in depth, in case offline misses anything).
+    const context = await browser.newContext({
+      offline: true,
       viewport: {
         width: opts.viewportWidth ?? 1440,
         height: opts.viewportHeight ?? 900,
       },
     });
+    await context.route('**', (route) => {
+      const url = route.request().url();
+      if (url.startsWith('file://') || url.startsWith('data:')) {
+        return route.continue();
+      }
+      return route.abort();
+    });
+    const page = await context.newPage();
     try {
       await page.goto(`file://${resolve(htmlPath)}`, {
         waitUntil: opts.waitUntil ?? 'networkidle',

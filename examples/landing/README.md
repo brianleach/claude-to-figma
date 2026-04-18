@@ -14,7 +14,7 @@ hardest end-to-end test we ship in the repo.
 | ----------------------------------- | ----------------------------------------------------------- |
 | `PROMPT.md`                         | The exact prompt fed to [Claude Design](https://claude.ai/design) to generate the page. Checked in so the build is reproducible. |
 | `source.zip`                        | The original export zip, exactly as Claude Design produced it. |
-| `source/`                           | The unzipped contents — `index.html`, any `*.standalone.html`, assets, the README from the export, etc. |
+| `source/`                           | The unzipped contents. This page is fully static — one `index.html` with inline `<style>` and no asset folder — so that's all that's in here. Richer exports (with `*.standalone.html`, `assets/`, etc.) belong in other examples. |
 | `claude-to-figma.ir.json`           | The CLI's IR output. Open it to see what the converter detected: components, paint + text styles, layout. |
 | `claude-to-figma.report.json`       | `--report` output — node count, components × instances, paint × text styles, warnings. |
 | `claude-to-figma.fig`               | The Figma file produced by pasting the IR into the plugin. Double-click to open in Figma desktop. |
@@ -51,8 +51,10 @@ node packages/cli/dist/index.js convert \
 
 ## What this example tests
 
-- **Hydration on a real Claude Design export.** Both `*.html` and
-  `*.standalone.html` should produce the same IR.
+- **Static-HTML conversion on a real Claude Design export.** This page
+  is purely static (no JS bundle, no runtime hydration), which means
+  `--hydrate` is *not* required here. A future example should cover
+  the `*.standalone.html` runtime-bundled shape.
 - **Component detection on real-world repeats** — feature cards, nav
   items, social-link rows. Whatever the page uses.
 - **Token extraction on a real palette** — primary/secondary/accent

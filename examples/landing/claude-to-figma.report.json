@@ -1,6 +1,6 @@
 {
-  "source": "/Users/brian.leach/code/claude-to-figma/examples/landing/source/index.html",
-  "output": "/Users/brian.leach/code/claude-to-figma/examples/landing/claude-to-figma.ir.json",
+  "source": "examples/landing/source/index.html",
+  "output": "examples/landing/claude-to-figma.ir.json",
   "stats": {
     "nodes": 373,
     "components": 12,

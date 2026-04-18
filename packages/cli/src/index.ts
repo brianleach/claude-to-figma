@@ -46,10 +46,12 @@ program
           process.stderr.write(`warn: ${warning}\n`);
         }
       }
-      const { nodes, components, instances } = result.stats;
+      const { nodes, components, instances, paintStyles, textStyles } = result.stats;
       const componentsPart =
         components > 0 ? `, ${components} components × ${instances} instances` : '';
-      process.stdout.write(`wrote ${outputPath} (${nodes} nodes${componentsPart})\n`);
+      const stylesPart =
+        paintStyles + textStyles > 0 ? `, ${paintStyles} paint × ${textStyles} text styles` : '';
+      process.stdout.write(`wrote ${outputPath} (${nodes} nodes${componentsPart}${stylesPart})\n`);
     },
   );
 

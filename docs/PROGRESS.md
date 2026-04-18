@@ -12,14 +12,14 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M7 (not started)
-**Last tag:** `m6`
-**Next action:** extract unique paint and text combinations across the IR
-into named entries in `styles.paints` / `styles.texts`. Naming heuristic
-should classify by frequency / size (`color/primary`, `color/surface`;
-`heading/lg`, `body/md`, ...). Plugin already creates Figma PaintStyles
-+ TextStyles from the registry; this milestone wires the CLI side. See
-M7 section below.
+**Active milestone:** M8 (not started)
+**Last tag:** `m7`
+**Next action:** real-world testing harness. Add `fixtures/claude-design/`
+(gitignored) for actual claude.ai/design HTML exports, an integration
+script that runs the CLI on every fixture and reports stats + warnings,
+`--verbose` and `--report` CLI flags, a `LIMITATIONS.md` with at least
+10 known limitations, and a final README polish pass for the open-source
+release. See M8 section below.
 
 ## Working branch
 
@@ -60,7 +60,7 @@ on the remote for archive only.
 | M4  | ✅ done | `m4` | bleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
 | M5  | ✅ done | `m5` | bleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
 | M6  | ✅ done | `m6` | bleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
-| M7  | ⬜ not started | — | —           | Token extraction (paint + text styles).                     |
+| M7  | ✅ done | `m7` | bleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
 | M8  | ⬜ not started | — | —           | Real-world harness + docs + LIMITATIONS.md.                 |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
@@ -227,14 +227,23 @@ KICKSTART specifies lightningcss for CSS parsing. We use **postcss** because lig
 
 ---
 
-## M7 — Token extraction (not started)
+## M7 — Token extraction
 
-### Gates to pass
+**Branch:** `m7-token-extraction` (in progress)
 
-- [ ] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
-- [ ] V-M7-EXTRACTION-TESTS — ≥ 15 tests (color dedup, text dedup, naming heuristics)
-- [ ] V-M7-IR — styles registry populated, nodes reference styles by ID
-- [ ] V-M7-PLUGIN — user verifies shared styles in Figma local styles panel → `M7 verified`
+### Standard gates
+
+- [x] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
+
+### Milestone gates
+
+- [x] V-M7-EXTRACTION-TESTS — 27 tests (well over the 15 minimum) covering color dedup, white/black special cases, primary-by-frequency promotion, top-3 + fallback split, alpha hex naming, every text-size bucket, bold-nudges-into-heading, bucket collision fallback, fillStyleId / textStyleId stamping incl. component masters
+- [x] V-M7-IR — `styles.paints` and `styles.texts` populated; FRAME and TEXT nodes carry `fillStyleId`, TEXT nodes carry `textStyleId`. Verified end-to-end through `convertHtml` and via 12 fixture snapshots
+- [ ] V-M7-PLUGIN — user verifies shared styles appear in the Figma local styles panel and apply to nodes → `M7 verified`
+
+### Notes
+
+- Naming heuristic captured in `docs/adr/0005-token-extraction-naming.md`.
 
 ---
 
@@ -265,3 +274,4 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — M5 shipped on `m5-auto-layout`: flex → auto-layout mapper emits `layout` on flex frames and `childLayout` on their items. 3 new fixtures, 36 new mapping tests (119 total in workspace). First ADR set added under `docs/adr/`. Verified in Figma; tagged `m5`.
 - `2026-04-18` — Spotted that GitHub still had `claude/claude-to-figma-build-zTq1Q` set as the repo default branch (so the homepage compared against it instead of just showing main). Switched the default to `main` via `gh api repos/brianleach/claude-to-figma -X PATCH -f default_branch=main`. Bootstrap branch left in place as an archive.
 - `2026-04-18` — M6 shipped on `m6-component-detection`: subtree-hash detection promotes ≥3 identical FRAMEs to a shared component, with per-instance text overrides. 2 new fixtures, 19 new tests (144 total). New ADR 0004 documents what the structural hash includes/excludes. Verified in Figma; tagged `m6`.
+- `2026-04-18` — M7 shipped on `m7-token-extraction`: paint + text style extraction with frequency- and size-based naming (color/primary, color/{hex}, heading/lg, body/md, ...). 27 new tests (180 total in workspace). 12 fixture snapshots refreshed. New ADR 0005 captures the naming heuristic. Verified in Figma; tagged `m7`.

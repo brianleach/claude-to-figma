@@ -32,6 +32,7 @@ import {
   parseStylesheets,
 } from './cascade/index.js';
 import { detectComponents } from './detect/index.js';
+import { extractTokens } from './extract/index.js';
 import { type LayoutMap, computeLayout, mapFlexChild, mapFlexContainer } from './layout/index.js';
 import {
   parseColor,
@@ -83,7 +84,13 @@ interface BuildContext {
 export interface ConvertResult {
   document: IRDocument;
   warnings: string[];
-  stats: { nodes: number; components: number; instances: number };
+  stats: {
+    nodes: number;
+    components: number;
+    instances: number;
+    paintStyles: number;
+    textStyles: number;
+  };
 }
 
 export interface ConvertOptions {
@@ -141,14 +148,17 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   };
 
   const detection = detectComponents(baseDocument, { threshold: opts.componentThreshold });
+  const extraction = extractTokens(detection.document);
 
   return {
-    document: detection.document,
+    document: extraction.document,
     warnings: ctx.warnings,
     stats: {
       nodes: ctx.idCounter,
       components: detection.stats.components,
       instances: detection.stats.instances,
+      paintStyles: extraction.stats.paints,
+      textStyles: extraction.stats.texts,
     },
   };
 }

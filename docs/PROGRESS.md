@@ -53,14 +53,14 @@ on the remote for archive only.
 
 | #   | Status | Tag | Verified by | Notes                                                       |
 | --- | ------ | --- | ----------- | ----------------------------------------------------------- |
-| M1  | ✅ done | `m1` | brianleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
-| M2  | ✅ done | `m2` | brianleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
-| M3  | ✅ done | `m3` | brianleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
-| M4  | ✅ done | `m4` | brianleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
-| M5  | ✅ done | `m5` | brianleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
-| M6  | ✅ done | `m6` | brianleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
-| M7  | ✅ done | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
-| M8  | ✅ done | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
+| M1  | ✅ | `m1` | brianleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
+| M2  | ✅ | `m2` | brianleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
+| M3  | ✅ | `m3` | brianleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
+| M4  | ✅ | `m4` | brianleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
+| M5  | ✅ | `m5` | brianleach @ 2026-04-18 | Flex → Figma auto-layout mapping. layout + childLayout fields on flex frames; per-axis spacing, padding shorthand, justify/align mapping, wrap, layoutGrow, ABSOLUTE positioning. |
+| M6  | ✅ | `m6` | brianleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
+| M7  | ✅ | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
+| M8  | ✅ | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
 

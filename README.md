@@ -9,12 +9,14 @@ frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
 
-![Landing page rendered in the browser — terracotta on cream, the page this tool generates for itself](./examples/landing/screenshots/browser.png)
-
-> *The page above was generated in Claude Design, converted through this
-> CLI, and is included as the repo's dogfood example in
-> [`examples/landing/`](./examples/landing/). The Figma render from that
-> IR isn't yet at parity — the [known issues](./examples/landing/README.md#known-issues-in-the-current-render)
+> *Dogfood example: the [landing page for this project](./examples/landing/)
+> was generated in Claude Design, converted through this CLI, and shipped in
+> the repo —
+> [browser screenshot](./examples/landing/screenshots/browser.png) ·
+> [IR JSON](./examples/landing/claude-to-figma.ir.json) ·
+> [Figma file](./examples/landing/claude-to-figma.fig). The Figma render
+> isn't yet at parity with the browser; the
+> [known issues](./examples/landing/README.md#known-issues-in-the-current-render)
 > are the next polish target.*
 
 > **Status:** M1–M8 shipped on `main` — full pipeline from Claude Design

@@ -142,11 +142,45 @@ export function weightToFigmaStyle(weight: string | undefined, italic: boolean):
   return base === 'Regular' ? 'Italic' : `${base} Italic`;
 }
 
+/**
+ * CSS generic font keywords. They aren't real installed fonts, so emitting
+ * one in the IR's font manifest causes the Figma plugin to fail with a
+ * missing-fonts error. We skip them and pick the next real family in the
+ * stack; if every item in the stack is generic, fall back to undefined
+ * (which the walker resolves to the default text style's Inter).
+ */
+const GENERIC_FONT_KEYWORDS = new Set([
+  'serif',
+  'sans-serif',
+  'monospace',
+  'cursive',
+  'fantasy',
+  'system-ui',
+  'ui-serif',
+  'ui-sans-serif',
+  'ui-monospace',
+  'ui-rounded',
+  'math',
+  'emoji',
+  'fangsong',
+  '-apple-system',
+  'blinkmacsystemfont',
+  'inherit',
+  'initial',
+  'unset',
+  'revert',
+  'revert-layer',
+]);
+
 export function parseFontFamily(value: string | undefined): string | undefined {
   if (!value) return undefined;
-  const first = value.split(',')[0]?.trim();
-  if (!first) return undefined;
-  return first.replace(/^["']|["']$/g, '');
+  for (const raw of value.split(',')) {
+    const cleaned = raw.trim().replace(/^["']|["']$/g, '');
+    if (!cleaned) continue;
+    if (GENERIC_FONT_KEYWORDS.has(cleaned.toLowerCase())) continue;
+    return cleaned;
+  }
+  return undefined;
 }
 
 export function parseLineHeight(value: string | undefined): LineHeight | undefined {

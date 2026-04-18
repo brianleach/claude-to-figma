@@ -5,15 +5,11 @@ frames, real auto-layout, real components, real design tokens. Not a
 pixel-perfect screenshot importer. Not a raster trace. A proper semantic
 translation from the DOM into Figma's scene graph.
 
-> **Status:** in active development. M1–M7 shipped on `main` — IR + Figma
-> plugin, CLI with parse5, full CSS cascade engine (external stylesheets,
-> specificity, `!important`, inheritance, `var()`), yoga-layout integration
-> for block + flex geometry, CSS flex → Figma auto-layout mapping so built
-> frames are real auto-layout, component detection that promotes repeated
-> markup to a component + instances with text overrides, and token
-> extraction so unique colors and text combos land in the styles registry
-> with named ids that show up in Figma's local styles panel. See the
-> [milestones](#milestones) table below for what's built and what's next.
+> **Status:** M1–M8 shipped on `main` — full pipeline from Claude Design
+> HTML to an editable Figma scene with cascaded styles, yoga-computed
+> geometry, real auto-layout, component detection with text overrides,
+> token extraction (paint + text styles), and a real-world testing
+> harness. Documented limits live in [`LIMITATIONS.md`](./LIMITATIONS.md).
 
 ---
 
@@ -186,9 +182,9 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
 | M5  | ✅ done | Flex → Figma auto-layout mapping. `flex-direction`, `gap`, `justify-content`, `align-items`, `wrap`, `flex-grow`, position-absolute children. |
 | M6  | ✅ done | Component detection via subtree hashing. Repeated markup → component + instances with per-instance text overrides. |
 | M7  | ✅ done | Token extraction. Unique colors + text combos → named paint/text styles with heuristic naming (color/primary, heading/lg, body/md, ...). |
-| M8  | next    | Real-world harness, docs, known limitations, end-to-end testing on real Claude Design exports. |
+| M8  | ✅ done | Real-world harness (`pnpm test:integration`), `--verbose` / `--report` CLI flags, `LIMITATIONS.md`, `CONTRIBUTING.md`, README polish. |
 
-### What ships today (M1 → M7)
+### What ships today (M1 → M8)
 
 - `packages/ir`: complete IR schema in zod — frames, text, images, vectors,
   component instances, paint + text style registries, component registry,
@@ -237,71 +233,164 @@ snapshot tests, cascade tests, etc.) live in the milestone notes.
   `color/primary`, `color/secondary`, `color/accent`; the rest fall back
   to `color/{hex}`. Text styles bucket by size + weight (`heading/xl`
   through `caption`) with collision fallback to `text/{size}-{weight}`.
-  See `docs/adr/0005` for the rationale.
+  See [ADR 0005](./docs/adr/0005-token-extraction-naming.md).
+- `packages/cli/src/harness.ts` + `scripts/integration.ts` (**M8**):
+  real-world testing harness. Walks `fixtures/claude-design/`
+  (gitignored — your content stays on your machine), runs conversion
+  on every `*.html` file, and prints a one-row-per-fixture summary
+  with stats and warnings. The CLI gains `--verbose` and `--report`
+  flags for debugging real exports. Limits are written up in
+  [`LIMITATIONS.md`](./LIMITATIONS.md); contribution flow in
+  [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
-153 cli tests + 17 ir + 1 plugin = **171 across the workspace**.
+158 cli tests + 17 ir + 1 plugin = **176 across the workspace**.
 
-What's not in yet (M8): the real-world harness for end-to-end testing
-on actual Claude Design exports, plus a `LIMITATIONS.md` and a final
-README polish pass for the open-source release.
+**Known limits live in [`LIMITATIONS.md`](./LIMITATIONS.md)** — read it
+before assuming a real Claude Design export will round-trip cleanly.
 
 ---
 
-## Try it
+## Install
+
+**Requirements:** Node 20+, pnpm 9+, and the **Figma desktop app** (the
+browser app can't side-load plugins).
 
 ```bash
 git clone https://github.com/brianleach/claude-to-figma.git
 cd claude-to-figma
 pnpm install
-pnpm -r build
+pnpm -r build       # tsup (ir, cli) + esbuild (plugin)
 ```
 
-### A. CLI: HTML → IR JSON (M2 + M3)
+---
 
-Convert any inline-styled or CSS-driven HTML into IR:
+## Usage
+
+### A. CLI: HTML → IR JSON
+
+Convert any HTML file into IR. The CLI walks the input, runs CSS resolution,
+yoga layout, flex → auto-layout mapping, component detection, and token
+extraction in one pass:
 
 ```bash
 node packages/cli/dist/index.js convert \
-  packages/cli/test/fixtures/external-css.html \
-  -o /tmp/external-css.ir.json
+  path/to/your/index.html \
+  -o /tmp/your.ir.json
 ```
 
-Three demo fixtures live under `packages/cli/test/fixtures/`:
+#### Flags
 
-- `simple-divs.html` — inline-styled card + CTA
-- `external-css.html` + `styles.css` — token-driven mini design system using
-  `:root` variables, `var()`, and class selectors
-- `cascade-edge-cases.html` — `!important` precedence, specificity ties,
-  `var()` fallback, inheritance, descendant selectors
+| Flag                          | Default | What it does                                                                   |
+| ----------------------------- | ------- | ------------------------------------------------------------------------------ |
+| `-o, --output <path>`         | —       | Required. Where to write the IR JSON.                                          |
+| `--name <name>`               | input filename | Document name embedded in the IR.                                       |
+| `--component-threshold <n>`   | `3`     | Min identical subtrees to promote to a component. `0` disables detection.       |
+| `--silent`                    | off     | Suppress per-warning lines on stderr.                                          |
+| `-v, --verbose`               | off     | Print a per-pass breakdown after each conversion.                              |
+| `--report <path>`             | —       | Write a JSON report (stats + warnings + timestamps) alongside the IR.           |
+| `--hydrate`                   | off     | Pre-render the input in headless Chromium before parsing. Required for JS-bundled exports like Claude Design's `*.standalone.html`. Needs `pnpm exec playwright install chromium`. |
+| `--font-fallback <family>`    | —       | Substitute every font family in the output with this one. Use when you can't install the originals locally (`Inter` is a safe default — ships with most systems). |
 
-Warnings (e.g. elements without explicit width/height) print to stderr.
-Pass `--silent` to suppress them.
+The CLI also has a `fonts` subcommand that prints the shopping list of
+font families a given HTML needs, so you can install them before
+`convert`:
 
-### B. Plugin: paste IR JSON → editable Figma (M1)
+```bash
+node packages/cli/dist/index.js fonts path/to/your/index.html --hydrate
+```
 
-In **Figma desktop** (plugins can't be side-loaded in the browser):
+#### Fonts: read this before you paste into Figma
 
-1. **Menu → Plugins → Development → Import plugin from manifest…**
+The Figma Plugin API can only **use** fonts that are already installed
+on the user's local system — it can't install new ones. CSS
+`<link href="fonts.googleapis.com/...">` references are CDN URLs the
+browser fetches at render time, **not actual font files in the
+export**. A typical Claude Design landing page needs 3–6 Google Fonts
+(Fraunces, DM Sans, JetBrains Mono, Space Grotesk, Newsreader, ...).
+
+Workflow:
+
+1. Run `claude-to-figma fonts <input.html> --hydrate` to print the
+   shopping list.
+2. Download each from [fonts.google.com](https://fonts.google.com).
+   On macOS: drag the `*.ttf` files into **Font Book**. Restart Figma
+   desktop after install.
+3. Then `convert` and paste into the plugin.
+
+If you can't install fonts (or you want a quick first look),
+`--font-fallback Inter` rewrites every family in the IR to Inter. The
+page renders with wrong typography but right layout / components /
+colors — fix the typography in Figma after.
+
+#### Demo fixtures
+
+Synthetic fixtures under `packages/cli/test/fixtures/` cover every
+milestone's surface — try any of them:
+
+| Fixture                          | Demonstrates                                                            |
+| -------------------------------- | ----------------------------------------------------------------------- |
+| `simple-divs.html`               | Inline styles, a card, a CTA                                            |
+| `external-css.html` + `styles.css` | `:root` variables, `var()`, descendant selectors, external `<link>`     |
+| `cascade-edge-cases.html`        | `!important`, specificity ties, `var()` fallback, inheritance           |
+| `flex-basic.html`                | A horizontal flex row with gap + padding                                |
+| `flex-nested.html`               | Page > header + sidebar + content with `flex-grow`                      |
+| `flex-justify-variations.html`   | `justify-content` start / center / end / space-between                  |
+| `flex-align-variations.html`     | `align-items` start / center / end / stretch                            |
+| `flex-wrap.html`                 | `flex-wrap: wrap` across multiple rows                                  |
+| `card-grid.html`                 | 6 cards → 1 component with text overrides                               |
+| `nav-with-items.html`            | 5 nav items → 1 component                                               |
+
+### B. Plugin: paste IR JSON → editable Figma
+
+1. Figma desktop → **Menu → Plugins → Development → Import plugin from manifest…**
 2. Select `packages/plugin/manifest.json`.
-3. Run: **Plugins → Development → claude-to-figma**.
-4. Paste the IR — either `packages/ir/examples/sample.json` (hand-written,
-   shows the component + instance + style story) or any output from the CLI.
+3. Run **Plugins → Development → claude-to-figma**.
+4. Paste either an IR document the CLI produced, or
+   `packages/ir/examples/sample.json` (hand-written, shows the
+   component-with-overrides story).
 5. Click **Build**.
 
-The hand-written sample produces a 1440×900 page with a header and three
-card instances backed by one component — edit the master, all three
-instances update.
+What you should see:
+- Real frames, not raster images.
+- Auto-layout where the source uses `display: flex` — drag a child in or
+  out and the layout responds.
+- Repeated subtrees become a single component plus instances; per-instance
+  text overrides apply.
+- Local styles panel populated with `color/*` paint styles and
+  `heading/*` / `body/*` / `caption` text styles.
 
-### Troubleshooting
+### C. Real-world harness
 
-- `Missing fonts` — install Inter Regular / Medium / Bold locally, or edit
-  the IR to point at fonts you have.
-- `IR validation failed` — the plugin status panel lists the first five zod
-  issues with their JSON paths.
-- **Auto-layout works in Figma** — flex frames built by the CLI become
-  real Figma auto-layout frames. Drag a child in or out and the layout
-  responds. Geometry comes from yoga; the auto-layout fields are
-  metadata for editability.
+Drop your own Claude Design HTML exports into `fixtures/claude-design/`
+(gitignored — your content stays on your machine), then run:
+
+```bash
+pnpm --filter @claude-to-figma/cli test:integration
+pnpm --filter @claude-to-figma/cli test:integration -- --report
+pnpm --filter @claude-to-figma/cli test:integration -- --hydrate --report
+```
+
+The harness walks the directory recursively, runs conversion on every
+`*.html` file, and prints a one-row-per-fixture summary of nodes,
+components, instances, paint styles, text styles, and warnings. With
+`--report`, a per-fixture `*.report.json` lands next to each input.
+With `--hydrate`, every fixture is pre-rendered in headless Chromium
+first — required for Claude Design's `*.standalone.html` and other
+runtime-bundled exports.
+
+---
+
+## Troubleshooting
+
+| Symptom                                  | Cause and fix                                                                 |
+| ---------------------------------------- | ----------------------------------------------------------------------------- |
+| Plugin alert: `Missing fonts`            | Install the listed fonts (Inter Regular / Medium / Semi Bold / Bold cover most fixtures) or edit the IR's `fonts` manifest to ones you have. The plugin won't substitute silently. |
+| Plugin status: `IR validation failed`    | The IR document doesn't match the zod schema. The status panel lists the first five issues with their JSON paths — fix and re-paste.                                                |
+| Children pile up at `(0, 0)`             | Source CSS uses `top` / `left` without `position: relative` (or another non-`static`). CSS spec ignores them at `position: static`; yoga follows the spec.                          |
+| Cards have height 0 in Figma             | Wrapper element has no measurable children. As of M6 the layout module measures bare text inside any frame, so this should not happen on real exports — file an issue with a repro. |
+| Detected fewer components than expected  | Subtrees differ on `name` (i.e. CSS `class`) or any structural field other than `geometry`. Adjust threshold via `--component-threshold` or check the structural-hash recipe in [ADR 0004](./docs/adr/0004-component-detection-hash-rules.md). |
+| `color/primary` is the wrong color       | Naming is frequency-based with white/black special-cased. The most-used non-trivial color wins — see [ADR 0005](./docs/adr/0005-token-extraction-naming.md). The IR is editable post-conversion if you want to rename. |
+| Plugin doesn't appear in Figma           | Plugin side-loading only works in the desktop app, not the browser app.                                                                                                              |
 
 ---
 
@@ -309,21 +398,16 @@ instances update.
 
 ```bash
 pnpm install
-pnpm -r typecheck        # tsc --noEmit across the workspace
-pnpm -r test             # vitest across the workspace
-pnpm -r build            # tsup (ir) + esbuild (plugin)
-pnpm lint                # biome check
-pnpm lint:fix            # biome check --write
+pnpm -r typecheck                          # tsc --noEmit across the workspace
+pnpm -r test                               # vitest across the workspace
+pnpm -r build                              # tsup (ir, cli) + esbuild (plugin)
+pnpm lint                                  # biome check
+pnpm lint:fix                              # biome check --write
+pnpm --filter @claude-to-figma/cli test:integration  # real-export harness
 ```
 
-### Contributing
-
-Not accepting PRs yet — the project's on a milestone-by-milestone build
-schedule and each milestone has explicit verification gates. Once M8 ships,
-contribution guidelines and the fixture-authoring process go in `CONTRIBUTING.md`.
-
-Bug reports and real Claude Design exports (anonymized) that break the
-converter are welcome via issues.
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full contribution flow,
+branch naming, and PR conventions.
 
 ### Design principles
 

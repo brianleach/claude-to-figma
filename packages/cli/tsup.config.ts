@@ -8,4 +8,7 @@ export default defineConfig({
   sourcemap: true,
   target: 'es2022',
   banner: { js: '#!/usr/bin/env node' },
+  // playwright is dynamically imported only when --hydrate is passed.
+  // Marking it external keeps tsup from trying to bundle its native deps.
+  external: ['playwright', 'playwright-core'],
 });

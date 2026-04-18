@@ -2,6 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { Command } from 'commander';
 import { convertHtml } from './convert.js';
+import { substituteFontFamily } from './font-fallback.js';
+import { hydrateHtml } from './hydrate.js';
 
 const program = new Command();
 
@@ -22,6 +24,20 @@ program
     (v) => Number.parseInt(v, 10),
   )
   .option('--silent', 'Suppress warnings')
+  .option('-v, --verbose', 'Print every warning + a per-pass breakdown')
+  .option('--report <path>', 'Write a JSON report (stats + warnings) alongside the IR')
+  .option(
+    '--hydrate',
+    'Pre-render the HTML in headless Chromium (requires playwright) and parse the post-render DOM. Use for runtime-bundled exports.',
+  )
+  .option(
+    '--viewport <WxH>',
+    'Viewport for --hydrate. Default 1440x900 (typical desktop landing breakpoint). Example: --viewport 1920x1080.',
+  )
+  .option(
+    '--font-fallback <family>',
+    'Substitute every font family in the IR with this one. Use when you cannot install the original fonts locally — e.g. --font-fallback Inter.',
+  )
   .action(
     async (
       input: string,
@@ -30,16 +46,27 @@ program
         name?: string;
         componentThreshold?: number;
         silent?: boolean;
+        verbose?: boolean;
+        report?: string;
+        hydrate?: boolean;
+        viewport?: string;
+        fontFallback?: string;
       },
     ) => {
       const inputPath = resolve(input);
       const outputPath = resolve(opts.output);
-      const html = await readFile(inputPath, 'utf8');
-      const result = convertHtml(html, {
+      const viewport = parseViewport(opts.viewport);
+      const html = opts.hydrate
+        ? await hydrateHtml(inputPath, viewport)
+        : await readFile(inputPath, 'utf8');
+      const baseResult = convertHtml(html, {
         name: opts.name ?? inputPath.split('/').pop() ?? 'Untitled',
         baseDir: dirname(inputPath),
         componentThreshold: opts.componentThreshold,
       });
+      const result = opts.fontFallback
+        ? { ...baseResult, document: substituteFontFamily(baseResult.document, opts.fontFallback) }
+        : baseResult;
       await writeFile(outputPath, `${JSON.stringify(result.document, null, 2)}\n`, 'utf8');
       if (!opts.silent) {
         for (const warning of result.warnings) {
@@ -52,8 +79,80 @@ program
       const stylesPart =
         paintStyles + textStyles > 0 ? `, ${paintStyles} paint × ${textStyles} text styles` : '';
       process.stdout.write(`wrote ${outputPath} (${nodes} nodes${componentsPart}${stylesPart})\n`);
+
+      if (opts.verbose) {
+        process.stdout.write(`  source:        ${inputPath}\n`);
+        process.stdout.write(`  warnings:      ${result.warnings.length}\n`);
+        process.stdout.write(`  ir nodes:      ${nodes}\n`);
+        process.stdout.write(`  components:    ${components}\n`);
+        process.stdout.write(`  instances:     ${instances}\n`);
+        process.stdout.write(`  paint styles:  ${paintStyles}\n`);
+        process.stdout.write(`  text styles:   ${textStyles}\n`);
+      }
+
+      if (opts.report) {
+        const reportPath = resolve(opts.report);
+        const report = {
+          source: inputPath,
+          output: outputPath,
+          stats: result.stats,
+          warnings: result.warnings,
+          generatedAt: new Date().toISOString(),
+        };
+        await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+        process.stdout.write(`wrote report ${reportPath}\n`);
+      }
     },
   );
+
+program
+  .command('fonts')
+  .description(
+    'Print every font family + style the input requires (so you can install them before convert)',
+  )
+  .argument('<input>', 'Path to the HTML file')
+  .option('--hydrate', 'Pre-render in headless Chromium first (same as on `convert`)')
+  .option('--viewport <WxH>', 'Viewport for --hydrate (default 1440x900)')
+  .action(async (input: string, opts: { hydrate?: boolean; viewport?: string }) => {
+    const inputPath = resolve(input);
+    const viewport = parseViewport(opts.viewport);
+    const html = opts.hydrate
+      ? await hydrateHtml(inputPath, viewport)
+      : await readFile(inputPath, 'utf8');
+    const { document } = convertHtml(html, {
+      name: inputPath.split('/').pop() ?? 'Untitled',
+      baseDir: dirname(inputPath),
+    });
+    if (document.fonts.length === 0) {
+      process.stdout.write('No fonts required.\n');
+      return;
+    }
+    const byFamily = new Map<string, string[]>();
+    for (const f of document.fonts) {
+      let arr = byFamily.get(f.family);
+      if (!arr) {
+        arr = [];
+        byFamily.set(f.family, arr);
+      }
+      if (!arr.includes(f.style)) arr.push(f.style);
+    }
+    process.stdout.write(
+      `${document.fonts.length} font${document.fonts.length === 1 ? '' : 's'} required:\n`,
+    );
+    for (const [family, styles] of [...byFamily.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+      process.stdout.write(`  ${family}: ${styles.sort().join(', ')}\n`);
+    }
+  });
+
+function parseViewport(s: string | undefined): { viewportWidth?: number; viewportHeight?: number } {
+  if (!s) return {};
+  const match = /^(\d+)x(\d+)$/i.exec(s.trim());
+  if (!match) {
+    process.stderr.write(`error: --viewport must be WxH (e.g. 1440x900), got "${s}"\n`);
+    process.exit(1);
+  }
+  return { viewportWidth: Number(match[1]), viewportHeight: Number(match[2]) };
+}
 
 program.parseAsync().catch((err) => {
   process.stderr.write(`error: ${err instanceof Error ? err.message : String(err)}\n`);

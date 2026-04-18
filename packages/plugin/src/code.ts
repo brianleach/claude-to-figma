@@ -311,7 +311,17 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
 function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>): VectorNode {
   const v = figma.createVector();
   v.name = node.name || 'Vector';
-  if (node.path) v.vectorPaths = [{ windingRule: 'NONZERO', data: node.path }];
+  if (node.path) {
+    // Figma's path parser is stricter than browsers — it can reject paths
+    // that render fine in Chrome. Failing soft here means a single bad
+    // path emits an empty vector frame instead of aborting the whole build.
+    try {
+      v.vectorPaths = [{ windingRule: 'NONZERO', data: node.path }];
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      figma.notify(`Skipped invalid vector path on "${v.name}": ${msg}`);
+    }
+  }
   if (node.geometry) {
     v.x = node.geometry.x;
     v.y = node.geometry.y;

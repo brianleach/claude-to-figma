@@ -281,7 +281,8 @@ function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
 function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
   const style = styleOf(ctx, el);
   const geometry = geometryOf(ctx, el);
-  const path = collectFirstPath(el) ?? '';
+  const raw = collectFirstPath(el) ?? '';
+  const path = normalizeSvgPath(raw);
   if (!path) ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
 
   return {
@@ -295,6 +296,27 @@ function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
     fills: [],
     strokes: [],
   };
+}
+
+/**
+ * Normalize an SVG `d` attribute into the whitespace-separated tokens
+ * Figma's vector path parser expects. Compact SVG (`M0,65L100,50`) parses
+ * fine in browsers but Figma reads `M0` as a command literal and rejects
+ * it with `Invalid command at M0,65`.
+ */
+function normalizeSvgPath(d: string): string {
+  if (!d) return '';
+  return (
+    d
+      // Insert a space before every command letter (M, L, C, Q, Z, H, V, A, S, T,
+      // and lowercase variants) so they're never glued to a number.
+      .replace(/([A-Za-z])/g, ' $1 ')
+      // Replace commas with spaces — Figma wants whitespace between args.
+      .replace(/,/g, ' ')
+      // Collapse runs of whitespace.
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 // ---------------------------------------------------------------------------

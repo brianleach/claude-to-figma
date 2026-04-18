@@ -165,18 +165,26 @@ async function registerComponent(ctx: BuildContext, def: ComponentDef): Promise<
 
 async function buildNode(node: IRNode, ctx: BuildContext): Promise<SceneNode> {
   ctx.stats.nodes += 1;
+  let built: SceneNode;
   switch (node.type) {
     case 'FRAME':
-      return buildFrame(node, ctx);
+      built = await buildFrame(node, ctx);
+      break;
     case 'TEXT':
-      return buildText(node, ctx);
+      built = await buildText(node, ctx);
+      break;
     case 'IMAGE':
-      return buildImage(node);
+      built = buildImage(node);
+      break;
     case 'VECTOR':
-      return buildVector(node);
+      built = buildVector(node);
+      break;
     case 'INSTANCE':
-      return buildInstance(node, ctx);
+      built = await buildInstance(node, ctx);
+      break;
   }
+  built.setPluginData('irId', node.id);
+  return built;
 }
 
 async function buildFrame(
@@ -340,7 +348,8 @@ function applyOverrides(
   overrides: NonNullable<Extract<IRNode, { type: 'INSTANCE' }>['overrides']>,
 ): void {
   const walk = (n: SceneNode): void => {
-    const override = overrides[n.name] ?? overrides[n.id];
+    const irId = n.getPluginData('irId');
+    const override = (irId && overrides[irId]) ?? overrides[n.name];
     if (override && n.type === 'TEXT' && typeof override.characters === 'string') {
       n.characters = override.characters;
     }

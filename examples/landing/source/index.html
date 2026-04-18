@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>claude-to-figma — Your Claude Design exports, editable in Figma.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EDE0;
+    --paper-2: #EAE3D2;
+    --paper-3: #DDD4BE;
+    --ink: #1C1A16;
+    --ink-2: #3A362E;
+    --ink-3: #6B6555;
+    --rule: #C9C0A7;
+    --accent: #B5471F;     /* terracotta / rust */
+    --accent-deep: #8E3614;
+    --accent-soft: #E8C9B6;
+    --ok: #4A6B3A;
+    --shadow: 0 1px 0 rgba(28,26,22,.06), 0 12px 40px -18px rgba(28,26,22,.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  a.inline { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+
+  /* ---------- Top nav ---------- */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 64px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--ink);
+    border-radius: 6px;
+    display: grid; place-items: center;
+    background: var(--paper);
+  }
+  .brand-mark svg { display: block; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 8px 14px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 80px 0 96px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 76px;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 28px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    text-wrap: balance;
+  }
+  h1.hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 520px;
+    margin: 0 0 40px;
+  }
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    transition: transform .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  /* ---------- Hero visual: before/after Figma mocks ---------- */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1 / 0.92;
+  }
+  .figma-card {
+    background: #FAFAF8;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: absolute;
+    width: 78%;
+  }
+  .figma-card.before {
+    top: 0;
+    left: 0;
+    transform: rotate(-2.5deg);
+    filter: saturate(0.35);
+  }
+  .figma-card.after {
+    bottom: 0;
+    right: 0;
+    transform: rotate(1.5deg);
+    z-index: 2;
+  }
+  .figma-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+    background: #F0EDE5;
+  }
+  .figma-titlebar .dots { display: flex; gap: 5px; }
+  .figma-titlebar .dots span {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #D4CEBC;
+  }
+  .figma-titlebar .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-left: 8px;
+  }
+  .figma-tag {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--paper-3);
+  }
+  .figma-card.after .figma-tag {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .figma-body {
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    min-height: 240px;
+  }
+  .figma-canvas {
+    padding: 18px;
+    background: #F5F2EA;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .figma-panel {
+    padding: 12px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+  }
+  .figma-panel .panel-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .layer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: var(--ink-2);
+    font-size: 11px;
+  }
+  .layer.indent { padding-left: 18px; }
+  .layer.indent2 { padding-left: 30px; }
+  .layer .glyph {
+    width: 12px; height: 12px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .layer.master { color: var(--accent); font-weight: 600; }
+  .layer.master .glyph { background: var(--accent); border-radius: 2px; }
+  .layer.instance .glyph {
+    border: 1.2px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 2px;
+  }
+  .layer.frame .glyph { border: 1.2px solid var(--ink-3); border-radius: 2px; }
+  .layer.text .glyph {
+    background: var(--ink-2);
+    -webkit-mask: linear-gradient(var(--ink-2) 0 0);
+    position: relative;
+  }
+  .layer.text .glyph::before {
+    content: "T";
+    position: absolute; inset: 0;
+    color: var(--paper); font-size: 10px;
+    text-align: center; line-height: 12px;
+    font-family: 'Fraunces', serif;
+  }
+
+  /* "before" canvas: locked screenshot */
+  .locked-shot {
+    width: 100%;
+    height: 200px;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,.04) 0 8px, transparent 8px 16px),
+      var(--paper-2);
+    border: 1px dashed var(--ink-3);
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    position: relative;
+  }
+  .locked-shot .lock {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 22px; height: 22px;
+    border: 1px solid var(--ink-3);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    background: var(--paper);
+  }
+
+  /* "after" canvas: real card components */
+  .live-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .mini-card {
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 8px;
+    height: 64px;
+    position: relative;
+  }
+  .mini-card::before {
+    content: "";
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 9px; height: 9px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+  .mini-card .bar {
+    height: 4px;
+    background: var(--ink);
+    border-radius: 2px;
+    width: 60%;
+    margin-bottom: 5px;
+  }
+  .mini-card .bar.short { width: 40%; height: 3px; background: var(--ink-3); }
+  .mini-card .swatch {
+    position: absolute;
+    bottom: 6px; right: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section { padding: 96px 0; }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+  }
+  .section-rule {
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.18;
+    margin-bottom: 56px;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 880px;
+    text-wrap: balance;
+  }
+  h2.section-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+
+  /* ---------- The Problem ---------- */
+  .problem {
+    background: var(--paper);
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .problem p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 520px;
+    margin: 0 0 16px;
+  }
+  .export-matrix {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: #FAF6EC;
+    padding: 28px;
+  }
+  .export-matrix .em-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .export-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .export-row:first-of-type { border-top: 0; }
+  .export-row .fmt {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .export-row .stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--paper-3);
+    color: var(--ink-2);
+  }
+  .export-row.gap .fmt { color: var(--accent); }
+  .export-row.gap .stat {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .export-foot {
+    margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* ---------- How it works ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .step {
+    padding: 40px 36px 44px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .step:last-child { border-right: 0; }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .step-icon {
+    width: 56px; height: 56px;
+    margin-bottom: 24px;
+    display: grid; place-items: center;
+    border: 1px solid var(--ink);
+    border-radius: 12px;
+    background: var(--paper);
+  }
+  .step h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .step p {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+    line-height: 1.55;
+  }
+  .step code {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* ---------- Editable cards ---------- */
+  .editable-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .e-card {
+    background: #FAF6EC;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 32px 32px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .e-card .e-icon {
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    border-radius: 10px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    margin-bottom: 24px;
+  }
+  .e-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.1;
+    margin: 0 0 12px;
+    letter-spacing: -0.015em;
+  }
+  .e-card p {
+    margin: 0 0 22px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+    max-width: 440px;
+  }
+  .e-demo {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+    min-height: 100px;
+    position: relative;
+  }
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .arrow-row .from {
+    flex: 1;
+    background: var(--paper-2);
+    border: 1px dashed var(--ink-3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--ink-3);
+  }
+  .arrow-row .to {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--ink);
+  }
+  .arrow {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* component demo */
+  .comp-demo { display: flex; gap: 8px; align-items: flex-start; }
+  .comp-master {
+    width: 80px; height: 60px;
+    background: var(--paper);
+    border: 1.5px solid var(--accent);
+    border-radius: 6px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .comp-master::before {
+    content: "MASTER";
+    position: absolute;
+    top: -16px; left: 0;
+    font-size: 9px;
+    color: var(--accent);
+  }
+  .comp-master::after {
+    content: "";
+    position: absolute;
+    top: 4px; left: 4px;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+  .comp-instances {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    flex: 1;
+  }
+  .comp-instance {
+    height: 28px;
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    position: relative;
+  }
+  .comp-instance::before {
+    content: "";
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* token demo */
+  .token-list {
+    display: grid;
+    gap: 6px;
+  }
+  .token {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    align-items: center;
+    gap: 10px;
+  }
+  .token .sw {
+    width: 14px; height: 14px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+  .token .name { color: var(--ink); }
+  .token .val { color: var(--ink-3); font-size: 11px; }
+  .token .type-name {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  /* auto-layout demo */
+  .al-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+    background: var(--paper);
+    padding: 8px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    position: relative;
+  }
+  .al-row::before {
+    content: "↔ gap: 12";
+    position: absolute;
+    top: -16px; left: 0;
+    font-size: 9px;
+    color: var(--accent);
+  }
+  .al-chip {
+    background: var(--paper-3);
+    height: 24px;
+    flex: 1;
+    border-radius: 4px;
+  }
+
+  /* frame demo */
+  .frame-demo {
+    display: grid;
+    gap: 8px;
+  }
+  .frame-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .frame-line .tag {
+    font-size: 10px;
+    color: var(--paper);
+    background: var(--accent);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* ---------- Pipeline ---------- */
+  .pipeline-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 120px 0;
+    border-radius: 0;
+  }
+  .pipeline-section .section-num,
+  .pipeline-section .e-card p,
+  .pipeline-section h2.section-title em { color: var(--accent-soft); }
+  .pipeline-section h2.section-title em { color: var(--accent-soft); }
+  .pipeline-section .section-rule { background: var(--paper); opacity: 0.2; }
+  .pipeline-section h2.section-title { color: var(--paper); }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 64px;
+    position: relative;
+  }
+  .pipe-box {
+    background: transparent;
+    border: 1px solid var(--paper-3);
+    border-radius: 10px;
+    padding: 24px 20px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .pipe-box.product {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+  }
+  .pipe-box .pb-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--paper-3);
+    margin-bottom: 12px;
+  }
+  .pipe-box.product .pb-tag { color: var(--paper); opacity: 0.85; }
+  .pipe-box .pb-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.1;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--paper);
+  }
+  .pipe-box .pb-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--paper-3);
+    line-height: 1.5;
+  }
+  .pipe-box.product .pb-meta { color: var(--paper); opacity: 0.9; }
+
+  .pipe-arrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 12px;
+    color: var(--paper-3);
+    z-index: 2;
+  }
+  .pipe-caption {
+    margin-top: 40px;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--paper-3);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+  }
+
+  /* ---------- Get started ---------- */
+  .get-started-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .get-started h2.section-title { font-size: 48px; }
+  .get-started p {
+    color: var(--ink-2);
+    font-size: 17px;
+    max-width: 380px;
+    margin: 24px 0 0;
+  }
+  .terminal {
+    background: var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: #2A2620;
+    border-bottom: 1px solid #3A352D;
+  }
+  .terminal-bar span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #4A443A;
+  }
+  .terminal-bar .tlabel {
+    margin-left: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--paper-3);
+    opacity: 0.7;
+  }
+  .terminal-body {
+    padding: 24px 24px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--paper);
+  }
+  .terminal-body .prompt { color: var(--accent-soft); user-select: none; }
+  .terminal-body .cmd { color: var(--paper); }
+  .terminal-body .flag { color: #C9B68C; }
+  .terminal-body .str  { color: #B5C9A1; }
+  .terminal-body .cm   { color: #6B6555; }
+  .terminal-body .ln + .ln { margin-top: 2px; }
+
+  .start-links {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .pill::before {
+    content: "↗";
+    font-family: 'DM Sans', sans-serif;
+    color: var(--accent);
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 56px 64px 64px;
+    margin-top: 40px;
+  }
+  .footer-grid {
+    max-width: 1280px - 128px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .foot-left {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+  .foot-left .mark {
+    color: var(--accent);
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+  .foot-right {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .foot-right a { display: inline-flex; align-items: center; gap: 6px; }
+  .foot-right a:hover { color: var(--accent); }
+
+  .built-with {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* small helpers */
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+</style>
+</head>
+<body>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="brand">
+    <span class="brand-mark">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7 L6 11 L12 3" stroke="#1C1A16" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    claude-to-figma
+  </div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#how">How it works</a>
+    <a href="#editable">Editable</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#start">Get started</a>
+  </div>
+  <a class="nav-cta" href="https://github.com/brianleach/claude-to-figma">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.5-1.08-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.66 3.94.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> v0.1 · open source · MIT</div>
+        <h1 class="hero-title">Your Claude&nbsp;Design exports, <em>editable in Figma.</em></h1>
+        <p class="hero-sub">Real frames, real auto-layout, real components — not a screenshot.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://github.com/brianleach/claude-to-figma">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.5-1.08-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.66 3.94.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+            View on GitHub
+          </a>
+          <a class="btn secondary" href="#how">How it works →</a>
+        </div>
+      </div>
+
+      <!-- before / after Figma cards -->
+      <div class="hero-visual">
+        <!-- BEFORE -->
+        <div class="figma-card before">
+          <div class="figma-titlebar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="label">today.fig — landing-page.png</span>
+            <span class="figma-tag">screenshot</span>
+          </div>
+          <div class="figma-body">
+            <div class="figma-canvas">
+              <div class="locked-shot">
+                <div class="lock">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="2" y="4.5" width="6" height="4.5" rx="0.5" stroke="#6B6555" stroke-width="1"/><path d="M3.5 4.5V3a1.5 1.5 0 0 1 3 0v1.5" stroke="#6B6555" stroke-width="1"/></svg>
+                </div>
+                page.png · 1440 × 2400
+              </div>
+            </div>
+            <div class="figma-panel">
+              <div class="panel-title">Layers</div>
+              <div class="layer frame"><span class="glyph"></span> page.png</div>
+            </div>
+          </div>
+        </div>
+        <!-- AFTER -->
+        <div class="figma-card after">
+          <div class="figma-titlebar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="label">tomorrow.fig — landing-page</span>
+            <span class="figma-tag">editable</span>
+          </div>
+          <div class="figma-body">
+            <div class="figma-canvas">
+              <div class="live-card-grid">
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+              </div>
+            </div>
+            <div class="figma-panel">
+              <div class="panel-title">Layers</div>
+              <div class="layer frame"><span class="glyph"></span> Page</div>
+              <div class="layer indent frame"><span class="glyph"></span> CardGrid</div>
+              <div class="layer indent2 master"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== THE PROBLEM ==================== -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="section-rule"></div>
+    <div class="section-head">
+      <div>
+        <div class="section-num">02 · The problem</div>
+      </div>
+    </div>
+    <div class="problem-grid">
+      <div>
+        <h2 class="section-title">Claude Design exports to Canva, PDF, PPTX, and HTML — but <em>not Figma.</em></h2>
+        <p style="margin-top: 32px;">Design teams live in Figma. The obvious workaround is to screenshot the HTML and paste the PNG — but that produces a dead artifact. No editable text, no swappable components, no design system carry-over.</p>
+        <p>The moment a designer wants to iterate, they rebuild the entire thing by hand. Every spacing decision, every token, every component boundary — re-derived from a flat image.</p>
+      </div>
+
+      <div class="export-matrix">
+        <div class="em-title">Claude Design · Export targets</div>
+        <div class="export-row"><div class="fmt">Canva</div><div class="stat">supported</div></div>
+        <div class="export-row"><div class="fmt">PDF</div><div class="stat">supported</div></div>
+        <div class="export-row"><div class="fmt">PPTX</div><div class="stat">supported</div></div>
+        <div class="export-row"><div class="fmt">HTML</div><div class="stat">supported</div></div>
+        <div class="export-row gap"><div class="fmt">Figma</div><div class="stat">— gap —</div></div>
+        <div class="export-foot">
+          // claude-to-figma fills the last row.<br>
+          // HTML in → editable .fig out.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+<section id="how">
+  <div class="wrap">
+    <div class="section-rule"></div>
+    <div class="section-head">
+      <div>
+        <div class="section-num">03 · How it works</div>
+      </div>
+    </div>
+    <h2 class="section-title" style="margin-bottom:64px;">Three steps. <em>One command in the middle.</em></h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="3" width="20" height="16" rx="2" stroke="#1C1A16" stroke-width="1.5"/>
+            <path d="M3 8 H23" stroke="#1C1A16" stroke-width="1.5"/>
+            <path d="M9 23 L17 23" stroke="#1C1A16" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M13 19 V23" stroke="#1C1A16" stroke-width="1.5"/>
+            <circle cx="6" cy="5.5" r="0.7" fill="#1C1A16"/>
+            <circle cx="8" cy="5.5" r="0.7" fill="#1C1A16"/>
+          </svg>
+        </div>
+        <h3>Export from Claude Design.</h3>
+        <p>Standard HTML export. No special setup, no plugin, no flags. Whatever you'd download today.</p>
+        <code>page.html  +  assets/</code>
+      </div>
+
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="4" width="20" height="18" rx="2" stroke="#1C1A16" stroke-width="1.5"/>
+            <path d="M7 11 L10 14 L7 17" stroke="#B5471F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13 17 H19" stroke="#B5471F" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Run the CLI.</h3>
+        <p>One command. Resolves CSS, computes layout with yoga, detects components, extracts design tokens.</p>
+        <code>claude-to-figma convert page.html \<br>&nbsp;&nbsp;-o page.ir.json --hydrate</code>
+      </div>
+
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="5" y="3" width="6" height="6" stroke="#1C1A16" stroke-width="1.5"/>
+            <rect x="5" y="11" width="6" height="6" stroke="#1C1A16" stroke-width="1.5"/>
+            <rect x="13" y="11" width="6" height="6" stroke="#B5471F" stroke-width="1.5" fill="#E8C9B6"/>
+            <rect x="5" y="19" width="6" height="4" stroke="#1C1A16" stroke-width="1.5"/>
+            <circle cx="16" cy="6" r="3" stroke="#1C1A16" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Paste into the Figma plugin.</h3>
+        <p>Builds a real scene graph: frames, auto-layout, components with text overrides, paint and text styles in your local styles panel.</p>
+        <code>⌘V → Build → done.</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EDITABLE ==================== -->
+<section id="editable">
+  <div class="wrap">
+    <div class="section-rule"></div>
+    <div class="section-head">
+      <div>
+        <div class="section-num">04 · What "fully editable" means</div>
+      </div>
+    </div>
+    <h2 class="section-title" style="margin-bottom:64px;">Four things you get that a screenshot <em>never gives you.</em></h2>
+
+    <div class="editable-grid">
+
+      <!-- Frames -->
+      <div class="e-card">
+        <div class="e-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="2" y="2" width="18" height="18" rx="1.5" stroke="#1C1A16" stroke-width="1.5"/>
+            <path d="M6 8 H16 M6 12 H13 M6 16 H10" stroke="#1C1A16" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Frames, not raster images.</h3>
+        <p>Every <span class="mono">&lt;div&gt;</span> becomes a <span class="mono">FrameNode</span>. Change the text — it stays text.</p>
+        <div class="e-demo">
+          <div class="frame-demo">
+            <div class="frame-line"><span class="tag">FRAME</span> Hero</div>
+            <div class="frame-line" style="margin-left:14px"><span class="tag">FRAME</span> Heading</div>
+            <div class="frame-line" style="margin-left:28px"><span class="tag" style="background:var(--ink)">TEXT</span> "Your Claude Design exports..."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auto layout -->
+      <div class="e-card">
+        <div class="e-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="2" y="6" width="5" height="10" rx="0.5" stroke="#1C1A16" stroke-width="1.5"/>
+            <rect x="9" y="6" width="5" height="10" rx="0.5" stroke="#1C1A16" stroke-width="1.5"/>
+            <rect x="16" y="6" width="4" height="10" rx="0.5" stroke="#1C1A16" stroke-width="1.5"/>
+            <path d="M2 20 H20" stroke="#B5471F" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Auto-layout that works.</h3>
+        <p><span class="mono">display:flex; gap:16px; justify-content:space-between</span> becomes a horizontal auto-layout frame.</p>
+        <div class="e-demo">
+          <div class="al-row">
+            <div class="al-chip"></div>
+            <div class="al-chip"></div>
+            <div class="al-chip"></div>
+            <div class="al-chip"></div>
+          </div>
+          <div style="margin-top:18px; color:var(--ink-3); font-size:11px;">↳ drop a child in — Figma lays it out.</div>
+        </div>
+      </div>
+
+      <!-- Components -->
+      <div class="e-card">
+        <div class="e-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke="#B5471F" stroke-width="1.5" fill="#E8C9B6"/>
+            <rect x="12" y="3" width="7" height="7" rx="1" stroke="#B5471F" stroke-width="1.5"/>
+            <rect x="3" y="12" width="7" height="7" rx="1" stroke="#B5471F" stroke-width="1.5"/>
+            <rect x="12" y="12" width="7" height="7" rx="1" stroke="#B5471F" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Components, not duplicates.</h3>
+        <p>Six identical card markups become one <span class="mono">Card</span> component plus six instances. Edit the master, all six update.</p>
+        <div class="e-demo">
+          <div class="comp-demo">
+            <div class="comp-master"></div>
+            <div class="comp-instances">
+              <div class="comp-instance"></div><div class="comp-instance"></div><div class="comp-instance"></div>
+              <div class="comp-instance"></div><div class="comp-instance"></div><div class="comp-instance"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tokens -->
+      <div class="e-card">
+        <div class="e-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="7" cy="7" r="4" stroke="#1C1A16" stroke-width="1.5"/>
+            <circle cx="15" cy="7" r="4" stroke="#1C1A16" stroke-width="1.5" fill="#B5471F"/>
+            <circle cx="11" cy="15" r="4" stroke="#1C1A16" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Named design tokens.</h3>
+        <p>Repeated colors become <span class="mono">color/primary</span>. Repeated text combos become <span class="mono">heading/lg</span>, <span class="mono">body/md</span>.</p>
+        <div class="e-demo">
+          <div class="token-list">
+            <div class="token"><span class="sw" style="background:#B5471F"></span><span class="name">color/accent</span><span class="val">#B5471F</span></div>
+            <div class="token"><span class="sw" style="background:#1C1A16"></span><span class="name">color/ink</span><span class="val">#1C1A16</span></div>
+            <div class="token"><span class="sw" style="background:#F2EDE0"></span><span class="name">color/paper</span><span class="val">#F2EDE0</span></div>
+            <div class="token"><span class="sw" style="background:transparent;border:none;font-family:Fraunces;text-align:center;font-size:14px;line-height:14px">A</span><span class="type-name">heading/lg</span><span class="val">Fraunces 52/52</span></div>
+            <div class="token"><span class="sw" style="background:transparent;border:none;font-family:DM Sans;text-align:center;font-size:12px;line-height:14px">A</span><span class="type-name">body/md</span><span class="val">DM Sans 17/26</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PIPELINE ==================== -->
+<section id="pipeline" class="pipeline-section">
+  <div class="wrap">
+    <div class="section-rule"></div>
+    <div class="section-head">
+      <div>
+        <div class="section-num">05 · The pipeline</div>
+      </div>
+    </div>
+    <h2 class="section-title" style="margin-bottom: 0;">An IR sits in the middle. <em>Both halves are dumb.</em></h2>
+
+    <div class="pipeline">
+      <div class="pipe-box">
+        <div>
+          <div class="pb-tag">Input</div>
+          <div class="pb-title">Claude Design HTML</div>
+        </div>
+        <div class="pb-meta">page.html<br>+ inlined styles<br>+ /assets</div>
+        <svg class="pipe-arrow" viewBox="0 0 18 12" fill="none"><path d="M0 6 H15 M11 2 L15 6 L11 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="pipe-box">
+        <div>
+          <div class="pb-tag">CLI</div>
+          <div class="pb-title">Parse · Cascade · Layout · Detect</div>
+        </div>
+        <div class="pb-meta">parse5<br>lightningcss<br>yoga · cascade engine</div>
+        <svg class="pipe-arrow" viewBox="0 0 18 12" fill="none"><path d="M0 6 H15 M11 2 L15 6 L11 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="pipe-box product">
+        <div>
+          <div class="pb-tag">The product</div>
+          <div class="pb-title">IR JSON</div>
+        </div>
+        <div class="pb-meta">portable<br>tool-agnostic<br>diffable</div>
+        <svg class="pipe-arrow" viewBox="0 0 18 12" fill="none"><path d="M0 6 H15 M11 2 L15 6 L11 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="pipe-box">
+        <div>
+          <div class="pb-tag">Builder</div>
+          <div class="pb-title">Figma plugin</div>
+        </div>
+        <div class="pb-meta">scene graph<br>auto-layout<br>local styles</div>
+        <svg class="pipe-arrow" viewBox="0 0 18 12" fill="none"><path d="M0 6 H15 M11 2 L15 6 L11 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="pipe-box">
+        <div>
+          <div class="pb-tag">Output</div>
+          <div class="pb-title">Editable Figma file</div>
+        </div>
+        <div class="pb-meta">frames · components<br>auto-layout · styles<br>real text</div>
+      </div>
+    </div>
+
+    <p class="pipe-caption">"Both halves are dumb. The IR is the product. Swap the plugin for a Sketch or Penpot builder later — only that half changes."</p>
+  </div>
+</section>
+
+<!-- ==================== GET STARTED ==================== -->
+<section class="get-started" id="start">
+  <div class="wrap">
+    <div class="section-rule"></div>
+    <div class="section-head">
+      <div>
+        <div class="section-num">06 · Get started</div>
+      </div>
+    </div>
+
+    <div class="get-started-grid">
+      <div>
+        <h2 class="section-title">Three commands. <em>No account.</em></h2>
+        <p>Open source. MIT licensed. The plugin install lives inside the repo's <span class="mono">/figma</span> folder.</p>
+        <div class="start-links">
+          <a class="pill" href="#">README</a>
+          <a class="pill" href="#">LIMITATIONS</a>
+          <a class="pill" href="#">CONTRIBUTING</a>
+          <a class="pill" href="#">Figma plugin install</a>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+          <span class="tlabel">~/projects/claude-to-figma</span>
+        </div>
+        <div class="terminal-body">
+          <div class="ln"><span class="cm"># 1 · clone</span></div>
+          <div class="ln"><span class="prompt">$ </span><span class="cmd">git clone </span><span class="str">https://github.com/brianleach/claude-to-figma</span></div>
+          <div class="ln" style="margin-top:14px"><span class="cm"># 2 · install &amp; build all packages</span></div>
+          <div class="ln"><span class="prompt">$ </span><span class="cmd">cd claude-to-figma &amp;&amp; pnpm install &amp;&amp; pnpm -r build</span></div>
+          <div class="ln" style="margin-top:14px"><span class="cm"># 3 · convert your export</span></div>
+          <div class="ln"><span class="prompt">$ </span><span class="cmd">node packages/cli/dist/index.js convert your-export.html \</span></div>
+          <div class="ln" style="padding-left:24px"><span class="cmd">-o page.ir.json </span><span class="flag">--hydrate</span></div>
+          <div class="ln" style="margin-top:14px;color:var(--accent-soft)">→ wrote page.ir.json (412 nodes · 7 components · 14 tokens)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="footer-grid wrap" style="padding:0;">
+    <div class="foot-left">
+      <span class="mark">MIT-licensed</span> · Built in Claude Design ·<br>
+      Converted with <span class="mark">claude-to-figma</span>.
+    </div>
+    <div class="foot-right">
+      <a href="https://github.com/brianleach/claude-to-figma">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.5-1.08-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.66 3.94.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+        GitHub
+      </a>
+      <a href="#">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4 V7 L9 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Figma Community plugin
+      </a>
+      <a href="#">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1 L13 12 H1 Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 6 V8.5 M7 10 V10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Report an issue
+      </a>
+    </div>
+  </div>
+  <div class="built-with wrap" style="padding:0;">
+    // this page → claude-to-figma → editable.fig (412 nodes · 7 components · 14 tokens)
+  </div>
+</footer>
+
+</body>
+</html>

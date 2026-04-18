@@ -1,0 +1,84 @@
+# Example: claude-to-figma landing page
+
+The dogfood test. The landing page for `claude-to-figma` itself was built
+in [Claude Design](https://claude.ai/design), exported as HTML, converted
+through this CLI, and rendered into Figma via the plugin.
+
+If the converter can't build its own product page faithfully, that's a bug
+worth fixing. So this example doubles as marketing material *and* as the
+hardest end-to-end test we ship in the repo.
+
+## Files
+
+| File                                | What it is                                                  |
+| ----------------------------------- | ----------------------------------------------------------- |
+| `PROMPT.md`                         | The exact prompt fed to [Claude Design](https://claude.ai/design) to generate the page. Checked in so the build is reproducible. |
+| `source.zip`                        | The original export zip, exactly as Claude Design produced it. |
+| `source/`                           | The unzipped contents — `index.html`, any `*.standalone.html`, assets, the README from the export, etc. |
+| `claude-to-figma.ir.json`           | The CLI's IR output. Open it to see what the converter detected: components, paint + text styles, layout. |
+| `claude-to-figma.report.json`       | `--report` output — node count, components × instances, paint × text styles, warnings. |
+| `claude-to-figma.fig`               | The Figma file produced by pasting the IR into the plugin. Double-click to open in Figma desktop. |
+| `screenshots/browser.png`           | The page rendered in Chrome at 1440×900. |
+
+No `screenshots/figma.png` yet — the current Figma render has visible layout
+bugs and we'd rather surface those as fixes than ship a misleading screenshot.
+The `.fig` is included so you can see the current state for yourself; the
+browser screenshot is the fidelity target we're working toward.
+
+## How to reproduce
+
+From a fresh checkout:
+
+```bash
+pnpm install
+pnpm -r build
+pnpm exec playwright install chromium    # one-time
+
+# print the font shopping list (so you know what to install in Font Book)
+node packages/cli/dist/index.js fonts \
+  examples/landing/source/index.html --hydrate
+
+# convert (use --font-fallback Inter if you don't want to install)
+node packages/cli/dist/index.js convert \
+  examples/landing/source/index.html \
+  -o /tmp/landing.ir.json \
+  --report /tmp/landing.report.json \
+  --hydrate
+
+# Figma desktop → Plugins → Development → claude-to-figma
+# paste the contents of /tmp/landing.ir.json → Build
+```
+
+## What this example tests
+
+- **Hydration on a real Claude Design export.** Both `*.html` and
+  `*.standalone.html` should produce the same IR.
+- **Component detection on real-world repeats** — feature cards, nav
+  items, social-link rows. Whatever the page uses.
+- **Token extraction on a real palette** — primary/secondary/accent
+  naming, custom Google Fonts.
+- **Layout fidelity** — the Figma render should look like the browser
+  render. Differences are the converter's bugs to file.
+
+## Known issues in the current render
+
+The landing page is the first real dogfood artifact, and the Figma output
+isn't yet at parity with the browser. Open `claude-to-figma.fig` next to
+`screenshots/browser.png` and you'll see:
+
+- Section/component labels bleed outside their containers at the top of the
+  page instead of sitting where they belong.
+- The hero heading overflows the viewport horizontally — text wrapping /
+  max-width isn't resolving the same way the browser resolves it.
+- Minor drift in spacing and typography vs. the browser reference.
+
+These are real bugs that the dogfood exposed. They'll be fixed in a
+follow-up milestone; when the render matches the browser we'll add a
+`screenshots/figma.png` to this directory as proof.
+
+## Hosting
+
+When the project is open-sourced, this directory will be served via
+GitHub Pages so anyone can see the live page at
+`https://brianleach.github.io/claude-to-figma/landing/source/`. Until
+then, open `source/index.html` locally in a browser.

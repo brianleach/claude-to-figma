@@ -1,0 +1,33 @@
+{
+  "name": "@claude-to-figma/ir",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared IR schema (zod) and inferred TypeScript types for claude-to-figma",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./examples/sample.json": "./examples/sample.json"
+  },
+  "files": ["dist", "examples"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "tsup": "8.3.5",
+    "typescript": "5.6.3",
+    "vitest": "2.1.8"
+  }
+}

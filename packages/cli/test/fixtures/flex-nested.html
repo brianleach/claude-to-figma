@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        width: 800px;
+        height: 400px;
+        background-color: #ffffff;
+        font-family: Inter, sans-serif;
+      }
+      .page {
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+      }
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        height: 64px;
+        background-color: #0f172a;
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .nav {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+      }
+      .link {
+        font-size: 14px;
+        color: #ffffff;
+      }
+      .main {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+      }
+      .sidebar {
+        width: 200px;
+        background-color: #f1f5f9;
+        padding: 16px;
+      }
+      .content {
+        flex-grow: 1;
+        padding: 24px;
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="header">
+        <span class="title">Acme</span>
+        <div class="nav">
+          <a class="link">Home</a>
+          <a class="link">Docs</a>
+          <a class="link">GitHub</a>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar" id="sidebar"></div>
+        <div class="content" id="content"></div>
+      </div>
+    </div>
+  </body>
+</html>

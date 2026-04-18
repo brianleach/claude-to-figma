@@ -10,6 +10,8 @@ const FIXTURES = [
   'text-heavy',
   'external-css',
   'cascade-edge-cases',
+  'flex-basic',
+  'flex-nested',
 ] as const;
 type Fixture = (typeof FIXTURES)[number];
 
@@ -45,11 +47,6 @@ describe('convertHtml', () => {
       });
     });
   }
-
-  it('warns when an element has no width or height', () => {
-    const result = convertHtml('<html><body><div>nothing</div></body></html>', { name: 'no-geom' });
-    expect(result.warnings.some((w) => w.includes('no width/height'))).toBe(true);
-  });
 
   it('flattens text-only elements into a single TEXT node', () => {
     const result = convertHtml(

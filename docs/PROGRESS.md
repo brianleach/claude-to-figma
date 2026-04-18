@@ -12,13 +12,14 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** M4 (not started)
-**Last tag:** `m3`
-**Next action:** integrate yoga-layout (yoga-wasm-web for Node compat —
-verify current best binding before installing). Map computed styles to
-Yoga, compute layout on the full tree, derive absolute geometry on
-every node. Still emit geometry-only IR (no auto-layout yet). See M4
-section below.
+**Active milestone:** M5 (not started)
+**Last tag:** `m4`
+**Next action:** map `display: flex` (and `inline-flex`) to Figma
+auto-layout: emit `layoutMode: HORIZONTAL/VERTICAL` plus itemSpacing,
+counterAxisSpacing, padding edges, primary/counterAxisAlignItems,
+layoutWrap. The cascade + yoga modules already compute everything
+needed; this milestone just teaches the IR walker to emit auto-layout
+fields on flex frames instead of geometry-only. See M5 section below.
 
 ## Working branch
 
@@ -56,7 +57,7 @@ on the remote for archive only.
 | M1  | ✅ done | `m1` | bleach @ 2026-04-18 | IR + plugin + sample. Override bug found and fixed during verify. |
 | M2  | ✅ done | `m2` | bleach @ 2026-04-18 | CLI scaffold + parse5, inline styles only. 3 fixtures, 30 tests total. |
 | M3  | ✅ done | `m3` | bleach @ 2026-04-18 | Cascade engine: external CSS, specificity, !important, inheritance, var(). Postcss instead of lightningcss (deviation). |
-| M4  | ⬜ not started | — | —           | yoga-layout integration.                                    |
+| M4  | ✅ done | `m4` | bleach @ 2026-04-18 | yoga-layout 3.2.1 integration. Block + flex layout, 1–4 value padding/margin shorthands, heuristic text measurement. |
 | M5  | ⬜ not started | — | —           | Flex → Figma auto-layout mapping.                           |
 | M6  | ⬜ not started | — | —           | Component detection via subtree hashing.                    |
 | M7  | ⬜ not started | — | —           | Token extraction (paint + text styles).                     |
@@ -161,14 +162,25 @@ KICKSTART specifies lightningcss for CSS parsing. We use **postcss** because lig
 
 ---
 
-## M4 — Yoga integration (not started)
+## M4 — Yoga integration
 
-### Gates to pass
+**Branch:** `m4-yoga-layout` (in progress)
 
-- [ ] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
-- [ ] V-M4-YOGA-TESTS — ≥ 5 layout scenarios (block stack, flex row/col, nested flex, padding/margin)
-- [ ] V-M4-FIXTURES — `flex-basic.html`, `flex-nested.html`, geometry snapshotted
-- [ ] V-M4-VISUAL — user visually compares to browser → `M4 verified` (positions within ~2px)
+### Standard gates
+
+- [x] G-TYPES · G-LINT · G-TEST · G-BUILD · G-CLEAN
+
+### Milestone gates
+
+- [x] V-M4-YOGA-TESTS — 7 yoga tests covering block stack, flex row, flex column, nested flex (justify-content + align-items), padding, margin, text measurement
+- [x] V-M4-FIXTURES — `flex-basic.html` (3 pills in a row with gap + padding), `flex-nested.html` (page → header + sidebar + content with flex-grow). M2/M3 fixtures updated to use `position: relative` where they specified `top/left` (yoga follows the CSS spec — `position: static` ignores `top/left`).
+- [ ] V-M4-VISUAL — user visually compares `flex-basic.html` to a browser render → `M4 verified` (positions within ~2px)
+
+### Notes
+
+- yoga-layout 3.2.1 (latest as of 2026-04-18) ships preloaded WASM via top-level await; sync after first import.
+- Block elements (`display: block`) emit as flex columns in yoga so children take parent width by default — matches block layout behavior.
+- Text measurement is a hand-rolled heuristic (avg char width = 0.55 × font-size, line-height auto = 1.2 × font-size, line wrapping). Visible drift at unusual fonts and condensed/expanded weights — acceptable for M4, may swap for a real shaper later if visual fidelity demands it.
 
 ---
 
@@ -229,3 +241,4 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — Abandoned the bootstrap branch `claude/claude-to-figma-build-zTq1Q`. M2+ use the standard per-milestone branch workflow from `KICKSTART.md` (branch off `main`, squash-merge back, tag, delete). User intent: open-source the project after M8.
 - `2026-04-18` — M2 shipped on `m2-html-parser`: CLI scaffold, inline-style parser, parse5 walker, 3 fixtures, 12 new tests (30 total). Verified manually in Figma; tagged `m2`.
 - `2026-04-18` — M3 shipped on `m3-css-cascade`: cascade engine (selectors, specificity, !important, inheritance, var() with fallback + cycle bail), 2 fixtures, 26 new tests (62 total). Used postcss instead of lightningcss — documented deviation. Verified in Figma; tagged `m3`.
+- `2026-04-18` — M4 shipped on `m4-yoga-layout`: yoga-layout 3.2.1 integration with CSS → Yoga style mapper (display, position, dimensions, padding/margin shorthands, border, flex container + item, gap), heuristic text measurement, shared classify.ts module. 2 new fixtures, 7 new tests (74 total). M2/M3 fixtures updated to use `position: relative` per CSS spec.

@@ -1,12 +1,15 @@
 /**
  * HTML parse5 tree → IRDocument.
  *
- * As of M3 the walker reads computed styles produced by the cascade engine
- * (cascade/), not raw inline `style="..."` strings. Geometry still comes
- * strictly from `width/height/top/left` because no layout engine is in
- * place yet (M4 adds yoga). Inheritance, !important, source order,
- * specificity, and var() are all handled by the cascade — the walker just
- * consumes the resolved property → value map per element.
+ * The walker is a thin shell. Two engines do the real work:
+ *   - cascade/  resolves CSS into a Map<Element, ComputedStyle>
+ *   - layout/   feeds the cascade output to yoga and returns a
+ *               Map<Element, Geometry> with parent-relative x/y/w/h
+ *
+ * Each element's IR fields come from those two maps plus a few
+ * walker-local concerns: name + id assignment, font registration,
+ * text/frame/image/vector classification (see classify.ts), and per-text
+ * fill resolution from the cascade's color property.
  */
 
 import {
@@ -28,6 +31,7 @@ import {
   computeCascade,
   parseStylesheets,
 } from './cascade/index.js';
+import { type LayoutMap, computeLayout } from './layout/index.js';
 import {
   parseColor,
   parseFontFamily,
@@ -45,32 +49,7 @@ type P5Document = DefaultTreeAdapterTypes.Document;
 type P5Element = DefaultTreeAdapterTypes.Element;
 type P5TextNode = DefaultTreeAdapterTypes.TextNode;
 
-const TEXT_TAGS = new Set([
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'p',
-  'span',
-  'a',
-  'label',
-  'li',
-  'strong',
-  'em',
-  'b',
-  'i',
-  'small',
-  'button',
-  'caption',
-  'figcaption',
-  'blockquote',
-  'pre',
-  'code',
-]);
-
-const IGNORED_TAGS = new Set(['script', 'style', 'meta', 'link', 'title', 'head', 'noscript']);
+import { IGNORED_TAGS, TEXT_TAGS, collectInnerText, containsOnlyText } from './classify.js';
 
 const DEFAULT_TEXT_STYLE: TextStyle = {
   fontFamily: 'Inter',
@@ -95,6 +74,9 @@ interface BuildContext {
   fontKeys: Set<string>;
   fonts: FontManifestEntry[];
   styles: Map<P5Element, ComputedStyle>;
+  layout: LayoutMap;
+  /** The body element — its IR frame is forced to (0,0) so the IR roots cleanly. */
+  bodyEl: P5Element;
 }
 
 export interface ConvertResult {
@@ -120,7 +102,9 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   const collected = collectStylesheets(body, { baseDir: opts.baseDir }, head);
   const rules = parseStylesheets(collected.sheets.map((s) => s.css));
   const htmlEl = findElement(tree.childNodes, 'html');
-  const cascade = computeCascade(rules, htmlEl ?? body);
+  const cascadeRoot = htmlEl ?? body;
+  const cascade = computeCascade(rules, cascadeRoot);
+  const layout = computeLayout(cascadeRoot, cascade.styles);
 
   const ctx: BuildContext = {
     warnings: [...collected.warnings],
@@ -128,6 +112,8 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
     fontKeys: new Set(),
     fonts: [],
     styles: cascade.styles,
+    layout,
+    bodyEl: body,
   };
 
   const root = buildFrameFromElement(body, ctx, 'root');
@@ -171,7 +157,7 @@ function buildNodeFromElement(el: P5Element, ctx: BuildContext): IRNode | null {
 
 function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string): FrameNode {
   const style = styleOf(ctx, el);
-  const geometry = readGeometry(style);
+  const geometry = geometryOf(ctx, el);
   const fills = readBackgroundFills(style);
   const cornerRadius = parsePx(style.get('border-radius'));
 
@@ -181,15 +167,11 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
     if (built) children.push(built);
   }
 
-  if (!geometry) {
-    ctx.warnings.push(`frame <${el.tagName}> has no width/height — defaulted to 0×0`);
-  }
-
   const frame: FrameNode = {
     type: 'FRAME',
     id: idHint ?? nextId(ctx, el.tagName),
     name: nameFor(el),
-    geometry: geometry ?? { x: 0, y: 0, width: 0, height: 0 },
+    geometry,
     opacity: parseOpacity(style),
     visible: true,
     fills,
@@ -202,7 +184,7 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
 }
 
 function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
-  const characters = collectText(el);
+  const characters = collectInnerText(el);
   if (!characters) return null;
 
   const style = styleOf(ctx, el);
@@ -214,13 +196,11 @@ function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
     ? [{ type: 'SOLID', color: fillColor, opacity: 1, visible: true }]
     : DEFAULT_TEXT_FILLS;
 
-  const geometry = readGeometry(style);
-
   return {
     type: 'TEXT',
     id: nextId(ctx, 'text'),
     name: nameFor(el, characters.slice(0, 32)),
-    geometry,
+    geometry: geometryOf(ctx, el),
     opacity: parseOpacity(style),
     visible: true,
     characters,
@@ -231,14 +211,7 @@ function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
 
 function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
   const style = styleOf(ctx, el);
-  const widthAttr = parsePx(getAttr(el, 'width'));
-  const heightAttr = parsePx(getAttr(el, 'height'));
-  const geometry = readGeometry(style) ?? {
-    x: 0,
-    y: 0,
-    width: widthAttr ?? 0,
-    height: heightAttr ?? 0,
-  };
+  const geometry = geometryOf(ctx, el);
   const ref = getAttr(el, 'src') ?? '';
   if (!ref) ctx.warnings.push('<img> missing src — emitted with empty imageRef');
 
@@ -257,7 +230,7 @@ function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
 
 function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
   const style = styleOf(ctx, el);
-  const geometry = readGeometry(style);
+  const geometry = geometryOf(ctx, el);
   const path = collectFirstPath(el) ?? '';
   if (!path) ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
 
@@ -305,29 +278,6 @@ function buildChild(child: P5ChildNode, parent: P5Element, ctx: BuildContext): I
   return null;
 }
 
-function containsOnlyText(el: P5Element): boolean {
-  return el.childNodes.every((c: P5ChildNode) => {
-    if (isTextNode(c)) return true;
-    if (isElement(c)) {
-      const tag = c.tagName.toLowerCase();
-      return tag === 'br' || (TEXT_TAGS.has(tag) && containsOnlyText(c));
-    }
-    return false;
-  });
-}
-
-function collectText(el: P5Element): string {
-  let out = '';
-  for (const c of el.childNodes) {
-    if (isTextNode(c)) out += c.value;
-    else if (isElement(c)) {
-      if (c.tagName.toLowerCase() === 'br') out += '\n';
-      else out += collectText(c);
-    }
-  }
-  return out.replace(/\s+/g, ' ').trim();
-}
-
 function collectFirstPath(el: P5Element): string | undefined {
   for (const c of el.childNodes) {
     if (isElement(c)) {
@@ -346,15 +296,21 @@ function collectFirstPath(el: P5Element): string | undefined {
 // Style application — operates on a ComputedStyle (Map<string, string>)
 // ---------------------------------------------------------------------------
 
-function readGeometry(
-  style: ComputedStyle,
-): { x: number; y: number; width: number; height: number } | undefined {
-  const w = parsePx(style.get('width'));
-  const h = parsePx(style.get('height'));
-  const x = parsePx(style.get('left')) ?? 0;
-  const y = parsePx(style.get('top')) ?? 0;
-  if (w == null && h == null) return undefined;
-  return { x, y, width: w ?? 0, height: h ?? 0 };
+function geometryOf(
+  ctx: BuildContext,
+  el: P5Element,
+): { x: number; y: number; width: number; height: number } {
+  const layout = ctx.layout.get(el);
+  if (!layout) return { x: 0, y: 0, width: 0, height: 0 };
+  // Body anchors the IR — drop its parent-relative position (which is html-relative)
+  // so the root frame sits at (0, 0).
+  const isBody = el === ctx.bodyEl;
+  return {
+    x: isBody ? 0 : layout.x,
+    y: isBody ? 0 : layout.y,
+    width: layout.width,
+    height: layout.height,
+  };
 }
 
 function readBackgroundFills(style: ComputedStyle): Paint[] {

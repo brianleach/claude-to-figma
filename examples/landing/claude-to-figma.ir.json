@@ -107,7 +107,7 @@
                 "children": [
                   {
                     "type": "VECTOR",
-                    "id": "vector-1",
+                    "id": "path-1",
                     "name": "svg",
                     "geometry": {
                       "x": 2,
@@ -119,7 +119,23 @@
                     "visible": true,
                     "path": "M 2 7 L 6 11 L 12 3",
                     "fills": [],
-                    "strokes": [],
+                    "strokes": [
+                      {
+                        "paint": {
+                          "type": "SOLID",
+                          "color": {
+                            "r": 0.10980392156862745,
+                            "g": 0.10196078431372549,
+                            "b": 0.08627450980392157,
+                            "a": 1
+                          },
+                          "opacity": 1,
+                          "visible": true
+                        },
+                        "weight": 1.6,
+                        "align": "CENTER"
+                      }
+                    ],
                     "childLayout": {
                       "layoutPositioning": "AUTO",
                       "layoutGrow": 1,
@@ -545,7 +561,7 @@
             "children": [
               {
                 "type": "VECTOR",
-                "id": "vector-11",
+                "id": "path-11",
                 "name": "svg",
                 "geometry": {
                   "x": 15,
@@ -646,7 +662,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-95",
+        "id": "section-97",
         "name": "Hero",
         "geometry": {
           "x": 0,
@@ -662,7 +678,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-94",
+            "id": "div-96",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -678,7 +694,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-93",
+                "id": "div-95",
                 "name": "Hero Grid",
                 "geometry": {
                   "x": 64,
@@ -932,7 +948,7 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "vector-19",
+                                "id": "path-19",
                                 "name": "svg",
                                 "geometry": {
                                   "x": 23,
@@ -1090,7 +1106,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-92",
+                    "id": "div-94",
                     "name": "Hero Visual",
                     "geometry": {
                       "x": 0,
@@ -1106,7 +1122,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-40",
+                        "id": "div-42",
                         "name": "Figma Card",
                         "geometry": {
                           "x": 0,
@@ -1382,7 +1398,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-39",
+                            "id": "div-41",
                             "name": "Figma Body",
                             "geometry": {
                               "x": 1,
@@ -1398,7 +1414,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-33",
+                                "id": "div-35",
                                 "name": "Figma Canvas",
                                 "geometry": {
                                   "x": 0,
@@ -1442,7 +1458,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-32",
+                                    "id": "div-34",
                                     "name": "Locked Shot",
                                     "geometry": {
                                       "x": 18,
@@ -1474,7 +1490,7 @@
                                     "children": [
                                       {
                                         "type": "FRAME",
-                                        "id": "div-30",
+                                        "id": "div-32",
                                         "name": "Lock",
                                         "geometry": {
                                           "x": 652,
@@ -1517,8 +1533,8 @@
                                         "effects": [],
                                         "children": [
                                           {
-                                            "type": "VECTOR",
-                                            "id": "vector-29",
+                                            "type": "FRAME",
+                                            "id": "svg-31",
                                             "name": "svg",
                                             "geometry": {
                                               "x": 1,
@@ -1528,9 +1544,75 @@
                                             },
                                             "opacity": 1,
                                             "visible": true,
-                                            "path": "M 2.5 4.5 L 7.5 4.5 A 0.5 0.5 0 0 1 8 5 L 8 8.5 A 0.5 0.5 0 0 1 7.5 9 L 2.5 9 A 0.5 0.5 0 0 1 2 8.5 L 2 5 A 0.5 0.5 0 0 1 2.5 4.5 Z M 3.5 4.5 L 3.5 3 a 1.5 1.5 0 0 1 3 0 l 0 1.5",
                                             "fills": [],
                                             "strokes": [],
+                                            "effects": [],
+                                            "children": [
+                                              {
+                                                "type": "VECTOR",
+                                                "id": "path-29",
+                                                "name": "Path 1",
+                                                "geometry": {
+                                                  "x": 0,
+                                                  "y": 0,
+                                                  "width": 0,
+                                                  "height": 0
+                                                },
+                                                "opacity": 1,
+                                                "visible": true,
+                                                "path": "M 2.5 4.5 L 7.5 4.5 A 0.5 0.5 0 0 1 8 5 L 8 8.5 A 0.5 0.5 0 0 1 7.5 9 L 2.5 9 A 0.5 0.5 0 0 1 2 8.5 L 2 5 A 0.5 0.5 0 0 1 2.5 4.5 Z",
+                                                "fills": [],
+                                                "strokes": [
+                                                  {
+                                                    "paint": {
+                                                      "type": "SOLID",
+                                                      "color": {
+                                                        "r": 0.4196078431372549,
+                                                        "g": 0.396078431372549,
+                                                        "b": 0.3333333333333333,
+                                                        "a": 1
+                                                      },
+                                                      "opacity": 1,
+                                                      "visible": true
+                                                    },
+                                                    "weight": 1,
+                                                    "align": "CENTER"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "VECTOR",
+                                                "id": "path-30",
+                                                "name": "Path 2",
+                                                "geometry": {
+                                                  "x": 0,
+                                                  "y": 0,
+                                                  "width": 0,
+                                                  "height": 0
+                                                },
+                                                "opacity": 1,
+                                                "visible": true,
+                                                "path": "M 3.5 4.5 L 3.5 3 a 1.5 1.5 0 0 1 3 0 l 0 1.5",
+                                                "fills": [],
+                                                "strokes": [
+                                                  {
+                                                    "paint": {
+                                                      "type": "SOLID",
+                                                      "color": {
+                                                        "r": 0.4196078431372549,
+                                                        "g": 0.396078431372549,
+                                                        "b": 0.3333333333333333,
+                                                        "a": 1
+                                                      },
+                                                      "opacity": 1,
+                                                      "visible": true
+                                                    },
+                                                    "weight": 1,
+                                                    "align": "CENTER"
+                                                  }
+                                                ]
+                                              }
+                                            ],
                                             "childLayout": {
                                               "layoutPositioning": "AUTO",
                                               "layoutGrow": 1,
@@ -1563,7 +1645,7 @@
                                       },
                                       {
                                         "type": "TEXT",
-                                        "id": "text-31",
+                                        "id": "text-33",
                                         "name": "page.png · 1440 × 2400",
                                         "opacity": 1,
                                         "visible": true,
@@ -1628,7 +1710,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-38",
+                                "id": "div-40",
                                 "name": "Figma Panel",
                                 "geometry": {
                                   "x": 0,
@@ -1644,7 +1726,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-35",
+                                    "id": "div-37",
                                     "name": "Panel Title",
                                     "geometry": {
                                       "x": 10,
@@ -1660,7 +1742,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-34",
+                                        "id": "text-36",
                                         "name": "Layers",
                                         "opacity": 1,
                                         "visible": true,
@@ -1701,7 +1783,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-37",
+                                    "id": "div-39",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -1717,7 +1799,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-36",
+                                        "id": "text-38",
                                         "name": "page.png",
                                         "opacity": 1,
                                         "visible": true,
@@ -1802,7 +1884,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-91",
+                        "id": "div-93",
                         "name": "Figma Card",
                         "geometry": {
                           "x": 150,
@@ -1879,7 +1961,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-44",
+                            "id": "div-46",
                             "name": "Figma Titlebar",
                             "geometry": {
                               "x": 1,
@@ -1923,7 +2005,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-41",
+                                "id": "div-43",
                                 "name": "Dots",
                                 "geometry": {
                                   "x": 12,
@@ -1960,7 +2042,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-42",
+                                "id": "text-44",
                                 "name": "Label",
                                 "geometry": {
                                   "x": 65,
@@ -2010,7 +2092,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-43",
+                                "id": "text-45",
                                 "name": "Figma Tag",
                                 "geometry": {
                                   "x": 435,
@@ -2078,7 +2160,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-90",
+                            "id": "div-92",
                             "name": "Figma Body",
                             "geometry": {
                               "x": 1,
@@ -2094,7 +2176,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-70",
+                                "id": "div-72",
                                 "name": "Figma Canvas",
                                 "geometry": {
                                   "x": 0,
@@ -2138,7 +2220,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-69",
+                                    "id": "div-71",
                                     "name": "Live Card Grid",
                                     "geometry": {
                                       "x": 18,
@@ -2293,7 +2375,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-89",
+                                "id": "div-91",
                                 "name": "Figma Panel",
                                 "geometry": {
                                   "x": 0,
@@ -2309,7 +2391,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-72",
+                                    "id": "div-74",
                                     "name": "Panel Title",
                                     "geometry": {
                                       "x": 10,
@@ -2325,7 +2407,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-71",
+                                        "id": "text-73",
                                         "name": "Layers",
                                         "opacity": 1,
                                         "visible": true,
@@ -2366,7 +2448,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-74",
+                                    "id": "div-76",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2382,7 +2464,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-73",
+                                        "id": "text-75",
                                         "name": "Page",
                                         "opacity": 1,
                                         "visible": true,
@@ -2439,7 +2521,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-76",
+                                    "id": "div-78",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2455,7 +2537,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-75",
+                                        "id": "text-77",
                                         "name": "CardGrid",
                                         "opacity": 1,
                                         "visible": true,
@@ -2512,7 +2594,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-78",
+                                    "id": "div-80",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2528,7 +2610,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-77",
+                                        "id": "text-79",
                                         "name": "Card",
                                         "opacity": 1,
                                         "visible": true,
@@ -2711,7 +2793,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-138",
+        "id": "section-140",
         "name": "Problem",
         "geometry": {
           "x": 0,
@@ -2739,7 +2821,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-137",
+            "id": "div-139",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -2783,7 +2865,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-136",
+                "id": "div-138",
                 "name": "Problem Grid",
                 "geometry": {
                   "x": 64,
@@ -2799,7 +2881,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-104",
+                    "id": "div-106",
                     "name": "div",
                     "geometry": {
                       "x": 0,
@@ -2815,7 +2897,7 @@
                     "children": [
                       {
                         "type": "TEXT",
-                        "id": "text-101",
+                        "id": "text-103",
                         "name": "Section Title",
                         "geometry": {
                           "x": 0,
@@ -2860,7 +2942,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-102",
+                        "id": "text-104",
                         "name": "Design teams live in Figma. The ",
                         "geometry": {
                           "x": 0,
@@ -2905,7 +2987,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-103",
+                        "id": "text-105",
                         "name": "The moment a designer wants to i",
                         "geometry": {
                           "x": 0,
@@ -2957,7 +3039,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-135",
+                    "id": "div-137",
                     "name": "Export Matrix",
                     "geometry": {
                       "x": 0,
@@ -3001,7 +3083,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-106",
+                        "id": "div-108",
                         "name": "Em Title",
                         "geometry": {
                           "x": 29,
@@ -3017,7 +3099,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-105",
+                            "id": "text-107",
                             "name": "Claude Design · Export targets",
                             "opacity": 1,
                             "visible": true,
@@ -3129,7 +3211,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-131",
+                        "id": "div-133",
                         "name": "Export Row",
                         "geometry": {
                           "x": 29,
@@ -3161,7 +3243,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-128",
+                            "id": "div-130",
                             "name": "Fmt",
                             "geometry": {
                               "x": 0,
@@ -3177,7 +3259,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-127",
+                                "id": "text-129",
                                 "name": "Figma",
                                 "opacity": 1,
                                 "visible": true,
@@ -3223,7 +3305,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-130",
+                            "id": "div-132",
                             "name": "Stat",
                             "geometry": {
                               "x": 0,
@@ -3267,7 +3349,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-129",
+                                "id": "text-131",
                                 "name": "— gap —",
                                 "opacity": 1,
                                 "visible": true,
@@ -3332,7 +3414,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-134",
+                        "id": "div-136",
                         "name": "Export Foot",
                         "geometry": {
                           "x": 29,
@@ -3348,7 +3430,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-132",
+                            "id": "text-134",
                             "name": "// claude-to-figma fills the las",
                             "opacity": 1,
                             "visible": true,
@@ -3387,7 +3469,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-133",
+                            "id": "text-135",
                             "name": "// HTML in → editable .fig out.",
                             "opacity": 1,
                             "visible": true,
@@ -3459,7 +3541,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-171",
+        "id": "section-187",
         "name": "How",
         "geometry": {
           "x": 0,
@@ -3475,7 +3557,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-170",
+            "id": "div-186",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -3524,7 +3606,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-144",
+                "id": "text-146",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -3569,7 +3651,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-169",
+                "id": "div-185",
                 "name": "Steps",
                 "geometry": {
                   "x": 64,
@@ -3601,7 +3683,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-152",
+                    "id": "div-160",
                     "name": "Step",
                     "geometry": {
                       "x": 0,
@@ -3647,7 +3729,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-148",
+                        "id": "div-156",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -3690,8 +3772,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-147",
+                            "type": "FRAME",
+                            "id": "svg-155",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -3701,9 +3783,195 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 3 L 21 3 A 2 2 0 0 1 23 5 L 23 17 A 2 2 0 0 1 21 19 L 5 19 A 2 2 0 0 1 3 17 L 3 5 A 2 2 0 0 1 5 3 Z M 3 8 L 23 8 M 9 23 L 17 23 M 13 19 L 13 23 M 5.3 5.5 A 0.7 0.7 0 1 0 6.7 5.5 A 0.7 0.7 0 1 0 5.3 5.5 Z M 7.3 5.5 A 0.7 0.7 0 1 0 8.7 5.5 A 0.7 0.7 0 1 0 7.3 5.5 Z",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-149",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5 3 L 21 3 A 2 2 0 0 1 23 5 L 23 17 A 2 2 0 0 1 21 19 L 5 19 A 2 2 0 0 1 3 17 L 3 5 A 2 2 0 0 1 5 3 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-150",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 3 8 L 23 8",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-151",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 9 23 L 17 23",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-152",
+                                "name": "Path 4",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 19 L 13 23",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-153",
+                                "name": "Path 5",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5.3 5.5 A 0.7 0.7 0 1 0 6.7 5.5 A 0.7 0.7 0 1 0 5.3 5.5 Z",
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.10980392156862745,
+                                      "g": 0.10196078431372549,
+                                      "b": 0.08627450980392157,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "strokes": []
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-154",
+                                "name": "Path 6",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 7.3 5.5 A 0.7 0.7 0 1 0 8.7 5.5 A 0.7 0.7 0 1 0 7.3 5.5 Z",
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.10980392156862745,
+                                      "g": 0.10196078431372549,
+                                      "b": 0.08627450980392157,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "strokes": []
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -3731,7 +3999,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-149",
+                        "id": "text-157",
                         "name": "Export from Claude Design.",
                         "geometry": {
                           "x": 36,
@@ -3776,7 +4044,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-150",
+                        "id": "text-158",
                         "name": "Standard HTML export. No special",
                         "geometry": {
                           "x": 36,
@@ -3821,7 +4089,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-151",
+                        "id": "text-159",
                         "name": "page.html + assets/",
                         "geometry": {
                           "x": 36,
@@ -3873,7 +4141,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-160",
+                    "id": "div-171",
                     "name": "Step",
                     "geometry": {
                       "x": 480,
@@ -3924,7 +4192,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-156",
+                        "id": "div-167",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -3967,8 +4235,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-155",
+                            "type": "FRAME",
+                            "id": "svg-166",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -3978,9 +4246,107 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 4 L 21 4 A 2 2 0 0 1 23 6 L 23 20 A 2 2 0 0 1 21 22 L 5 22 A 2 2 0 0 1 3 20 L 3 6 A 2 2 0 0 1 5 4 Z M 7 11 L 10 14 L 7 17 M 13 17 L 19 17",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-163",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5 4 L 21 4 A 2 2 0 0 1 23 6 L 23 20 A 2 2 0 0 1 21 22 L 5 22 A 2 2 0 0 1 3 20 L 3 6 A 2 2 0 0 1 5 4 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-164",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 7 11 L 10 14 L 7 17",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-165",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 17 L 19 17",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -4008,7 +4374,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-157",
+                        "id": "text-168",
                         "name": "Run the CLI.",
                         "geometry": {
                           "x": 36,
@@ -4053,7 +4419,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-158",
+                        "id": "text-169",
                         "name": "One command. Resolves CSS, compu",
                         "geometry": {
                           "x": 36,
@@ -4098,7 +4464,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-159",
+                        "id": "text-170",
                         "name": "claude-to-figma convert page.htm",
                         "geometry": {
                           "x": 36,
@@ -4150,7 +4516,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-168",
+                    "id": "div-184",
                     "name": "Step",
                     "geometry": {
                       "x": 0,
@@ -4201,7 +4567,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-164",
+                        "id": "div-180",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -4244,8 +4610,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-163",
+                            "type": "FRAME",
+                            "id": "svg-179",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -4255,9 +4621,183 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 3 L 11 3 L 11 9 L 5 9 Z M 5 11 L 11 11 L 11 17 L 5 17 Z M 13 11 L 19 11 L 19 17 L 13 17 Z M 5 19 L 11 19 L 11 23 L 5 23 Z M 13 6 A 3 3 0 1 0 19 6 A 3 3 0 1 0 13 6 Z",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-174",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5 3 L 11 3 L 11 9 L 5 9 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-175",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5 11 L 11 11 L 11 17 L 5 17 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-176",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 11 L 19 11 L 19 17 L 13 17 Z",
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.9098039215686274,
+                                      "g": 0.788235294117647,
+                                      "b": 0.7137254901960784,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-177",
+                                "name": "Path 4",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 5 19 L 11 19 L 11 23 L 5 23 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-178",
+                                "name": "Path 5",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 6 A 3 3 0 1 0 19 6 A 3 3 0 1 0 13 6 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -4285,7 +4825,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-165",
+                        "id": "text-181",
                         "name": "Paste into the Figma plugin.",
                         "geometry": {
                           "x": 36,
@@ -4330,7 +4870,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-166",
+                        "id": "text-182",
                         "name": "Builds a real scene graph: frame",
                         "geometry": {
                           "x": 36,
@@ -4375,7 +4915,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-167",
+                        "id": "text-183",
                         "name": "⌘V → Build → done.",
                         "geometry": {
                           "x": 36,
@@ -4448,7 +4988,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-248",
+        "id": "section-277",
         "name": "Editable",
         "geometry": {
           "x": 0,
@@ -4464,7 +5004,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-247",
+            "id": "div-276",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -4513,7 +5053,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-177",
+                "id": "text-193",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -4558,7 +5098,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-246",
+                "id": "div-275",
                 "name": "Editable Grid",
                 "geometry": {
                   "x": 64,
@@ -4574,7 +5114,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-193",
+                    "id": "div-211",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -4618,7 +5158,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-179",
+                        "id": "div-197",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -4661,8 +5201,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-178",
+                            "type": "FRAME",
+                            "id": "svg-196",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -4672,9 +5212,75 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 3.5 2 L 18.5 2 A 1.5 1.5 0 0 1 20 3.5 L 20 18.5 A 1.5 1.5 0 0 1 18.5 20 L 3.5 20 A 1.5 1.5 0 0 1 2 18.5 L 2 3.5 A 1.5 1.5 0 0 1 3.5 2 Z M 6 8 L 16 8 M 6 12 L 13 12 M 6 16 L 10 16",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-194",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 3.5 2 L 18.5 2 A 1.5 1.5 0 0 1 20 3.5 L 20 18.5 A 1.5 1.5 0 0 1 18.5 20 L 3.5 20 A 1.5 1.5 0 0 1 2 18.5 L 2 3.5 A 1.5 1.5 0 0 1 3.5 2 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-195",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 6 8 L 16 8 M 6 12 L 13 12 M 6 16 L 10 16",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -4702,7 +5308,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-180",
+                        "id": "text-198",
                         "name": "Frames, not raster images.",
                         "geometry": {
                           "x": 33,
@@ -4747,7 +5353,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-181",
+                        "id": "text-199",
                         "name": "Every <div> becomes a FrameNode.",
                         "geometry": {
                           "x": 33,
@@ -4792,7 +5398,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-192",
+                        "id": "div-210",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -4836,7 +5442,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-191",
+                            "id": "div-209",
                             "name": "Frame Demo",
                             "geometry": {
                               "x": 17,
@@ -4952,7 +5558,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-206",
+                    "id": "div-228",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -4996,7 +5602,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-195",
+                        "id": "div-217",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -5039,8 +5645,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-194",
+                            "type": "FRAME",
+                            "id": "svg-216",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -5050,9 +5656,139 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 2.5 6 L 6.5 6 A 0.5 0.5 0 0 1 7 6.5 L 7 15.5 A 0.5 0.5 0 0 1 6.5 16 L 2.5 16 A 0.5 0.5 0 0 1 2 15.5 L 2 6.5 A 0.5 0.5 0 0 1 2.5 6 Z M 9.5 6 L 13.5 6 A 0.5 0.5 0 0 1 14 6.5 L 14 15.5 A 0.5 0.5 0 0 1 13.5 16 L 9.5 16 A 0.5 0.5 0 0 1 9 15.5 L 9 6.5 A 0.5 0.5 0 0 1 9.5 6 Z M 16.5 6 L 19.5 6 A 0.5 0.5 0 0 1 20 6.5 L 20 15.5 A 0.5 0.5 0 0 1 19.5 16 L 16.5 16 A 0.5 0.5 0 0 1 16 15.5 L 16 6.5 A 0.5 0.5 0 0 1 16.5 6 Z M 2 20 L 20 20",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-212",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 2.5 6 L 6.5 6 A 0.5 0.5 0 0 1 7 6.5 L 7 15.5 A 0.5 0.5 0 0 1 6.5 16 L 2.5 16 A 0.5 0.5 0 0 1 2 15.5 L 2 6.5 A 0.5 0.5 0 0 1 2.5 6 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-213",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 9.5 6 L 13.5 6 A 0.5 0.5 0 0 1 14 6.5 L 14 15.5 A 0.5 0.5 0 0 1 13.5 16 L 9.5 16 A 0.5 0.5 0 0 1 9 15.5 L 9 6.5 A 0.5 0.5 0 0 1 9.5 6 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-214",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 16.5 6 L 19.5 6 A 0.5 0.5 0 0 1 20 6.5 L 20 15.5 A 0.5 0.5 0 0 1 19.5 16 L 16.5 16 A 0.5 0.5 0 0 1 16 15.5 L 16 6.5 A 0.5 0.5 0 0 1 16.5 6 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-215",
+                                "name": "Path 4",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 2 20 L 20 20",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -5080,7 +5816,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-196",
+                        "id": "text-218",
                         "name": "Auto-layout that works.",
                         "geometry": {
                           "x": 33,
@@ -5125,7 +5861,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-197",
+                        "id": "text-219",
                         "name": "display:flex; gap:16px; justify-",
                         "geometry": {
                           "x": 33,
@@ -5170,7 +5906,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-205",
+                        "id": "div-227",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -5214,7 +5950,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-202",
+                            "id": "div-224",
                             "name": "Al Row",
                             "geometry": {
                               "x": 17,
@@ -5353,7 +6089,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-204",
+                            "id": "div-226",
                             "name": "div",
                             "geometry": {
                               "x": 17,
@@ -5369,7 +6105,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-203",
+                                "id": "text-225",
                                 "name": "↳ drop a child in — Figma lays i",
                                 "opacity": 1,
                                 "visible": true,
@@ -5423,7 +6159,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-221",
+                    "id": "div-247",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -5467,7 +6203,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-208",
+                        "id": "div-234",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -5510,8 +6246,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-207",
+                            "type": "FRAME",
+                            "id": "svg-233",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -5521,9 +6257,151 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 4 3 L 9 3 A 1 1 0 0 1 10 4 L 10 9 A 1 1 0 0 1 9 10 L 4 10 A 1 1 0 0 1 3 9 L 3 4 A 1 1 0 0 1 4 3 Z M 13 3 L 18 3 A 1 1 0 0 1 19 4 L 19 9 A 1 1 0 0 1 18 10 L 13 10 A 1 1 0 0 1 12 9 L 12 4 A 1 1 0 0 1 13 3 Z M 4 12 L 9 12 A 1 1 0 0 1 10 13 L 10 18 A 1 1 0 0 1 9 19 L 4 19 A 1 1 0 0 1 3 18 L 3 13 A 1 1 0 0 1 4 12 Z M 13 12 L 18 12 A 1 1 0 0 1 19 13 L 19 18 A 1 1 0 0 1 18 19 L 13 19 A 1 1 0 0 1 12 18 L 12 13 A 1 1 0 0 1 13 12 Z",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-229",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 4 3 L 9 3 A 1 1 0 0 1 10 4 L 10 9 A 1 1 0 0 1 9 10 L 4 10 A 1 1 0 0 1 3 9 L 3 4 A 1 1 0 0 1 4 3 Z",
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.9098039215686274,
+                                      "g": 0.788235294117647,
+                                      "b": 0.7137254901960784,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-230",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 3 L 18 3 A 1 1 0 0 1 19 4 L 19 9 A 1 1 0 0 1 18 10 L 13 10 A 1 1 0 0 1 12 9 L 12 4 A 1 1 0 0 1 13 3 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-231",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 4 12 L 9 12 A 1 1 0 0 1 10 13 L 10 18 A 1 1 0 0 1 9 19 L 4 19 A 1 1 0 0 1 3 18 L 3 13 A 1 1 0 0 1 4 12 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-232",
+                                "name": "Path 4",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 13 12 L 18 12 A 1 1 0 0 1 19 13 L 19 18 A 1 1 0 0 1 18 19 L 13 19 A 1 1 0 0 1 12 18 L 12 13 A 1 1 0 0 1 13 12 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.7098039215686275,
+                                        "g": 0.2784313725490196,
+                                        "b": 0.12156862745098039,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -5551,7 +6429,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-209",
+                        "id": "text-235",
                         "name": "Components, not duplicates.",
                         "geometry": {
                           "x": 33,
@@ -5596,7 +6474,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-210",
+                        "id": "text-236",
                         "name": "Six identical card markups becom",
                         "geometry": {
                           "x": 33,
@@ -5641,7 +6519,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-220",
+                        "id": "div-246",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -5685,7 +6563,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-219",
+                            "id": "div-245",
                             "name": "Comp Demo",
                             "geometry": {
                               "x": 17,
@@ -5701,7 +6579,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-211",
+                                "id": "div-237",
                                 "name": "Comp Master",
                                 "geometry": {
                                   "x": 0,
@@ -5753,7 +6631,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-218",
+                                "id": "div-244",
                                 "name": "Comp Instances",
                                 "geometry": {
                                   "x": 88,
@@ -5935,7 +6813,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-245",
+                    "id": "div-274",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -5979,7 +6857,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-223",
+                        "id": "div-252",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -6022,8 +6900,8 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "VECTOR",
-                            "id": "vector-222",
+                            "type": "FRAME",
+                            "id": "svg-251",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
@@ -6033,9 +6911,119 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 3 7 A 4 4 0 1 0 11 7 A 4 4 0 1 0 3 7 Z M 11 7 A 4 4 0 1 0 19 7 A 4 4 0 1 0 11 7 Z M 7 15 A 4 4 0 1 0 15 15 A 4 4 0 1 0 7 15 Z",
                             "fills": [],
                             "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "VECTOR",
+                                "id": "path-248",
+                                "name": "Path 1",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 3 7 A 4 4 0 1 0 11 7 A 4 4 0 1 0 3 7 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-249",
+                                "name": "Path 2",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 11 7 A 4 4 0 1 0 19 7 A 4 4 0 1 0 11 7 Z",
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.7098039215686275,
+                                      "g": 0.2784313725490196,
+                                      "b": 0.12156862745098039,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "VECTOR",
+                                "id": "path-250",
+                                "name": "Path 3",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 0,
+                                  "height": 0
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "path": "M 7 15 A 4 4 0 1 0 15 15 A 4 4 0 1 0 7 15 Z",
+                                "fills": [],
+                                "strokes": [
+                                  {
+                                    "paint": {
+                                      "type": "SOLID",
+                                      "color": {
+                                        "r": 0.10980392156862745,
+                                        "g": 0.10196078431372549,
+                                        "b": 0.08627450980392157,
+                                        "a": 1
+                                      },
+                                      "opacity": 1,
+                                      "visible": true
+                                    },
+                                    "weight": 1.5,
+                                    "align": "CENTER"
+                                  }
+                                ]
+                              }
+                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 1,
@@ -6063,7 +7051,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-224",
+                        "id": "text-253",
                         "name": "Named design tokens.",
                         "geometry": {
                           "x": 33,
@@ -6108,7 +7096,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-225",
+                        "id": "text-254",
                         "name": "Repeated colors become color/pri",
                         "geometry": {
                           "x": 33,
@@ -6153,7 +7141,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-244",
+                        "id": "div-273",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -6197,7 +7185,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-243",
+                            "id": "div-272",
                             "name": "Token List",
                             "geometry": {
                               "x": 17,
@@ -6286,7 +7274,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-238",
+                                "id": "div-267",
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
@@ -6302,7 +7290,7 @@
                                 "children": [
                                   {
                                     "type": "TEXT",
-                                    "id": "text-235",
+                                    "id": "text-264",
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
@@ -6352,7 +7340,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-236",
+                                    "id": "text-265",
                                     "name": "Type Name",
                                     "geometry": {
                                       "x": 24,
@@ -6402,7 +7390,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-237",
+                                    "id": "text-266",
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
@@ -6474,7 +7462,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-242",
+                                "id": "div-271",
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
@@ -6490,7 +7478,7 @@
                                 "children": [
                                   {
                                     "type": "TEXT",
-                                    "id": "text-239",
+                                    "id": "text-268",
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
@@ -6540,7 +7528,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-240",
+                                    "id": "text-269",
                                     "name": "Type Name",
                                     "geometry": {
                                       "x": 24,
@@ -6590,7 +7578,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-241",
+                                    "id": "text-270",
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
@@ -6713,7 +7701,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-312",
+        "id": "section-341",
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
@@ -6741,7 +7729,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-311",
+            "id": "div-340",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -6757,7 +7745,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-249",
+                "id": "div-278",
                 "name": "Section Rule",
                 "geometry": {
                   "x": 64,
@@ -6787,7 +7775,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-253",
+                "id": "div-282",
                 "name": "Section Head",
                 "geometry": {
                   "x": 64,
@@ -6803,7 +7791,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-252",
+                    "id": "div-281",
                     "name": "div",
                     "geometry": {
                       "x": 0,
@@ -6819,7 +7807,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-251",
+                        "id": "div-280",
                         "name": "Section Num",
                         "geometry": {
                           "x": 0,
@@ -6835,7 +7823,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-250",
+                            "id": "text-279",
                             "name": "05 · The pipeline",
                             "opacity": 1,
                             "visible": true,
@@ -6900,7 +7888,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-254",
+                "id": "text-283",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -6945,7 +7933,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-309",
+                "id": "div-338",
                 "name": "Pipeline",
                 "geometry": {
                   "x": 64,
@@ -7016,7 +8004,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-287",
+                    "id": "div-316",
                     "name": "Pipe Box",
                     "geometry": {
                       "x": 581,
@@ -7060,7 +8048,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-281",
+                        "id": "div-310",
                         "name": "div",
                         "geometry": {
                           "x": 21,
@@ -7076,7 +8064,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-278",
+                            "id": "div-307",
                             "name": "Pb Tag",
                             "geometry": {
                               "x": 0,
@@ -7092,7 +8080,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-277",
+                                "id": "text-306",
                                 "name": "The product",
                                 "opacity": 1,
                                 "visible": true,
@@ -7133,7 +8121,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-280",
+                            "id": "div-309",
                             "name": "Pb Title",
                             "geometry": {
                               "x": 0,
@@ -7149,7 +8137,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-279",
+                                "id": "text-308",
                                 "name": "IR JSON",
                                 "opacity": 1,
                                 "visible": true,
@@ -7197,7 +8185,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-285",
+                        "id": "div-314",
                         "name": "Pb Meta",
                         "geometry": {
                           "x": 21,
@@ -7213,7 +8201,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-282",
+                            "id": "text-311",
                             "name": "portable",
                             "opacity": 1,
                             "visible": true,
@@ -7252,7 +8240,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-283",
+                            "id": "text-312",
                             "name": "tool-agnostic",
                             "opacity": 1,
                             "visible": true,
@@ -7291,7 +8279,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-284",
+                            "id": "text-313",
                             "name": "diffable",
                             "opacity": 1,
                             "visible": true,
@@ -7337,7 +8325,7 @@
                       },
                       {
                         "type": "VECTOR",
-                        "id": "vector-286",
+                        "id": "path-315",
                         "name": "Pipe Arrow",
                         "geometry": {
                           "x": 269,
@@ -7418,7 +8406,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-308",
+                    "id": "div-337",
                     "name": "Pipe Box",
                     "geometry": {
                       "x": 0,
@@ -7462,7 +8450,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-303",
+                        "id": "div-332",
                         "name": "div",
                         "geometry": {
                           "x": 21,
@@ -7478,7 +8466,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-300",
+                            "id": "div-329",
                             "name": "Pb Tag",
                             "geometry": {
                               "x": 0,
@@ -7494,7 +8482,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-299",
+                                "id": "text-328",
                                 "name": "Output",
                                 "opacity": 1,
                                 "visible": true,
@@ -7535,7 +8523,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-302",
+                            "id": "div-331",
                             "name": "Pb Title",
                             "geometry": {
                               "x": 0,
@@ -7551,7 +8539,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-301",
+                                "id": "text-330",
                                 "name": "Editable Figma file",
                                 "opacity": 1,
                                 "visible": true,
@@ -7599,7 +8587,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-307",
+                        "id": "div-336",
                         "name": "Pb Meta",
                         "geometry": {
                           "x": 21,
@@ -7615,7 +8603,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-304",
+                            "id": "text-333",
                             "name": "frames · components",
                             "opacity": 1,
                             "visible": true,
@@ -7654,7 +8642,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-305",
+                            "id": "text-334",
                             "name": "auto-layout · styles",
                             "opacity": 1,
                             "visible": true,
@@ -7693,7 +8681,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-306",
+                            "id": "text-335",
                             "name": "real text",
                             "opacity": 1,
                             "visible": true,
@@ -7780,7 +8768,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-310",
+                "id": "text-339",
                 "name": "Pipe Caption",
                 "geometry": {
                   "x": 260,
@@ -7831,7 +8819,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-353",
+        "id": "section-382",
         "name": "Get Started",
         "geometry": {
           "x": 0,
@@ -7847,7 +8835,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-352",
+            "id": "div-381",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -7896,7 +8884,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-351",
+                "id": "div-380",
                 "name": "Get Started Grid",
                 "geometry": {
                   "x": 64,
@@ -7912,7 +8900,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-325",
+                    "id": "div-354",
                     "name": "div",
                     "geometry": {
                       "x": 0,
@@ -7928,7 +8916,7 @@
                     "children": [
                       {
                         "type": "TEXT",
-                        "id": "text-318",
+                        "id": "text-347",
                         "name": "Section Title",
                         "geometry": {
                           "x": 0,
@@ -7973,7 +8961,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-319",
+                        "id": "text-348",
                         "name": "Open source. MIT licensed. The p",
                         "geometry": {
                           "x": 0,
@@ -8018,7 +9006,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-324",
+                        "id": "div-353",
                         "name": "Start Links",
                         "geometry": {
                           "x": 0,
@@ -8034,7 +9022,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-320",
+                            "id": "text-349",
                             "name": "Pill",
                             "geometry": {
                               "x": 0,
@@ -8084,7 +9072,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-321",
+                            "id": "text-350",
                             "name": "Pill",
                             "geometry": {
                               "x": 129,
@@ -8134,7 +9122,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-322",
+                            "id": "text-351",
                             "name": "Pill",
                             "geometry": {
                               "x": 294,
@@ -8184,7 +9172,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-323",
+                            "id": "text-352",
                             "name": "Pill",
                             "geometry": {
                               "x": 0,
@@ -8258,7 +9246,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-350",
+                    "id": "div-379",
                     "name": "Terminal",
                     "geometry": {
                       "x": 0,
@@ -8319,7 +9307,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-327",
+                        "id": "div-356",
                         "name": "Terminal Bar",
                         "geometry": {
                           "x": 0,
@@ -8363,7 +9351,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-326",
+                            "id": "text-355",
                             "name": "Tlabel",
                             "geometry": {
                               "x": 72,
@@ -8431,7 +9419,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-349",
+                        "id": "div-378",
                         "name": "Terminal Body",
                         "geometry": {
                           "x": 0,
@@ -8461,7 +9449,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-333",
+                            "id": "div-362",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -8477,7 +9465,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-330",
+                                "id": "text-359",
                                 "name": "Prompt",
                                 "geometry": {
                                   "x": 0,
@@ -8522,7 +9510,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-331",
+                                "id": "text-360",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
@@ -8567,7 +9555,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-332",
+                                "id": "text-361",
                                 "name": "Str",
                                 "geometry": {
                                   "x": 0,
@@ -8633,7 +9621,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-338",
+                            "id": "div-367",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -8649,7 +9637,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-336",
+                                "id": "text-365",
                                 "name": "Prompt",
                                 "geometry": {
                                   "x": 0,
@@ -8694,7 +9682,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-337",
+                                "id": "text-366",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
@@ -8760,7 +9748,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-343",
+                            "id": "div-372",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -8776,7 +9764,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-341",
+                                "id": "text-370",
                                 "name": "Prompt",
                                 "geometry": {
                                   "x": 0,
@@ -8821,7 +9809,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-342",
+                                "id": "text-371",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
@@ -8868,7 +9856,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-346",
+                            "id": "div-375",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -8884,7 +9872,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-344",
+                                "id": "text-373",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 24,
@@ -8929,7 +9917,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-345",
+                                "id": "text-374",
                                 "name": "Flag",
                                 "geometry": {
                                   "x": 24,
@@ -8976,7 +9964,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-348",
+                            "id": "div-377",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -8992,7 +9980,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-347",
+                                "id": "text-376",
                                 "name": "→ wrote page.ir.json (373 nodes ",
                                 "opacity": 1,
                                 "visible": true,
@@ -9065,7 +10053,7 @@
       },
       {
         "type": "FRAME",
-        "id": "footer-375",
+        "id": "footer-408",
         "name": "Footer",
         "geometry": {
           "x": 0,
@@ -9097,7 +10085,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-372",
+            "id": "div-405",
             "name": "Footer Grid",
             "geometry": {
               "x": 451,
@@ -9113,7 +10101,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-361",
+                "id": "div-390",
                 "name": "Foot Left",
                 "geometry": {
                   "x": 0,
@@ -9129,7 +10117,7 @@
                 "children": [
                   {
                     "type": "TEXT",
-                    "id": "text-354",
+                    "id": "text-383",
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
@@ -9174,7 +10162,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-355",
+                    "id": "text-384",
                     "name": "· Built in",
                     "opacity": 1,
                     "visible": true,
@@ -9213,7 +10201,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-356",
+                    "id": "text-385",
                     "name": "Claude Design",
                     "geometry": {
                       "x": 0,
@@ -9258,7 +10246,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-357",
+                    "id": "text-386",
                     "name": "·",
                     "opacity": 1,
                     "visible": true,
@@ -9297,7 +10285,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-358",
+                    "id": "text-387",
                     "name": "Dogfood input for",
                     "opacity": 1,
                     "visible": true,
@@ -9336,7 +10324,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-359",
+                    "id": "text-388",
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
@@ -9381,7 +10369,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-360",
+                    "id": "text-389",
                     "name": ".",
                     "opacity": 1,
                     "visible": true,
@@ -9427,7 +10415,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-371",
+                "id": "div-404",
                 "name": "Foot Right",
                 "geometry": {
                   "x": 209,
@@ -9443,7 +10431,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "a-364",
+                    "id": "a-393",
                     "name": "a",
                     "geometry": {
                       "x": 0,
@@ -9459,7 +10447,7 @@
                     "children": [
                       {
                         "type": "VECTOR",
-                        "id": "vector-362",
+                        "id": "path-391",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
@@ -9480,7 +10468,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-363",
+                        "id": "text-392",
                         "name": "GitHub",
                         "opacity": 1,
                         "visible": true,
@@ -9541,7 +10529,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "a-367",
+                    "id": "a-398",
                     "name": "a",
                     "geometry": {
                       "x": 81,
@@ -9556,8 +10544,8 @@
                     "effects": [],
                     "children": [
                       {
-                        "type": "VECTOR",
-                        "id": "vector-365",
+                        "type": "FRAME",
+                        "id": "svg-396",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
@@ -9567,9 +10555,43 @@
                         },
                         "opacity": 1,
                         "visible": true,
-                        "path": "M 1.5 7 A 5.5 5.5 0 1 0 12.5 7 A 5.5 5.5 0 1 0 1.5 7 Z M 7 4 L 7 7 L 9 8.5",
                         "fills": [],
                         "strokes": [],
+                        "effects": [],
+                        "children": [
+                          {
+                            "type": "VECTOR",
+                            "id": "path-394",
+                            "name": "Path 1",
+                            "geometry": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 0,
+                              "height": 0
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "path": "M 1.5 7 A 5.5 5.5 0 1 0 12.5 7 A 5.5 5.5 0 1 0 1.5 7 Z",
+                            "fills": [],
+                            "strokes": []
+                          },
+                          {
+                            "type": "VECTOR",
+                            "id": "path-395",
+                            "name": "Path 2",
+                            "geometry": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 0,
+                              "height": 0
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "path": "M 7 4 L 7 7 L 9 8.5",
+                            "fills": [],
+                            "strokes": []
+                          }
+                        ],
                         "childLayout": {
                           "layoutPositioning": "AUTO",
                           "layoutGrow": 0,
@@ -9578,7 +10600,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-366",
+                        "id": "text-397",
                         "name": "Figma plugin",
                         "opacity": 1,
                         "visible": true,
@@ -9639,7 +10661,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "a-370",
+                    "id": "a-403",
                     "name": "a",
                     "geometry": {
                       "x": 208,
@@ -9654,8 +10676,8 @@
                     "effects": [],
                     "children": [
                       {
-                        "type": "VECTOR",
-                        "id": "vector-368",
+                        "type": "FRAME",
+                        "id": "svg-401",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
@@ -9665,9 +10687,43 @@
                         },
                         "opacity": 1,
                         "visible": true,
-                        "path": "M 7 1 L 13 12 L 1 12 Z M 7 6 L 7 8.5 M 7 10 L 7 10.5",
                         "fills": [],
                         "strokes": [],
+                        "effects": [],
+                        "children": [
+                          {
+                            "type": "VECTOR",
+                            "id": "path-399",
+                            "name": "Path 1",
+                            "geometry": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 0,
+                              "height": 0
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "path": "M 7 1 L 13 12 L 1 12 Z",
+                            "fills": [],
+                            "strokes": []
+                          },
+                          {
+                            "type": "VECTOR",
+                            "id": "path-400",
+                            "name": "Path 2",
+                            "geometry": {
+                              "x": 0,
+                              "y": 0,
+                              "width": 0,
+                              "height": 0
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "path": "M 7 6 L 7 8.5 M 7 10 L 7 10.5",
+                            "fills": [],
+                            "strokes": []
+                          }
+                        ],
                         "childLayout": {
                           "layoutPositioning": "AUTO",
                           "layoutGrow": 0,
@@ -9676,7 +10732,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-369",
+                        "id": "text-402",
                         "name": "Report an issue",
                         "opacity": 1,
                         "visible": true,
@@ -9776,7 +10832,7 @@
           },
           {
             "type": "FRAME",
-            "id": "div-374",
+            "id": "div-407",
             "name": "Built With",
             "geometry": {
               "x": 80,
@@ -9792,7 +10848,7 @@
             "children": [
               {
                 "type": "TEXT",
-                "id": "text-373",
+                "id": "text-406",
                 "name": "// this page → claude-to-figma →",
                 "opacity": 1,
                 "visible": true,

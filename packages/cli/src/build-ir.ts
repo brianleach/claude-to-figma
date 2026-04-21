@@ -20,6 +20,7 @@ import {
   IR_VERSION,
   type ImageNode,
   type Paint,
+  type Stroke,
   type TextNode,
   type TextStyle,
   type VectorNode,
@@ -311,23 +312,112 @@ function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
   };
 }
 
-function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
+/**
+ * SVG rendering strategy. Single-shape SVGs emit one VECTOR (unchanged
+ * from M8). Multi-shape SVGs emit a FRAME with one VECTOR per shape —
+ * each VECTOR carries the shape's own `fill` / `stroke` / `stroke-width`
+ * (inherited from the `<svg>` element when absent on the shape). Without
+ * this, every child SVG shape rendered as an invisible blob because we
+ * emitted a single VECTOR with empty fills and strokes.
+ */
+function buildVector(el: P5Element, ctx: BuildContext): IRNode {
   const style = styleOf(ctx, el);
   const geometry = geometryOf(ctx, el);
-  const raw = collectAllPaths(el).join(' ');
-  const path = normalizeSvgPath(raw);
-  if (!path) ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
+  const shapes = collectShapes(el);
 
+  if (shapes.length === 0) {
+    ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
+    return {
+      type: 'VECTOR',
+      id: nextId(ctx, 'vector'),
+      name: nameFor(el),
+      geometry,
+      opacity: parseOpacity(style),
+      visible: true,
+      path: '',
+      fills: [],
+      strokes: [],
+    };
+  }
+
+  // Inherit paint attributes from the <svg> element so `fill="none"
+  // stroke="#1C1A16"` at the root applies to children that don't override.
+  const svgFill = getAttr(el, 'fill');
+  const svgStroke = getAttr(el, 'stroke');
+  const svgStrokeWidth = Number(getAttr(el, 'stroke-width'));
+  const inherited = {
+    fill: svgFill,
+    stroke: svgStroke,
+    strokeWidth: Number.isFinite(svgStrokeWidth) ? svgStrokeWidth : undefined,
+  };
+  const opacity = parseOpacity(style);
+
+  const buildShape = (
+    shape: SvgShape,
+    idx: number,
+    childGeometry: VectorNode['geometry'],
+  ): VectorNode => {
+    const effectiveFill = shape.fill ?? inherited.fill;
+    const effectiveStroke = shape.stroke ?? inherited.stroke;
+    const effectiveStrokeW = shape.strokeWidth ?? inherited.strokeWidth ?? 1;
+
+    const fills: Paint[] = [];
+    if (effectiveFill && effectiveFill !== 'none') {
+      const c = parseColor(effectiveFill);
+      if (c) fills.push({ type: 'SOLID', color: c, opacity: 1, visible: true });
+    }
+    const strokes: Stroke[] = [];
+    if (effectiveStroke && effectiveStroke !== 'none') {
+      const c = parseColor(effectiveStroke);
+      if (c) {
+        strokes.push({
+          paint: { type: 'SOLID', color: c, opacity: 1, visible: true },
+          weight: effectiveStrokeW,
+          // SVG strokes are centered by default; matches Figma's CENTER alignment.
+          align: 'CENTER',
+        });
+      }
+    }
+
+    return {
+      type: 'VECTOR',
+      id: nextId(ctx, 'path'),
+      name: `Path ${idx + 1}`,
+      geometry: childGeometry,
+      opacity,
+      visible: true,
+      path: normalizeSvgPath(shape.path),
+      fills,
+      strokes,
+    };
+  };
+
+  if (shapes.length === 1) {
+    const only = shapes[0];
+    if (!only) {
+      throw new Error('unreachable: shapes.length === 1 but shapes[0] is undefined');
+    }
+    const v = buildShape(only, 0, geometry);
+    // Preserve the old name when there's only one shape — the outer <svg>'s
+    // id / class is what users will recognise in the layer panel.
+    v.name = nameFor(el);
+    return v;
+  }
+
+  const children: IRNode[] = shapes.map((shape, i) =>
+    buildShape(shape, i, { x: 0, y: 0, width: geometry.width, height: geometry.height }),
+  );
   return {
-    type: 'VECTOR',
-    id: nextId(ctx, 'vector'),
+    type: 'FRAME',
+    id: nextId(ctx, 'svg'),
     name: nameFor(el),
     geometry,
-    opacity: parseOpacity(style),
+    opacity,
     visible: true,
-    path,
     fills: [],
     strokes: [],
+    effects: [],
+    children,
   };
 }
 
@@ -499,18 +589,38 @@ function buildChild(child: P5ChildNode, parent: P5Element, ctx: BuildContext): I
   return null;
 }
 
-function collectAllPaths(el: P5Element): string[] {
-  const out: string[] = [];
+interface SvgShape {
+  path: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+}
+
+/**
+ * Walk the SVG tree and collect every renderable shape, preserving the
+ * per-shape paint attributes so the builder can emit one VECTOR per
+ * shape with its own fills + strokes. Replaces the M8 `collectAllPaths`
+ * which concatenated every shape's `d` into a single path string,
+ * throwing away per-shape paint.
+ */
+function collectShapes(el: P5Element): SvgShape[] {
+  const out: SvgShape[] = [];
   const walk = (node: P5Element) => {
     for (const c of node.childNodes) {
       if (!isElement(c)) continue;
       const tag = c.tagName.toLowerCase();
+      const strokeWidth = Number(getAttr(c, 'stroke-width'));
+      const common = {
+        fill: getAttr(c, 'fill'),
+        stroke: getAttr(c, 'stroke'),
+        strokeWidth: Number.isFinite(strokeWidth) ? strokeWidth : undefined,
+      };
       if (tag === 'path') {
         const d = getAttr(c, 'd');
-        if (d) out.push(d);
+        if (d) out.push({ path: d, ...common });
       } else {
         const synthesised = shapeToPath(c, tag);
-        if (synthesised) out.push(synthesised);
+        if (synthesised) out.push({ path: synthesised, ...common });
       }
       walk(c);
     }

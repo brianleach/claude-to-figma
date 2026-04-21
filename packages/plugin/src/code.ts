@@ -364,6 +364,14 @@ function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>): VectorNode {
   v.opacity = node.opacity;
   v.visible = node.visible;
   v.fills = node.fills.map(toFigmaPaint);
+  if (node.strokes.length > 0) {
+    v.strokes = node.strokes.map((s: IrStroke) => toFigmaPaint(s.paint));
+    const first = node.strokes[0];
+    if (first) {
+      v.strokeWeight = first.weight;
+      v.strokeAlign = first.align;
+    }
+  }
   return v;
 }
 

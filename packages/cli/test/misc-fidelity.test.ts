@@ -9,18 +9,28 @@ import { describe, expect, it } from 'vitest';
 import { convertHtml } from '../src/convert.js';
 import { parseAspectRatio, parseLetterSpacing } from '../src/style.js';
 
-function findVectorByName(node: IRNode, name: string): VectorNode {
-  if (node.type === 'VECTOR' && node.name.toLowerCase() === name.toLowerCase()) return node;
+function findNodeByName(node: IRNode, name: string): IRNode {
+  if (node.name.toLowerCase() === name.toLowerCase()) return node;
   if (node.type === 'FRAME') {
     for (const c of node.children) {
       try {
-        return findVectorByName(c, name);
+        return findNodeByName(c, name);
       } catch {
         // keep searching
       }
     }
   }
-  throw new Error(`no VECTOR named "${name}"`);
+  throw new Error(`no node named "${name}"`);
+}
+
+/**
+ * Collect every VECTOR descendant (including self) — multi-shape SVGs now
+ * emit a FRAME wrapping one VECTOR per shape, so walking is needed.
+ */
+function collectVectors(node: IRNode, out: VectorNode[] = []): VectorNode[] {
+  if (node.type === 'VECTOR') out.push(node);
+  if (node.type === 'FRAME') for (const c of node.children) collectVectors(c, out);
+  return out;
 }
 
 describe('em letter-spacing (gap #5)', () => {
@@ -60,7 +70,7 @@ describe('em letter-spacing (gap #5)', () => {
 });
 
 describe('multi-path SVG (gap #6)', () => {
-  it('concatenates every <path d> in the SVG, not just the first', () => {
+  it('emits one VECTOR per <path> inside a wrapping FRAME', () => {
     const { document } = convertHtml(
       `<html><body>
          <svg id="icon" width="24" height="24">
@@ -72,11 +82,13 @@ describe('multi-path SVG (gap #6)', () => {
       { name: 'multi-path' },
     );
 
-    const vec = findVectorByName(document.root, 'icon');
-    // All three path `d`s should be present (separated by whitespace).
-    expect(vec.path).toContain('M 0 0 L 10 10');
-    expect(vec.path).toContain('M 5 5 L 15 15');
-    expect(vec.path).toContain('M 2 2 L 8 8');
+    const wrapper = findNodeByName(document.root, 'icon');
+    expect(wrapper.type).toBe('FRAME');
+    const vectors = collectVectors(wrapper);
+    expect(vectors).toHaveLength(3);
+    expect(vectors[0]?.path).toContain('M 0 0 L 10 10');
+    expect(vectors[1]?.path).toContain('M 5 5 L 15 15');
+    expect(vectors[2]?.path).toContain('M 2 2 L 8 8');
   });
 
   it('walks into <g> groups', () => {
@@ -90,9 +102,11 @@ describe('multi-path SVG (gap #6)', () => {
       { name: 'grouped' },
     );
 
-    const vec = findVectorByName(document.root, 'grouped');
-    expect(vec.path).toContain('M 0 0');
-    expect(vec.path).toContain('M 5 5');
+    const wrapper = findNodeByName(document.root, 'grouped');
+    const vectors = collectVectors(wrapper);
+    expect(vectors).toHaveLength(2);
+    expect(vectors[0]?.path).toContain('M 0 0');
+    expect(vectors[1]?.path).toContain('M 5 5');
   });
 
   it('synthesises path data from basic shapes (circle, rect, line, polygon)', () => {
@@ -107,15 +121,39 @@ describe('multi-path SVG (gap #6)', () => {
        </body></html>`,
       { name: 'shapes' },
     );
-    const vec = findVectorByName(document.root, 'shapes');
+    const wrapper = findNodeByName(document.root, 'shapes');
+    const vectors = collectVectors(wrapper);
+    expect(vectors).toHaveLength(4);
     // Circle: two half-arcs.
-    expect(vec.path).toMatch(/A 10 10 0 1 0 35 25/);
+    expect(vectors[0]?.path).toMatch(/A 10 10 0 1 0 35 25/);
     // Rect uses L (not H/V — Figma rejects H/V commands).
-    expect(vec.path).toMatch(/L 20 0 L 20 20/);
+    expect(vectors[1]?.path).toMatch(/L 20 0 L 20 20/);
     // Line: M-to-L.
-    expect(vec.path).toMatch(/L 50 50/);
+    expect(vectors[2]?.path).toMatch(/L 50 50/);
     // Polygon: closed.
-    expect(vec.path).toContain('Z');
+    expect(vectors[3]?.path).toContain('Z');
+  });
+
+  it('carries per-shape fill / stroke / stroke-width through the IR', () => {
+    const { document } = convertHtml(
+      `<html><body>
+         <svg id="styled" width="24" height="24" fill="none" stroke="#1C1A16" stroke-width="1.5">
+           <rect x="3" y="3" width="20" height="16" rx="2"/>
+           <circle cx="6" cy="5" r="0.7" fill="#1C1A16" stroke="none"/>
+         </svg>
+       </body></html>`,
+      { name: 'styled-svg' },
+    );
+    const wrapper = findNodeByName(document.root, 'styled');
+    const vectors = collectVectors(wrapper);
+    expect(vectors).toHaveLength(2);
+    // Rect inherits svg's stroke + stroke-width; fill stays "none".
+    expect(vectors[0]?.strokes).toHaveLength(1);
+    expect(vectors[0]?.strokes[0]?.weight).toBe(1.5);
+    expect(vectors[0]?.fills).toHaveLength(0);
+    // Circle overrides: fill set, stroke explicitly "none".
+    expect(vectors[1]?.fills).toHaveLength(1);
+    expect(vectors[1]?.strokes).toHaveLength(0);
   });
 
   it('warns only when the SVG has no convertible geometry at all', () => {

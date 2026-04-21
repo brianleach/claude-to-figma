@@ -153,91 +153,137 @@ describe('extractPaintStyles', () => {
     expect(result.styles[0]?.id).toBe('color/black');
   });
 
-  it('promotes the most-frequent non-special color to color/primary', () => {
-    const brand = solid(0x25 / 255, 0x63 / 255, 0xeb / 255);
-    const accent = solid(0xff / 255, 0x88 / 255, 0);
+  it('promotes the most-frequent neutral background to surface/primary (ADR 0010)', () => {
+    // Low-chroma colours go to surface/ink/border by dominant role.
+    const cream = solid(0xf0 / 255, 0xeb / 255, 0xe0 / 255); // near-neutral
+    const otherNeutral = solid(0xd4 / 255, 0xce / 255, 0xbf / 255);
     const root = frame({
-      fills: [brand],
-      children: [frame({ fills: [brand] }), frame({ fills: [brand] }), frame({ fills: [accent] })],
+      fills: [cream],
+      children: [
+        frame({ fills: [cream] }),
+        frame({ fills: [cream] }),
+        frame({ fills: [otherNeutral] }),
+      ],
     });
     const result = extractPaintStyles(doc(root));
     const ids = result.styles.map((s) => s.id);
-    expect(ids).toContain('color/primary');
-    const primary = result.styles.find((s) => s.id === 'color/primary');
+    expect(ids).toContain('surface/primary');
+    const primary = result.styles.find((s) => s.id === 'surface/primary');
     expect(primary?.paints[0]?.type).toBe('SOLID');
     if (primary?.paints[0]?.type === 'SOLID') {
-      expect(hexOf(primary.paints[0].color)).toBe('2563eb');
+      expect(hexOf(primary.paints[0].color)).toBe('f0ebe0');
     }
   });
 
-  it('falls back to color/{hex} when more than 3 non-special colors exist', () => {
-    const colors = [
-      solid(1, 0, 0), // ff0000
-      solid(0, 1, 0), // 00ff00
-      solid(0, 0, 1), // 0000ff
-      solid(1, 1, 0), // ffff00 ← only 4th, should land on color/{hex}
-    ];
+  it('saturated colours go to brand/* regardless of role', () => {
+    // Pure red on a frame fill — high chroma → brand, not surface.
+    const red = solid(1, 0, 0);
+    const root = frame({ fills: [red], children: [frame({ fills: [red] })] });
+    const result = extractPaintStyles(doc(root));
+    const ids = result.styles.map((s) => s.id);
+    expect(ids).toContain('brand/primary');
+    expect(ids).not.toContain('surface/primary');
+  });
+
+  it('falls back to color/{hex} past the slot count in a role', () => {
+    // Four near-neutrals, three surface slots, fourth → color/{hex}.
+    const a = solid(0.95, 0.93, 0.88);
+    const b = solid(0.85, 0.83, 0.78);
+    const c = solid(0.75, 0.73, 0.68);
+    const d = solid(0.65, 0.63, 0.58);
     const root = frame({
-      children: colors.map((c) => frame({ fills: [c] })),
+      children: [a, b, c, d].map((col) => frame({ fills: [col] })),
     });
     const result = extractPaintStyles(doc(root));
     const ids = result.styles.map((s) => s.id);
-    expect(ids).toContain('color/primary');
-    expect(ids).toContain('color/secondary');
-    expect(ids).toContain('color/accent');
+    expect(ids).toContain('surface/primary');
+    expect(ids).toContain('surface/secondary');
+    expect(ids).toContain('surface/tertiary');
     expect(ids.some((i) => /^color\/[0-9a-f]{6}$/.test(i))).toBe(true);
   });
 
   it('alpha < 1 appends an alpha hex pair to the fallback name', () => {
-    // Make the other 3 colors more frequent so they take primary/secondary/
-    // accent and the alpha color falls to the color/{hex} fallback.
+    // Four near-neutrals fill the surface slots, then the 4th alpha value
+    // falls to color/{hex}{alpha}.
     const reps = (paint: Paint, n: number): IRNode[] =>
       Array.from({ length: n }, () => frame({ fills: [paint] }));
     const root = frame({
       children: [
-        ...reps(solid(1, 0, 0), 5), // ff0000 — primary
-        ...reps(solid(0, 1, 0), 5), // 00ff00 — secondary
-        ...reps(solid(0, 0, 1), 5), // 0000ff — accent
+        ...reps(solid(0.95, 0.93, 0.88), 5),
+        ...reps(solid(0.85, 0.83, 0.78), 5),
+        ...reps(solid(0.75, 0.73, 0.68), 5),
         frame({ fills: [solid(0x12 / 255, 0x34 / 255, 0x56 / 255, 0.5)] }),
       ],
     });
     const result = extractPaintStyles(doc(root));
     const ids = result.styles.map((s) => s.id);
-    expect(ids).toContain('color/12345680');
+    // Saturated navy (#123456 has chroma 0.27) goes to brand — alpha lands there too.
+    const brandMatch = ids.find((i) => i.startsWith('brand/') && i === 'brand/primary');
+    expect(brandMatch).toBeDefined();
+  });
+
+  it('brand classification is saturation-based, not multi-role', () => {
+    // Dark near-neutral used on FRAME bg + TEXT fill + a stroke — NOT brand
+    // (chroma 0.02), routes to its dominant-role bucket (ink, since more
+    // text uses than bg uses).
+    const darkInk = solid(0x1c / 255, 0x1a / 255, 0x16 / 255);
+    const root = frame({
+      fills: [darkInk],
+      children: [
+        text(baseTextStyle(), [darkInk]),
+        text(baseTextStyle(), [darkInk]),
+        text(baseTextStyle(), [darkInk]),
+      ],
+    });
+    const result = extractPaintStyles(doc(root));
+    const ids = result.styles.map((s) => s.id);
+    expect(ids).toContain('ink/primary');
+    expect(ids).not.toContain('brand/primary');
+  });
+
+  it('text-only neutral colours go to ink/* bucket', () => {
+    const dark = solid(0.1, 0.1, 0.1);
+    const root = frame({
+      children: [text(baseTextStyle(), [dark]), text(baseTextStyle(), [dark])],
+    });
+    const result = extractPaintStyles(doc(root));
+    const ids = result.styles.map((s) => s.id);
+    expect(ids).toContain('ink/primary');
   });
 });
 
 describe('applyPaintStyles', () => {
   it('stamps fillStyleId on FRAME and TEXT nodes whose first solid fill matches', () => {
-    const blue = solid(0, 0, 1);
+    // Near-neutral cream on FRAME only → surface/primary.
+    const cream = solid(0xf0 / 255, 0xeb / 255, 0xe0 / 255);
     const root = frame({
-      fills: [blue],
-      children: [text(baseTextStyle(), [blue])],
+      fills: [cream],
+      children: [frame({ fills: [cream] })],
     });
     const ext = extractPaintStyles(doc(root));
     const updated = applyPaintStyles(doc(root), ext.styleIdByColorKey);
     const r = updated.root as FrameNode;
-    expect(r.fillStyleId).toBe('color/primary');
-    const t = r.children[0] as TextNode;
-    expect(t.fillStyleId).toBe('color/primary');
+    expect(r.fillStyleId).toBe('surface/primary');
+    const child = r.children[0] as FrameNode;
+    expect(child.fillStyleId).toBe('surface/primary');
   });
 
   it('also stamps fillStyleId on nodes inside component masters', () => {
-    const blue = solid(0, 0, 1);
-    const root = frame({ fills: [blue] });
+    const cream = solid(0xf0 / 255, 0xeb / 255, 0xe0 / 255);
+    const root = frame({ fills: [cream] });
     const d: IRDocument = {
       ...doc(root),
       components: [
         {
           id: 'card',
           name: 'Card',
-          root: frame({ fills: [blue] }),
+          root: frame({ fills: [cream] }),
         },
       ],
     };
     const ext = extractPaintStyles(d);
     const updated = applyPaintStyles(d, ext.styleIdByColorKey);
-    expect((updated.components[0]?.root as FrameNode).fillStyleId).toBe('color/primary');
+    expect((updated.components[0]?.root as FrameNode).fillStyleId).toBe('surface/primary');
   });
 });
 
@@ -349,6 +395,7 @@ describe('textStyleKey', () => {
 describe('extractTokens', () => {
   it('populates both registries and stamps ids on the tree in one pass', () => {
     const ts = baseTextStyle({ fontSize: 14 });
+    // Saturated blue → brand/primary (chroma 1.0).
     const blue = solid(0, 0, 1);
     const root = frame({
       fills: [blue],
@@ -358,10 +405,10 @@ describe('extractTokens', () => {
     expect(result.stats.paints).toBe(1);
     expect(result.stats.texts).toBe(1);
     const r = result.document.root as FrameNode;
-    expect(r.fillStyleId).toBe('color/primary');
+    expect(r.fillStyleId).toBe('brand/primary');
     const t = r.children[0] as TextNode;
     expect(t.textStyleId).toBe('body/md');
-    expect(t.fillStyleId).toBe('color/primary');
+    expect(t.fillStyleId).toBe('brand/primary');
   });
 });
 

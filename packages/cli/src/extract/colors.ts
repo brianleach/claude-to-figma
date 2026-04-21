@@ -3,13 +3,17 @@
  * (including inside component masters), name them, and stamp the
  * matching `fillStyleId` on every node that uses each one.
  *
- * Naming heuristic (per KICKSTART):
+ * Naming per ADR 0010 (supersedes ADR 0005's frequency-only scheme):
  *   1. Pure white / pure black → `color/white` / `color/black` regardless
- *      of frequency. They're nearly always structural (background, text)
- *      not brand, so naming them `color/primary` would mislead.
- *   2. Of the remaining colors, the top three by usage frequency get
- *      `color/primary`, `color/secondary`, `color/accent`.
- *   3. Everything else falls back to `color/{6-char-hex}`.
+ *      of role or frequency. They're nearly always structural.
+ *   2. Each colour is tagged with its per-role usage counts (background,
+ *      text, stroke, icon). Colours used non-trivially (>= 20%) in two
+ *      or more roles go to the `brand/*` bucket; single-role colours
+ *      fall into their dominant role's bucket (`surface/*`, `ink/*`,
+ *      `border/*`, `icon/*`).
+ *   3. Within each bucket, top-N by total count get the named slots
+ *      (`primary`, `secondary`, `tertiary`, `muted`, `subtle`). The
+ *      tail falls back to `color/{6-char-hex}`.
  */
 
 import type { Color, IRDocument, IRNode, Paint, PaintStyleDef } from '@claude-to-figma/ir';
@@ -17,18 +21,29 @@ import type { Color, IRDocument, IRNode, Paint, PaintStyleDef } from '@claude-to
 /** Narrowed alias for the SOLID branch of the discriminated Paint union. */
 type SolidPaint = Extract<Paint, { type: 'SOLID' }>;
 
+type Role = 'background' | 'text' | 'stroke' | 'icon';
+
 interface PaintUsage {
   color: Color;
   hex: string;
-  count: number;
-  /** Stable key used for dedup before the public id is decided. */
   key: string;
-  /** Final assigned style id, set after naming. */
+  roles: Record<Role, number>;
+  total: number;
   styleId?: string;
   styleName?: string;
 }
 
-const TARGET_NAMES = ['color/primary', 'color/secondary', 'color/accent'] as const;
+/** Slot names per bucket. Order is slot priority — top-N colours fill slots
+ * in order; once slots are exhausted, remaining colours go to the hex tail. */
+const BUCKET_SLOTS = {
+  brand: ['brand/primary', 'brand/accent', 'brand/secondary'],
+  surface: ['surface/primary', 'surface/secondary', 'surface/tertiary'],
+  ink: ['ink/primary', 'ink/muted', 'ink/subtle'],
+  border: ['border/default', 'border/subtle'],
+  icon: ['icon/primary', 'icon/secondary'],
+} as const;
+
+type Bucket = keyof typeof BUCKET_SLOTS;
 
 /**
  * Walk the document, collect unique solid paints, and return both the
@@ -83,15 +98,19 @@ export function applyPaintStyles(
 function collectPaints(node: IRNode, usage: Map<string, PaintUsage>): void {
   switch (node.type) {
     case 'FRAME':
-      for (const fill of node.fills) recordPaint(fill, usage);
+      for (const fill of node.fills) recordPaint(fill, 'background', usage);
+      for (const stroke of node.strokes) recordPaint(stroke.paint, 'stroke', usage);
       for (const child of node.children) collectPaints(child, usage);
       break;
     case 'TEXT':
-      for (const fill of node.fills) recordPaint(fill, usage);
+      for (const fill of node.fills) recordPaint(fill, 'text', usage);
+      break;
+    case 'VECTOR':
+      for (const fill of node.fills) recordPaint(fill, 'icon', usage);
+      for (const stroke of node.strokes) recordPaint(stroke.paint, 'icon', usage);
       break;
     case 'IMAGE':
-    case 'VECTOR':
-      for (const fill of node.fills) recordPaint(fill, usage);
+      for (const fill of node.fills) recordPaint(fill, 'background', usage);
       break;
     case 'INSTANCE':
       // Instance fills come from the component master; nothing to harvest.
@@ -99,25 +118,32 @@ function collectPaints(node: IRNode, usage: Map<string, PaintUsage>): void {
   }
 }
 
-function recordPaint(paint: Paint, usage: Map<string, PaintUsage>): void {
+function recordPaint(paint: Paint, role: Role, usage: Map<string, PaintUsage>): void {
   if (paint.type !== 'SOLID') return;
   const key = colorKey(paint.color);
   let entry = usage.get(key);
   if (!entry) {
-    entry = { color: paint.color, hex: hexOf(paint.color), count: 0, key };
+    entry = {
+      color: paint.color,
+      hex: hexOf(paint.color),
+      key,
+      roles: { background: 0, text: 0, stroke: 0, icon: 0 },
+      total: 0,
+    };
     usage.set(key, entry);
   }
-  entry.count += 1;
+  entry.roles[role] += 1;
+  entry.total += 1;
 }
 
 // ---------------------------------------------------------------------------
-// Naming
+// Naming (ADR 0010)
 // ---------------------------------------------------------------------------
 
 function assignNames(usage: Map<string, PaintUsage>): void {
   const entries = [...usage.values()];
 
-  // 1. Special-case pure black + pure white.
+  // 1. Structural pure-white / pure-black special case.
   for (const e of entries) {
     if (e.hex === 'ffffff') {
       e.styleId = 'color/white';
@@ -128,28 +154,82 @@ function assignNames(usage: Map<string, PaintUsage>): void {
     }
   }
 
-  // 2. Top N (by frequency, ties broken by hex) → primary / secondary / accent.
-  const remaining = entries
-    .filter((e) => !e.styleId)
-    .sort((a, b) => {
-      if (b.count !== a.count) return b.count - a.count;
-      return a.hex.localeCompare(b.hex);
-    });
-  for (let i = 0; i < Math.min(TARGET_NAMES.length, remaining.length); i += 1) {
-    const target = TARGET_NAMES[i];
-    const entry = remaining[i];
-    if (!target || !entry) continue;
-    entry.styleId = target;
-    entry.styleName = target;
+  // 2. Bucket remaining entries by role.
+  const buckets: Record<Bucket, PaintUsage[]> = {
+    brand: [],
+    surface: [],
+    ink: [],
+    border: [],
+    icon: [],
+  };
+  for (const e of entries) {
+    if (e.styleId) continue;
+    buckets[classifyRole(e)].push(e);
   }
 
-  // 3. Everything else: `color/{hex}` (alpha appended when not 1).
+  // 3. Rank within each bucket by total count, assign named slots.
+  for (const [bucket, list] of Object.entries(buckets) as Array<[Bucket, PaintUsage[]]>) {
+    const slots = BUCKET_SLOTS[bucket];
+    list.sort((a, b) => {
+      if (b.total !== a.total) return b.total - a.total;
+      return a.hex.localeCompare(b.hex);
+    });
+    for (let i = 0; i < Math.min(slots.length, list.length); i += 1) {
+      const entry = list[i];
+      const slot = slots[i];
+      if (!entry || !slot) continue;
+      entry.styleId = slot;
+      entry.styleName = slot;
+    }
+  }
+
+  // 4. Tail: `color/{hex}` for colours beyond their bucket's slot count.
   for (const e of entries) {
     if (e.styleId) continue;
     const id = e.color.a === 1 ? `color/${e.hex}` : `color/${e.hex}${alphaHex(e.color.a)}`;
     e.styleId = id;
     e.styleName = id;
   }
+}
+
+function classifyRole(u: PaintUsage): Bucket {
+  // Saturated colours (appreciable chroma) are brand — regardless of role
+  // breakdown. Near-neutrals (dark text, light backgrounds) go to their
+  // dominant-role bucket even when they span multiple roles. Without this,
+  // a dark ink used on text + stroke + the footer's dark bg would land in
+  // `brand/primary`, which is semantically wrong.
+  if (isSaturated(u.color)) return 'brand';
+
+  // Neutral colour used non-trivially across 2+ roles — still put it in
+  // its dominant-role bucket, not brand. (Happens for e.g. a mid-grey
+  // used as both subdued text and a divider stroke.)
+  const order: Array<[Role, Bucket]> = [
+    ['background', 'surface'],
+    ['text', 'ink'],
+    ['stroke', 'border'],
+    ['icon', 'icon'],
+  ];
+  let bestRole: Role = 'background';
+  let bestCount = -1;
+  for (const [role] of order) {
+    if (u.roles[role] > bestCount) {
+      bestRole = role;
+      bestCount = u.roles[role];
+    }
+  }
+  return (order.find(([r]) => r === bestRole)?.[1] ?? 'surface') as Bucket;
+}
+
+/**
+ * Approximation of HSL saturation / chroma — (max - min) of the RGB
+ * channels, normalised. Tuned threshold (0.15) catches colours like
+ * `#B5471F` (chroma 0.59) and rejects near-neutrals like `#1C1A16`
+ * (chroma 0.024). Alpha is ignored — transparency doesn't change hue.
+ */
+function isSaturated(c: Color): boolean {
+  const max = Math.max(c.r, c.g, c.b);
+  const min = Math.min(c.r, c.g, c.b);
+  return max - min > 0.15;
 }
 
 // ---------------------------------------------------------------------------

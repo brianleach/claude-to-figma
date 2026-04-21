@@ -164,7 +164,7 @@
                   "layoutGrow": 0,
                   "layoutAlign": "INHERIT"
                 },
-                "fillStyleId": "color/primary"
+                "fillStyleId": "surface/primary"
               },
               {
                 "type": "TEXT",
@@ -202,7 +202,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "ink/primary",
                 "textStyleId": "text/15-medium"
               }
             ],
@@ -641,7 +641,7 @@
               "layoutGrow": 0,
               "layoutAlign": "INHERIT"
             },
-            "fillStyleId": "color/primary"
+            "fillStyleId": "surface/primary"
           }
         ],
         "layout": {
@@ -776,7 +776,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/6b6555",
+                            "fillStyleId": "ink/subtle",
                             "textStyleId": "text/12-regular"
                           }
                         ],
@@ -838,7 +838,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "text/76-medium"
                       },
                       {
@@ -883,7 +883,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/20-regular"
                       },
                       {
@@ -1003,7 +1003,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "text/15-medium"
                               }
                             ],
@@ -1028,7 +1028,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "color/secondary"
+                            "fillStyleId": "ink/primary"
                           },
                           {
                             "type": "TEXT",
@@ -1077,7 +1077,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "color/secondary",
+                            "fillStyleId": "ink/primary",
                             "textStyleId": "text/15-medium"
                           }
                         ],
@@ -1325,7 +1325,7 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "color/6b6555",
+                                "fillStyleId": "ink/subtle",
                                 "textStyleId": "caption"
                               },
                               {
@@ -1375,7 +1375,7 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "color/secondary",
+                                "fillStyleId": "ink/primary",
                                 "textStyleId": "text/10-regular"
                               }
                             ],
@@ -1394,7 +1394,7 @@
                               "counterAxisSizingMode": "FIXED",
                               "clipsContent": false
                             },
-                            "fillStyleId": "color/f0ede5"
+                            "fillStyleId": "surface/tertiary"
                           },
                           {
                             "type": "FRAME",
@@ -1641,7 +1641,7 @@
                                           "layoutGrow": 0,
                                           "layoutAlign": "STRETCH"
                                         },
-                                        "fillStyleId": "color/primary"
+                                        "fillStyleId": "surface/primary"
                                       },
                                       {
                                         "type": "TEXT",
@@ -1679,7 +1679,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/6b6555",
+                                        "fillStyleId": "ink/subtle",
                                         "textStyleId": "caption"
                                       }
                                     ],
@@ -1776,7 +1776,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/6b6555",
+                                        "fillStyleId": "ink/subtle",
                                         "textStyleId": "text/10-regular"
                                       }
                                     ]
@@ -1833,7 +1833,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/accent",
+                                        "fillStyleId": "ink/muted",
                                         "textStyleId": "text/11-regular"
                                       }
                                     ],
@@ -2087,7 +2087,7 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "color/6b6555",
+                                "fillStyleId": "ink/subtle",
                                 "textStyleId": "caption"
                               },
                               {
@@ -2137,7 +2137,7 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "text/10-regular"
                               }
                             ],
@@ -2156,7 +2156,7 @@
                               "counterAxisSizingMode": "FIXED",
                               "clipsContent": false
                             },
-                            "fillStyleId": "color/f0ede5"
+                            "fillStyleId": "surface/tertiary"
                           },
                           {
                             "type": "FRAME",
@@ -2441,7 +2441,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/6b6555",
+                                        "fillStyleId": "ink/subtle",
                                         "textStyleId": "text/10-regular"
                                       }
                                     ]
@@ -2498,7 +2498,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/accent",
+                                        "fillStyleId": "ink/muted",
                                         "textStyleId": "text/11-regular"
                                       }
                                     ],
@@ -2571,7 +2571,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/accent",
+                                        "fillStyleId": "ink/muted",
                                         "textStyleId": "text/11-regular"
                                       }
                                     ],
@@ -2644,7 +2644,7 @@
                                             "visible": true
                                           }
                                         ],
-                                        "fillStyleId": "color/b5471f",
+                                        "fillStyleId": "brand/primary",
                                         "textStyleId": "text/11-semi-bold"
                                       }
                                     ],
@@ -2937,7 +2937,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "heading/xl"
                       },
                       {
@@ -2982,7 +2982,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/18-regular"
                       },
                       {
@@ -3027,7 +3027,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/18-regular"
                       }
                     ],
@@ -3133,7 +3133,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/6b6555",
+                            "fillStyleId": "ink/subtle",
                             "textStyleId": "text/11-regular"
                           }
                         ]
@@ -3293,7 +3293,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/b5471f",
+                                "fillStyleId": "brand/primary",
                                 "textStyleId": "text/22-medium"
                               }
                             ],
@@ -3383,7 +3383,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/b5471f",
+                                "fillStyleId": "brand/primary",
                                 "textStyleId": "caption"
                               }
                             ],
@@ -3464,7 +3464,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/6b6555",
+                            "fillStyleId": "ink/subtle",
                             "textStyleId": "text/12-regular"
                           },
                           {
@@ -3503,7 +3503,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/6b6555",
+                            "fillStyleId": "ink/subtle",
                             "textStyleId": "text/12-regular"
                           }
                         ]
@@ -3515,7 +3515,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "INHERIT"
                     },
-                    "fillStyleId": "color/faf6ec"
+                    "fillStyleId": "surface/secondary"
                   }
                 ],
                 "layout": {
@@ -3537,7 +3537,7 @@
             ]
           }
         ],
-        "fillStyleId": "color/primary"
+        "fillStyleId": "surface/primary"
       },
       {
         "type": "FRAME",
@@ -3646,7 +3646,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "ink/primary",
                 "textStyleId": "heading/xl"
               },
               {
@@ -3995,7 +3995,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -4039,7 +4039,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "text/26-medium"
                       },
                       {
@@ -4084,7 +4084,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15-regular"
                       },
                       {
@@ -4129,7 +4129,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/primary",
+                        "fillStyleId": "surface/primary",
                         "textStyleId": "text/12-regular"
                       }
                     ],
@@ -4370,7 +4370,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -4414,7 +4414,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "text/26-medium"
                       },
                       {
@@ -4459,7 +4459,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15-regular"
                       },
                       {
@@ -4504,7 +4504,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/primary",
+                        "fillStyleId": "surface/primary",
                         "textStyleId": "text/12-regular"
                       }
                     ],
@@ -4821,7 +4821,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -4865,7 +4865,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "text/26-medium"
                       },
                       {
@@ -4910,7 +4910,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15-regular"
                       },
                       {
@@ -4955,7 +4955,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/primary",
+                        "fillStyleId": "surface/primary",
                         "textStyleId": "text/12-regular"
                       }
                     ],
@@ -5093,7 +5093,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "ink/primary",
                 "textStyleId": "heading/xl"
               },
               {
@@ -5304,7 +5304,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -5348,7 +5348,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "heading/lg"
                       },
                       {
@@ -5393,7 +5393,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15.5-regular"
                       },
                       {
@@ -5545,7 +5545,7 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       }
                     ],
                     "cornerRadius": 14,
@@ -5554,7 +5554,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/faf6ec"
+                    "fillStyleId": "surface/secondary"
                   },
                   {
                     "type": "FRAME",
@@ -5812,7 +5812,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -5856,7 +5856,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "heading/lg"
                       },
                       {
@@ -5901,7 +5901,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15.5-regular"
                       },
                       {
@@ -6085,7 +6085,7 @@
                               "clipsContent": false
                             },
                             "cornerRadius": 6,
-                            "fillStyleId": "color/primary"
+                            "fillStyleId": "surface/primary"
                           },
                           {
                             "type": "FRAME",
@@ -6139,14 +6139,14 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/6b6555",
+                                "fillStyleId": "ink/subtle",
                                 "textStyleId": "caption"
                               }
                             ]
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       }
                     ],
                     "cornerRadius": 14,
@@ -6155,7 +6155,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/faf6ec"
+                    "fillStyleId": "surface/secondary"
                   },
                   {
                     "type": "FRAME",
@@ -6425,7 +6425,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -6469,7 +6469,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "heading/lg"
                       },
                       {
@@ -6514,7 +6514,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15.5-regular"
                       },
                       {
@@ -6627,7 +6627,7 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "color/primary"
+                                "fillStyleId": "surface/primary"
                               },
                               {
                                 "type": "FRAME",
@@ -6800,7 +6800,7 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       }
                     ],
                     "cornerRadius": 14,
@@ -6809,7 +6809,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/faf6ec"
+                    "fillStyleId": "surface/secondary"
                   },
                   {
                     "type": "FRAME",
@@ -7047,7 +7047,7 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       },
                       {
                         "type": "TEXT",
@@ -7091,7 +7091,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "heading/lg"
                       },
                       {
@@ -7136,7 +7136,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "text/15.5-regular"
                       },
                       {
@@ -7335,7 +7335,7 @@
                                       "layoutGrow": 0,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/accent",
+                                    "fillStyleId": "ink/muted",
                                     "textStyleId": "text/14-regular"
                                   },
                                   {
@@ -7385,7 +7385,7 @@
                                       "layoutGrow": 1,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/secondary",
+                                    "fillStyleId": "ink/primary",
                                     "textStyleId": "text/14-regular"
                                   },
                                   {
@@ -7435,7 +7435,7 @@
                                       "layoutGrow": 1,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/6b6555",
+                                    "fillStyleId": "ink/subtle",
                                     "textStyleId": "caption"
                                   }
                                 ],
@@ -7523,7 +7523,7 @@
                                       "layoutGrow": 0,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/accent",
+                                    "fillStyleId": "ink/muted",
                                     "textStyleId": "text/12-regular"
                                   },
                                   {
@@ -7573,7 +7573,7 @@
                                       "layoutGrow": 1,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/secondary",
+                                    "fillStyleId": "ink/primary",
                                     "textStyleId": "text/14-regular"
                                   },
                                   {
@@ -7623,7 +7623,7 @@
                                       "layoutGrow": 1,
                                       "layoutAlign": "INHERIT"
                                     },
-                                    "fillStyleId": "color/6b6555",
+                                    "fillStyleId": "ink/subtle",
                                     "textStyleId": "caption"
                                   }
                                 ],
@@ -7667,7 +7667,7 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "color/primary"
+                        "fillStyleId": "surface/primary"
                       }
                     ],
                     "cornerRadius": 14,
@@ -7676,7 +7676,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/faf6ec"
+                    "fillStyleId": "surface/secondary"
                   }
                 ],
                 "layout": {
@@ -7771,7 +7771,7 @@
                 "strokes": [],
                 "effects": [],
                 "children": [],
-                "fillStyleId": "color/primary"
+                "fillStyleId": "surface/primary"
               },
               {
                 "type": "FRAME",
@@ -7857,7 +7857,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/e8c9b6",
+                            "fillStyleId": "brand/accent",
                             "textStyleId": "text/12-regular"
                           }
                         ]
@@ -7928,7 +7928,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/primary",
+                "fillStyleId": "surface/primary",
                 "textStyleId": "heading/xl"
               },
               {
@@ -8114,7 +8114,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "text/10-regular"
                               }
                             ]
@@ -8171,7 +8171,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "text/22-medium"
                               }
                             ]
@@ -8235,7 +8235,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/primary",
+                            "fillStyleId": "surface/primary",
                             "textStyleId": "text/11-regular"
                           },
                           {
@@ -8274,7 +8274,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/primary",
+                            "fillStyleId": "surface/primary",
                             "textStyleId": "text/11-regular"
                           },
                           {
@@ -8313,7 +8313,7 @@
                                 "visible": true
                               }
                             ],
-                            "fillStyleId": "color/primary",
+                            "fillStyleId": "surface/primary",
                             "textStyleId": "text/11-regular"
                           }
                         ],
@@ -8366,7 +8366,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/b5471f"
+                    "fillStyleId": "brand/primary"
                   },
                   {
                     "type": "INSTANCE",
@@ -8573,7 +8573,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "text/22-medium"
                               }
                             ]
@@ -8815,7 +8815,7 @@
           }
         ],
         "cornerRadius": 0,
-        "fillStyleId": "color/secondary"
+        "fillStyleId": "ink/primary"
       },
       {
         "type": "FRAME",
@@ -8956,7 +8956,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/primary",
                         "textStyleId": "text/48-medium"
                       },
                       {
@@ -9001,7 +9001,7 @@
                             "visible": true
                           }
                         ],
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/muted",
                         "textStyleId": "body/lg"
                       },
                       {
@@ -9067,7 +9067,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "color/secondary",
+                            "fillStyleId": "ink/primary",
                             "textStyleId": "text/12-regular"
                           },
                           {
@@ -9117,7 +9117,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "color/secondary",
+                            "fillStyleId": "ink/primary",
                             "textStyleId": "text/12-regular"
                           },
                           {
@@ -9167,7 +9167,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "color/secondary",
+                            "fillStyleId": "ink/primary",
                             "textStyleId": "text/12-regular"
                           },
                           {
@@ -9217,7 +9217,7 @@
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "color/secondary",
+                            "fillStyleId": "ink/primary",
                             "textStyleId": "text/12-regular"
                           }
                         ],
@@ -9505,7 +9505,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/e8c9b6",
+                                "fillStyleId": "brand/accent",
                                 "textStyleId": "body/sm"
                               },
                               {
@@ -9550,7 +9550,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "body/sm"
                               },
                               {
@@ -9595,7 +9595,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/b5c9a1",
+                                "fillStyleId": "brand/secondary",
                                 "textStyleId": "body/sm"
                               }
                             ]
@@ -9677,7 +9677,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/e8c9b6",
+                                "fillStyleId": "brand/accent",
                                 "textStyleId": "body/sm"
                               },
                               {
@@ -9722,7 +9722,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "body/sm"
                               }
                             ]
@@ -9804,7 +9804,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/e8c9b6",
+                                "fillStyleId": "brand/accent",
                                 "textStyleId": "body/sm"
                               },
                               {
@@ -9849,7 +9849,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "body/sm"
                               }
                             ]
@@ -9912,7 +9912,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/primary",
+                                "fillStyleId": "surface/primary",
                                 "textStyleId": "body/sm"
                               },
                               {
@@ -10014,7 +10014,7 @@
                                     "visible": true
                                   }
                                 ],
-                                "fillStyleId": "color/e8c9b6",
+                                "fillStyleId": "brand/accent",
                                 "textStyleId": "body/sm"
                               }
                             ]
@@ -10028,7 +10028,7 @@
                       "layoutGrow": 1,
                       "layoutAlign": "INHERIT"
                     },
-                    "fillStyleId": "color/secondary"
+                    "fillStyleId": "ink/primary"
                   }
                 ],
                 "layout": {
@@ -10157,7 +10157,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/b5471f",
+                    "fillStyleId": "brand/primary",
                     "textStyleId": "text/14-regular"
                   },
                   {
@@ -10196,7 +10196,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/accent",
+                    "fillStyleId": "ink/muted",
                     "textStyleId": "heading/md"
                   },
                   {
@@ -10280,7 +10280,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/accent",
+                    "fillStyleId": "ink/muted",
                     "textStyleId": "heading/md"
                   },
                   {
@@ -10319,7 +10319,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/accent",
+                    "fillStyleId": "ink/muted",
                     "textStyleId": "heading/md"
                   },
                   {
@@ -10364,7 +10364,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/b5471f",
+                    "fillStyleId": "brand/primary",
                     "textStyleId": "text/14-regular"
                   },
                   {
@@ -10403,7 +10403,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/accent",
+                    "fillStyleId": "ink/muted",
                     "textStyleId": "heading/md"
                   }
                 ],
@@ -10882,7 +10882,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/6b6555",
+                "fillStyleId": "ink/subtle",
                 "textStyleId": "caption"
               }
             ],
@@ -10905,20 +10905,20 @@
         ]
       }
     ],
-    "fillStyleId": "color/primary"
+    "fillStyleId": "surface/primary"
   },
   "styles": {
     "paints": [
       {
-        "id": "color/2a2620",
-        "name": "color/2a2620",
+        "id": "border/default",
+        "name": "border/default",
         "paints": [
           {
             "type": "SOLID",
             "color": {
-              "r": 0.16470588235294117,
-              "g": 0.14901960784313725,
-              "b": 0.12549019607843137,
+              "r": 0.788235294117647,
+              "g": 0.7529411764705882,
+              "b": 0.6549019607843137,
               "a": 1
             },
             "opacity": 1,
@@ -10927,32 +10927,15 @@
         ]
       },
       {
-        "id": "color/6b6555",
-        "name": "color/6b6555",
-        "paints": [
-          {
-            "type": "SOLID",
-            "color": {
-              "r": 0.4196078431372549,
-              "g": 0.396078431372549,
-              "b": 0.3333333333333333,
-              "a": 1
-            },
-            "opacity": 1,
-            "visible": true
-          }
-        ]
-      },
-      {
-        "id": "color/accent",
-        "name": "color/accent",
+        "id": "border/subtle",
+        "name": "border/subtle",
         "paints": [
           {
             "type": "SOLID",
             "color": {
               "r": 0.22745098039215686,
-              "g": 0.21176470588235294,
-              "b": 0.1803921568627451,
+              "g": 0.20784313725490197,
+              "b": 0.17647058823529413,
               "a": 1
             },
             "opacity": 1,
@@ -10961,8 +10944,25 @@
         ]
       },
       {
-        "id": "color/b5471f",
-        "name": "color/b5471f",
+        "id": "brand/accent",
+        "name": "brand/accent",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.9098039215686274,
+              "g": 0.788235294117647,
+              "b": 0.7137254901960784,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "type": "SOLID",
@@ -10978,8 +10978,8 @@
         ]
       },
       {
-        "id": "color/b5c9a1",
-        "name": "color/b5c9a1",
+        "id": "brand/secondary",
+        "name": "brand/secondary",
         "paints": [
           {
             "type": "SOLID",
@@ -10987,6 +10987,23 @@
               "r": 0.7098039215686275,
               "g": 0.788235294117647,
               "b": 0.6313725490196078,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "color/2a2620",
+        "name": "color/2a2620",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.16470588235294117,
+              "g": 0.14901960784313725,
+              "b": 0.12549019607843137,
               "a": 1
             },
             "opacity": 1,
@@ -11063,40 +11080,6 @@
         ]
       },
       {
-        "id": "color/e8c9b6",
-        "name": "color/e8c9b6",
-        "paints": [
-          {
-            "type": "SOLID",
-            "color": {
-              "r": 0.9098039215686274,
-              "g": 0.788235294117647,
-              "b": 0.7137254901960784,
-              "a": 1
-            },
-            "opacity": 1,
-            "visible": true
-          }
-        ]
-      },
-      {
-        "id": "color/f0ede5",
-        "name": "color/f0ede5",
-        "paints": [
-          {
-            "type": "SOLID",
-            "color": {
-              "r": 0.9411764705882353,
-              "g": 0.9294117647058824,
-              "b": 0.8980392156862745,
-              "a": 1
-            },
-            "opacity": 1,
-            "visible": true
-          }
-        ]
-      },
-      {
         "id": "color/f5f2ea",
         "name": "color/f5f2ea",
         "paints": [
@@ -11106,23 +11089,6 @@
               "r": 0.9607843137254902,
               "g": 0.9490196078431372,
               "b": 0.9176470588235294,
-              "a": 1
-            },
-            "opacity": 1,
-            "visible": true
-          }
-        ]
-      },
-      {
-        "id": "color/faf6ec",
-        "name": "color/faf6ec",
-        "paints": [
-          {
-            "type": "SOLID",
-            "color": {
-              "r": 0.9803921568627451,
-              "g": 0.9647058823529412,
-              "b": 0.9254901960784314,
               "a": 1
             },
             "opacity": 1,
@@ -11148,8 +11114,59 @@
         ]
       },
       {
-        "id": "color/primary",
-        "name": "color/primary",
+        "id": "ink/muted",
+        "name": "ink/muted",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.22745098039215686,
+              "g": 0.21176470588235294,
+              "b": 0.1803921568627451,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "ink/primary",
+        "name": "ink/primary",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.10980392156862745,
+              "g": 0.10196078431372549,
+              "b": 0.08627450980392157,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "ink/subtle",
+        "name": "ink/subtle",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.4196078431372549,
+              "g": 0.396078431372549,
+              "b": 0.3333333333333333,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
         "paints": [
           {
             "type": "SOLID",
@@ -11165,15 +11182,32 @@
         ]
       },
       {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "surface/secondary",
+        "name": "surface/secondary",
         "paints": [
           {
             "type": "SOLID",
             "color": {
-              "r": 0.10980392156862745,
-              "g": 0.10196078431372549,
-              "b": 0.08627450980392157,
+              "r": 0.9803921568627451,
+              "g": 0.9647058823529412,
+              "b": 0.9254901960784314,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "surface/tertiary",
+        "name": "surface/tertiary",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.9411764705882353,
+              "g": 0.9294117647058824,
+              "b": 0.8980392156862745,
               "a": 1
             },
             "opacity": 1,
@@ -11919,7 +11953,7 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "color/primary"
+        "fillStyleId": "surface/primary"
       }
     },
     {
@@ -11998,7 +12032,7 @@
             "effects": [],
             "children": [],
             "cornerRadius": 2,
-            "fillStyleId": "color/secondary"
+            "fillStyleId": "ink/primary"
           },
           {
             "type": "FRAME",
@@ -12029,7 +12063,7 @@
             "effects": [],
             "children": [],
             "cornerRadius": 2,
-            "fillStyleId": "color/6b6555"
+            "fillStyleId": "ink/subtle"
           },
           {
             "type": "FRAME",
@@ -12059,7 +12093,7 @@
             "strokes": [],
             "effects": [],
             "children": [],
-            "fillStyleId": "color/b5471f"
+            "fillStyleId": "brand/primary"
           }
         ],
         "cornerRadius": 6,
@@ -12068,7 +12102,7 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "color/primary"
+        "fillStyleId": "surface/primary"
       }
     },
     {
@@ -12126,7 +12160,7 @@
                 "visible": true
               }
             ],
-            "fillStyleId": "color/accent",
+            "fillStyleId": "ink/muted",
             "textStyleId": "text/11-regular"
           }
         ],
@@ -12275,7 +12309,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "ink/primary",
                 "textStyleId": "text/22-medium"
               }
             ],
@@ -12349,7 +12383,7 @@
                     "visible": true
                   }
                 ],
-                "fillStyleId": "color/accent",
+                "fillStyleId": "ink/muted",
                 "textStyleId": "caption"
               }
             ],
@@ -12466,7 +12500,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/6b6555",
+                    "fillStyleId": "ink/subtle",
                     "textStyleId": "text/12-regular"
                   }
                 ]
@@ -12527,7 +12561,7 @@
         "strokes": [],
         "effects": [],
         "children": [],
-        "fillStyleId": "color/secondary"
+        "fillStyleId": "ink/primary"
       }
     },
     {
@@ -12624,7 +12658,7 @@
               "layoutGrow": 0,
               "layoutAlign": "INHERIT"
             },
-            "fillStyleId": "color/primary",
+            "fillStyleId": "surface/primary",
             "textStyleId": "text/10-regular"
           },
           {
@@ -12663,7 +12697,7 @@
                 "visible": true
               }
             ],
-            "fillStyleId": "color/accent",
+            "fillStyleId": "ink/muted",
             "textStyleId": "text/12-regular"
           }
         ],
@@ -12688,7 +12722,7 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "color/primary"
+        "fillStyleId": "surface/primary"
       }
     },
     {
@@ -12752,7 +12786,7 @@
                 "visible": true
               }
             ],
-            "fillStyleId": "color/6b6555",
+            "fillStyleId": "ink/subtle",
             "textStyleId": "body/sm"
           }
         ]
@@ -12930,7 +12964,7 @@
                         "visible": true
                       }
                     ],
-                    "fillStyleId": "color/primary",
+                    "fillStyleId": "surface/primary",
                     "textStyleId": "text/22-medium"
                   }
                 ]
@@ -13183,7 +13217,7 @@
                 "visible": true
               }
             ],
-            "fillStyleId": "color/b5471f",
+            "fillStyleId": "brand/primary",
             "textStyleId": "text/12-regular"
           }
         ]
@@ -13255,7 +13289,7 @@
               "layoutGrow": 1,
               "layoutAlign": "INHERIT"
             },
-            "fillStyleId": "color/secondary",
+            "fillStyleId": "ink/primary",
             "textStyleId": "text/12-regular"
           },
           {
@@ -13305,7 +13339,7 @@
               "layoutGrow": 1,
               "layoutAlign": "INHERIT"
             },
-            "fillStyleId": "color/6b6555",
+            "fillStyleId": "ink/subtle",
             "textStyleId": "caption"
           }
         ],

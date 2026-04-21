@@ -22,7 +22,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
             "children": [
               {
                 "characters": "Fast",
-                "fillStyleId": "color/primary",
+                "fillStyleId": "ink/primary",
                 "fills": [
                   {
                     "color": {
@@ -83,7 +83,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
             "children": [
               {
                 "characters": "Ships HTML to Figma in seconds.",
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "ink/muted",
                 "fills": [
                   {
                     "color": {
@@ -390,7 +390,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
       },
     ],
     "effects": [],
-    "fillStyleId": "color/accent",
+    "fillStyleId": "surface/primary",
     "fills": [
       {
         "color": {
@@ -420,15 +420,15 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/accent",
-        "name": "color/accent",
+        "id": "color/white",
+        "name": "color/white",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 0.9686274509803922,
-              "g": 0.9607843137254902,
-              "r": 0.9607843137254902,
+              "b": 1,
+              "g": 1,
+              "r": 1,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -437,25 +437,8 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.16470588235294117,
-              "g": 0.09019607843137255,
-              "r": 0.058823529411764705,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "ink/muted",
+        "name": "ink/muted",
         "paints": [
           {
             "color": {
@@ -471,15 +454,32 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/white",
-        "name": "color/white",
+        "id": "ink/primary",
+        "name": "ink/primary",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 1,
-              "g": 1,
-              "r": 1,
+              "b": 0.16470588235294117,
+              "g": 0.09019607843137255,
+              "r": 0.058823529411764705,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9686274509803922,
+              "g": 0.9607843137254902,
+              "r": 0.9607843137254902,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -562,7 +562,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
       {
         "children": [],
         "effects": [],
-        "fillStyleId": "color/888888",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -592,7 +592,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
       {
         "children": [],
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "brand/accent",
         "fills": [
           {
             "color": {
@@ -652,7 +652,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
       {
         "children": [],
         "effects": [],
-        "fillStyleId": "color/accent",
+        "fillStyleId": "brand/secondary",
         "fills": [
           {
             "color": {
@@ -683,7 +683,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
         "children": [
           {
             "characters": "A title",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "brand/primary",
             "fills": [
               {
                 "color": {
@@ -727,7 +727,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "An italic blue paragraph by inheritance.",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "brand/primary",
             "fills": [
               {
                 "color": {
@@ -771,7 +771,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "A non-italic blue span.",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "brand/primary",
             "fills": [
               {
                 "color": {
@@ -861,15 +861,15 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/888888",
-        "name": "color/888888",
+        "id": "brand/accent",
+        "name": "brand/accent",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 0.5333333333333333,
-              "g": 0.5333333333333333,
-              "r": 0.5333333333333333,
+              "b": 0,
+              "g": 1,
+              "r": 0,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -878,8 +878,25 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/accent",
-        "name": "color/accent",
+        "id": "brand/primary",
+        "name": "brand/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9215686274509803,
+              "g": 0.38823529411764707,
+              "r": 0.1450980392156863,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "brand/secondary",
+        "name": "brand/secondary",
         "paints": [
           {
             "color": {
@@ -912,40 +929,6 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9215686274509803,
-              "g": 0.38823529411764707,
-              "r": 0.1450980392156863,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0,
-              "g": 1,
-              "r": 0,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
         "id": "color/white",
         "name": "color/white",
         "paints": [
@@ -955,6 +938,23 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.5333333333333333,
+              "g": 0.5333333333333333,
+              "r": 0.5333333333333333,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -1056,7 +1056,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
         "children": [
           {
             "characters": "Hello",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -1100,7 +1100,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "A short paragraph that introduces the card.",
-            "fillStyleId": "color/accent",
+            "fillStyleId": "ink/muted",
             "fills": [
               {
                 "color": {
@@ -1222,7 +1222,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
         ],
         "cornerRadius": 8,
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -1251,7 +1251,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
       },
     ],
     "effects": [],
-    "fillStyleId": "color/f5f5f7",
+    "fillStyleId": "surface/primary",
     "fills": [
       {
         "color": {
@@ -1281,59 +1281,8 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/accent",
-        "name": "color/accent",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.5019607843137255,
-              "g": 0.4470588235294118,
-              "r": 0.4196078431372549,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/f5f5f7",
-        "name": "color/f5f5f7",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9686274509803922,
-              "g": 0.9607843137254902,
-              "r": 0.9607843137254902,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.10196078431372549,
-              "g": 0.10196078431372549,
-              "r": 0.10196078431372549,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -1358,6 +1307,57 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/muted",
+        "name": "ink/muted",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.5019607843137255,
+              "g": 0.4470588235294118,
+              "r": 0.4196078431372549,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/primary",
+        "name": "ink/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.10196078431372549,
+              "g": 0.10196078431372549,
+              "r": 0.10196078431372549,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9686274509803922,
+              "g": 0.9607843137254902,
+              "r": 0.9607843137254902,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -1446,7 +1446,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
         "children": [],
         "cornerRadius": 16,
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -1531,7 +1531,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -1615,7 +1615,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -1699,7 +1699,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -1783,7 +1783,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -1857,25 +1857,8 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -1907,6 +1890,23 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
         ],
       },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
     ],
     "texts": [],
   },
@@ -1929,7 +1929,7 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
         "children": [],
         "cornerRadius": 999,
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -2048,7 +2048,7 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -2122,8 +2122,8 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/primary",
-        "name": "color/primary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -2131,23 +2131,6 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
               "b": 0.9215686274509803,
               "g": 0.38823529411764707,
               "r": 0.1450980392156863,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -2165,6 +2148,23 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -2194,7 +2194,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
         "children": [],
         "cornerRadius": 16,
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -2279,7 +2279,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -2363,7 +2363,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -2447,7 +2447,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -2550,7 +2550,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
           },
         ],
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -2624,25 +2624,8 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
   "styles": {
     "paints": [
       {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -2667,6 +2650,23 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -2947,7 +2947,7 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
               },
             ],
             "effects": [],
-            "fillStyleId": "color/primary",
+            "fillStyleId": "surface/primary",
             "fills": [
               {
                 "color": {
@@ -3004,7 +3004,7 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
                 },
                 "children": [],
                 "effects": [],
-                "fillStyleId": "color/secondary",
+                "fillStyleId": "surface/secondary",
                 "fills": [
                   {
                     "color": {
@@ -3160,8 +3160,25 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/primary",
-        "name": "color/primary",
+        "id": "color/white",
+        "name": "color/white",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 1,
+              "g": 1,
+              "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
         "paints": [
           {
             "color": {
@@ -3177,8 +3194,8 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "surface/secondary",
+        "name": "surface/secondary",
         "paints": [
           {
             "color": {
@@ -3186,23 +3203,6 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
               "b": 0.9764705882352941,
               "g": 0.9607843137254902,
               "r": 0.9450980392156862,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/white",
-        "name": "color/white",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 1,
-              "g": 1,
-              "r": 1,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -3271,7 +3271,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
         "children": [],
         "cornerRadius": 8,
         "effects": [],
-        "fillStyleId": "color/primary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -3432,7 +3432,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
         ],
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "surface/primary",
         "fills": [
           {
             "color": {
@@ -3506,8 +3506,8 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/primary",
-        "name": "color/primary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -3515,23 +3515,6 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
               "b": 0.9215686274509803,
               "g": 0.38823529411764707,
               "r": 0.1450980392156863,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -3549,6 +3532,23 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -3583,7 +3583,7 @@ exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
-            "fillStyleId": "color/secondary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -3839,7 +3839,7 @@ exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
       },
     ],
     "effects": [],
-    "fillStyleId": "color/primary",
+    "fillStyleId": "surface/primary",
     "fills": [
       {
         "color": {
@@ -3886,15 +3886,15 @@ exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/primary",
-        "name": "color/primary",
+        "id": "ink/primary",
+        "name": "ink/primary",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 0.16470588235294117,
-              "g": 0.09019607843137255,
-              "r": 0.058823529411764705,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -3903,15 +3903,15 @@ exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "surface/primary",
+        "name": "surface/primary",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
+              "b": 0.16470588235294117,
+              "g": 0.09019607843137255,
+              "r": 0.058823529411764705,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -4035,7 +4035,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
               },
             ],
             "effects": [],
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -4070,7 +4070,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                     "children": [
                       {
                         "characters": "Home",
-                        "fillStyleId": "color/primary",
+                        "fillStyleId": "ink/primary",
                         "fills": [
                           {
                             "color": {
@@ -4132,7 +4132,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                     "children": [
                       {
                         "characters": "Settings",
-                        "fillStyleId": "color/primary",
+                        "fillStyleId": "ink/primary",
                         "fills": [
                           {
                             "color": {
@@ -4192,7 +4192,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                   },
                 ],
                 "effects": [],
-                "fillStyleId": "color/f1f5f9",
+                "fillStyleId": "surface/secondary",
                 "fills": [
                   {
                     "color": {
@@ -4225,7 +4225,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                     "children": [
                       {
                         "characters": "Welcome back",
-                        "fillStyleId": "color/secondary",
+                        "fillStyleId": "ink/muted",
                         "fills": [
                           {
                             "color": {
@@ -4269,7 +4269,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                       },
                       {
                         "characters": "Pick up where you left off.",
-                        "fillStyleId": "color/accent",
+                        "fillStyleId": "ink/subtle",
                         "fills": [
                           {
                             "color": {
@@ -4315,7 +4315,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
                     ],
                     "cornerRadius": 16,
                     "effects": [],
-                    "fillStyleId": "color/e0e7ff",
+                    "fillStyleId": "surface/primary",
                     "fills": [
                       {
                         "color": {
@@ -4422,32 +4422,15 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/accent",
-        "name": "color/accent",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.4117647058823529,
-              "g": 0.3333333333333333,
-              "r": 0.2784313725490196,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/e0e7ff",
-        "name": "color/e0e7ff",
+        "id": "color/white",
+        "name": "color/white",
         "paints": [
           {
             "color": {
               "a": 1,
               "b": 1,
-              "g": 0.9058823529411765,
-              "r": 0.8784313725490196,
+              "g": 1,
+              "r": 1,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -4456,42 +4439,8 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/f1f5f9",
-        "name": "color/f1f5f9",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9764705882352941,
-              "g": 0.9607843137254902,
-              "r": 0.9450980392156862,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.16470588235294117,
-              "g": 0.09019607843137255,
-              "r": 0.058823529411764705,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "ink/muted",
+        "name": "ink/muted",
         "paints": [
           {
             "color": {
@@ -4507,15 +4456,66 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/white",
-        "name": "color/white",
+        "id": "ink/primary",
+        "name": "ink/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.16470588235294117,
+              "g": 0.09019607843137255,
+              "r": 0.058823529411764705,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/subtle",
+        "name": "ink/subtle",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.4117647058823529,
+              "g": 0.3333333333333333,
+              "r": 0.2784313725490196,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
         "paints": [
           {
             "color": {
               "a": 1,
               "b": 1,
-              "g": 1,
-              "r": 1,
+              "g": 0.9058823529411765,
+              "r": 0.8784313725490196,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/secondary",
+        "name": "surface/secondary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9764705882352941,
+              "g": 0.9607843137254902,
+              "r": 0.9450980392156862,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -4637,7 +4637,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
         "children": [
           {
             "characters": "Hello",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -4681,7 +4681,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "A short paragraph that introduces the card.",
-            "fillStyleId": "color/accent",
+            "fillStyleId": "ink/muted",
             "fills": [
               {
                 "color": {
@@ -4803,7 +4803,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
         ],
         "cornerRadius": 8,
         "effects": [],
-        "fillStyleId": "color/secondary",
+        "fillStyleId": "brand/primary",
         "fills": [
           {
             "color": {
@@ -4832,7 +4832,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
       },
     ],
     "effects": [],
-    "fillStyleId": "color/f5f5f7",
+    "fillStyleId": "surface/primary",
     "fills": [
       {
         "color": {
@@ -4862,59 +4862,8 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
   "styles": {
     "paints": [
       {
-        "id": "color/accent",
-        "name": "color/accent",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.3333333333333333,
-              "g": 0.3333333333333333,
-              "r": 0.3333333333333333,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/f5f5f7",
-        "name": "color/f5f5f7",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.9686274509803922,
-              "g": 0.9607843137254902,
-              "r": 0.9607843137254902,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.10196078431372549,
-              "g": 0.10196078431372549,
-              "r": 0.10196078431372549,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "brand/primary",
+        "name": "brand/primary",
         "paints": [
           {
             "color": {
@@ -4939,6 +4888,57 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
               "b": 1,
               "g": 1,
               "r": 1,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/muted",
+        "name": "ink/muted",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.3333333333333333,
+              "g": 0.3333333333333333,
+              "r": 0.3333333333333333,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/primary",
+        "name": "ink/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.10196078431372549,
+              "g": 0.10196078431372549,
+              "r": 0.10196078431372549,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.9686274509803922,
+              "g": 0.9607843137254902,
+              "r": 0.9607843137254902,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -5041,7 +5041,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
         "children": [
           {
             "characters": "Designing in the open",
-            "fillStyleId": "color/secondary",
+            "fillStyleId": "ink/muted",
             "fills": [
               {
                 "color": {
@@ -5086,7 +5086,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "A field guide for product teams",
-            "fillStyleId": "color/accent",
+            "fillStyleId": "ink/subtle",
             "fills": [
               {
                 "color": {
@@ -5131,7 +5131,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "Most design systems begin as a folder of screenshots. They become useful only when the screenshots become components, and the components become tokens.",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -5176,7 +5176,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "The shift is small in code and large in practice. Edit once, ship everywhere. That is the whole pitch.",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -5266,7 +5266,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           },
           {
             "characters": "Filed under: process",
-            "fillStyleId": "color/primary",
+            "fillStyleId": "ink/primary",
             "fills": [
               {
                 "color": {
@@ -5373,15 +5373,15 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/accent",
-        "name": "color/accent",
+        "id": "color/white",
+        "name": "color/white",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 0.26666666666666666,
-              "g": 0.26666666666666666,
-              "r": 0.26666666666666666,
+              "b": 1,
+              "g": 1,
+              "r": 1,
             },
             "opacity": 1,
             "type": "SOLID",
@@ -5390,25 +5390,8 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/primary",
-        "name": "color/primary",
-        "paints": [
-          {
-            "color": {
-              "a": 1,
-              "b": 0.13333333333333333,
-              "g": 0.13333333333333333,
-              "r": 0.13333333333333333,
-            },
-            "opacity": 1,
-            "type": "SOLID",
-            "visible": true,
-          },
-        ],
-      },
-      {
-        "id": "color/secondary",
-        "name": "color/secondary",
+        "id": "ink/muted",
+        "name": "ink/muted",
         "paints": [
           {
             "color": {
@@ -5424,15 +5407,32 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
         ],
       },
       {
-        "id": "color/white",
-        "name": "color/white",
+        "id": "ink/primary",
+        "name": "ink/primary",
         "paints": [
           {
             "color": {
               "a": 1,
-              "b": 1,
-              "g": 1,
-              "r": 1,
+              "b": 0.13333333333333333,
+              "g": 0.13333333333333333,
+              "r": 0.13333333333333333,
+            },
+            "opacity": 1,
+            "type": "SOLID",
+            "visible": true,
+          },
+        ],
+      },
+      {
+        "id": "ink/subtle",
+        "name": "ink/subtle",
+        "paints": [
+          {
+            "color": {
+              "a": 1,
+              "b": 0.26666666666666666,
+              "g": 0.26666666666666666,
+              "r": 0.26666666666666666,
             },
             "opacity": 1,
             "type": "SOLID",

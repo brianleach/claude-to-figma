@@ -34,3 +34,4 @@ What changes — good and bad — that decision implies.
 | 0007 | [Shorthand expansion lives in a cascade-time registry](./0007-shorthand-registry.md) | accepted |
 | 0008 | [`display: grid` maps to flex-wrap, not to synthesized row frames](./0008-grid-as-flex-wrap.md) | accepted |
 | 0009 | [Gradient paints as IR-level first-class paints](./0009-gradient-paints.md) | accepted |
+| 0010 | [Paint style names are role-aware](./0010-role-aware-paint-names.md) | accepted |

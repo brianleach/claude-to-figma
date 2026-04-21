@@ -127,11 +127,15 @@ removed unless an explicit fix lands.
 
 ## Other
 
-15. **Single fill per node only.** The IR's `fills` field is an array,
-    but the extractor only registers and references the first solid
-    fill. Layered backgrounds (gradient + solid, two solids with
-    different alphas) keep their first fill registered as a style; the
-    rest stay inline.
+15. **Single fill per node; gradient-enabled.** `SOLID`, `GRADIENT_LINEAR`,
+    and `GRADIENT_RADIAL` paints are extracted (ADR 0009). Angle / direction
+    keyword / `turn` / `rad` / `grad` units + positioned or evenly-distributed
+    stops are all handled. Radial gradient shape / size / position is parsed
+    and discarded (Figma's default ellipse-at-centre is used). Multi-value
+    `background:` with layered gradients collapses to the first one. `IMAGE`
+    paints from `background-image: url(...)` still aren't resolved. The token
+    extractor only registers and references the first SOLID fill — gradients
+    stay inline on each node for now.
 
 16. **SVG support is path-only.** The walker collects every `<path d>`
     inside an `<svg>` (including paths nested in `<g>` groups) and

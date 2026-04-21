@@ -382,7 +382,7 @@ function applyChildLayout(node: SceneNode, ir: IRNode): void {
 // Paint / effect mappers
 // ---------------------------------------------------------------------------
 
-function toFigmaPaint(p: IrPaint): SolidPaint {
+function toFigmaPaint(p: IrPaint): Paint {
   if (p.type === 'SOLID') {
     return {
       type: 'SOLID',
@@ -391,6 +391,19 @@ function toFigmaPaint(p: IrPaint): SolidPaint {
       visible: p.visible,
     };
   }
+  if (p.type === 'GRADIENT_LINEAR' || p.type === 'GRADIENT_RADIAL') {
+    return {
+      type: p.type,
+      gradientTransform: p.gradientTransform,
+      gradientStops: p.gradientStops.map((s) => ({
+        position: s.position,
+        color: { r: s.color.r, g: s.color.g, b: s.color.b, a: s.color.a },
+      })),
+      opacity: p.opacity,
+      visible: p.visible,
+    };
+  }
+  // IMAGE fallback — the plugin has no image-asset pipeline yet.
   return {
     type: 'SOLID',
     color: { r: 0.88, g: 0.88, b: 0.9 },

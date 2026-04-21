@@ -37,7 +37,54 @@ export const ImagePaintSchema = z.object({
 });
 export type ImagePaint = z.infer<typeof ImagePaintSchema>;
 
-export const PaintSchema = z.discriminatedUnion('type', [SolidPaintSchema, ImagePaintSchema]);
+/**
+ * Figma gradient stops. Position is normalized to the gradient line
+ * (0 = start, 1 = end). At least two stops are required for a valid
+ * gradient paint.
+ */
+export const GradientStopSchema = z.object({
+  position: z.number().min(0).max(1),
+  color: ColorSchema,
+});
+export type GradientStop = z.infer<typeof GradientStopSchema>;
+
+/**
+ * 2×3 affine transform mapping the gradient's canonical unit line
+ * (from (0,0) to (1,0), with (0,1) as the perpendicular) into paint-
+ * local coordinates where (0,0) is the top-left of the paint and
+ * (1,1) is the bottom-right.
+ */
+export const GradientTransformSchema = z.tuple([
+  z.tuple([z.number(), z.number(), z.number()]),
+  z.tuple([z.number(), z.number(), z.number()]),
+]);
+export type GradientTransform = z.infer<typeof GradientTransformSchema>;
+
+const GradientPaintBase = {
+  gradientTransform: GradientTransformSchema,
+  gradientStops: z.array(GradientStopSchema).min(2),
+  opacity: z.number().min(0).max(1).default(1),
+  visible: z.boolean().default(true),
+};
+
+export const LinearGradientPaintSchema = z.object({
+  type: z.literal('GRADIENT_LINEAR'),
+  ...GradientPaintBase,
+});
+export type LinearGradientPaint = z.infer<typeof LinearGradientPaintSchema>;
+
+export const RadialGradientPaintSchema = z.object({
+  type: z.literal('GRADIENT_RADIAL'),
+  ...GradientPaintBase,
+});
+export type RadialGradientPaint = z.infer<typeof RadialGradientPaintSchema>;
+
+export const PaintSchema = z.discriminatedUnion('type', [
+  SolidPaintSchema,
+  ImagePaintSchema,
+  LinearGradientPaintSchema,
+  RadialGradientPaintSchema,
+]);
 export type Paint = z.infer<typeof PaintSchema>;
 
 export const StrokeAlignSchema = z.enum(['INSIDE', 'OUTSIDE', 'CENTER']);

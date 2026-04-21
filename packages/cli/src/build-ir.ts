@@ -29,6 +29,7 @@ import {
   type ComputedStyle,
   collectStylesheets,
   computeCascade,
+  parseCssGradient,
   parseStylesheets,
 } from './cascade/index.js';
 import { detectComponents } from './detect/index.js';
@@ -414,8 +415,15 @@ function geometryOf(
 }
 
 function readBackgroundFills(style: ComputedStyle): Paint[] {
-  const bg = style.get('background-color') ?? style.get('background');
-  const color = parseColor(bg);
+  // `background-color` is always a solid fill. `background` (shorthand)
+  // can carry gradients or images; try gradient first, then solid colour.
+  const bgColorOnly = style.get('background-color');
+  const bg = style.get('background');
+
+  const gradient = parseCssGradient(bg);
+  if (gradient) return [gradient];
+
+  const color = parseColor(bgColorOnly ?? bg);
   if (!color) return [];
   return [{ type: 'SOLID', color, opacity: 1, visible: true }];
 }

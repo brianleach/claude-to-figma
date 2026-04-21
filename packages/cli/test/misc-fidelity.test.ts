@@ -95,11 +95,33 @@ describe('multi-path SVG (gap #6)', () => {
     expect(vec.path).toContain('M 5 5');
   });
 
-  it('still emits a warning when no <path d> exists', () => {
-    const result = convertHtml(
-      `<html><body><svg id="empty"><circle cx="5" cy="5" r="3"/></svg></body></html>`,
-      { name: 'no-path' },
+  it('synthesises path data from basic shapes (circle, rect, line, polygon)', () => {
+    const { document } = convertHtml(
+      `<html><body>
+         <svg id="shapes" width="50" height="50">
+           <circle cx="25" cy="25" r="10"/>
+           <rect x="0" y="0" width="20" height="20"/>
+           <line x1="0" y1="0" x2="50" y2="50"/>
+           <polygon points="5,5 10,10 5,15"/>
+         </svg>
+       </body></html>`,
+      { name: 'shapes' },
     );
+    const vec = findVectorByName(document.root, 'shapes');
+    // Circle: two half-arcs.
+    expect(vec.path).toMatch(/A 10 10 0 1 0 35 25/);
+    // Rect: H/V lines.
+    expect(vec.path).toMatch(/H 20/);
+    // Line: M-to-L.
+    expect(vec.path).toMatch(/L 50 50/);
+    // Polygon: closed.
+    expect(vec.path).toContain('Z');
+  });
+
+  it('warns only when the SVG has no convertible geometry at all', () => {
+    const result = convertHtml(`<html><body><svg id="empty"><defs></defs></svg></body></html>`, {
+      name: 'no-geometry',
+    });
     expect(result.warnings.some((w) => w.includes('no <path d'))).toBe(true);
   });
 });

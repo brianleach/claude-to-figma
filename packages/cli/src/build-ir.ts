@@ -382,14 +382,94 @@ function collectAllPaths(el: P5Element): string[] {
   const walk = (node: P5Element) => {
     for (const c of node.childNodes) {
       if (!isElement(c)) continue;
-      if (c.tagName.toLowerCase() === 'path') {
+      const tag = c.tagName.toLowerCase();
+      if (tag === 'path') {
         const d = getAttr(c, 'd');
         if (d) out.push(d);
+      } else {
+        const synthesised = shapeToPath(c, tag);
+        if (synthesised) out.push(synthesised);
       }
       walk(c);
     }
   };
   walk(el);
+  return out;
+}
+
+/**
+ * Convert basic SVG shape primitives to path `d` data so they survive the
+ * pipeline as a single VECTOR. Ellipse and circle use two half-arcs per
+ * SVG spec. Unknown elements return undefined.
+ */
+function shapeToPath(el: P5Element, tag: string): string | undefined {
+  if (tag === 'rect') {
+    const x = num(getAttr(el, 'x')) ?? 0;
+    const y = num(getAttr(el, 'y')) ?? 0;
+    const w = num(getAttr(el, 'width'));
+    const h = num(getAttr(el, 'height'));
+    if (w == null || h == null || w <= 0 || h <= 0) return undefined;
+    const rx = num(getAttr(el, 'rx'));
+    const ry = num(getAttr(el, 'ry')) ?? rx;
+    if (rx != null && ry != null && rx > 0 && ry > 0) {
+      const rxc = Math.min(rx, w / 2);
+      const ryc = Math.min(ry, h / 2);
+      // Clockwise, starting at the top-left tangent of the top-left corner arc.
+      return `M${x + rxc} ${y} H${x + w - rxc} A${rxc} ${ryc} 0 0 1 ${x + w} ${y + ryc} V${y + h - ryc} A${rxc} ${ryc} 0 0 1 ${x + w - rxc} ${y + h} H${x + rxc} A${rxc} ${ryc} 0 0 1 ${x} ${y + h - ryc} V${y + ryc} A${rxc} ${ryc} 0 0 1 ${x + rxc} ${y} Z`;
+    }
+    return `M${x} ${y} H${x + w} V${y + h} H${x} Z`;
+  }
+  if (tag === 'circle') {
+    const cx = num(getAttr(el, 'cx')) ?? 0;
+    const cy = num(getAttr(el, 'cy')) ?? 0;
+    const r = num(getAttr(el, 'r'));
+    if (r == null || r <= 0) return undefined;
+    // Two half-arcs to trace a full circle.
+    return `M${cx - r} ${cy} A${r} ${r} 0 1 0 ${cx + r} ${cy} A${r} ${r} 0 1 0 ${cx - r} ${cy} Z`;
+  }
+  if (tag === 'ellipse') {
+    const cx = num(getAttr(el, 'cx')) ?? 0;
+    const cy = num(getAttr(el, 'cy')) ?? 0;
+    const rx = num(getAttr(el, 'rx'));
+    const ry = num(getAttr(el, 'ry'));
+    if (rx == null || ry == null || rx <= 0 || ry <= 0) return undefined;
+    return `M${cx - rx} ${cy} A${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A${rx} ${ry} 0 1 0 ${cx - rx} ${cy} Z`;
+  }
+  if (tag === 'line') {
+    const x1 = num(getAttr(el, 'x1')) ?? 0;
+    const y1 = num(getAttr(el, 'y1')) ?? 0;
+    const x2 = num(getAttr(el, 'x2')) ?? 0;
+    const y2 = num(getAttr(el, 'y2')) ?? 0;
+    return `M${x1} ${y1} L${x2} ${y2}`;
+  }
+  if (tag === 'polygon' || tag === 'polyline') {
+    const pts = pointsToPairs(getAttr(el, 'points'));
+    if (pts.length < 2) return undefined;
+    const [first, ...rest] = pts;
+    if (!first) return undefined;
+    let d = `M${first[0]} ${first[1]}`;
+    for (const [px, py] of rest) d += ` L${px} ${py}`;
+    if (tag === 'polygon') d += ' Z';
+    return d;
+  }
+  return undefined;
+}
+
+function num(raw: string | undefined): number | undefined {
+  if (raw == null) return undefined;
+  const n = Number(raw.trim());
+  return Number.isFinite(n) ? n : undefined;
+}
+
+function pointsToPairs(raw: string | undefined): Array<[number, number]> {
+  if (!raw) return [];
+  const tokens = raw.split(/[\s,]+/).filter(Boolean);
+  const out: Array<[number, number]> = [];
+  for (let i = 0; i + 1 < tokens.length; i += 2) {
+    const x = Number(tokens[i]);
+    const y = Number(tokens[i + 1]);
+    if (Number.isFinite(x) && Number.isFinite(y)) out.push([x, y]);
+  }
   return out;
 }
 

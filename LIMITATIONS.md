@@ -137,13 +137,16 @@ removed unless an explicit fix lands.
     extractor only registers and references the first SOLID fill — gradients
     stay inline on each node for now.
 
-16. **SVG support is path-only.** The walker collects every `<path d>`
-    inside an `<svg>` (including paths nested in `<g>` groups) and
-    emits one VECTOR node with the concatenated path data. Gradient
-    definitions, `<mask>`, filters, `<use>` references, and non-path
-    primitives (`<circle>`, `<rect>`, `<polygon>`, `<ellipse>`, `<line>`)
-    are still dropped — inline SVG icons that rely on them will render
-    as a stub.
+16. **SVG support covers path + basic shapes.** The walker collects
+    every `<path d>` inside an `<svg>` (including nested in `<g>`
+    groups) and synthesises path data for `<rect>` (including `rx`/`ry`
+    rounded corners), `<circle>`, `<ellipse>`, `<line>`, `<polygon>`,
+    and `<polyline>`. All of these are concatenated into one VECTOR
+    node per `<svg>`. Still unsupported: gradient definitions (`<defs>`
+    paints), `<mask>`, filters, `<use>` references, per-shape fill /
+    stroke attributes (they land on the VECTOR but only the node-wide
+    paint applies), and text rendering (`<text>`, `<tspan>`). SVGs
+    that rely on any of those will render partially.
 
 17. **Fonts must be installed locally before opening the plugin.**
     The IR's font manifest lists family + style; the Figma plugin

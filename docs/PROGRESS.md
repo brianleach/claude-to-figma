@@ -12,13 +12,12 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** ✅ all milestones shipped (M1–M9)
-**Last tag:** `m9`
-**Next action:** post-M9 work continues on editability / polish (M10
-territory: variant detection, image overrides on instances, role-aware
-token naming, bucket-collision cleanup). Solo-dev workflow: commit
-directly on `main` and push, no per-milestone branch dance. Tags on
-`main` still mark milestones.
+**Active milestone:** ✅ all milestones shipped (M1–M10)
+**Last tag:** `m10`
+**Next action:** remaining gap-report items (#9 pseudo-class selectors,
+#14 image overrides on component instances, #17 variant detection) are
+open. Solo-dev workflow: commit directly on `main` and push, no
+per-milestone branch dance. Tags on `main` still mark milestones.
 
 ## Working branch
 
@@ -62,6 +61,7 @@ on the remote for archive only.
 | M7  | ✅ | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
 | M8  | ✅ | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
 | M9  | ✅ | `m9` | brianleach @ 2026-04-21 | Visual fidelity pass driven by `docs/quality-gap-report.md`. 8 commits closing gaps #1–#8, #10, #13. ADRs 0006 (Chromium text measurement), 0007 (shorthand registry), 0008 (grid → flex-wrap), 0009 (gradient paints). |
+| M10 | ✅ | `m10` | brianleach @ 2026-04-21 | Designer-usable output: manual-Figma-build fixes (text wrap, components sibling frame, H/V path expansion), per-shape SVG rendering with paint attributes, role-aware paint style names (ADR 0010), weight-suffixed text-style names. Gaps #15, #16 closed plus post-M9 render bugs surfaced by real paste-and-build testing. |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
 
@@ -284,3 +284,4 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — V-M8-REAL surfaced four real-world issues that all got fixed in the same milestone: (1) Claude Design ships JS-bundled HTML; added `--hydrate` flag (Playwright headless Chromium, ~100 MB browser binary) — fixes both `*.standalone.html` and `*.html` (React+Babel-from-unpkg) formats. (2) Default Playwright viewport (1280×720) put responsive pages in the wrong breakpoint; added `--viewport WxH`, default 1440×900. (3) Figma plugin can't install fonts — added `claude-to-figma fonts` subcommand to print the shopping list, plus `--font-fallback <Family>` for the "I don't want to install" escape hatch. (4) CSS `system-ui` was leaking into the IR's font manifest as a real font; `parseFontFamily` now skips generic CSS keywords. (5) Figma's vector path parser needs whitespace-separated tokens (compact SVG `M0,65L100,50` was rejected); added `normalizeSvgPath` and made the plugin fail-soft on per-vector errors.
 - `2026-04-18` — M8 verified end-to-end by dogfooding: built `claude-to-figma`'s own landing page in [Claude Design](https://claude.ai/design), ran it through the CLI, and committed the source / IR / report / `.fig` to `examples/landing/`. The render isn't yet at parity with the browser (known issues documented in the example README), but the full pipeline ran clean. Tagged `m8`. Project is feature-complete for the M1–M8 scope.
 - `2026-04-21` — M9 fidelity pass shipped in 8 trunk commits on `main` (solo-dev workflow, no per-milestone branch). Diagnosis report `docs/quality-gap-report.md` ranked 17 gaps against the landing dogfood; closed #1 (grid → flex-wrap, ADR 0008), #2 / #3 (strokes + effects via shorthand registry, ADR 0007), #4 (text measurement via Chromium during --hydrate, ADR 0006), #5 (em letter-spacing), #6 (multi-path SVG + basic shape → path conversion), #7 (aspect-ratio + text-wrap implicit via measurement), #8 (margin:auto centring + viewport plumbing), #10 (gradient paints, ADR 0009), #13 (title-cased layer names). Landing artifacts refreshed: 73 text nodes measured, 39 strokes, 6 DROP_SHADOWs, 27 HORIZONTAL+WRAP auto-layout frames, all `.wrap` frames centred at x=80, designer-friendly layer tree. 233 CLI / 251 workspace tests green. Remaining gaps (#9 pseudo-class, #11 border longhand cascade, #12 shadow shorthand, #14–17 editability / polish) moved to M10.
+- `2026-04-21` — M10 "designer-usable output" shipped in 5 trunk commits. Manual Figma verification of the M9 IR surfaced three render bugs: (1) plugin TEXT nodes never set `textAutoResize` → every body paragraph overflowed its parent; (2) `figma.createComponent()` orphans auto-attached to currentPage at (0,0) → every component master piled on top of the page; (3) both synthesised shape paths and user SVG paths used `H`/`V` commands → Figma's vector parser rejected them. All three fixed. Per-shape SVG rendering next: single-shape `<svg>`s stay one VECTOR, multi-shape emit a FRAME wrapping one VECTOR per shape, each carrying its own fill/stroke/stroke-width attributes (inherited from the `<svg>` element when absent). Then designer-UX polish: role-aware paint style names (ADR 0010) — saturated colours go to `brand/*`, neutrals go to their dominant-role bucket (`surface/*` / `ink/*` / `border/*` / `icon/*`); weight-suffixed text-style names keep the semantic prefix on bucket collisions (`heading/md-medium` vs `heading/md-bold`). 238 CLI / 256 workspace tests green. Landing palette: `brand/primary` = #B5471F (the CTA orange, finally semantic), `surface/primary` = #F2EDE0, `ink/primary` = #1C1A16.

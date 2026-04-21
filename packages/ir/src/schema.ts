@@ -25,6 +25,7 @@ export const SolidPaintSchema = z.object({
   opacity: z.number().min(0).max(1).default(1),
   visible: z.boolean().default(true),
 });
+export type SolidPaint = z.infer<typeof SolidPaintSchema>;
 
 /** Image paint placeholder — referenced by CLI M2+, sourced from the image manifest. */
 export const ImagePaintSchema = z.object({
@@ -34,6 +35,7 @@ export const ImagePaintSchema = z.object({
   opacity: z.number().min(0).max(1).default(1),
   visible: z.boolean().default(true),
 });
+export type ImagePaint = z.infer<typeof ImagePaintSchema>;
 
 export const PaintSchema = z.discriminatedUnion('type', [SolidPaintSchema, ImagePaintSchema]);
 export type Paint = z.infer<typeof PaintSchema>;
@@ -56,12 +58,14 @@ export const ShadowEffectSchema = z.object({
   spread: z.number().default(0),
   visible: z.boolean().default(true),
 });
+export type ShadowEffect = z.infer<typeof ShadowEffectSchema>;
 
 export const BlurEffectSchema = z.object({
   type: z.enum(['LAYER_BLUR', 'BACKGROUND_BLUR']),
   radius: z.number().min(0),
   visible: z.boolean().default(true),
 });
+export type BlurEffect = z.infer<typeof BlurEffectSchema>;
 
 export const EffectSchema = z.union([ShadowEffectSchema, BlurEffectSchema]);
 export type Effect = z.infer<typeof EffectSchema>;

@@ -32,7 +32,7 @@ import {
   parseStylesheets,
 } from './cascade/index.js';
 import { detectComponents } from './detect/index.js';
-import { extractTokens } from './extract/index.js';
+import { extractTokens, readEffects, readStroke } from './extract/index.js';
 import {
   type LayoutMap,
   type TextMeasurement,
@@ -213,6 +213,9 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
     children.push(built);
   }
 
+  const stroke = readStroke(style);
+  const effects = readEffects(style);
+
   const frame: FrameNode = {
     type: 'FRAME',
     id: idHint ?? nextId(ctx, el.tagName),
@@ -221,8 +224,8 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
     opacity: parseOpacity(style),
     visible: true,
     fills,
-    strokes: [],
-    effects: [],
+    strokes: stroke ? [stroke] : [],
+    effects,
     children,
   };
   if (layout) frame.layout = layout;

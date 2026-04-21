@@ -6,5 +6,7 @@ export type { CascadeResult } from './cascade.js';
 export { computeSpecificity, compareSpecificity } from './specificity.js';
 export { matchSelector } from './selector.js';
 export { resolveVars } from './vars.js';
+export { expandShorthands, readParsedShadows } from './shorthand.js';
+export type { ParsedShadow } from './shorthand.js';
 export type { ComputedStyle, Declaration, Rule, Specificity, P5Element } from './types.js';
 export { INHERITED_PROPERTIES } from './types.js';

@@ -17,11 +17,13 @@ removed unless an explicit fix lands.
    combinators (`+`, `~`) are recognised by the specificity scorer but never
    match. Rules using them silently don't apply. See ADR 0002.
 
-2. **No CSS shorthand expansion beyond `padding`/`margin`.** Hand-rolled
-   support for the 1–4 value padding/margin shorthand exists; everything else
-   (`font:`, `background:`, `border:`, `transition:`, `animation:`, ...) is
-   treated as opaque and only the longhands the cascade engine looks up by
-   name take effect.
+2. **Limited CSS shorthand expansion.** `padding`/`margin` (1–4 value),
+   `border:` and per-side `border-{top|right|bottom|left}:`, plus `box-shadow:`
+   and `filter:`/`backdrop-filter:` (blur only) are expanded via the
+   cascade-time registry (ADR 0007). Everything else — `font:`,
+   `background:`, `transition:`, `animation:`, … — is still treated as
+   opaque and only the longhands the cascade engine looks up by name
+   take effect.
 
 3. **`@media`, `@supports`, `@keyframes` and other at-rules are ignored.**
    The cascade engine only handles top-level style rules. Responsive
@@ -93,9 +95,22 @@ removed unless an explicit fix lands.
     (the second loses the human-friendly bucket). The classifier doesn't
     look at element role (h1 vs h2), only the resolved style.
 
-14. **Stroke and effect styles are not extracted.** Only paint fills
-    and text styles land in the IR registry. Borders, drop shadows, and
-    blurs stay inline on each node.
+14. **Stroke and effect styles are not promoted to shared styles.**
+    Borders, drop/inner shadows, and blurs are extracted to per-node
+    inline `strokes` / `effects` arrays (closed gaps #2 and #3 from
+    `docs/quality-gap-report.md`), but they're not collected into the
+    `styles` registry the way paint fills and text styles are —
+    identical shadow values live inline on every node that uses them.
+    Figma supports shared effect/stroke styles; promoting them is
+    follow-up work.
+
+    Non-blur `filter:` functions (`saturate`, `contrast`, `brightness`,
+    `hue-rotate`, `invert`, `grayscale`, `sepia`, `drop-shadow-as-filter`)
+    have no Figma equivalent and are silently dropped. Per-edge stroke
+    fidelity (`border-top: 2px; border-bottom: 1px;`) collapses to a
+    single stroke using the first side that has all three triple
+    components set — per-edge Figma strokes would need a schema
+    extension.
 
 ## Other
 

@@ -12,6 +12,7 @@
 import type { DefaultTreeAdapterTypes } from 'parse5';
 import { parseInlineStyle } from '../style.js';
 import { matchSelector } from './selector.js';
+import { expandShorthands } from './shorthand.js';
 import { compareSpecificity, computeSpecificity } from './specificity.js';
 import {
   type ComputedStyle,
@@ -155,6 +156,10 @@ function applyInheritanceAndVars(
       resolveVars(value, (name) => style.get(name)),
     );
   }
+
+  // Expand shorthand properties into longhands (ADR 0007). Runs after var()
+  // resolution so expanders see concrete values, not `var(--rule)`.
+  expandShorthands(resolved);
 
   return resolved;
 }

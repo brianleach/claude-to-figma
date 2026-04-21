@@ -45,6 +45,14 @@ export interface ComputeLayoutOptions {
    * When present for an element, overrides the `measureText` heuristic.
    */
   textMeasurements?: ReadonlyMap<string, TextMeasurement>;
+  /**
+   * Width of the root layout container in px. Used to resolve %-widths
+   * at the root and to enable block-centring emulation / grid-track
+   * sizing when the HTML's body has no explicit CSS width (the common
+   * case for hydrated real-world pages). Typically the `--viewport`
+   * the conversion ran at.
+   */
+  viewportWidth?: number;
 }
 
 /**
@@ -69,6 +77,18 @@ export function computeLayout(
       // TEXT nodes never have children — yoga measures them via the callback.
       yoga.setMeasureFunc(buildMeasureFn(el, style, measurements));
       return yoga;
+    }
+
+    // Block auto-centring emulation. Yoga's flex auto-margin rule collapses
+    // an unsized cross-axis child with auto margins to intrinsic size, then
+    // centres it. CSS block layout would stretch the child to max-width
+    // first. Setting width = min(available, max-width) gives the block
+    // behaviour (closes gap #8 in docs/quality-gap-report.md).
+    if (availableContentWidth != null && !style.has('width')) {
+      const maxWidth = parsePx(style.get('max-width'));
+      if (maxWidth != null && hasAutoHorizontalMargin(style)) {
+        yoga.setWidth(Math.min(availableContentWidth, maxWidth));
+      }
     }
 
     // Compute this element's own content width so children can use it as
@@ -112,8 +132,8 @@ export function computeLayout(
     return yoga;
   };
 
-  const yogaRoot = buildYoga(root, undefined);
-  yogaRoot.calculateLayout(undefined, undefined, undefined);
+  const yogaRoot = buildYoga(root, opts.viewportWidth);
+  yogaRoot.calculateLayout(opts.viewportWidth, undefined, undefined);
 
   // Yoga returns parent-relative positions; the IR also wants parent-relative
   // (Figma's appendChild treats x/y as parent-relative). Pass through as-is.
@@ -220,6 +240,26 @@ function computeContentWidth(
   return Math.max(0, myWidth - padL - padR);
 }
 
+/**
+ * True when CSS declared an auto value on the child's left or right
+ * margin — either as a longhand or inside a `margin:` shorthand. Used to
+ * decide whether block-centring emulation should kick in.
+ */
+function hasAutoHorizontalMargin(style: ComputedStyle): boolean {
+  if (style.get('margin-left')?.toLowerCase() === 'auto') return true;
+  if (style.get('margin-right')?.toLowerCase() === 'auto') return true;
+  const shorthand = style.get('margin');
+  if (!shorthand) return false;
+  const parts = shorthand.trim().toLowerCase().split(/\s+/);
+  // `margin: auto` → auto on all 4.
+  if (parts.length === 1) return parts[0] === 'auto';
+  // 2 or 3 values: the second value is horizontal (right + left).
+  if (parts[1] === 'auto') return true;
+  // 4 values: top right bottom left. Check right and left.
+  if (parts.length === 4 && parts[3] === 'auto') return true;
+  return false;
+}
+
 function readColumnGap(style: ComputedStyle): number {
   const colGap = parsePx(style.get('column-gap'));
   if (colGap != null) return colGap;
@@ -281,12 +321,12 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
   applyEdgeLength(style.get('padding-left'), (v) => node.setPadding(Edge.Left, v));
   applyShorthand(style.get('padding'), (edge, v) => node.setPadding(edge, v));
 
-  // Margin -----------------------------------------------------------------
-  applyEdgeLength(style.get('margin-top'), (v) => node.setMargin(Edge.Top, v));
-  applyEdgeLength(style.get('margin-right'), (v) => node.setMargin(Edge.Right, v));
-  applyEdgeLength(style.get('margin-bottom'), (v) => node.setMargin(Edge.Bottom, v));
-  applyEdgeLength(style.get('margin-left'), (v) => node.setMargin(Edge.Left, v));
-  applyShorthand(style.get('margin'), (edge, v) => node.setMargin(edge, v));
+  // Margin (auto allowed — `margin: 0 auto` centers a max-width child) ------
+  applyMarginEdge(style.get('margin-top'), node, Edge.Top);
+  applyMarginEdge(style.get('margin-right'), node, Edge.Right);
+  applyMarginEdge(style.get('margin-bottom'), node, Edge.Bottom);
+  applyMarginEdge(style.get('margin-left'), node, Edge.Left);
+  applyMarginShorthand(style.get('margin'), node);
 
   // Border (geometry contribution only — paint comes from the cascade) ----
   applyEdgeLength(style.get('border-top-width'), (v) => node.setBorder(Edge.Top, lengthOrZero(v)));
@@ -391,6 +431,34 @@ function applyEdgeLength(value: string | undefined, set: (v: number | `${number}
   const v = toYogaLength(value);
   if (v == null || v === 'auto') return;
   set(v);
+}
+
+/**
+ * Margin accepts `auto` (yoga honours it for flex auto-margin semantics —
+ * auto margins on cross-axis centre the child, enabling `max-width +
+ * margin: 0 auto` CSS centring through the default block path).
+ */
+function applyMarginEdge(value: string | undefined, node: YogaNode, edge: Edge): void {
+  const v = toYogaLength(value);
+  if (v == null) return;
+  if (v === 'auto') {
+    node.setMarginAuto(edge);
+    return;
+  }
+  node.setMargin(edge, v);
+}
+
+function applyMarginShorthand(value: string | undefined, node: YogaNode): void {
+  if (!value) return;
+  const parts = value.trim().split(/\s+/);
+  const a = parts[0];
+  const b = parts[1] ?? a;
+  const c = parts[2] ?? a;
+  const d = parts[3] ?? b;
+  applyMarginEdge(a, node, Edge.Top);
+  applyMarginEdge(b, node, Edge.Right);
+  applyMarginEdge(c, node, Edge.Bottom);
+  applyMarginEdge(d, node, Edge.Left);
 }
 
 /**

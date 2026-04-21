@@ -117,6 +117,12 @@ export interface ConvertOptions {
    * instead of the `0.55 × fontSize × chars` heuristic.
    */
   textMeasurements?: ReadonlyMap<string, TextMeasurement>;
+  /**
+   * Root container width in px. Enables block-centring emulation and
+   * grid-track sizing when the HTML's body has no explicit CSS width
+   * — typically the `--viewport` the conversion ran at.
+   */
+  viewportWidth?: number;
 }
 
 export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertResult {
@@ -134,6 +140,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   const cascade = computeCascade(rules, cascadeRoot);
   const layout = computeLayout(cascadeRoot, cascade.styles, {
     textMeasurements: opts.textMeasurements,
+    viewportWidth: opts.viewportWidth,
   });
 
   const ctx: BuildContext = {

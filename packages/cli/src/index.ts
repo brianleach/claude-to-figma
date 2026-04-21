@@ -63,6 +63,7 @@ program
         baseDir: dirname(inputPath),
         componentThreshold: opts.componentThreshold,
         textMeasurements: hydrated?.textMeasurements,
+        viewportWidth: viewport.viewportWidth ?? (opts.hydrate ? 1440 : undefined),
       });
       const result = opts.fontFallback
         ? { ...baseResult, document: substituteFontFamily(baseResult.document, opts.fontFallback) }

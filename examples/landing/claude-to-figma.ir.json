@@ -9,7 +9,7 @@
       "x": 0,
       "y": 0,
       "width": 1440,
-      "height": 8678
+      "height": 8761
     },
     "opacity": 1,
     "visible": true,
@@ -668,7 +668,7 @@
           "x": 0,
           "y": 95,
           "width": 1440,
-          "height": 1363
+          "height": 1276
         },
         "opacity": 1,
         "visible": true,
@@ -684,7 +684,7 @@
               "x": 80,
               "y": 80,
               "width": 1280,
-              "height": 1187
+              "height": 1100
             },
             "opacity": 1,
             "visible": true,
@@ -700,7 +700,7 @@
                   "x": 64,
                   "y": 0,
                   "width": 1152,
-                  "height": 1187
+                  "height": 1100
                 },
                 "opacity": 1,
                 "visible": true,
@@ -715,7 +715,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 680,
+                      "width": 615,
                       "height": 481
                     },
                     "opacity": 1,
@@ -731,7 +731,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 0,
-                          "width": 680,
+                          "width": 615,
                           "height": 19
                         },
                         "opacity": 1,
@@ -803,7 +803,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 47,
-                          "width": 680,
+                          "width": 615,
                           "height": 224
                         },
                         "opacity": 1,
@@ -893,7 +893,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 397,
-                          "width": 680,
+                          "width": 615,
                           "height": 84
                         },
                         "opacity": 1,
@@ -1111,8 +1111,8 @@
                     "geometry": {
                       "x": 0,
                       "y": 561,
-                      "width": 680,
-                      "height": 626
+                      "width": 585,
+                      "height": 539
                     },
                     "opacity": 1,
                     "visible": true,
@@ -1127,7 +1127,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 0,
-                          "width": 530,
+                          "width": 457,
                           "height": 362
                         },
                         "opacity": 1,
@@ -1204,7 +1204,7 @@
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 528,
+                              "width": 455,
                               "height": 48
                             },
                             "opacity": 1,
@@ -1333,7 +1333,7 @@
                                 "id": "text-27",
                                 "name": "Figma Tag",
                                 "geometry": {
-                                  "x": 423,
+                                  "x": 349,
                                   "y": 8,
                                   "width": 93,
                                   "height": 31
@@ -1403,7 +1403,7 @@
                             "geometry": {
                               "x": 1,
                               "y": 49,
-                              "width": 528,
+                              "width": 455,
                               "height": 312
                             },
                             "opacity": 1,
@@ -1419,7 +1419,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 720,
+                                  "width": 1140,
                                   "height": 236
                                 },
                                 "opacity": 1,
@@ -1463,7 +1463,7 @@
                                     "geometry": {
                                       "x": 18,
                                       "y": 18,
-                                      "width": 683,
+                                      "width": 1103,
                                       "height": 200
                                     },
                                     "opacity": 1,
@@ -1493,7 +1493,7 @@
                                         "id": "div-32",
                                         "name": "Lock",
                                         "geometry": {
-                                          "x": 652,
+                                          "x": 1072,
                                           "y": 9,
                                           "width": 22,
                                           "height": 22
@@ -1715,7 +1715,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 236,
-                                  "width": 720,
+                                  "width": 140,
                                   "height": 76
                                 },
                                 "opacity": 1,
@@ -1731,7 +1731,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 12,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 16
                                     },
                                     "opacity": 1,
@@ -1788,7 +1788,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 38,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -1887,10 +1887,10 @@
                         "id": "div-93",
                         "name": "Figma Card",
                         "geometry": {
-                          "x": 150,
-                          "y": -141,
-                          "width": 530,
-                          "height": 767
+                          "x": 129,
+                          "y": -12,
+                          "width": 456,
+                          "height": 551
                         },
                         "opacity": 1,
                         "visible": true,
@@ -1966,7 +1966,7 @@
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 528,
+                              "width": 454,
                               "height": 47
                             },
                             "opacity": 1,
@@ -2095,7 +2095,7 @@
                                 "id": "text-45",
                                 "name": "Figma Tag",
                                 "geometry": {
-                                  "x": 435,
+                                  "x": 361,
                                   "y": 8,
                                   "width": 81,
                                   "height": 30
@@ -2165,8 +2165,8 @@
                             "geometry": {
                               "x": 1,
                               "y": 48,
-                              "width": 528,
-                              "height": 718
+                              "width": 454,
+                              "height": 502
                             },
                             "opacity": 1,
                             "visible": true,
@@ -2181,8 +2181,8 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 720,
-                                  "height": 460
+                                  "width": 1140,
+                                  "height": 244
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -2225,8 +2225,8 @@
                                     "geometry": {
                                       "x": 18,
                                       "y": 18,
-                                      "width": 683,
-                                      "height": 424
+                                      "width": 1103,
+                                      "height": 208
                                     },
                                     "opacity": 1,
                                     "visible": true,
@@ -2241,7 +2241,7 @@
                                         "geometry": {
                                           "x": 0,
                                           "y": 0,
-                                          "width": 474,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2258,9 +2258,9 @@
                                         "id": "instance-2",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 0,
-                                          "y": 72,
-                                          "width": 474,
+                                          "x": 429,
+                                          "y": 0,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2278,8 +2278,8 @@
                                         "name": "Mini Card",
                                         "geometry": {
                                           "x": 0,
-                                          "y": 144,
-                                          "width": 474,
+                                          "y": 72,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2296,9 +2296,9 @@
                                         "id": "instance-4",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 0,
-                                          "y": 216,
-                                          "width": 474,
+                                          "x": 429,
+                                          "y": 72,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2316,8 +2316,8 @@
                                         "name": "Mini Card",
                                         "geometry": {
                                           "x": 0,
-                                          "y": 288,
-                                          "width": 474,
+                                          "y": 144,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2334,9 +2334,9 @@
                                         "id": "instance-6",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 0,
-                                          "y": 360,
-                                          "width": 474,
+                                          "x": 429,
+                                          "y": 144,
+                                          "width": 421,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2379,8 +2379,8 @@
                                 "name": "Figma Panel",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 460,
-                                  "width": 720,
+                                  "y": 244,
+                                  "width": 140,
                                   "height": 258
                                 },
                                 "opacity": 1,
@@ -2396,7 +2396,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 12,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 16
                                     },
                                     "opacity": 1,
@@ -2453,7 +2453,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 38,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2526,7 +2526,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 64,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2599,7 +2599,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 90,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2672,7 +2672,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 116,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2686,7 +2686,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 142,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2700,7 +2700,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 168,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2714,7 +2714,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 194,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2728,7 +2728,7 @@
                                     "geometry": {
                                       "x": 10,
                                       "y": 220,
-                                      "width": 700,
+                                      "width": 120,
                                       "height": 26
                                     },
                                     "opacity": 1,
@@ -2797,7 +2797,7 @@
         "name": "Problem",
         "geometry": {
           "x": 0,
-          "y": 1458,
+          "y": 1371,
           "width": 1440,
           "height": 1363
         },
@@ -2886,7 +2886,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 680,
+                      "width": 629,
                       "height": 391
                     },
                     "opacity": 1,
@@ -2902,7 +2902,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 0,
-                          "width": 680,
+                          "width": 629,
                           "height": 156
                         },
                         "opacity": 1,
@@ -3044,7 +3044,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 471,
-                      "width": 680,
+                      "width": 571,
                       "height": 600
                     },
                     "opacity": 1,
@@ -3088,7 +3088,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 29,
-                          "width": 622,
+                          "width": 513,
                           "height": 18
                         },
                         "opacity": 1,
@@ -3145,7 +3145,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 65,
-                          "width": 622,
+                          "width": 513,
                           "height": 90
                         },
                         "opacity": 1,
@@ -3159,7 +3159,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 155,
-                          "width": 622,
+                          "width": 513,
                           "height": 90
                         },
                         "opacity": 1,
@@ -3178,7 +3178,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 245,
-                          "width": 622,
+                          "width": 513,
                           "height": 90
                         },
                         "opacity": 1,
@@ -3197,7 +3197,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 335,
-                          "width": 622,
+                          "width": 513,
                           "height": 90
                         },
                         "opacity": 1,
@@ -3216,7 +3216,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 425,
-                          "width": 622,
+                          "width": 513,
                           "height": 92
                         },
                         "opacity": 1,
@@ -3248,7 +3248,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 15,
-                              "width": 720,
+                              "width": 640,
                               "height": 35
                             },
                             "opacity": 1,
@@ -3310,7 +3310,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 50,
-                              "width": 720,
+                              "width": 640,
                               "height": 28
                             },
                             "opacity": 1,
@@ -3419,7 +3419,7 @@
                         "geometry": {
                           "x": 29,
                           "y": 535,
-                          "width": 622,
+                          "width": 513,
                           "height": 36
                         },
                         "opacity": 1,
@@ -3545,7 +3545,7 @@
         "name": "How",
         "geometry": {
           "x": 0,
-          "y": 2821,
+          "y": 2734,
           "width": 1440,
           "height": 1261
         },
@@ -3688,7 +3688,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 1,
-                      "width": 480,
+                      "width": 427,
                       "height": 420
                     },
                     "opacity": 1,
@@ -3720,7 +3720,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 40,
-                          "width": 407,
+                          "width": 354,
                           "height": 19
                         },
                         "opacity": 1,
@@ -4004,7 +4004,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 157,
-                          "width": 407,
+                          "width": 354,
                           "height": 60
                         },
                         "opacity": 1,
@@ -4049,7 +4049,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 231,
-                          "width": 407,
+                          "width": 354,
                           "height": 70
                         },
                         "opacity": 1,
@@ -4094,7 +4094,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 317,
-                          "width": 407,
+                          "width": 354,
                           "height": 59
                         },
                         "opacity": 1,
@@ -4144,9 +4144,9 @@
                     "id": "div-171",
                     "name": "Step",
                     "geometry": {
-                      "x": 480,
+                      "x": 427,
                       "y": 1,
-                      "width": 480,
+                      "width": 426,
                       "height": 420
                     },
                     "opacity": 1,
@@ -4178,7 +4178,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 40,
-                          "width": 407,
+                          "width": 353,
                           "height": 19
                         },
                         "opacity": 1,
@@ -4379,7 +4379,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 157,
-                          "width": 407,
+                          "width": 355,
                           "height": 30
                         },
                         "opacity": 1,
@@ -4424,7 +4424,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 201,
-                          "width": 407,
+                          "width": 355,
                           "height": 70
                         },
                         "opacity": 1,
@@ -4469,7 +4469,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 287,
-                          "width": 407,
+                          "width": 355,
                           "height": 78
                         },
                         "opacity": 1,
@@ -4521,7 +4521,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 421,
-                      "width": 480,
+                      "width": 427,
                       "height": 443
                     },
                     "opacity": 1,
@@ -4537,7 +4537,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 40,
-                          "width": 408,
+                          "width": 355,
                           "height": 19
                         },
                         "opacity": 1,
@@ -4814,7 +4814,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 157,
-                          "width": 408,
+                          "width": 355,
                           "height": 60
                         },
                         "opacity": 1,
@@ -4859,7 +4859,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 231,
-                          "width": 408,
+                          "width": 355,
                           "height": 93
                         },
                         "opacity": 1,
@@ -4904,7 +4904,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 340,
-                          "width": 408,
+                          "width": 355,
                           "height": 59
                         },
                         "opacity": 1,
@@ -4976,9 +4976,9 @@
         "name": "Editable",
         "geometry": {
           "x": 0,
-          "y": 4082,
+          "y": 3995,
           "width": 1440,
-          "height": 2219
+          "height": 2365
         },
         "opacity": 1,
         "visible": true,
@@ -4994,7 +4994,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 2027
+              "height": 2173
             },
             "opacity": 1,
             "visible": true,
@@ -5088,7 +5088,7 @@
                   "x": 64,
                   "y": 204,
                   "width": 1152,
-                  "height": 1823
+                  "height": 1969
                 },
                 "opacity": 1,
                 "visible": true,
@@ -5103,8 +5103,8 @@
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 708,
-                      "height": 352
+                      "width": 628,
+                      "height": 378
                     },
                     "opacity": 1,
                     "visible": true,
@@ -5297,7 +5297,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 101,
-                          "width": 642,
+                          "width": 562,
                           "height": 31
                         },
                         "opacity": 1,
@@ -5387,8 +5387,8 @@
                         "geometry": {
                           "x": 33,
                           "y": 215,
-                          "width": 642,
-                          "height": 100
+                          "width": 562,
+                          "height": 126
                         },
                         "opacity": 1,
                         "visible": true,
@@ -5431,8 +5431,8 @@
                             "geometry": {
                               "x": 17,
                               "y": 17,
-                              "width": 608,
-                              "height": 42
+                              "width": 528,
+                              "height": 92
                             },
                             "opacity": 1,
                             "visible": true,
@@ -5488,8 +5488,8 @@
                                 "id": "instance-27",
                                 "name": "Frame Line",
                                 "geometry": {
-                                  "x": 304,
-                                  "y": 0,
+                                  "x": 28,
+                                  "y": 50,
                                   "width": 285,
                                   "height": 42
                                 },
@@ -5546,8 +5546,8 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 376,
-                      "width": 708,
+                      "y": 402,
+                      "width": 628,
                       "height": 364
                     },
                     "opacity": 1,
@@ -5805,7 +5805,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 101,
-                          "width": 642,
+                          "width": 562,
                           "height": 31
                         },
                         "opacity": 1,
@@ -5895,7 +5895,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 215,
-                          "width": 642,
+                          "width": 562,
                           "height": 112
                         },
                         "opacity": 1,
@@ -5939,7 +5939,7 @@
                             "geometry": {
                               "x": 17,
                               "y": 17,
-                              "width": 608,
+                              "width": 528,
                               "height": 42
                             },
                             "opacity": 1,
@@ -6000,7 +6000,7 @@
                                 "id": "instance-29",
                                 "name": "Al Chip",
                                 "geometry": {
-                                  "x": 206,
+                                  "x": 179,
                                   "y": 9,
                                   "width": 0,
                                   "height": 24
@@ -6019,7 +6019,7 @@
                                 "id": "instance-30",
                                 "name": "Al Chip",
                                 "geometry": {
-                                  "x": 402,
+                                  "x": 349,
                                   "y": 9,
                                   "width": 0,
                                   "height": 24
@@ -6038,7 +6038,7 @@
                                 "id": "instance-31",
                                 "name": "Al Chip",
                                 "geometry": {
-                                  "x": 599,
+                                  "x": 519,
                                   "y": 9,
                                   "width": 0,
                                   "height": 24
@@ -6078,7 +6078,7 @@
                             "geometry": {
                               "x": 17,
                               "y": 77,
-                              "width": 608,
+                              "width": 528,
                               "height": 18
                             },
                             "opacity": 1,
@@ -6147,8 +6147,8 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 764,
-                      "width": 708,
+                      "y": 790,
+                      "width": 628,
                       "height": 484
                     },
                     "opacity": 1,
@@ -6418,7 +6418,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 101,
-                          "width": 642,
+                          "width": 562,
                           "height": 31
                         },
                         "opacity": 1,
@@ -6508,7 +6508,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 215,
-                          "width": 642,
+                          "width": 562,
                           "height": 232
                         },
                         "opacity": 1,
@@ -6552,7 +6552,7 @@
                             "geometry": {
                               "x": 17,
                               "y": 17,
-                              "width": 608,
+                              "width": 528,
                               "height": 198
                             },
                             "opacity": 1,
@@ -6620,7 +6620,7 @@
                                 "geometry": {
                                   "x": 88,
                                   "y": 0,
-                                  "width": 608,
+                                  "width": 528,
                                   "height": 198
                                 },
                                 "opacity": 1,
@@ -6636,7 +6636,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6655,7 +6655,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 34,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6674,7 +6674,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 68,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6693,7 +6693,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 102,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6712,7 +6712,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 136,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6731,7 +6731,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 170,
-                                      "width": 476,
+                                      "width": 423,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6801,9 +6801,9 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 1272,
-                      "width": 708,
-                      "height": 551
+                      "y": 1298,
+                      "width": 628,
+                      "height": 671
                     },
                     "opacity": 1,
                     "visible": true,
@@ -7040,7 +7040,7 @@
                         "geometry": {
                           "x": 33,
                           "y": 101,
-                          "width": 642,
+                          "width": 562,
                           "height": 31
                         },
                         "opacity": 1,
@@ -7130,8 +7130,8 @@
                         "geometry": {
                           "x": 33,
                           "y": 215,
-                          "width": 642,
-                          "height": 299
+                          "width": 562,
+                          "height": 419
                         },
                         "opacity": 1,
                         "visible": true,
@@ -7174,8 +7174,8 @@
                             "geometry": {
                               "x": 17,
                               "y": 17,
-                              "width": 608,
-                              "height": 265
+                              "width": 528,
+                              "height": 385
                             },
                             "opacity": 1,
                             "visible": true,
@@ -7190,8 +7190,8 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 608,
-                                  "height": 47
+                                  "width": 528,
+                                  "height": 71
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7208,9 +7208,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 53,
-                                  "width": 608,
-                                  "height": 47
+                                  "y": 77,
+                                  "width": 528,
+                                  "height": 71
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7235,9 +7235,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 106,
-                                  "width": 608,
-                                  "height": 47
+                                  "y": 154,
+                                  "width": 528,
+                                  "height": 71
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7262,9 +7262,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 159,
-                                  "width": 608,
-                                  "height": 50
+                                  "y": 231,
+                                  "width": 528,
+                                  "height": 74
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -7278,7 +7278,7 @@
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 4,
+                                      "y": 0,
                                       "width": 14,
                                       "height": 14
                                     },
@@ -7327,9 +7327,9 @@
                                     "id": "text-265",
                                     "name": "Type Name",
                                     "geometry": {
-                                      "x": 24,
-                                      "y": 0,
-                                      "width": 474,
+                                      "x": 0,
+                                      "y": 24,
+                                      "width": 622,
                                       "height": 22
                                     },
                                     "opacity": 1,
@@ -7378,8 +7378,8 @@
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 32,
-                                      "width": 474,
+                                      "y": 56,
+                                      "width": 622,
                                       "height": 18
                                     },
                                     "opacity": 1,
@@ -7450,9 +7450,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 215,
-                                  "width": 608,
-                                  "height": 50
+                                  "y": 311,
+                                  "width": 528,
+                                  "height": 74
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -7466,7 +7466,7 @@
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 4,
+                                      "y": 0,
                                       "width": 14,
                                       "height": 14
                                     },
@@ -7515,9 +7515,9 @@
                                     "id": "text-269",
                                     "name": "Type Name",
                                     "geometry": {
-                                      "x": 24,
-                                      "y": 0,
-                                      "width": 474,
+                                      "x": 0,
+                                      "y": 24,
+                                      "width": 622,
                                       "height": 22
                                     },
                                     "opacity": 1,
@@ -7566,8 +7566,8 @@
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 32,
-                                      "width": 474,
+                                      "y": 56,
+                                      "width": 622,
                                       "height": 18
                                     },
                                     "opacity": 1,
@@ -7689,9 +7689,9 @@
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
-          "y": 6301,
+          "y": 6360,
           "width": 1440,
-          "height": 972
+          "height": 996
         },
         "opacity": 1,
         "visible": true,
@@ -7719,7 +7719,7 @@
               "x": 80,
               "y": 120,
               "width": 1280,
-              "height": 732
+              "height": 756
             },
             "opacity": 1,
             "visible": true,
@@ -7923,7 +7923,7 @@
                   "x": 64,
                   "y": 268,
                   "width": 1152,
-                  "height": 368
+                  "height": 392
                 },
                 "opacity": 1,
                 "visible": true,
@@ -7938,7 +7938,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 278,
+                      "width": 246,
                       "height": 190
                     },
                     "childLayout": {
@@ -7955,9 +7955,9 @@
                     "id": "instance-42",
                     "name": "Pipe Box",
                     "geometry": {
-                      "x": 290,
+                      "x": 258,
                       "y": 0,
-                      "width": 279,
+                      "width": 247,
                       "height": 190
                     },
                     "childLayout": {
@@ -7991,9 +7991,9 @@
                     "id": "div-316",
                     "name": "Pipe Box",
                     "geometry": {
-                      "x": 581,
+                      "x": 517,
                       "y": 0,
-                      "width": 278,
+                      "width": 246,
                       "height": 190
                     },
                     "opacity": 1,
@@ -8037,7 +8037,7 @@
                         "geometry": {
                           "x": 21,
                           "y": 25,
-                          "width": 236,
+                          "width": 204,
                           "height": 65
                         },
                         "opacity": 1,
@@ -8053,7 +8053,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 236,
+                              "width": 204,
                               "height": 16
                             },
                             "opacity": 0.85,
@@ -8110,7 +8110,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 28,
-                              "width": 236,
+                              "width": 204,
                               "height": 25
                             },
                             "opacity": 1,
@@ -8174,7 +8174,7 @@
                         "geometry": {
                           "x": 21,
                           "y": 114,
-                          "width": 236,
+                          "width": 204,
                           "height": 51
                         },
                         "opacity": 0.9,
@@ -8312,7 +8312,7 @@
                         "id": "path-315",
                         "name": "Pipe Arrow",
                         "geometry": {
-                          "x": 269,
+                          "x": 237,
                           "y": 95,
                           "width": 18,
                           "height": 12
@@ -8357,9 +8357,9 @@
                     "id": "instance-43",
                     "name": "Pipe Box",
                     "geometry": {
-                      "x": 871,
+                      "x": 775,
                       "y": 0,
-                      "width": 279,
+                      "width": 247,
                       "height": 190
                     },
                     "childLayout": {
@@ -8395,8 +8395,8 @@
                     "geometry": {
                       "x": 0,
                       "y": 202,
-                      "width": 278,
-                      "height": 166
+                      "width": 246,
+                      "height": 190
                     },
                     "opacity": 1,
                     "visible": true,
@@ -8439,8 +8439,8 @@
                         "geometry": {
                           "x": 21,
                           "y": 25,
-                          "width": 236,
-                          "height": 65
+                          "width": 204,
+                          "height": 89
                         },
                         "opacity": 1,
                         "visible": true,
@@ -8455,7 +8455,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 236,
+                              "width": 204,
                               "height": 16
                             },
                             "opacity": 1,
@@ -8512,8 +8512,8 @@
                             "geometry": {
                               "x": 0,
                               "y": 28,
-                              "width": 236,
-                              "height": 25
+                              "width": 204,
+                              "height": 49
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8575,8 +8575,8 @@
                         "name": "Pb Meta",
                         "geometry": {
                           "x": 21,
-                          "y": 90,
-                          "width": 236,
+                          "y": 114,
+                          "width": 204,
                           "height": 51
                         },
                         "opacity": 1,
@@ -8756,7 +8756,7 @@
                 "name": "Pipe Caption",
                 "geometry": {
                   "x": 260,
-                  "y": 676,
+                  "y": 700,
                   "width": 760,
                   "height": 56
                 },
@@ -8807,7 +8807,7 @@
         "name": "Get Started",
         "geometry": {
           "x": 0,
-          "y": 7273,
+          "y": 7356,
           "width": 1440,
           "height": 1059
         },
@@ -8889,7 +8889,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 680,
+                      "width": 545,
                       "height": 321
                     },
                     "opacity": 1,
@@ -8905,7 +8905,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 0,
-                          "width": 680,
+                          "width": 546,
                           "height": 96
                         },
                         "opacity": 1,
@@ -8995,7 +8995,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 201,
-                          "width": 680,
+                          "width": 545,
                           "height": 120
                         },
                         "opacity": 1,
@@ -9235,7 +9235,7 @@
                     "geometry": {
                       "x": 0,
                       "y": 401,
-                      "width": 680,
+                      "width": 655,
                       "height": 366
                     },
                     "opacity": 1,
@@ -9296,7 +9296,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 0,
-                          "width": 680,
+                          "width": 655,
                           "height": 31
                         },
                         "opacity": 1,
@@ -9408,7 +9408,7 @@
                         "geometry": {
                           "x": 0,
                           "y": 31,
-                          "width": 680,
+                          "width": 655,
                           "height": 335
                         },
                         "opacity": 1,
@@ -9424,7 +9424,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 24,
-                              "width": 632,
+                              "width": 607,
                               "height": 18
                             },
                             "opacity": 1,
@@ -9438,7 +9438,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 42,
-                              "width": 632,
+                              "width": 607,
                               "height": 54
                             },
                             "opacity": 1,
@@ -9454,7 +9454,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9499,7 +9499,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 18,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9544,7 +9544,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 36,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9591,7 +9591,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 110,
-                              "width": 632,
+                              "width": 607,
                               "height": 18
                             },
                             "opacity": 1,
@@ -9610,7 +9610,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 128,
-                              "width": 632,
+                              "width": 607,
                               "height": 36
                             },
                             "opacity": 1,
@@ -9626,7 +9626,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9671,7 +9671,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 18,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9718,7 +9718,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 178,
-                              "width": 632,
+                              "width": 607,
                               "height": 18
                             },
                             "opacity": 1,
@@ -9737,7 +9737,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 196,
-                              "width": 632,
+                              "width": 607,
                               "height": 36
                             },
                             "opacity": 1,
@@ -9753,7 +9753,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9798,7 +9798,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 18,
-                                  "width": 632,
+                                  "width": 607,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9845,7 +9845,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 232,
-                              "width": 632,
+                              "width": 607,
                               "height": 36
                             },
                             "opacity": 1,
@@ -9861,7 +9861,7 @@
                                 "geometry": {
                                   "x": 24,
                                   "y": 0,
-                                  "width": 608,
+                                  "width": 583,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9906,7 +9906,7 @@
                                 "geometry": {
                                   "x": 24,
                                   "y": 18,
-                                  "width": 608,
+                                  "width": 583,
                                   "height": 18
                                 },
                                 "opacity": 1,
@@ -9953,7 +9953,7 @@
                             "geometry": {
                               "x": 24,
                               "y": 282,
-                              "width": 632,
+                              "width": 607,
                               "height": 25
                             },
                             "opacity": 1,
@@ -10041,7 +10041,7 @@
         "name": "Footer",
         "geometry": {
           "x": 0,
-          "y": 8372,
+          "y": 8455,
           "width": 1440,
           "height": 306
         },
@@ -11894,7 +11894,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 476,
+          "width": 423,
           "height": 28
         },
         "opacity": 1,
@@ -11950,7 +11950,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 474,
+          "width": 421,
           "height": 64
         },
         "opacity": 1,
@@ -11994,7 +11994,7 @@
             "geometry": {
               "x": 9,
               "y": 9,
-              "width": 274,
+              "width": 242,
               "height": 4
             },
             "opacity": 1,
@@ -12025,7 +12025,7 @@
             "geometry": {
               "x": 9,
               "y": 18,
-              "width": 182,
+              "width": 161,
               "height": 3
             },
             "opacity": 1,
@@ -12054,7 +12054,7 @@
             "id": "mini-card.frame-2",
             "name": "Swatch",
             "geometry": {
-              "x": 454,
+              "x": 400,
               "y": 43,
               "width": 14,
               "height": 14
@@ -12099,7 +12099,7 @@
         "geometry": {
           "x": 10,
           "y": 116,
-          "width": 700,
+          "width": 120,
           "height": 26
         },
         "opacity": 1,
@@ -12216,7 +12216,7 @@
         "geometry": {
           "x": 29,
           "y": 65,
-          "width": 622,
+          "width": 513,
           "height": 90
         },
         "opacity": 1,
@@ -12248,7 +12248,7 @@
             "geometry": {
               "x": 0,
               "y": 15,
-              "width": 720,
+              "width": 640,
               "height": 35
             },
             "opacity": 1,
@@ -12310,7 +12310,7 @@
             "geometry": {
               "x": 0,
               "y": 50,
-              "width": 720,
+              "width": 640,
               "height": 26
             },
             "opacity": 1,
@@ -12719,7 +12719,7 @@
         "geometry": {
           "x": 24,
           "y": 24,
-          "width": 632,
+          "width": 607,
           "height": 18
         },
         "opacity": 1,
@@ -12735,7 +12735,7 @@
             "geometry": {
               "x": 0,
               "y": 0,
-              "width": 632,
+              "width": 607,
               "height": 18
             },
             "opacity": 1,
@@ -12786,7 +12786,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 278,
+          "width": 246,
           "height": 190
         },
         "opacity": 1,
@@ -12830,8 +12830,8 @@
             "geometry": {
               "x": 21,
               "y": 25,
-              "width": 236,
-              "height": 65
+              "width": 204,
+              "height": 89
             },
             "opacity": 1,
             "visible": true,
@@ -12846,7 +12846,7 @@
                 "geometry": {
                   "x": 0,
                   "y": 0,
-                  "width": 236,
+                  "width": 204,
                   "height": 16
                 },
                 "opacity": 1,
@@ -12903,8 +12903,8 @@
                 "geometry": {
                   "x": 0,
                   "y": 28,
-                  "width": 236,
-                  "height": 25
+                  "width": 204,
+                  "height": 49
                 },
                 "opacity": 1,
                 "visible": true,
@@ -12967,7 +12967,7 @@
             "geometry": {
               "x": 21,
               "y": 114,
-              "width": 236,
+              "width": 204,
               "height": 51
             },
             "opacity": 1,
@@ -13105,7 +13105,7 @@
             "id": "pipe-box.vector-2",
             "name": "Pipe Arrow",
             "geometry": {
-              "x": 269,
+              "x": 237,
               "y": 95,
               "width": 18,
               "height": 12
@@ -13156,7 +13156,7 @@
         "geometry": {
           "x": 36,
           "y": 40,
-          "width": 407,
+          "width": 354,
           "height": 19
         },
         "opacity": 1,
@@ -13217,8 +13217,8 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 608,
-          "height": 47
+          "width": 528,
+          "height": 71
         },
         "opacity": 1,
         "visible": true,
@@ -13231,9 +13231,9 @@
             "id": "token.text-0",
             "name": "Name",
             "geometry": {
-              "x": 24,
-              "y": 0,
-              "width": 474,
+              "x": 0,
+              "y": 24,
+              "width": 622,
               "height": 19
             },
             "opacity": 1,
@@ -13282,8 +13282,8 @@
             "name": "Val",
             "geometry": {
               "x": 0,
-              "y": 29,
-              "width": 474,
+              "y": 53,
+              "width": 622,
               "height": 18
             },
             "opacity": 1,

@@ -282,29 +282,59 @@ export function parseTextTransform(
 // ---------------------------------------------------------------------------
 
 /**
- * Count the tracks in a `grid-template-columns` (or -rows) value. Per ADR
- * 0008, we only need the track count — per-track sizing is ignored and
- * every cell is treated as 1fr. Handles `repeat(N, …)`, space-separated
- * track lists (`1fr 1fr 1fr`, `200px 200px`), mixed fixed/fractional
- * (`1fr auto 1fr`), and nested function calls like `minmax(100px, 1fr)`
- * by tokenising at the top level (respecting parens).
+ * One CSS grid track. `fr` is a fractional-unit weight (1fr, 1.15fr, …);
+ * `px` is a fixed pixel size. `auto` and anything we don't recognise
+ * (e.g. `minmax(…)`) fall back to `{ fr: 1 }`.
  */
-export function parseGridTrackCount(value: string | undefined): number | undefined {
+export interface ParsedGridTrack {
+  fr?: number;
+  px?: number;
+}
+
+/**
+ * Parse a `grid-template-columns` (or -rows) value into per-track
+ * descriptors. Handles `repeat(N, …)`, space-separated lists (`1fr 1fr
+ * 1fr`, `200px 200px`, `1.15fr 1fr`), mixed fixed/fractional
+ * (`200px 1fr`), and nested function calls like `minmax(100px, 1fr)`
+ * (treated as `{ fr: 1 }`). Used by `layout/yoga.ts` to give each grid
+ * cell a track-weighted width so weighted fr values don't collapse to
+ * equal tracks (was the fidelity gap ADR 0008 called out as deferred).
+ */
+export function parseGridTracks(value: string | undefined): ParsedGridTrack[] | undefined {
   if (!value) return undefined;
   const trimmed = value.trim();
   if (!trimmed || trimmed === 'none') return undefined;
   const tokens = splitTopLevel(trimmed);
-  let count = 0;
+  const tracks: ParsedGridTrack[] = [];
   for (const token of tokens) {
-    const repeatMatch = /^repeat\(\s*(\d+)\s*,/i.exec(token);
+    const repeatMatch = /^repeat\(\s*(\d+)\s*,\s*([\s\S]+)\)\s*$/i.exec(token);
     if (repeatMatch) {
       const n = Number(repeatMatch[1]);
-      if (Number.isFinite(n) && n > 0) count += n;
+      const sub = repeatMatch[2];
+      if (!Number.isFinite(n) || n <= 0 || !sub) continue;
+      const subTracks = parseGridTracks(sub) ?? [{ fr: 1 }];
+      for (let i = 0; i < n; i += 1) tracks.push(...subTracks);
       continue;
     }
-    if (token) count += 1;
+    const frMatch = /^(-?\d+(?:\.\d+)?)fr$/i.exec(token);
+    if (frMatch) {
+      tracks.push({ fr: Number(frMatch[1]) });
+      continue;
+    }
+    const pxMatch = /^(-?\d+(?:\.\d+)?)(px)?$/i.exec(token);
+    if (pxMatch && pxMatch[1] !== undefined && token !== '0') {
+      tracks.push({ px: Number(pxMatch[1]) });
+      continue;
+    }
+    // auto / minmax(…) / % — treat as 1fr for layout.
+    if (token) tracks.push({ fr: 1 });
   }
-  return count > 0 ? count : undefined;
+  return tracks.length > 0 ? tracks : undefined;
+}
+
+/** Convenience: just the track count (used by callers that don't care about sizing). */
+export function parseGridTrackCount(value: string | undefined): number | undefined {
+  return parseGridTracks(value)?.length;
 }
 
 /**

@@ -20,7 +20,7 @@ import Yoga, {
 } from 'yoga-layout';
 import type { ComputedStyle, P5Element } from '../cascade/index.js';
 import { IGNORED_TAGS, collectInnerText, isTextElement } from '../classify.js';
-import { parseAspectRatio, parseGridTrackCount, parseLineHeight, parsePx } from '../style.js';
+import { parseAspectRatio, parseGridTracks, parseLineHeight, parsePx } from '../style.js';
 import { measureText, measuredText } from './measure.js';
 
 export interface ComputedGeometry {
@@ -96,24 +96,21 @@ export function computeLayout(
     // resolve cell widths against gap + track count in px.
     const myContentWidth = computeContentWidth(style, availableContentWidth);
 
-    // Grid track width in px, if this element is a grid container.
-    const gridTrackCount = getGridTrackCount(style);
-    let gridTrackWidth: number | undefined;
-    if (gridTrackCount != null && gridTrackCount > 0 && myContentWidth != null) {
-      const colGap = readColumnGap(style);
-      gridTrackWidth = Math.max(
-        0,
-        (myContentWidth - (gridTrackCount - 1) * colGap) / gridTrackCount,
-      );
-    }
+    // Grid track widths in px, if this element is a grid container.
+    // Weighted fr values are honoured — `1.15fr 1fr` produces unequal
+    // tracks. Fixed px tracks take their declared size first; remaining
+    // space splits by fr weight. Falls back to equal distribution when
+    // content width isn't known.
+    const trackWidths = computeGridTrackWidths(style, myContentWidth);
 
     let index = 0;
     for (const child of el.childNodes) {
       if (isElement(child)) {
         if (IGNORED_TAGS.has(child.tagName.toLowerCase())) continue;
         const childYoga = buildYoga(child, myContentWidth);
-        if (gridTrackWidth != null) {
-          applyGridCellSize(childYoga, styles.get(child), gridTrackWidth);
+        if (trackWidths) {
+          const w = trackWidths[index % trackWidths.length];
+          if (w != null) applyGridCellSize(childYoga, styles.get(child), w);
         }
         yoga.insertChild(childYoga, index);
         index += 1;
@@ -192,11 +189,36 @@ function buildBareTextMeasureFn(characters: string, parentStyle: ComputedStyle) 
 // Grid helpers (ADR 0008)
 // ---------------------------------------------------------------------------
 
-/** Track count when the element is a grid container, else undefined. */
-function getGridTrackCount(style: ComputedStyle): number | undefined {
+/**
+ * Compute each grid column's px width for the given container style.
+ * Returns undefined when the element isn't a grid, the tracks don't
+ * parse, or the container width is unknown (for tracks with only
+ * fr weights we can't resolve them to px).
+ */
+function computeGridTrackWidths(
+  style: ComputedStyle,
+  contentWidth: number | undefined,
+): number[] | undefined {
   const display = (style.get('display') ?? '').toLowerCase();
   if (display !== 'grid' && display !== 'inline-grid') return undefined;
-  return parseGridTrackCount(style.get('grid-template-columns'));
+  const tracks = parseGridTracks(style.get('grid-template-columns'));
+  if (!tracks || tracks.length === 0) return undefined;
+  if (contentWidth == null) {
+    // Fallback: equal distribution (we don't know per-track px without
+    // a container width for resolving fr weights).
+    return undefined;
+  }
+  const colGap = readColumnGap(style);
+  const totalGap = Math.max(0, (tracks.length - 1) * colGap);
+  let fixedTotal = 0;
+  let frTotal = 0;
+  for (const t of tracks) {
+    if (t.px != null) fixedTotal += t.px;
+    else frTotal += t.fr ?? 1;
+  }
+  const frSpace = Math.max(0, contentWidth - totalGap - fixedTotal);
+  const frUnit = frTotal > 0 ? frSpace / frTotal : 0;
+  return tracks.map((t) => (t.px != null ? t.px : (t.fr ?? 1) * frUnit));
 }
 
 /**
@@ -228,6 +250,7 @@ function computeContentWidth(
   parentContentWidth: number | undefined,
 ): number | undefined {
   const cssWidth = parsePx(style.get('width'));
+  const maxWidth = parsePx(style.get('max-width'));
   let myWidth = cssWidth ?? parentContentWidth;
   if (myWidth == null) return undefined;
   if (cssWidth == null) {
@@ -235,6 +258,10 @@ function computeContentWidth(
     const marginR = parsePx(style.get('margin-right')) ?? 0;
     myWidth = Math.max(0, myWidth - marginL - marginR);
   }
+  // Honour max-width so children of a `.wrap { max-width: 1280 }` see the
+  // clamped 1280 available, not the 1440 viewport. Otherwise grid track
+  // sizing comes out too wide and cells overflow their parent.
+  if (maxWidth != null && myWidth > maxWidth) myWidth = maxWidth;
   const padL = parsePx(style.get('padding-left')) ?? 0;
   const padR = parsePx(style.get('padding-right')) ?? 0;
   return Math.max(0, myWidth - padL - padR);

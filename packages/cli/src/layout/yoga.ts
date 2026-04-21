@@ -254,17 +254,53 @@ function computeContentWidth(
   let myWidth = cssWidth ?? parentContentWidth;
   if (myWidth == null) return undefined;
   if (cssWidth == null) {
-    const marginL = parsePx(style.get('margin-left')) ?? 0;
-    const marginR = parsePx(style.get('margin-right')) ?? 0;
+    const marginL = readEdgePx(style, 'margin', 'left');
+    const marginR = readEdgePx(style, 'margin', 'right');
     myWidth = Math.max(0, myWidth - marginL - marginR);
   }
   // Honour max-width so children of a `.wrap { max-width: 1280 }` see the
   // clamped 1280 available, not the 1440 viewport. Otherwise grid track
   // sizing comes out too wide and cells overflow their parent.
   if (maxWidth != null && myWidth > maxWidth) myWidth = maxWidth;
-  const padL = parsePx(style.get('padding-left')) ?? 0;
-  const padR = parsePx(style.get('padding-right')) ?? 0;
+  const padL = readEdgePx(style, 'padding', 'left');
+  const padR = readEdgePx(style, 'padding', 'right');
   return Math.max(0, myWidth - padL - padR);
+}
+
+/**
+ * Read a per-edge padding / margin value. Longhand wins when present
+ * (`padding-left: 24px`); otherwise falls back to expanding the 1–4
+ * value shorthand (`padding: 0 64`). Returns 0 when neither is set
+ * or when the value is non-numeric (`auto`, `inherit`, etc.).
+ */
+function readEdgePx(
+  style: ComputedStyle,
+  prop: 'padding' | 'margin',
+  edge: 'top' | 'right' | 'bottom' | 'left',
+): number {
+  const longhand = parsePx(style.get(`${prop}-${edge}`));
+  if (longhand != null) return longhand;
+  const shorthand = style.get(prop);
+  if (!shorthand) return 0;
+  const parts = shorthand.trim().split(/\s+/);
+  const a = parsePx(parts[0]);
+  const b = parts[1] !== undefined ? parsePx(parts[1]) : a;
+  const c = parts[2] !== undefined ? parsePx(parts[2]) : a;
+  const d = parts[3] !== undefined ? parsePx(parts[3]) : b;
+  const top = a ?? 0;
+  const right = b ?? 0;
+  const bottom = c ?? 0;
+  const left = d ?? 0;
+  switch (edge) {
+    case 'top':
+      return top;
+    case 'right':
+      return right;
+    case 'bottom':
+      return bottom;
+    case 'left':
+      return left;
+  }
 }
 
 /**

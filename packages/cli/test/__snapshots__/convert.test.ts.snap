@@ -1139,7 +1139,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "text/14-regular",
+            "textStyleId": "body/md-regular",
             "type": "TEXT",
             "visible": true,
           },
@@ -1215,7 +1215,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "body/md",
+            "textStyleId": "body/md-medium",
             "type": "TEXT",
             "visible": true,
           },
@@ -1368,8 +1368,8 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
     ],
     "texts": [
       {
-        "id": "body/md",
-        "name": "body/md",
+        "id": "body/md-medium",
+        "name": "body/md-medium",
         "style": {
           "fontFamily": "Inter",
           "fontSize": 14,
@@ -1387,6 +1387,26 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
         },
       },
       {
+        "id": "body/md-regular",
+        "name": "body/md-regular",
+        "style": {
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontStyle": "Regular",
+          "letterSpacing": {
+            "unit": "PIXELS",
+            "value": 0,
+          },
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 150,
+          },
+          "textAlign": "LEFT",
+          "textCase": "ORIGINAL",
+          "textDecoration": "NONE",
+        },
+      },
+      {
         "id": "heading/md",
         "name": "heading/md",
         "style": {
@@ -1399,26 +1419,6 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
           },
           "lineHeight": {
             "unit": "AUTO",
-          },
-          "textAlign": "LEFT",
-          "textCase": "ORIGINAL",
-          "textDecoration": "NONE",
-        },
-      },
-      {
-        "id": "text/14-regular",
-        "name": "text/14-regular",
-        "style": {
-          "fontFamily": "Inter",
-          "fontSize": 14,
-          "fontStyle": "Regular",
-          "letterSpacing": {
-            "unit": "PIXELS",
-            "value": 0,
-          },
-          "lineHeight": {
-            "unit": "PERCENT",
-            "value": 150,
           },
           "textAlign": "LEFT",
           "textCase": "ORIGINAL",
@@ -4720,7 +4720,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "text/14-regular",
+            "textStyleId": "body/md-regular",
             "type": "TEXT",
             "visible": true,
           },
@@ -4796,7 +4796,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "body/md",
+            "textStyleId": "body/md-medium",
             "type": "TEXT",
             "visible": true,
           },
@@ -4949,8 +4949,8 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
     ],
     "texts": [
       {
-        "id": "body/md",
-        "name": "body/md",
+        "id": "body/md-medium",
+        "name": "body/md-medium",
         "style": {
           "fontFamily": "Inter",
           "fontSize": 14,
@@ -4968,6 +4968,26 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
         },
       },
       {
+        "id": "body/md-regular",
+        "name": "body/md-regular",
+        "style": {
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontStyle": "Regular",
+          "letterSpacing": {
+            "unit": "PIXELS",
+            "value": 0,
+          },
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 150,
+          },
+          "textAlign": "LEFT",
+          "textCase": "ORIGINAL",
+          "textDecoration": "NONE",
+        },
+      },
+      {
         "id": "heading/md",
         "name": "heading/md",
         "style": {
@@ -4980,26 +5000,6 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
           },
           "lineHeight": {
             "unit": "AUTO",
-          },
-          "textAlign": "LEFT",
-          "textCase": "ORIGINAL",
-          "textDecoration": "NONE",
-        },
-      },
-      {
-        "id": "text/14-regular",
-        "name": "text/14-regular",
-        "style": {
-          "fontFamily": "Inter",
-          "fontSize": 14,
-          "fontStyle": "Regular",
-          "letterSpacing": {
-            "unit": "PIXELS",
-            "value": 0,
-          },
-          "lineHeight": {
-            "unit": "PERCENT",
-            "value": 150,
           },
           "textAlign": "LEFT",
           "textCase": "ORIGINAL",
@@ -5125,7 +5125,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "text/18-regular",
+            "textStyleId": "heading/md-regular",
             "type": "TEXT",
             "visible": true,
           },
@@ -5260,7 +5260,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
               "textCase": "ORIGINAL",
               "textDecoration": "NONE",
             },
-            "textStyleId": "heading/md",
+            "textStyleId": "heading/md-italic",
             "type": "TEXT",
             "visible": true,
           },
@@ -5482,8 +5482,8 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
         },
       },
       {
-        "id": "heading/md",
-        "name": "heading/md",
+        "id": "heading/md-italic",
+        "name": "heading/md-italic",
         "style": {
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -5495,6 +5495,26 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           "lineHeight": {
             "unit": "PERCENT",
             "value": 150,
+          },
+          "textAlign": "LEFT",
+          "textCase": "ORIGINAL",
+          "textDecoration": "NONE",
+        },
+      },
+      {
+        "id": "heading/md-regular",
+        "name": "heading/md-regular",
+        "style": {
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontStyle": "Regular",
+          "letterSpacing": {
+            "unit": "PIXELS",
+            "value": 0.5,
+          },
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 140,
           },
           "textAlign": "LEFT",
           "textCase": "ORIGINAL",
@@ -5515,26 +5535,6 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
           "lineHeight": {
             "unit": "PERCENT",
             "value": 120,
-          },
-          "textAlign": "LEFT",
-          "textCase": "ORIGINAL",
-          "textDecoration": "NONE",
-        },
-      },
-      {
-        "id": "text/18-regular",
-        "name": "text/18-regular",
-        "style": {
-          "fontFamily": "Inter",
-          "fontSize": 18,
-          "fontStyle": "Regular",
-          "letterSpacing": {
-            "unit": "PIXELS",
-            "value": 0.5,
-          },
-          "lineHeight": {
-            "unit": "PERCENT",
-            "value": 140,
           },
           "textAlign": "LEFT",
           "textCase": "ORIGINAL",

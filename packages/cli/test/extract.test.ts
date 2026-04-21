@@ -344,16 +344,27 @@ describe('extractTextStyles', () => {
     expect(result.styles[0]?.id).toBe('caption');
   });
 
-  it('falls back to text/{size}-{weight} when two styles collide on a bucket', () => {
-    // Two distinct styles both bucket as body/md (size 14, but different
-    // line-height makes them distinct).
+  it('suffixes colliding bucket members with weight slug (no plain bucket)', () => {
+    // Two distinct styles in the same bucket (body/md), same weight but
+    // different line-height → each gets `body/md-regular`, `body/md-regular-2`.
     const a = baseTextStyle({ fontSize: 14 });
     const b = baseTextStyle({ fontSize: 14, lineHeight: { unit: 'PERCENT', value: 200 } });
     const root = frame({ children: [text(a), text(a), text(b)] });
     const result = extractTextStyles(doc(root));
     const ids = result.styles.map((s) => s.id).sort();
-    expect(ids).toContain('body/md');
-    expect(ids.some((i) => i.startsWith('text/14-'))).toBe(true);
+    // No plain `body/md` — every collider is suffixed.
+    expect(ids).not.toContain('body/md');
+    expect(ids.some((i) => i.startsWith('body/md-'))).toBe(true);
+  });
+
+  it('different weights in the same bucket each get their weight suffix', () => {
+    const medium = baseTextStyle({ fontSize: 18, fontStyle: 'Medium' });
+    const bold = baseTextStyle({ fontSize: 18, fontStyle: 'Bold' });
+    const root = frame({ children: [text(medium), text(bold)] });
+    const result = extractTextStyles(doc(root));
+    const ids = result.styles.map((s) => s.id).sort();
+    expect(ids).toContain('heading/md-bold');
+    expect(ids).toContain('heading/md-medium');
   });
 });
 

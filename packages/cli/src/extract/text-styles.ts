@@ -13,9 +13,12 @@
  *       size ≥ 14                  → body/md
  *       size ≥ 12                  → body/sm
  *       size < 12                  → caption
- *   - When two distinct styles map to the same bucket, the second one
- *     and onward fall back to a deterministic `text/{size}-{weight-slug}`
- *     so we never collide.
+ *   - When a bucket holds only one style, that style gets the plain
+ *     bucket name (`heading/md`). When two or more distinct styles
+ *     share a bucket, each gets a weight-suffixed variant
+ *     (`heading/md-medium`, `heading/md-bold`) so the semantic prefix
+ *     survives. Remaining ties within the same `bucket-weight` get a
+ *     numeric suffix (`heading/md-medium-2`) — rare.
  */
 
 import type { IRDocument, IRNode, TextStyle, TextStyleDef } from '@claude-to-figma/ir';
@@ -105,14 +108,22 @@ function assignNames(usage: Map<string, TextStyleUsage>): void {
   }
 
   for (const [bucket, entries] of byBucket) {
-    const [winner, ...rest] = entries;
-    if (!winner) continue;
-    winner.styleId = bucket;
-    winner.styleName = bucket;
-    // Collision: first one keeps the bucket name (most-frequent wins),
-    // others fall back to deterministic text/{size}-{weight-slug}.
-    for (const e of rest) {
-      const id = `text/${e.style.fontSize}-${slug(e.style.fontStyle)}`;
+    if (entries.length === 1) {
+      const only = entries[0];
+      if (!only) continue;
+      only.styleId = bucket;
+      only.styleName = bucket;
+      continue;
+    }
+    // Multiple styles share a bucket — suffix each with its weight slug
+    // so the semantic prefix survives. Ties within the same weight get
+    // a numeric tail.
+    const seen = new Map<string, number>();
+    for (const e of entries) {
+      const base = `${bucket}-${slug(e.style.fontStyle)}`;
+      const n = seen.get(base) ?? 0;
+      const id = n === 0 ? base : `${base}-${n + 1}`;
+      seen.set(base, n + 1);
       e.styleId = id;
       e.styleName = id;
     }

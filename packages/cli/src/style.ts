@@ -209,8 +209,37 @@ export function parseLetterSpacing(value: string | undefined): LetterSpacing | u
     const n = Number(v.slice(0, -1));
     return Number.isFinite(n) ? { unit: 'PERCENT', value: n } : undefined;
   }
+  // `em` is relative to font-size; Figma's PERCENT letter-spacing is also
+  // relative to font-size, so 1em ≡ 100%. Hits ~10 display headlines on
+  // the landing dogfood that use `letter-spacing: -0.025em` et al.
+  if (v.endsWith('em')) {
+    const n = Number(v.slice(0, -2));
+    return Number.isFinite(n) ? { unit: 'PERCENT', value: n * 100 } : undefined;
+  }
   const n = parsePx(v);
   return n != null ? { unit: 'PIXELS', value: n } : undefined;
+}
+
+/**
+ * Parse a CSS `aspect-ratio` value. Grammar: `auto | <ratio>` where
+ * `<ratio>` is `<number>` or `<number> / <number>`. Returns the
+ * `width / height` ratio as a single number — yoga's setAspectRatio
+ * expects exactly that.
+ */
+export function parseAspectRatio(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const v = value.trim().toLowerCase();
+  if (!v || v === 'auto') return undefined;
+  const slashIdx = v.indexOf('/');
+  if (slashIdx === -1) {
+    const n = Number(v);
+    return Number.isFinite(n) && n > 0 ? n : undefined;
+  }
+  const num = Number(v.slice(0, slashIdx).trim());
+  const den = Number(v.slice(slashIdx + 1).trim());
+  if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return undefined;
+  const ratio = num / den;
+  return ratio > 0 ? ratio : undefined;
 }
 
 export function parseTextAlign(

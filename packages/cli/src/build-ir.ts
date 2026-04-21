@@ -300,7 +300,7 @@ function buildImage(el: P5Element, ctx: BuildContext): ImageNode {
 function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
   const style = styleOf(ctx, el);
   const geometry = geometryOf(ctx, el);
-  const raw = collectFirstPath(el) ?? '';
+  const raw = collectAllPaths(el).join(' ');
   const path = normalizeSvgPath(raw);
   if (!path) ctx.warnings.push('<svg> had no <path d="..."> — emitted with empty path');
 
@@ -369,18 +369,20 @@ function buildChild(child: P5ChildNode, parent: P5Element, ctx: BuildContext): I
   return null;
 }
 
-function collectFirstPath(el: P5Element): string | undefined {
-  for (const c of el.childNodes) {
-    if (isElement(c)) {
+function collectAllPaths(el: P5Element): string[] {
+  const out: string[] = [];
+  const walk = (node: P5Element) => {
+    for (const c of node.childNodes) {
+      if (!isElement(c)) continue;
       if (c.tagName.toLowerCase() === 'path') {
         const d = getAttr(c, 'd');
-        if (d) return d;
+        if (d) out.push(d);
       }
-      const inner = collectFirstPath(c);
-      if (inner) return inner;
+      walk(c);
     }
-  }
-  return undefined;
+  };
+  walk(el);
+  return out;
 }
 
 // ---------------------------------------------------------------------------

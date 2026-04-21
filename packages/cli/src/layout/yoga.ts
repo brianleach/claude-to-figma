@@ -20,7 +20,7 @@ import Yoga, {
 } from 'yoga-layout';
 import type { ComputedStyle, P5Element } from '../cascade/index.js';
 import { IGNORED_TAGS, collectInnerText, isTextElement } from '../classify.js';
-import { parseGridTrackCount, parseLineHeight, parsePx } from '../style.js';
+import { parseAspectRatio, parseGridTrackCount, parseLineHeight, parsePx } from '../style.js';
 import { measureText, measuredText } from './measure.js';
 
 export interface ComputedGeometry {
@@ -266,6 +266,8 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
   // Dimensions -------------------------------------------------------------
   applyDimension(style.get('width'), (v) => node.setWidth(v));
   applyDimension(style.get('height'), (v) => node.setHeight(v));
+  const aspectRatio = parseAspectRatio(style.get('aspect-ratio'));
+  if (aspectRatio != null) node.setAspectRatio(aspectRatio);
   // min/max accept number or % only, not 'auto'.
   applyEdgeLength(style.get('min-width'), (v) => node.setMinWidth(v));
   applyEdgeLength(style.get('min-height'), (v) => node.setMinHeight(v));

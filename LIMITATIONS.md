@@ -30,10 +30,12 @@ removed unless an explicit fix lands.
    stylesheets get their first matching ruleset applied as if no media
    query existed.
 
-4. **No CSS units beyond `px` and `%`.** `em`, `rem`, `vw`, `vh`, `ch`,
-   `calc(...)`, and unitless lengths (except `0`) are all treated as
-   undefined and the property is skipped. Real exports that rely on these
-   will lose those declarations silently.
+4. **Limited CSS unit support.** `px` and `%` work everywhere. `em` is
+   supported for `letter-spacing` (converted to Figma's PERCENT, which
+   is also font-size-relative). `rem`, `vw`, `vh`, `ch`, `calc(...)`,
+   and unitless lengths (except `0`) are still treated as undefined
+   and the property is skipped. Real exports that rely on those will
+   lose those declarations silently.
 
 ## Layout
 
@@ -131,10 +133,12 @@ removed unless an explicit fix lands.
     different alphas) keep their first fill registered as a style; the
     rest stay inline.
 
-16. **No SVG asset handling beyond `<path d=...>`.** The walker reads
-    the first `<path d>` of any `<svg>` and emits a VECTOR node with
-    that single path. Multi-path SVGs, gradient defs, masks, and filters
-    are all dropped. Inline `<svg>` icons in real exports may render
+16. **SVG support is path-only.** The walker collects every `<path d>`
+    inside an `<svg>` (including paths nested in `<g>` groups) and
+    emits one VECTOR node with the concatenated path data. Gradient
+    definitions, `<mask>`, filters, `<use>` references, and non-path
+    primitives (`<circle>`, `<rect>`, `<polygon>`, `<ellipse>`, `<line>`)
+    are still dropped — inline SVG icons that rely on them will render
     as a stub.
 
 17. **Fonts must be installed locally before opening the plugin.**

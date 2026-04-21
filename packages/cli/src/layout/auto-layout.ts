@@ -24,15 +24,25 @@ import { parsePx } from '../style.js';
  */
 export function mapFlexContainer(style: ComputedStyle): LayoutProps | undefined {
   const display = (style.get('display') ?? '').toLowerCase();
-  if (display !== 'flex' && display !== 'inline-flex') return undefined;
+  const isFlex = display === 'flex' || display === 'inline-flex';
+  const isGrid = display === 'grid' || display === 'inline-grid';
+  if (!isFlex && !isGrid) return undefined;
 
+  // Grid (ADR 0008) maps to a flex-wrap row: tracks become wrap cells,
+  // column-gap becomes itemSpacing, row-gap becomes counterAxisSpacing.
   const flexDirection = (style.get('flex-direction') ?? 'row').toLowerCase();
-  const layoutMode: 'HORIZONTAL' | 'VERTICAL' =
-    flexDirection === 'column' || flexDirection === 'column-reverse' ? 'VERTICAL' : 'HORIZONTAL';
+  const layoutMode: 'HORIZONTAL' | 'VERTICAL' = isGrid
+    ? 'HORIZONTAL'
+    : flexDirection === 'column' || flexDirection === 'column-reverse'
+      ? 'VERTICAL'
+      : 'HORIZONTAL';
 
   const wrap = (style.get('flex-wrap') ?? 'nowrap').toLowerCase();
-  const layoutWrap: 'NO_WRAP' | 'WRAP' =
-    wrap === 'wrap' || wrap === 'wrap-reverse' ? 'WRAP' : 'NO_WRAP';
+  const layoutWrap: 'NO_WRAP' | 'WRAP' = isGrid
+    ? 'WRAP'
+    : wrap === 'wrap' || wrap === 'wrap-reverse'
+      ? 'WRAP'
+      : 'NO_WRAP';
 
   const padding = readPadding(style);
 
@@ -69,13 +79,23 @@ export function mapFlexChild(
   childStyle: ComputedStyle,
 ): ChildLayout | undefined {
   const parentDisplay = (parentStyle.get('display') ?? '').toLowerCase();
-  if (parentDisplay !== 'flex' && parentDisplay !== 'inline-flex') return undefined;
+  const parentIsFlex = parentDisplay === 'flex' || parentDisplay === 'inline-flex';
+  const parentIsGrid = parentDisplay === 'grid' || parentDisplay === 'inline-grid';
+  if (!parentIsFlex && !parentIsGrid) return undefined;
 
   const childPosition = (childStyle.get('position') ?? 'static').toLowerCase();
   const layoutPositioning: 'AUTO' | 'ABSOLUTE' =
     childPosition === 'absolute' || childPosition === 'fixed' ? 'ABSOLUTE' : 'AUTO';
 
-  const flexGrow = Number(childStyle.get('flex-grow') ?? '0');
+  const flexGrowCss = Number(childStyle.get('flex-grow') ?? '0');
+  let layoutGrow = Number.isFinite(flexGrowCss) && flexGrowCss > 0 ? flexGrowCss : 0;
+
+  // Grid children without explicit sizing should fill their track — mirror
+  // the flex-basis + shrink pair we apply in yoga.ts with layoutGrow 1 so
+  // the Figma auto-layout cell also fills available space.
+  if (parentIsGrid && !childStyle.has('width') && !childStyle.has('flex-basis')) {
+    if (layoutGrow === 0) layoutGrow = 1;
+  }
 
   // align-items defaults to `stretch` in CSS. Figma's counterAxisAlignItems
   // has no STRETCH value — instead per-child layoutAlign STRETCH does the
@@ -90,7 +110,7 @@ export function mapFlexChild(
 
   return {
     layoutPositioning,
-    layoutGrow: Number.isFinite(flexGrow) && flexGrow > 0 ? flexGrow : 0,
+    layoutGrow,
     layoutAlign,
   };
 }

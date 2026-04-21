@@ -247,3 +247,65 @@ export function parseTextTransform(
   if (v === 'none') return 'ORIGINAL';
   return undefined;
 }
+
+// ---------------------------------------------------------------------------
+// Grid
+// ---------------------------------------------------------------------------
+
+/**
+ * Count the tracks in a `grid-template-columns` (or -rows) value. Per ADR
+ * 0008, we only need the track count — per-track sizing is ignored and
+ * every cell is treated as 1fr. Handles `repeat(N, …)`, space-separated
+ * track lists (`1fr 1fr 1fr`, `200px 200px`), mixed fixed/fractional
+ * (`1fr auto 1fr`), and nested function calls like `minmax(100px, 1fr)`
+ * by tokenising at the top level (respecting parens).
+ */
+export function parseGridTrackCount(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === 'none') return undefined;
+  const tokens = splitTopLevel(trimmed);
+  let count = 0;
+  for (const token of tokens) {
+    const repeatMatch = /^repeat\(\s*(\d+)\s*,/i.exec(token);
+    if (repeatMatch) {
+      const n = Number(repeatMatch[1]);
+      if (Number.isFinite(n) && n > 0) count += n;
+      continue;
+    }
+    if (token) count += 1;
+  }
+  return count > 0 ? count : undefined;
+}
+
+/**
+ * Split on top-level whitespace, respecting balanced parens. A nested
+ * function call like `minmax(100px, 1fr)` stays as one token.
+ */
+function splitTopLevel(value: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let current = '';
+  for (const ch of value) {
+    if (ch === '(') {
+      depth += 1;
+      current += ch;
+      continue;
+    }
+    if (ch === ')') {
+      depth = Math.max(0, depth - 1);
+      current += ch;
+      continue;
+    }
+    if (depth === 0 && /\s/.test(ch)) {
+      if (current) {
+        out.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += ch;
+  }
+  if (current) out.push(current);
+  return out;
+}

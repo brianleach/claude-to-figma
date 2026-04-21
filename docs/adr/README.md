@@ -32,3 +32,4 @@ What changes — good and bad — that decision implies.
 | 0005 | [Naming heuristic for extracted paint and text styles](./0005-token-extraction-naming.md) | accepted |
 | 0006 | [Text measurement via headless Chromium during `--hydrate`](./0006-text-measurement-via-hydrate.md) | accepted |
 | 0007 | [Shorthand expansion lives in a cascade-time registry](./0007-shorthand-registry.md) | accepted |
+| 0008 | [`display: grid` maps to flex-wrap, not to synthesized row frames](./0008-grid-as-flex-wrap.md) | accepted |

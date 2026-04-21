@@ -20,7 +20,7 @@ import Yoga, {
 } from 'yoga-layout';
 import type { ComputedStyle, P5Element } from '../cascade/index.js';
 import { IGNORED_TAGS, collectInnerText, isTextElement } from '../classify.js';
-import { parseLineHeight, parsePx } from '../style.js';
+import { parseGridTrackCount, parseLineHeight, parsePx } from '../style.js';
 import { measureText, measuredText } from './measure.js';
 
 export interface ComputedGeometry {
@@ -59,7 +59,7 @@ export function computeLayout(
   const yogaByEl = new Map<P5Element, YogaNode>();
   const measurements = opts.textMeasurements;
 
-  const buildYoga = (el: P5Element): YogaNode => {
+  const buildYoga = (el: P5Element, availableContentWidth: number | undefined): YogaNode => {
     const yoga = Yoga.Node.create();
     yogaByEl.set(el, yoga);
     const style = styles.get(el) ?? new Map();
@@ -71,11 +71,31 @@ export function computeLayout(
       return yoga;
     }
 
+    // Compute this element's own content width so children can use it as
+    // their available width. Grid track sizing (ADR 0008) needs it to
+    // resolve cell widths against gap + track count in px.
+    const myContentWidth = computeContentWidth(style, availableContentWidth);
+
+    // Grid track width in px, if this element is a grid container.
+    const gridTrackCount = getGridTrackCount(style);
+    let gridTrackWidth: number | undefined;
+    if (gridTrackCount != null && gridTrackCount > 0 && myContentWidth != null) {
+      const colGap = readColumnGap(style);
+      gridTrackWidth = Math.max(
+        0,
+        (myContentWidth - (gridTrackCount - 1) * colGap) / gridTrackCount,
+      );
+    }
+
     let index = 0;
     for (const child of el.childNodes) {
       if (isElement(child)) {
         if (IGNORED_TAGS.has(child.tagName.toLowerCase())) continue;
-        yoga.insertChild(buildYoga(child), index);
+        const childYoga = buildYoga(child, myContentWidth);
+        if (gridTrackWidth != null) {
+          applyGridCellSize(childYoga, styles.get(child), gridTrackWidth);
+        }
+        yoga.insertChild(childYoga, index);
         index += 1;
       } else if (child.nodeName === '#text' && 'value' in child) {
         // Bare text inside a frame: the IR walker wraps it in an anonymous
@@ -92,7 +112,7 @@ export function computeLayout(
     return yoga;
   };
 
-  const yogaRoot = buildYoga(root);
+  const yogaRoot = buildYoga(root, undefined);
   yogaRoot.calculateLayout(undefined, undefined, undefined);
 
   // Yoga returns parent-relative positions; the IR also wants parent-relative
@@ -149,6 +169,69 @@ function buildBareTextMeasureFn(characters: string, parentStyle: ComputedStyle) 
 }
 
 // ---------------------------------------------------------------------------
+// Grid helpers (ADR 0008)
+// ---------------------------------------------------------------------------
+
+/** Track count when the element is a grid container, else undefined. */
+function getGridTrackCount(style: ComputedStyle): number | undefined {
+  const display = (style.get('display') ?? '').toLowerCase();
+  if (display !== 'grid' && display !== 'inline-grid') return undefined;
+  return parseGridTrackCount(style.get('grid-template-columns'));
+}
+
+/**
+ * Set a grid cell's yoga width so that N cells + (N-1) × col-gap lands
+ * exactly on the container's content width. Yoga then wraps the (N+1)th
+ * cell naturally because the main-axis sum would exceed the container.
+ * Children with explicit CSS `width` or `flex-basis` keep their own
+ * sizing — we only size the unopinionated cells.
+ */
+function applyGridCellSize(
+  childYoga: YogaNode,
+  childStyle: ComputedStyle | undefined,
+  trackWidth: number,
+): void {
+  if (childStyle?.has('width') || childStyle?.has('flex-basis')) return;
+  childYoga.setWidth(trackWidth);
+}
+
+/**
+ * Compute this element's content width (inner available width for its
+ * children) given its parent's available content width. CSS `width`
+ * takes precedence; otherwise the element inherits the parent's content
+ * width minus its own horizontal margin. Returns undefined when no
+ * ancestor had a known width — in that case grid-track sizing bails
+ * and cells fall back to yoga's default intrinsic sizing.
+ */
+function computeContentWidth(
+  style: ComputedStyle,
+  parentContentWidth: number | undefined,
+): number | undefined {
+  const cssWidth = parsePx(style.get('width'));
+  let myWidth = cssWidth ?? parentContentWidth;
+  if (myWidth == null) return undefined;
+  if (cssWidth == null) {
+    const marginL = parsePx(style.get('margin-left')) ?? 0;
+    const marginR = parsePx(style.get('margin-right')) ?? 0;
+    myWidth = Math.max(0, myWidth - marginL - marginR);
+  }
+  const padL = parsePx(style.get('padding-left')) ?? 0;
+  const padR = parsePx(style.get('padding-right')) ?? 0;
+  return Math.max(0, myWidth - padL - padR);
+}
+
+function readColumnGap(style: ComputedStyle): number {
+  const colGap = parsePx(style.get('column-gap'));
+  if (colGap != null) return colGap;
+  const gap = style.get('gap');
+  if (!gap) return 0;
+  // `gap: <row> <column>`; column defaults to row when omitted.
+  const parts = gap.trim().split(/\s+/);
+  const second = parts[1] !== undefined ? parsePx(parts[1]) : parsePx(parts[0]);
+  return second ?? 0;
+}
+
+// ---------------------------------------------------------------------------
 // CSS → Yoga style mapping
 // ---------------------------------------------------------------------------
 
@@ -162,6 +245,7 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
   node.setDisplay(Display.Flex);
 
   const isFlex = display === 'flex' || display === 'inline-flex';
+  const isGrid = display === 'grid' || display === 'inline-grid';
 
   // Position ---------------------------------------------------------------
   const position = (style.get('position') ?? 'static').toLowerCase();
@@ -214,11 +298,25 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
     node.setBorder(Edge.Left, lengthOrZero(v)),
   );
 
-  // Flex container ---------------------------------------------------------
+  // Flex / grid container ---------------------------------------------------
   // Yoga's default flex direction is COLUMN, which gives us block-like
-  // stacking by default. For real flex containers we honour the CSS
-  // flex-direction; for non-flex (default block) we force COLUMN explicitly.
-  if (isFlex) {
+  // stacking by default. Flex containers honour CSS flex-direction; grid
+  // containers are forced to row + wrap per ADR 0008 so tracks map onto
+  // flex-wrap cells. Non-flex/non-grid falls back to COLUMN (block stack).
+  if (isGrid) {
+    node.setFlexDirection(FlexDirection.Row);
+    node.setFlexWrap(Wrap.Wrap);
+
+    const justify = style.get('justify-content');
+    if (justify) node.setJustifyContent(toJustify(justify));
+
+    const align = style.get('align-items');
+    if (align) node.setAlignItems(toAlign(align));
+
+    applyGapShorthand(style.get('gap'), node);
+    applyEdgeLength(style.get('row-gap'), (v) => node.setGap(Gutter.Row, v));
+    applyEdgeLength(style.get('column-gap'), (v) => node.setGap(Gutter.Column, v));
+  } else if (isFlex) {
     const dir = (style.get('flex-direction') ?? 'row').toLowerCase();
     node.setFlexDirection(toFlexDirection(dir));
 
@@ -231,8 +329,8 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
     const align = style.get('align-items');
     if (align) node.setAlignItems(toAlign(align));
 
-    // gap shorthand or per-axis longhands
-    applyEdgeLength(style.get('gap'), (v) => node.setGap(Gutter.All, v));
+    // gap shorthand (1 or 2 values) + per-axis longhands
+    applyGapShorthand(style.get('gap'), node);
     applyEdgeLength(style.get('row-gap'), (v) => node.setGap(Gutter.Row, v));
     applyEdgeLength(style.get('column-gap'), (v) => node.setGap(Gutter.Column, v));
   } else {
@@ -291,6 +389,19 @@ function applyEdgeLength(value: string | undefined, set: (v: number | `${number}
   const v = toYogaLength(value);
   if (v == null || v === 'auto') return;
   set(v);
+}
+
+/**
+ * `gap` shorthand accepts 1 or 2 values: `gap: <row-gap> [<column-gap>]`.
+ * Single-value shorthand goes to both axes; two-value splits row vs column.
+ */
+function applyGapShorthand(value: string | undefined, node: YogaNode): void {
+  if (!value) return;
+  const parts = value.trim().split(/\s+/);
+  const row = toYogaLength(parts[0]);
+  const col = parts[1] !== undefined ? toYogaLength(parts[1]) : row;
+  if (row != null && row !== 'auto') node.setGap(Gutter.Row, row);
+  if (col != null && col !== 'auto') node.setGap(Gutter.Column, col);
 }
 
 function applyShorthand(

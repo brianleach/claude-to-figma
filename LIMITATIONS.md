@@ -53,9 +53,20 @@ removed unless an explicit fix lands.
    and flex layout differ (e.g. inline-level wrapping, table layout,
    float behavior) render incorrectly.
 
-7. **No table or grid layout.** `display: table*`, `display: grid`,
-   `column-count`, and the multi-column properties are not recognised.
-   Frames using them fall back to default block stacking.
+7. **Grid support is flex-wrap-equivalent, not true grid.** `display:
+   grid` + `grid-template-columns` flows through the flex-wrap pipeline
+   (ADR 0008) — a grid becomes a horizontal flex-wrap container with N
+   cells per row where N is parsed from the track list. `repeat(N, …)`,
+   space-separated track lists, and mixed `1fr`/`Npx`/`auto` all count
+   correctly. Per-track sizing is flattened: `1fr 2fr 1fr` collapses to
+   three equal tracks; weighted fr values and mixed fixed/fluid tracks
+   lose fidelity. `grid-template-areas`, `grid-column: span N`,
+   `grid-row: span N`, and `grid-auto-flow: dense` are not supported —
+   span-placed cells wrap into the next track instead of spanning.
+   Grid track sizing needs a known container width — nested grids
+   inside containers with no CSS width fall back to yoga's default
+   intrinsic sizing, which can be wrong. `display: table*` and
+   `column-count` remain unsupported.
 
 8. **`justify-content: space-around` and `space-evenly` collapse to
    `SPACE_BETWEEN`** in the auto-layout mapping. First-paint geometry

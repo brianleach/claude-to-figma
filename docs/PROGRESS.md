@@ -61,7 +61,7 @@ on the remote for archive only.
 | M7  | ✅ | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
 | M8  | ✅ | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
 | M9  | ✅ | `m9` | brianleach @ 2026-04-21 | Visual fidelity pass driven by `docs/quality-gap-report.md`. 8 commits closing gaps #1–#8, #10, #13. ADRs 0006 (Chromium text measurement), 0007 (shorthand registry), 0008 (grid → flex-wrap), 0009 (gradient paints). |
-| M10 | ✅ | `m10` | brianleach @ 2026-04-21 | Designer-usable output: manual-Figma-build fixes (text wrap, components sibling frame, H/V path expansion), per-shape SVG rendering with paint attributes, role-aware paint style names (ADR 0010), weight-suffixed text-style names. Gaps #15, #16 closed plus post-M9 render bugs surfaced by real paste-and-build testing. |
+| M10 | 🟡 | `m10` | _pending visual verify_ | Designer-usable output: manual-Figma-build fixes (text wrap, components sibling frame, H/V path expansion), per-shape SVG rendering with paint attributes, role-aware paint style names (ADR 0010), weight-suffixed text-style names. Gaps #15, #16 closed plus post-M9 render bugs surfaced by real paste-and-build testing. **Tag pushed before manual Figma verification — when user confirms the render, flip status to ✅ and backfill the "Verified by" cell.** |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
 

@@ -6,19 +6,43 @@
  *   - compound:    `div.card#main`
  *   - descendant:  `nav a`
  *   - child:       `header > h1`
+ *   - pseudo (gap #9): `:root`, `:first-child`, `:last-child`,
+ *                     `:first-of-type`, `:last-of-type`,
+ *                     `:only-child`, `:only-of-type`, `:empty`
  *
- * Pseudo-classes and attribute selectors are recognised by the specificity
- * scorer but are not currently matched (treated as never-match). M3 fixtures
- * stay within the supported subset.
+ * Interactive / runtime pseudo-classes (`:hover`, `:focus`, `:active`,
+ * `:nth-child`, `:not(...)`) are recognised by the specificity scorer
+ * but never match — they depend on runtime state or would need a
+ * richer subselector engine than this module warrants.
  */
 
 import type { P5Element } from './types.js';
+
+type StaticPseudo =
+  | 'first-child'
+  | 'last-child'
+  | 'first-of-type'
+  | 'last-of-type'
+  | 'only-child'
+  | 'only-of-type'
+  | 'empty';
+
+const SUPPORTED_PSEUDOS = new Set<StaticPseudo>([
+  'first-child',
+  'last-child',
+  'first-of-type',
+  'last-of-type',
+  'only-child',
+  'only-of-type',
+  'empty',
+]);
 
 interface Compound {
   tag: string | null;
   id: string | null;
   classes: string[];
-  /** True if any unsupported feature appears (pseudo-class, attribute, etc.). */
+  pseudos: StaticPseudo[];
+  /** True if any unsupported feature appears (unsupported pseudo, attribute, etc.). */
   unsupported: boolean;
 }
 
@@ -69,7 +93,13 @@ function parseSelector(selector: string): ParsedSelector {
 }
 
 function readCompound(input: string, start: number): { compound: Compound; next: number } {
-  const compound: Compound = { tag: null, id: null, classes: [], unsupported: false };
+  const compound: Compound = {
+    tag: null,
+    id: null,
+    classes: [],
+    pseudos: [],
+    unsupported: false,
+  };
   let i = start;
   let sawAny = false;
   while (i < input.length) {
@@ -91,8 +121,11 @@ function readCompound(input: string, start: number): { compound: Compound; next:
       const isPseudoElement = input[i] === ':';
       if (isPseudoElement) i += 1;
       const ident = readIdent(input, i);
+      const name = ident.value.toLowerCase();
       i = ident.next;
-      // Eat parens if present (e.g. :nth-child(2)).
+      // Eat parens if present (e.g. :nth-child(2)) — we mark the whole
+      // compound unsupported when we see them, since we don't match any
+      // parenthesised pseudo today.
       let argsConsumed = false;
       if (input[i] === '(') {
         argsConsumed = true;
@@ -104,10 +137,12 @@ function readCompound(input: string, start: number): { compound: Compound; next:
           i += 1;
         }
       }
-      // The only pseudo we currently match is `:root` → <html>.
-      // Everything else is recognised but never matched.
-      if (!isPseudoElement && ident.value.toLowerCase() === 'root' && !argsConsumed) {
+      if (isPseudoElement || argsConsumed) {
+        compound.unsupported = true;
+      } else if (name === 'root') {
         compound.tag = compound.tag ?? 'html';
+      } else if (SUPPORTED_PSEUDOS.has(name as StaticPseudo)) {
+        compound.pseudos.push(name as StaticPseudo);
       } else {
         compound.unsupported = true;
       }
@@ -139,7 +174,7 @@ function readIdent(input: string, start: number): { value: string; next: number 
 }
 
 /** Match a single compound against a parse5 element. */
-function matchCompound(c: Compound, el: P5Element): boolean {
+function matchCompound(c: Compound, el: P5Element, parent: P5Element | null): boolean {
   if (c.unsupported) return false;
   if (c.tag && c.tag !== '*' && c.tag !== el.tagName.toLowerCase()) return false;
   if (c.id && getAttr(el, 'id') !== c.id) return false;
@@ -149,7 +184,49 @@ function matchCompound(c: Compound, el: P5Element): boolean {
       if (!cls.includes(want)) return false;
     }
   }
+  for (const pseudo of c.pseudos) {
+    if (!matchStaticPseudo(pseudo, el, parent)) return false;
+  }
   return true;
+}
+
+/**
+ * Evaluate a static pseudo-class against an element and its direct parent.
+ * Returns false when the parent is unknown — sibling-relative pseudos have
+ * no meaning at the document root.
+ */
+function matchStaticPseudo(pseudo: StaticPseudo, el: P5Element, parent: P5Element | null): boolean {
+  if (pseudo === 'empty') {
+    for (const child of el.childNodes) {
+      if ('tagName' in child) return false;
+      if (child.nodeName === '#text' && 'value' in child && child.value.trim().length > 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+  if (!parent) return false;
+  const siblings = parent.childNodes.filter(
+    (n): n is P5Element => 'tagName' in n && n.nodeName !== '#text' && n.nodeName !== '#comment',
+  );
+  const elTag = el.tagName.toLowerCase();
+  const sameTypeSiblings = siblings.filter((s) => s.tagName.toLowerCase() === elTag);
+  switch (pseudo) {
+    case 'first-child':
+      return siblings[0] === el;
+    case 'last-child':
+      return siblings[siblings.length - 1] === el;
+    case 'first-of-type':
+      return sameTypeSiblings[0] === el;
+    case 'last-of-type':
+      return sameTypeSiblings[sameTypeSiblings.length - 1] === el;
+    case 'only-child':
+      return siblings.length === 1 && siblings[0] === el;
+    case 'only-of-type':
+      return sameTypeSiblings.length === 1 && sameTypeSiblings[0] === el;
+    default:
+      return false;
+  }
 }
 
 function getAttr(el: P5Element, name: string): string | undefined {
@@ -168,7 +245,8 @@ export function matchSelector(selector: string, el: P5Element, ancestors: P5Elem
 
   // Match right-to-left. The rightmost compound must match `el`.
   const rightmost = parsed.parts[parsed.parts.length - 1];
-  if (!rightmost || !matchCompound(rightmost, el)) return false;
+  const elParent = ancestors[ancestors.length - 1] ?? null;
+  if (!rightmost || !matchCompound(rightmost, el, elParent)) return false;
 
   // Walk left through compounds + combinators.
   let cursor = ancestors.length - 1; // index of el's direct parent in ancestors
@@ -178,14 +256,16 @@ export function matchSelector(selector: string, el: P5Element, ancestors: P5Elem
     if (!compound) return false;
     if (combinator === '>') {
       const parent = ancestors[cursor];
-      if (!parent || !matchCompound(compound, parent)) return false;
+      const grandparent = ancestors[cursor - 1] ?? null;
+      if (!parent || !matchCompound(compound, parent, grandparent)) return false;
       cursor -= 1;
     } else {
       // Descendant — search up the chain for any ancestor that matches.
       let found = false;
       for (let a = cursor; a >= 0; a -= 1) {
         const ancestor = ancestors[a];
-        if (ancestor && matchCompound(compound, ancestor)) {
+        const ancestorParent = ancestors[a - 1] ?? null;
+        if (ancestor && matchCompound(compound, ancestor, ancestorParent)) {
           cursor = a - 1;
           found = true;
           break;

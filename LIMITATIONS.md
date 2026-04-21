@@ -11,11 +11,15 @@ removed unless an explicit fix lands.
 
 ## CSS coverage
 
-1. **Selector subset is minimal.** The cascade matcher supports type, `.class`,
-   `#id`, descendant (` `), child (`>`), and `:root`. Pseudo-classes (`:hover`,
-   `:nth-child`, `:focus`), attribute selectors (`[type="text"]`), and sibling
-   combinators (`+`, `~`) are recognised by the specificity scorer but never
-   match. Rules using them silently don't apply. See ADR 0002.
+1. **Selector subset.** The cascade matcher supports type, `.class`,
+   `#id`, descendant (` `), child (`>`), and static pseudo-classes:
+   `:root`, `:first-child`, `:last-child`, `:first-of-type`,
+   `:last-of-type`, `:only-child`, `:only-of-type`, `:empty`.
+   Interactive pseudo-classes (`:hover`, `:focus`, `:active`),
+   parenthesised pseudos (`:nth-child(...)`, `:not(...)`), attribute
+   selectors (`[type="text"]`), and sibling combinators (`+`, `~`)
+   are still recognised by the specificity scorer but never match,
+   so rules using them silently don't apply. See ADR 0002.
 
 2. **Limited CSS shorthand expansion.** `padding`/`margin` (1–4 value),
    `border:` and per-side `border-{top|right|bottom|left}:`, plus `box-shadow:`

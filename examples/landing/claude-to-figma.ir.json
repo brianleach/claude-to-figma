@@ -4527,23 +4527,7 @@
                     "opacity": 1,
                     "visible": true,
                     "fills": [],
-                    "strokes": [
-                      {
-                        "paint": {
-                          "type": "SOLID",
-                          "color": {
-                            "r": 0.788235294117647,
-                            "g": 0.7529411764705882,
-                            "b": 0.6549019607843137,
-                            "a": 1
-                          },
-                          "opacity": 1,
-                          "visible": true
-                        },
-                        "weight": 1,
-                        "align": "INSIDE"
-                      }
-                    ],
+                    "strokes": [],
                     "effects": [],
                     "children": [
                       {
@@ -4553,7 +4537,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 40,
-                          "width": 407,
+                          "width": 408,
                           "height": 19
                         },
                         "opacity": 1,
@@ -4830,7 +4814,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 157,
-                          "width": 407,
+                          "width": 408,
                           "height": 60
                         },
                         "opacity": 1,
@@ -4875,7 +4859,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 231,
-                          "width": 407,
+                          "width": 408,
                           "height": 93
                         },
                         "opacity": 1,
@@ -4920,7 +4904,7 @@
                         "geometry": {
                           "x": 36,
                           "y": 340,
-                          "width": 407,
+                          "width": 408,
                           "height": 59
                         },
                         "opacity": 1,

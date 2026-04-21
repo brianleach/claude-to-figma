@@ -56,13 +56,13 @@ program
       const inputPath = resolve(input);
       const outputPath = resolve(opts.output);
       const viewport = parseViewport(opts.viewport);
-      const html = opts.hydrate
-        ? await hydrateHtml(inputPath, viewport)
-        : await readFile(inputPath, 'utf8');
+      const hydrated = opts.hydrate ? await hydrateHtml(inputPath, viewport) : undefined;
+      const html = hydrated ? hydrated.html : await readFile(inputPath, 'utf8');
       const baseResult = convertHtml(html, {
         name: opts.name ?? inputPath.split('/').pop() ?? 'Untitled',
         baseDir: dirname(inputPath),
         componentThreshold: opts.componentThreshold,
+        textMeasurements: hydrated?.textMeasurements,
       });
       const result = opts.fontFallback
         ? { ...baseResult, document: substituteFontFamily(baseResult.document, opts.fontFallback) }
@@ -88,6 +88,11 @@ program
         process.stdout.write(`  instances:     ${instances}\n`);
         process.stdout.write(`  paint styles:  ${paintStyles}\n`);
         process.stdout.write(`  text styles:   ${textStyles}\n`);
+        if (hydrated) {
+          process.stdout.write(
+            `  measured text: ${hydrated.textMeasurements.size} nodes via Chromium\n`,
+          );
+        }
       }
 
       if (opts.report) {
@@ -116,9 +121,8 @@ program
   .action(async (input: string, opts: { hydrate?: boolean; viewport?: string }) => {
     const inputPath = resolve(input);
     const viewport = parseViewport(opts.viewport);
-    const html = opts.hydrate
-      ? await hydrateHtml(inputPath, viewport)
-      : await readFile(inputPath, 'utf8');
+    const hydrated = opts.hydrate ? await hydrateHtml(inputPath, viewport) : undefined;
+    const html = hydrated ? hydrated.html : await readFile(inputPath, 'utf8');
     const { document } = convertHtml(html, {
       name: inputPath.split('/').pop() ?? 'Untitled',
       baseDir: dirname(inputPath),

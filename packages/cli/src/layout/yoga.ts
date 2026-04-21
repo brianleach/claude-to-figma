@@ -21,7 +21,7 @@ import Yoga, {
 import type { ComputedStyle, P5Element } from '../cascade/index.js';
 import { IGNORED_TAGS, collectInnerText, isTextElement } from '../classify.js';
 import { parseLineHeight, parsePx } from '../style.js';
-import { measureText } from './measure.js';
+import { measureText, measuredText } from './measure.js';
 
 export interface ComputedGeometry {
   x: number;
@@ -32,12 +32,32 @@ export interface ComputedGeometry {
 
 export type LayoutMap = Map<P5Element, ComputedGeometry>;
 
+export interface TextMeasurement {
+  width: number;
+  height: number;
+  lineCount: number;
+}
+
+export interface ComputeLayoutOptions {
+  /**
+   * Real text measurements captured from headless Chromium during
+   * `--hydrate` (see ADR 0006). Keyed by `data-c2f-mid` attribute.
+   * When present for an element, overrides the `measureText` heuristic.
+   */
+  textMeasurements?: ReadonlyMap<string, TextMeasurement>;
+}
+
 /**
  * Build a Yoga tree mirroring the parse5 element tree, run layout, and
  * return parent-relative geometry for every visited element.
  */
-export function computeLayout(root: P5Element, styles: Map<P5Element, ComputedStyle>): LayoutMap {
+export function computeLayout(
+  root: P5Element,
+  styles: Map<P5Element, ComputedStyle>,
+  opts: ComputeLayoutOptions = {},
+): LayoutMap {
   const yogaByEl = new Map<P5Element, YogaNode>();
+  const measurements = opts.textMeasurements;
 
   const buildYoga = (el: P5Element): YogaNode => {
     const yoga = Yoga.Node.create();
@@ -47,7 +67,7 @@ export function computeLayout(root: P5Element, styles: Map<P5Element, ComputedSt
 
     if (isTextElement(el)) {
       // TEXT nodes never have children — yoga measures them via the callback.
-      yoga.setMeasureFunc(buildMeasureFn(el, style));
+      yoga.setMeasureFunc(buildMeasureFn(el, style, measurements));
       return yoga;
     }
 
@@ -95,7 +115,14 @@ export function computeLayout(root: P5Element, styles: Map<P5Element, ComputedSt
 // Text measurement
 // ---------------------------------------------------------------------------
 
-function buildMeasureFn(el: P5Element, style: ComputedStyle) {
+function buildMeasureFn(
+  el: P5Element,
+  style: ComputedStyle,
+  measurements?: ReadonlyMap<string, TextMeasurement>,
+) {
+  const hit = measurements && lookupMeasurement(el, measurements);
+  if (hit) return measuredText(hit);
+
   const fontSize = parsePx(style.get('font-size')) ?? 16;
   const lineHeight = parseLineHeight(style.get('line-height')) ?? { unit: 'AUTO' };
   return measureText({
@@ -103,6 +130,14 @@ function buildMeasureFn(el: P5Element, style: ComputedStyle) {
     fontSize,
     lineHeight,
   });
+}
+
+function lookupMeasurement(
+  el: P5Element,
+  measurements: ReadonlyMap<string, TextMeasurement>,
+): TextMeasurement | undefined {
+  const mid = el.attrs.find((a) => a.name === 'data-c2f-mid')?.value;
+  return mid ? measurements.get(mid) : undefined;
 }
 
 /** Same heuristic, but the parent's resolved style provides the font size /

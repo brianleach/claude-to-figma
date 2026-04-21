@@ -33,7 +33,13 @@ import {
 } from './cascade/index.js';
 import { detectComponents } from './detect/index.js';
 import { extractTokens } from './extract/index.js';
-import { type LayoutMap, computeLayout, mapFlexChild, mapFlexContainer } from './layout/index.js';
+import {
+  type LayoutMap,
+  type TextMeasurement,
+  computeLayout,
+  mapFlexChild,
+  mapFlexContainer,
+} from './layout/index.js';
 import {
   parseColor,
   parseFontFamily,
@@ -103,6 +109,14 @@ export interface ConvertOptions {
    * disable component detection entirely.
    */
   componentThreshold?: number;
+  /**
+   * Real text measurements captured from headless Chromium during
+   * `--hydrate` (see ADR 0006). Keyed by `data-c2f-mid` attribute on the
+   * post-render DOM elements. When an element carries a stamp and the
+   * map has a matching entry, the layout engine uses the measurement
+   * instead of the `0.55 × fontSize × chars` heuristic.
+   */
+  textMeasurements?: ReadonlyMap<string, TextMeasurement>;
 }
 
 export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertResult {
@@ -118,7 +132,9 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   const htmlEl = findElement(tree.childNodes, 'html');
   const cascadeRoot = htmlEl ?? body;
   const cascade = computeCascade(rules, cascadeRoot);
-  const layout = computeLayout(cascadeRoot, cascade.styles);
+  const layout = computeLayout(cascadeRoot, cascade.styles, {
+    textMeasurements: opts.textMeasurements,
+  });
 
   const ctx: BuildContext = {
     warnings: [...collected.warnings],

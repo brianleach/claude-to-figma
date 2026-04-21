@@ -5,6 +5,13 @@
  * qualify) — the static markup is a wrapper, the real markup only
  * exists after the JS runs.
  *
+ * While we have Chromium up, we also measure every text-leaf element
+ * (see ADR 0006). Yoga's text-measure heuristic (`0.55 × fontSize ×
+ * chars`) drifts visibly on non-Inter fonts; a `getBoundingClientRect()`
+ * from the real shaper gives us accurate width/height/line-count for
+ * free. Each measured element is stamped with `data-c2f-mid="mN"` so
+ * the parse5-side walker can key into the returned map.
+ *
  * playwright is dynamically imported so the rest of the CLI stays
  * usable when --hydrate isn't requested. The browser binary is a
  * separate ~100 MB install (`pnpm exec playwright install chromium`)
@@ -34,7 +41,23 @@ export interface HydrateOptions {
   viewportHeight?: number;
 }
 
-export async function hydrateHtml(htmlPath: string, opts: HydrateOptions = {}): Promise<string> {
+export interface TextMeasurement {
+  width: number;
+  height: number;
+  lineCount: number;
+}
+
+export interface HydrateResult {
+  /** Post-render HTML, including `data-c2f-mid` stamps on measured elements. */
+  html: string;
+  /** Keyed by the element's `data-c2f-mid` attribute. */
+  textMeasurements: Map<string, TextMeasurement>;
+}
+
+export async function hydrateHtml(
+  htmlPath: string,
+  opts: HydrateOptions = {},
+): Promise<HydrateResult> {
   let chromium: typeof import('playwright').chromium;
   try {
     ({ chromium } = await import('playwright'));
@@ -81,8 +104,89 @@ export async function hydrateHtml(htmlPath: string, opts: HydrateOptions = {}): 
     if (opts.settleMs && opts.settleMs > 0) {
       await page.waitForTimeout(opts.settleMs);
     }
-    return await page.content();
+
+    const entries = await measureTextLeaves(page);
+    const html = await page.content();
+    return {
+      html,
+      textMeasurements: new Map(entries),
+    };
   } finally {
     await browser.close();
   }
+}
+
+/**
+ * Walk the live DOM, stamp each text-leaf element with `data-c2f-mid`,
+ * and return its bounding box + line count. Top-down walk — once an
+ * element is stamped, its descendants are skipped (a `<p>` containing
+ * inline `<span>`s becomes a single measured leaf, matching what yoga
+ * does on the parse5 side via `classify.ts`).
+ *
+ * Returned as an array of [key, measurement] entries because Playwright
+ * serializes `page.evaluate` results via JSON — Map doesn't round-trip.
+ */
+async function measureTextLeaves(
+  page: import('playwright').Page,
+): Promise<Array<[string, TextMeasurement]>> {
+  return page.evaluate(() => {
+    const TEXT_TAGS = new Set([
+      'H1',
+      'H2',
+      'H3',
+      'H4',
+      'H5',
+      'H6',
+      'P',
+      'SPAN',
+      'A',
+      'LABEL',
+      'LI',
+      'STRONG',
+      'EM',
+      'B',
+      'I',
+      'SMALL',
+      'BUTTON',
+      'CAPTION',
+      'FIGCAPTION',
+      'BLOCKQUOTE',
+      'PRE',
+      'CODE',
+    ]);
+
+    function isTextSubtree(el: Element): boolean {
+      if (!TEXT_TAGS.has(el.tagName)) return false;
+      for (const child of Array.from(el.children)) {
+        if (child.tagName === 'BR') continue;
+        if (!isTextSubtree(child)) return false;
+      }
+      return true;
+    }
+
+    const entries: Array<[string, TextMeasurement]> = [];
+
+    function walk(el: Element): void {
+      if (isTextSubtree(el) && (el.textContent ?? '').trim().length > 0) {
+        const mid = `m${entries.length}`;
+        el.setAttribute('data-c2f-mid', mid);
+        const rect = el.getBoundingClientRect();
+        let lineCount = 1;
+        try {
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          const rects = range.getClientRects();
+          if (rects.length > 0) lineCount = rects.length;
+        } catch {
+          // getClientRects unsupported on this element — stick with 1 line
+        }
+        entries.push([mid, { width: rect.width, height: rect.height, lineCount }]);
+        return; // stamped — don't descend, nested spans are part of this leaf
+      }
+      for (const child of Array.from(el.children)) walk(child);
+    }
+
+    walk(document.body);
+    return entries;
+  });
 }

@@ -63,10 +63,12 @@ async function runOne(
   hydrate: boolean,
 ): Promise<FixtureOutcome> {
   try {
-    const html = hydrate ? await hydrateHtml(htmlPath) : await readFile(htmlPath, 'utf8');
+    const hydrated = hydrate ? await hydrateHtml(htmlPath) : undefined;
+    const html = hydrated ? hydrated.html : await readFile(htmlPath, 'utf8');
     const result = convertHtml(html, {
       name: htmlPath.split('/').pop() ?? 'Untitled',
       baseDir: dirname(htmlPath),
+      textMeasurements: hydrated?.textMeasurements,
     });
     if (writeReport) {
       const reportPath = htmlPath.replace(/\.html$/, '.report.json');

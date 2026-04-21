@@ -2,7 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "types": ["node"]
+    "types": ["node"],
+    // DOM lib is scoped to this package so the browser-side callback
+    // inside `page.evaluate` in hydrate.ts typechecks against real DOM
+    // globals (Element, document, Range). ir/plugin stay Node-only.
+    "lib": ["ES2022", "DOM"]
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["dist", "node_modules"]

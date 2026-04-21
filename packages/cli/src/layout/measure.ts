@@ -16,6 +16,19 @@ import { type MeasureFunction, MeasureMode } from 'yoga-layout';
 const AVG_CHAR_WIDTH_RATIO = 0.55;
 const AUTO_LINE_HEIGHT_FACTOR = 1.2;
 
+/**
+ * Constant-size measure function. Used when hydrate.ts captured the real
+ * post-layout bounding box from Chromium (see ADR 0006) — yoga just needs
+ * to hand those dimensions back regardless of proposed constraint, because
+ * the whole point is that Chromium already resolved the wrap at the same
+ * viewport we're about to lay out at.
+ */
+export function measuredText(size: { width: number; height: number }): MeasureFunction {
+  const width = Math.ceil(size.width);
+  const height = Math.ceil(size.height);
+  return () => ({ width, height });
+}
+
 export function measureText(args: {
   characters: string;
   fontSize: number;

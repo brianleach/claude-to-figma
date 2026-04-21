@@ -35,12 +35,14 @@ removed unless an explicit fix lands.
 
 ## Layout
 
-5. **Text measurement is a heuristic, not a real shaper.** Width is
-   `chars × fontSize × 0.55`; line-height defaults to `fontSize × 1.2`
-   when CSS says `auto`. Text bounds drift from real-browser measurements,
-   especially for condensed/expanded weights and non-Inter fonts. Visual
-   spacing inside auto-layout containers can be a few pixels off as a
-   result.
+5. **Text measurement is a heuristic unless `--hydrate` is used.** With
+   `--hydrate`, every text-leaf element is measured inside headless
+   Chromium via `getBoundingClientRect()` + `Range.getClientRects()` —
+   accurate for any font the browser can resolve, including variable-font
+   axes (`opsz`, `wght`), ligatures, kerning, and CSS
+   `letter-spacing`/`text-transform`. See ADR 0006. Without `--hydrate`,
+   the M4 fallback (`chars × fontSize × 0.55`, line-height `fontSize ×
+   1.2` for `auto`) still runs and drifts visibly on non-Inter fonts.
 
 6. **Block elements are emitted as flex columns in yoga.** That gets
    children stretching to parent width like real CSS block layout, but

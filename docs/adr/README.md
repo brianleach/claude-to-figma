@@ -30,3 +30,4 @@ What changes — good and bad — that decision implies.
 | 0003 | [`space-around` / `space-evenly` collapse to `SPACE_BETWEEN`](./0003-space-around-collapses-to-space-between.md) | accepted |
 | 0004 | [What goes into the component-detection hash](./0004-component-detection-hash-rules.md) | accepted |
 | 0005 | [Naming heuristic for extracted paint and text styles](./0005-token-extraction-naming.md) | accepted |
+| 0006 | [Text measurement via headless Chromium during `--hydrate`](./0006-text-measurement-via-hydrate.md) | accepted |

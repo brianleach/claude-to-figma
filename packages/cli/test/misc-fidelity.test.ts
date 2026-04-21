@@ -124,9 +124,10 @@ describe('multi-path SVG (gap #6)', () => {
     const wrapper = findNodeByName(document.root, 'shapes');
     const vectors = collectVectors(wrapper);
     expect(vectors).toHaveLength(4);
-    // Circle: two half-arcs.
-    expect(vectors[0]?.path).toMatch(/A 10 10 0 1 0 35 25/);
-    // Rect uses L (not H/V — Figma rejects H/V commands).
+    // Circle: four cubics (Figma rejects `A` — arcs lowered to cubics).
+    expect(vectors[0]?.path).toMatch(/^M 35 25 C /);
+    expect(vectors[0]?.path).not.toMatch(/ A /);
+    // Rect uses L (no H/V — Figma also rejects H/V).
     expect(vectors[1]?.path).toMatch(/L 20 0 L 20 20/);
     // Line: M-to-L.
     expect(vectors[2]?.path).toMatch(/L 50 50/);

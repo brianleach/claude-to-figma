@@ -646,9 +646,7 @@ function shapeToPath(el: P5Element, tag: string): string | undefined {
     if (rx != null && ry != null && rx > 0 && ry > 0) {
       const rxc = Math.min(rx, w / 2);
       const ryc = Math.min(ry, h / 2);
-      // Clockwise, starting at the top-left tangent of the top-left corner
-      // arc. Uses only M / L / A / Z — Figma's vector parser rejects H / V.
-      return `M ${x + rxc} ${y} L ${x + w - rxc} ${y} A ${rxc} ${ryc} 0 0 1 ${x + w} ${y + ryc} L ${x + w} ${y + h - ryc} A ${rxc} ${ryc} 0 0 1 ${x + w - rxc} ${y + h} L ${x + rxc} ${y + h} A ${rxc} ${ryc} 0 0 1 ${x} ${y + h - ryc} L ${x} ${y + ryc} A ${rxc} ${ryc} 0 0 1 ${x + rxc} ${y} Z`;
+      return roundedRectPath(x, y, w, h, rxc, ryc);
     }
     return `M ${x} ${y} L ${x + w} ${y} L ${x + w} ${y + h} L ${x} ${y + h} Z`;
   }
@@ -657,8 +655,7 @@ function shapeToPath(el: P5Element, tag: string): string | undefined {
     const cy = num(getAttr(el, 'cy')) ?? 0;
     const r = num(getAttr(el, 'r'));
     if (r == null || r <= 0) return undefined;
-    // Two half-arcs to trace a full circle.
-    return `M${cx - r} ${cy} A${r} ${r} 0 1 0 ${cx + r} ${cy} A${r} ${r} 0 1 0 ${cx - r} ${cy} Z`;
+    return ellipsePath(cx, cy, r, r);
   }
   if (tag === 'ellipse') {
     const cx = num(getAttr(el, 'cx')) ?? 0;
@@ -666,7 +663,7 @@ function shapeToPath(el: P5Element, tag: string): string | undefined {
     const rx = num(getAttr(el, 'rx'));
     const ry = num(getAttr(el, 'ry'));
     if (rx == null || ry == null || rx <= 0 || ry <= 0) return undefined;
-    return `M${cx - rx} ${cy} A${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A${rx} ${ry} 0 1 0 ${cx - rx} ${cy} Z`;
+    return ellipsePath(cx, cy, rx, ry);
   }
   if (tag === 'line') {
     const x1 = num(getAttr(el, 'x1')) ?? 0;
@@ -692,6 +689,59 @@ function num(raw: string | undefined): number | undefined {
   if (raw == null) return undefined;
   const n = Number(raw.trim());
   return Number.isFinite(n) ? n : undefined;
+}
+
+/**
+ * Magic cubic-bezier constant for approximating a quarter-ellipse. The
+ * standard approximation places control points at k × radius along each
+ * tangent from the endpoint. Figma's vector parser rejects SVG's `A`
+ * (arc) command, so shape synthesis lowers circles / ellipses /
+ * rounded-rect corners to four cubic Béziers.
+ */
+const ARC_BEZIER_K = 0.5522847498307936;
+
+function ellipsePath(cx: number, cy: number, rx: number, ry: number): string {
+  const kx = rx * ARC_BEZIER_K;
+  const ky = ry * ARC_BEZIER_K;
+  return [
+    `M ${cx + rx} ${cy}`,
+    `C ${cx + rx} ${cy - ky} ${cx + kx} ${cy - ry} ${cx} ${cy - ry}`,
+    `C ${cx - kx} ${cy - ry} ${cx - rx} ${cy - ky} ${cx - rx} ${cy}`,
+    `C ${cx - rx} ${cy + ky} ${cx - kx} ${cy + ry} ${cx} ${cy + ry}`,
+    `C ${cx + kx} ${cy + ry} ${cx + rx} ${cy + ky} ${cx + rx} ${cy}`,
+    'Z',
+  ].join(' ');
+}
+
+function roundedRectPath(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  rxc: number,
+  ryc: number,
+): string {
+  const k = ARC_BEZIER_K;
+  const kx = rxc * k;
+  const ky = ryc * k;
+  // Clockwise, starting at the top-left tangent of the top-left corner
+  // arc. Each corner is one cubic Bézier; each edge is an L.
+  return [
+    `M ${x + rxc} ${y}`,
+    `L ${x + w - rxc} ${y}`,
+    // TR corner
+    `C ${x + w - rxc + kx} ${y} ${x + w} ${y + ryc - ky} ${x + w} ${y + ryc}`,
+    `L ${x + w} ${y + h - ryc}`,
+    // BR corner
+    `C ${x + w} ${y + h - ryc + ky} ${x + w - rxc + kx} ${y + h} ${x + w - rxc} ${y + h}`,
+    `L ${x + rxc} ${y + h}`,
+    // BL corner
+    `C ${x + rxc - kx} ${y + h} ${x} ${y + h - ryc + ky} ${x} ${y + h - ryc}`,
+    `L ${x} ${y + ryc}`,
+    // TL corner
+    `C ${x} ${y + ryc - ky} ${x + rxc - kx} ${y} ${x + rxc} ${y}`,
+    'Z',
+  ].join(' ');
 }
 
 function pointsToPairs(raw: string | undefined): Array<[number, number]> {

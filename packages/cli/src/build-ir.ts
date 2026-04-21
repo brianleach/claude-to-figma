@@ -332,24 +332,140 @@ function buildVector(el: P5Element, ctx: BuildContext): VectorNode {
 }
 
 /**
- * Normalize an SVG `d` attribute into the whitespace-separated tokens
- * Figma's vector path parser expects. Compact SVG (`M0,65L100,50`) parses
- * fine in browsers but Figma reads `M0` as a command literal and rejects
- * it with `Invalid command at M0,65`.
+ * Normalize an SVG `d` attribute into Figma-parseable path data.
+ *
+ * Two transforms:
+ *   1. Whitespace-separate every command letter so compact forms like
+ *      `M0,65L100,50` don't get parsed as a single literal command.
+ *   2. Expand H / V (absolute horizontal / vertical line) into L. Figma's
+ *      vector parser rejects H / V with "Invalid command at H". We track
+ *      the current point while walking the command list so H becomes
+ *      `L x currentY` and V becomes `L currentX y`.
  */
 function normalizeSvgPath(d: string): string {
   if (!d) return '';
-  return (
-    d
-      // Insert a space before every command letter (M, L, C, Q, Z, H, V, A, S, T,
-      // and lowercase variants) so they're never glued to a number.
-      .replace(/([A-Za-z])/g, ' $1 ')
-      // Replace commas with spaces — Figma wants whitespace between args.
-      .replace(/,/g, ' ')
-      // Collapse runs of whitespace.
-      .replace(/\s+/g, ' ')
-      .trim()
-  );
+  const spaced = d
+    .replace(/([A-Za-z])/g, ' $1 ')
+    .replace(/,/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return expandHVCommands(spaced);
+}
+
+function expandHVCommands(d: string): string {
+  const tokens = d.split(/\s+/).filter(Boolean);
+  const out: string[] = [];
+  let cmd: string | null = null;
+  let cx = 0;
+  let cy = 0;
+  let startX = 0;
+  let startY = 0;
+  let i = 0;
+  while (i < tokens.length) {
+    const tok = tokens[i];
+    if (!tok) {
+      i += 1;
+      continue;
+    }
+    if (/^[A-Za-z]$/.test(tok)) {
+      cmd = tok;
+      out.push(tok);
+      i += 1;
+      // Z / z has no args — close path, reset current point to subpath start.
+      if (cmd === 'Z' || cmd === 'z') {
+        cx = startX;
+        cy = startY;
+        cmd = null;
+      }
+      continue;
+    }
+    // Numeric token — consume as argument group based on current command.
+    if (cmd == null) {
+      out.push(tok);
+      i += 1;
+      continue;
+    }
+    const groupSize = argCount(cmd);
+    if (groupSize === 0) {
+      out.push(tok);
+      i += 1;
+      continue;
+    }
+    const args = tokens.slice(i, i + groupSize).filter(Boolean);
+    if (args.length < groupSize) break;
+    i += groupSize;
+
+    const rel = cmd === cmd.toLowerCase();
+    switch (cmd) {
+      case 'H':
+      case 'h': {
+        const x = Number(args[0]);
+        const nx = rel ? cx + x : x;
+        // Replace the emitted `H` / `h` with `L` / `l`, then append the two
+        // args. Rewrite the last-emitted command letter.
+        out[out.length - 1] = rel ? 'l' : 'L';
+        out.push(String(nx - (rel ? cx : 0)));
+        out.push(rel ? '0' : String(cy));
+        cx = nx;
+        break;
+      }
+      case 'V':
+      case 'v': {
+        const y = Number(args[0]);
+        const ny = rel ? cy + y : y;
+        out[out.length - 1] = rel ? 'l' : 'L';
+        out.push(rel ? '0' : String(cx));
+        out.push(String(ny - (rel ? cy : 0)));
+        cy = ny;
+        break;
+      }
+      default: {
+        // All other commands pass through unchanged; we just need to update
+        // the current point using the last two numeric args (the endpoint
+        // for M/L/T/A and for curves' terminal coord).
+        out.push(...args);
+        if (args.length >= 2) {
+          const xi = Number(args[args.length - 2]);
+          const yi = Number(args[args.length - 1]);
+          const nx = rel ? cx + xi : xi;
+          const ny = rel ? cy + yi : yi;
+          cx = nx;
+          cy = ny;
+          if (cmd === 'M' || cmd === 'm') {
+            startX = nx;
+            startY = ny;
+            // Subsequent implicit commands after M are treated as L.
+            cmd = rel ? 'l' : 'L';
+          }
+        }
+        break;
+      }
+    }
+  }
+  return out.join(' ');
+}
+
+function argCount(cmd: string): number {
+  switch (cmd.toLowerCase()) {
+    case 'z':
+      return 0;
+    case 'h':
+    case 'v':
+      return 1;
+    case 'm':
+    case 'l':
+    case 't':
+      return 2;
+    case 's':
+    case 'q':
+      return 4;
+    case 'c':
+      return 6;
+    case 'a':
+      return 7;
+    default:
+      return 0;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -420,10 +536,11 @@ function shapeToPath(el: P5Element, tag: string): string | undefined {
     if (rx != null && ry != null && rx > 0 && ry > 0) {
       const rxc = Math.min(rx, w / 2);
       const ryc = Math.min(ry, h / 2);
-      // Clockwise, starting at the top-left tangent of the top-left corner arc.
-      return `M${x + rxc} ${y} H${x + w - rxc} A${rxc} ${ryc} 0 0 1 ${x + w} ${y + ryc} V${y + h - ryc} A${rxc} ${ryc} 0 0 1 ${x + w - rxc} ${y + h} H${x + rxc} A${rxc} ${ryc} 0 0 1 ${x} ${y + h - ryc} V${y + ryc} A${rxc} ${ryc} 0 0 1 ${x + rxc} ${y} Z`;
+      // Clockwise, starting at the top-left tangent of the top-left corner
+      // arc. Uses only M / L / A / Z — Figma's vector parser rejects H / V.
+      return `M ${x + rxc} ${y} L ${x + w - rxc} ${y} A ${rxc} ${ryc} 0 0 1 ${x + w} ${y + ryc} L ${x + w} ${y + h - ryc} A ${rxc} ${ryc} 0 0 1 ${x + w - rxc} ${y + h} L ${x + rxc} ${y + h} A ${rxc} ${ryc} 0 0 1 ${x} ${y + h - ryc} L ${x} ${y + ryc} A ${rxc} ${ryc} 0 0 1 ${x + rxc} ${y} Z`;
     }
-    return `M${x} ${y} H${x + w} V${y + h} H${x} Z`;
+    return `M ${x} ${y} L ${x + w} ${y} L ${x + w} ${y + h} L ${x} ${y + h} Z`;
   }
   if (tag === 'circle') {
     const cx = num(getAttr(el, 'cx')) ?? 0;

@@ -81,7 +81,32 @@ async function build(doc: IRDocument): Promise<{ rootId: string; stats: BuildCon
 
   const root = await buildNode(doc.root, ctx);
   figma.currentPage.appendChild(root);
-  figma.viewport.scrollAndZoomIntoView([root]);
+
+  // Collect the component masters into a sibling frame to the right of the
+  // page. Without this, `figma.createComponent()` orphans auto-attach to
+  // currentPage at (0,0) — they land on top of the page content instead of
+  // being tucked away like a real Figma component library.
+  if (ctx.components.size > 0) {
+    const library = figma.createFrame();
+    library.name = 'Components';
+    library.layoutMode = 'VERTICAL';
+    library.itemSpacing = 48;
+    library.paddingTop = 48;
+    library.paddingRight = 48;
+    library.paddingBottom = 48;
+    library.paddingLeft = 48;
+    library.primaryAxisSizingMode = 'AUTO';
+    library.counterAxisSizingMode = 'AUTO';
+    library.fills = [{ type: 'SOLID', color: { r: 0.96, g: 0.96, b: 0.98 } }];
+    for (const component of ctx.components.values()) library.appendChild(component);
+    figma.currentPage.appendChild(library);
+    const rootWidth = 'width' in root ? root.width : 0;
+    library.x = ('x' in root ? root.x : 0) + rootWidth + 200;
+    library.y = 'y' in root ? root.y : 0;
+    figma.viewport.scrollAndZoomIntoView([root, library]);
+  } else {
+    figma.viewport.scrollAndZoomIntoView([root]);
+  }
 
   return { rootId: root.id, stats: ctx.stats };
 }
@@ -275,7 +300,17 @@ async function buildText(
   text.visible = node.visible;
   text.fills = node.fills.map(toFigmaPaint);
 
-  if (node.geometry) {
+  // Figma TEXT nodes default to `WIDTH_AND_HEIGHT` auto-resize, which
+  // grows the node wide enough to fit all characters on one line. That
+  // blows past the IR-measured geometry and makes long headings / body
+  // copy overflow their parent frame. Set `HEIGHT` so the width is
+  // fixed at the IR-measured value and the height auto-grows by wrap.
+  if (node.geometry && node.geometry.width > 0) {
+    text.textAutoResize = 'HEIGHT';
+    text.resize(node.geometry.width, text.height);
+    text.x = node.geometry.x;
+    text.y = node.geometry.y;
+  } else if (node.geometry) {
     text.x = node.geometry.x;
     text.y = node.geometry.y;
   }

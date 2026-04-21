@@ -110,8 +110,8 @@ describe('multi-path SVG (gap #6)', () => {
     const vec = findVectorByName(document.root, 'shapes');
     // Circle: two half-arcs.
     expect(vec.path).toMatch(/A 10 10 0 1 0 35 25/);
-    // Rect: H/V lines.
-    expect(vec.path).toMatch(/H 20/);
+    // Rect uses L (not H/V — Figma rejects H/V commands).
+    expect(vec.path).toMatch(/L 20 0 L 20 20/);
     // Line: M-to-L.
     expect(vec.path).toMatch(/L 50 50/);
     // Polygon: closed.

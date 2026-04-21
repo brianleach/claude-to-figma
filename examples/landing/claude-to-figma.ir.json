@@ -9,7 +9,7 @@
       "x": 0,
       "y": 0,
       "width": 1440,
-      "height": 8601
+      "height": 8678
     },
     "opacity": 1,
     "visible": true,
@@ -216,9 +216,9 @@
             "id": "div-10",
             "name": "Nav Links",
             "geometry": {
-              "x": 461,
+              "x": 460,
               "y": 37,
-              "width": 442,
+              "width": 444,
               "height": 22
             },
             "opacity": 1,
@@ -434,7 +434,7 @@
                 "geometry": {
                   "x": 369,
                   "y": 0,
-                  "width": 73,
+                  "width": 75,
                   "height": 22
                 },
                 "opacity": 1,
@@ -652,7 +652,7 @@
           "x": 0,
           "y": 95,
           "width": 1440,
-          "height": 1437
+          "height": 1363
         },
         "opacity": 1,
         "visible": true,
@@ -668,7 +668,7 @@
               "x": 80,
               "y": 80,
               "width": 1280,
-              "height": 1261
+              "height": 1187
             },
             "opacity": 1,
             "visible": true,
@@ -684,7 +684,7 @@
                   "x": 64,
                   "y": 0,
                   "width": 1152,
-                  "height": 1261
+                  "height": 1187
                 },
                 "opacity": 1,
                 "visible": true,
@@ -700,7 +700,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 680,
-                      "height": 555
+                      "height": 481
                     },
                     "opacity": 1,
                     "visible": true,
@@ -788,7 +788,7 @@
                           "x": 0,
                           "y": 47,
                           "width": 680,
-                          "height": 298
+                          "height": 224
                         },
                         "opacity": 1,
                         "visible": true,
@@ -831,7 +831,7 @@
                         "name": "Hero Sub",
                         "geometry": {
                           "x": 0,
-                          "y": 373,
+                          "y": 299,
                           "width": 520,
                           "height": 58
                         },
@@ -876,7 +876,7 @@
                         "name": "Cta Row",
                         "geometry": {
                           "x": 0,
-                          "y": 471,
+                          "y": 397,
                           "width": 680,
                           "height": 84
                         },
@@ -1021,7 +1021,7 @@
                             "geometry": {
                               "x": 188,
                               "y": 0,
-                              "width": 197,
+                              "width": 198,
                               "height": 84
                             },
                             "opacity": 1,
@@ -1094,7 +1094,7 @@
                     "name": "Hero Visual",
                     "geometry": {
                       "x": 0,
-                      "y": 635,
+                      "y": 561,
                       "width": 680,
                       "height": 626
                     },
@@ -1528,7 +1528,7 @@
                                             },
                                             "opacity": 1,
                                             "visible": true,
-                                            "path": "M 2.5 4.5 H 7.5 A 0.5 0.5 0 0 1 8 5 V 8.5 A 0.5 0.5 0 0 1 7.5 9 H 2.5 A 0.5 0.5 0 0 1 2 8.5 V 5 A 0.5 0.5 0 0 1 2.5 4.5 Z M 3.5 4.5 V 3 a 1.5 1.5 0 0 1 3 0 v 1.5",
+                                            "path": "M 2.5 4.5 L 7.5 4.5 A 0.5 0.5 0 0 1 8 5 L 8 8.5 A 0.5 0.5 0 0 1 7.5 9 L 2.5 9 A 0.5 0.5 0 0 1 2 8.5 L 2 5 A 0.5 0.5 0 0 1 2.5 4.5 Z M 3.5 4.5 L 3.5 3 a 1.5 1.5 0 0 1 3 0 l 0 1.5",
                                             "fills": [],
                                             "strokes": [],
                                             "childLayout": {
@@ -2715,7 +2715,7 @@
         "name": "Problem",
         "geometry": {
           "x": 0,
-          "y": 1532,
+          "y": 1458,
           "width": 1440,
           "height": 1363
         },
@@ -3463,9 +3463,9 @@
         "name": "How",
         "geometry": {
           "x": 0,
-          "y": 2895,
+          "y": 2821,
           "width": 1440,
-          "height": 1145
+          "height": 1261
         },
         "opacity": 1,
         "visible": true,
@@ -3481,7 +3481,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 953
+              "height": 1069
             },
             "opacity": 1,
             "visible": true,
@@ -3530,7 +3530,7 @@
                   "x": 64,
                   "y": 100,
                   "width": 880,
-                  "height": 52
+                  "height": 104
                 },
                 "opacity": 1,
                 "visible": true,
@@ -3573,9 +3573,9 @@
                 "name": "Steps",
                 "geometry": {
                   "x": 64,
-                  "y": 152,
+                  "y": 204,
                   "width": 1152,
-                  "height": 801
+                  "height": 865
                 },
                 "opacity": 1,
                 "visible": true,
@@ -3607,7 +3607,7 @@
                       "x": 0,
                       "y": 1,
                       "width": 480,
-                      "height": 409
+                      "height": 420
                     },
                     "opacity": 1,
                     "visible": true,
@@ -3701,7 +3701,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 3 H 21 A 2 2 0 0 1 23 5 V 17 A 2 2 0 0 1 21 19 H 5 A 2 2 0 0 1 3 17 V 5 A 2 2 0 0 1 5 3 Z M 3 8 H 23 M 9 23 L 17 23 M 13 19 V 23 M 5.3 5.5 A 0.7 0.7 0 1 0 6.7 5.5 A 0.7 0.7 0 1 0 5.3 5.5 Z M 7.3 5.5 A 0.7 0.7 0 1 0 8.7 5.5 A 0.7 0.7 0 1 0 7.3 5.5 Z",
+                            "path": "M 5 3 L 21 3 A 2 2 0 0 1 23 5 L 23 17 A 2 2 0 0 1 21 19 L 5 19 A 2 2 0 0 1 3 17 L 3 5 A 2 2 0 0 1 5 3 Z M 3 8 L 23 8 M 9 23 L 17 23 M 13 19 L 13 23 M 5.3 5.5 A 0.7 0.7 0 1 0 6.7 5.5 A 0.7 0.7 0 1 0 5.3 5.5 Z M 7.3 5.5 A 0.7 0.7 0 1 0 8.7 5.5 A 0.7 0.7 0 1 0 7.3 5.5 Z",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -3737,7 +3737,7 @@
                           "x": 36,
                           "y": 157,
                           "width": 407,
-                          "height": 30
+                          "height": 60
                         },
                         "opacity": 1,
                         "visible": true,
@@ -3780,7 +3780,7 @@
                         "name": "Standard HTML export. No special",
                         "geometry": {
                           "x": 36,
-                          "y": 201,
+                          "y": 231,
                           "width": 407,
                           "height": 70
                         },
@@ -3825,7 +3825,7 @@
                         "name": "page.html + assets/",
                         "geometry": {
                           "x": 36,
-                          "y": 287,
+                          "y": 317,
                           "width": 407,
                           "height": 59
                         },
@@ -3879,7 +3879,7 @@
                       "x": 480,
                       "y": 1,
                       "width": 480,
-                      "height": 409
+                      "height": 420
                     },
                     "opacity": 1,
                     "visible": true,
@@ -3978,7 +3978,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 4 H 21 A 2 2 0 0 1 23 6 V 20 A 2 2 0 0 1 21 22 H 5 A 2 2 0 0 1 3 20 V 6 A 2 2 0 0 1 5 4 Z M 7 11 L 10 14 L 7 17 M 13 17 H 19",
+                            "path": "M 5 4 L 21 4 A 2 2 0 0 1 23 6 L 23 20 A 2 2 0 0 1 21 22 L 5 22 A 2 2 0 0 1 3 20 L 3 6 A 2 2 0 0 1 5 4 Z M 7 11 L 10 14 L 7 17 M 13 17 L 19 17",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -4154,9 +4154,9 @@
                     "name": "Step",
                     "geometry": {
                       "x": 0,
-                      "y": 410,
+                      "y": 421,
                       "width": 480,
-                      "height": 390
+                      "height": 443
                     },
                     "opacity": 1,
                     "visible": true,
@@ -4255,7 +4255,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 5 3 H 11 V 9 H 5 Z M 5 11 H 11 V 17 H 5 Z M 13 11 H 19 V 17 H 13 Z M 5 19 H 11 V 23 H 5 Z M 13 6 A 3 3 0 1 0 19 6 A 3 3 0 1 0 13 6 Z",
+                            "path": "M 5 3 L 11 3 L 11 9 L 5 9 Z M 5 11 L 11 11 L 11 17 L 5 17 Z M 13 11 L 19 11 L 19 17 L 13 17 Z M 5 19 L 11 19 L 11 23 L 5 23 Z M 13 6 A 3 3 0 1 0 19 6 A 3 3 0 1 0 13 6 Z",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -4291,7 +4291,7 @@
                           "x": 36,
                           "y": 157,
                           "width": 407,
-                          "height": 30
+                          "height": 60
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4334,9 +4334,9 @@
                         "name": "Builds a real scene graph: frame",
                         "geometry": {
                           "x": 36,
-                          "y": 201,
+                          "y": 231,
                           "width": 407,
-                          "height": 70
+                          "height": 93
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4379,7 +4379,7 @@
                         "name": "⌘V → Build → done.",
                         "geometry": {
                           "x": 36,
-                          "y": 287,
+                          "y": 340,
                           "width": 407,
                           "height": 59
                         },
@@ -4452,9 +4452,9 @@
         "name": "Editable",
         "geometry": {
           "x": 0,
-          "y": 4040,
+          "y": 4082,
           "width": 1440,
-          "height": 2225
+          "height": 2219
         },
         "opacity": 1,
         "visible": true,
@@ -4470,7 +4470,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 2033
+              "height": 2027
             },
             "opacity": 1,
             "visible": true,
@@ -4564,7 +4564,7 @@
                   "x": 64,
                   "y": 204,
                   "width": 1152,
-                  "height": 1829
+                  "height": 1823
                 },
                 "opacity": 1,
                 "visible": true,
@@ -4580,7 +4580,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 708,
-                      "height": 353
+                      "height": 352
                     },
                     "opacity": 1,
                     "visible": true,
@@ -4672,7 +4672,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 3.5 2 H 18.5 A 1.5 1.5 0 0 1 20 3.5 V 18.5 A 1.5 1.5 0 0 1 18.5 20 H 3.5 A 1.5 1.5 0 0 1 2 18.5 V 3.5 A 1.5 1.5 0 0 1 3.5 2 Z M 6 8 H 16 M 6 12 H 13 M 6 16 H 10",
+                            "path": "M 3.5 2 L 18.5 2 A 1.5 1.5 0 0 1 20 3.5 L 20 18.5 A 1.5 1.5 0 0 1 18.5 20 L 3.5 20 A 1.5 1.5 0 0 1 2 18.5 L 2 3.5 A 1.5 1.5 0 0 1 3.5 2 Z M 6 8 L 16 8 M 6 12 L 13 12 M 6 16 L 10 16",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -4753,7 +4753,7 @@
                           "x": 33,
                           "y": 144,
                           "width": 440,
-                          "height": 50
+                          "height": 49
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4796,7 +4796,7 @@
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
-                          "y": 216,
+                          "y": 215,
                           "width": 642,
                           "height": 100
                         },
@@ -4857,7 +4857,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 114,
+                                  "width": 113,
                                   "height": 42
                                 },
                                 "childLayout": {
@@ -4874,9 +4874,9 @@
                                 "id": "instance-26",
                                 "name": "Frame Line",
                                 "geometry": {
-                                  "x": 136,
+                                  "x": 135,
                                   "y": 0,
-                                  "width": 134,
+                                  "width": 133,
                                   "height": 42
                                 },
                                 "childLayout": {
@@ -4898,9 +4898,9 @@
                                 "id": "instance-27",
                                 "name": "Frame Line",
                                 "geometry": {
-                                  "x": 306,
+                                  "x": 304,
                                   "y": 0,
-                                  "width": 286,
+                                  "width": 285,
                                   "height": 42
                                 },
                                 "childLayout": {
@@ -4956,9 +4956,9 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 377,
+                      "y": 376,
                       "width": 708,
-                      "height": 366
+                      "height": 364
                     },
                     "opacity": 1,
                     "visible": true,
@@ -5050,7 +5050,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 2.5 6 H 6.5 A 0.5 0.5 0 0 1 7 6.5 V 15.5 A 0.5 0.5 0 0 1 6.5 16 H 2.5 A 0.5 0.5 0 0 1 2 15.5 V 6.5 A 0.5 0.5 0 0 1 2.5 6 Z M 9.5 6 H 13.5 A 0.5 0.5 0 0 1 14 6.5 V 15.5 A 0.5 0.5 0 0 1 13.5 16 H 9.5 A 0.5 0.5 0 0 1 9 15.5 V 6.5 A 0.5 0.5 0 0 1 9.5 6 Z M 16.5 6 H 19.5 A 0.5 0.5 0 0 1 20 6.5 V 15.5 A 0.5 0.5 0 0 1 19.5 16 H 16.5 A 0.5 0.5 0 0 1 16 15.5 V 6.5 A 0.5 0.5 0 0 1 16.5 6 Z M 2 20 H 20",
+                            "path": "M 2.5 6 L 6.5 6 A 0.5 0.5 0 0 1 7 6.5 L 7 15.5 A 0.5 0.5 0 0 1 6.5 16 L 2.5 16 A 0.5 0.5 0 0 1 2 15.5 L 2 6.5 A 0.5 0.5 0 0 1 2.5 6 Z M 9.5 6 L 13.5 6 A 0.5 0.5 0 0 1 14 6.5 L 14 15.5 A 0.5 0.5 0 0 1 13.5 16 L 9.5 16 A 0.5 0.5 0 0 1 9 15.5 L 9 6.5 A 0.5 0.5 0 0 1 9.5 6 Z M 16.5 6 L 19.5 6 A 0.5 0.5 0 0 1 20 6.5 L 20 15.5 A 0.5 0.5 0 0 1 19.5 16 L 16.5 16 A 0.5 0.5 0 0 1 16 15.5 L 16 6.5 A 0.5 0.5 0 0 1 16.5 6 Z M 2 20 L 20 20",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -5131,7 +5131,7 @@
                           "x": 33,
                           "y": 144,
                           "width": 440,
-                          "height": 51
+                          "height": 49
                         },
                         "opacity": 1,
                         "visible": true,
@@ -5174,7 +5174,7 @@
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
-                          "y": 217,
+                          "y": 215,
                           "width": 642,
                           "height": 112
                         },
@@ -5427,9 +5427,9 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 767,
+                      "y": 764,
                       "width": 708,
-                      "height": 485
+                      "height": 484
                     },
                     "opacity": 1,
                     "visible": true,
@@ -5521,7 +5521,7 @@
                             },
                             "opacity": 1,
                             "visible": true,
-                            "path": "M 4 3 H 9 A 1 1 0 0 1 10 4 V 9 A 1 1 0 0 1 9 10 H 4 A 1 1 0 0 1 3 9 V 4 A 1 1 0 0 1 4 3 Z M 13 3 H 18 A 1 1 0 0 1 19 4 V 9 A 1 1 0 0 1 18 10 H 13 A 1 1 0 0 1 12 9 V 4 A 1 1 0 0 1 13 3 Z M 4 12 H 9 A 1 1 0 0 1 10 13 V 18 A 1 1 0 0 1 9 19 H 4 A 1 1 0 0 1 3 18 V 13 A 1 1 0 0 1 4 12 Z M 13 12 H 18 A 1 1 0 0 1 19 13 V 18 A 1 1 0 0 1 18 19 H 13 A 1 1 0 0 1 12 18 V 13 A 1 1 0 0 1 13 12 Z",
+                            "path": "M 4 3 L 9 3 A 1 1 0 0 1 10 4 L 10 9 A 1 1 0 0 1 9 10 L 4 10 A 1 1 0 0 1 3 9 L 3 4 A 1 1 0 0 1 4 3 Z M 13 3 L 18 3 A 1 1 0 0 1 19 4 L 19 9 A 1 1 0 0 1 18 10 L 13 10 A 1 1 0 0 1 12 9 L 12 4 A 1 1 0 0 1 13 3 Z M 4 12 L 9 12 A 1 1 0 0 1 10 13 L 10 18 A 1 1 0 0 1 9 19 L 4 19 A 1 1 0 0 1 3 18 L 3 13 A 1 1 0 0 1 4 12 Z M 13 12 L 18 12 A 1 1 0 0 1 19 13 L 19 18 A 1 1 0 0 1 18 19 L 13 19 A 1 1 0 0 1 12 18 L 12 13 A 1 1 0 0 1 13 12 Z",
                             "fills": [],
                             "strokes": [],
                             "childLayout": {
@@ -5602,7 +5602,7 @@
                           "x": 33,
                           "y": 144,
                           "width": 440,
-                          "height": 50
+                          "height": 49
                         },
                         "opacity": 1,
                         "visible": true,
@@ -5645,7 +5645,7 @@
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
-                          "y": 216,
+                          "y": 215,
                           "width": 642,
                           "height": 232
                         },
@@ -5939,9 +5939,9 @@
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
-                      "y": 1276,
+                      "y": 1272,
                       "width": 708,
-                      "height": 553
+                      "height": 551
                     },
                     "opacity": 1,
                     "visible": true,
@@ -6114,7 +6114,7 @@
                           "x": 33,
                           "y": 144,
                           "width": 440,
-                          "height": 51
+                          "height": 49
                         },
                         "opacity": 1,
                         "visible": true,
@@ -6157,7 +6157,7 @@
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
-                          "y": 217,
+                          "y": 215,
                           "width": 642,
                           "height": 299
                         },
@@ -6717,7 +6717,7 @@
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
-          "y": 6265,
+          "y": 6301,
           "width": 1440,
           "height": 972
         },
@@ -7347,7 +7347,7 @@
                         },
                         "opacity": 1,
                         "visible": true,
-                        "path": "M 0 6 H 15 M 11 2 L 15 6 L 11 10",
+                        "path": "M 0 6 L 15 6 M 11 2 L 15 6 L 11 10",
                         "fills": [],
                         "strokes": [],
                         "childLayout": {
@@ -7835,9 +7835,9 @@
         "name": "Get Started",
         "geometry": {
           "x": 0,
-          "y": 7237,
+          "y": 7273,
           "width": 1440,
-          "height": 1023
+          "height": 1059
         },
         "opacity": 1,
         "visible": true,
@@ -7853,7 +7853,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 831
+              "height": 867
             },
             "opacity": 1,
             "visible": true,
@@ -7902,7 +7902,7 @@
                   "x": 64,
                   "y": 100,
                   "width": 1152,
-                  "height": 731
+                  "height": 767
                 },
                 "opacity": 1,
                 "visible": true,
@@ -8039,7 +8039,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 124,
+                              "width": 119,
                               "height": 55
                             },
                             "opacity": 1,
@@ -8087,9 +8087,9 @@
                             "id": "text-321",
                             "name": "Pill",
                             "geometry": {
-                              "x": 134,
+                              "x": 129,
                               "y": 0,
-                              "width": 160,
+                              "width": 155,
                               "height": 55
                             },
                             "opacity": 1,
@@ -8137,9 +8137,9 @@
                             "id": "text-322",
                             "name": "Pill",
                             "geometry": {
-                              "x": 304,
+                              "x": 294,
                               "y": 0,
-                              "width": 167,
+                              "width": 162,
                               "height": 55
                             },
                             "opacity": 1,
@@ -8189,7 +8189,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 65,
-                              "width": 225,
+                              "width": 220,
                               "height": 55
                             },
                             "opacity": 1,
@@ -8264,7 +8264,7 @@
                       "x": 0,
                       "y": 401,
                       "width": 680,
-                      "height": 330
+                      "height": 366
                     },
                     "opacity": 1,
                     "visible": true,
@@ -8437,7 +8437,7 @@
                           "x": 0,
                           "y": 31,
                           "width": 680,
-                          "height": 299
+                          "height": 335
                         },
                         "opacity": 1,
                         "visible": true,
@@ -8453,7 +8453,7 @@
                               "x": 24,
                               "y": 24,
                               "width": 632,
-                              "height": 15
+                              "height": 18
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8465,9 +8465,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 39,
+                              "y": 42,
                               "width": 632,
-                              "height": 45
+                              "height": 54
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8483,7 +8483,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8526,9 +8526,9 @@
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 15,
+                                  "y": 18,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8571,9 +8571,9 @@
                                 "name": "Str",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 30,
+                                  "y": 36,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8618,9 +8618,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 98,
+                              "y": 110,
                               "width": 632,
-                              "height": 15
+                              "height": 18
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8637,9 +8637,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 113,
+                              "y": 128,
                               "width": 632,
-                              "height": 30
+                              "height": 36
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8655,7 +8655,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8698,9 +8698,9 @@
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 15,
+                                  "y": 18,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8745,9 +8745,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 157,
+                              "y": 178,
                               "width": 632,
-                              "height": 15
+                              "height": 18
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8764,9 +8764,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 172,
+                              "y": 196,
                               "width": 632,
-                              "height": 30
+                              "height": 36
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8782,7 +8782,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8825,9 +8825,9 @@
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 15,
+                                  "y": 18,
                                   "width": 632,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8872,9 +8872,9 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 202,
+                              "y": 232,
                               "width": 632,
-                              "height": 30
+                              "height": 36
                             },
                             "opacity": 1,
                             "visible": true,
@@ -8890,7 +8890,7 @@
                                   "x": 24,
                                   "y": 0,
                                   "width": 608,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8933,9 +8933,9 @@
                                 "name": "Flag",
                                 "geometry": {
                                   "x": 24,
-                                  "y": 15,
+                                  "y": 18,
                                   "width": 608,
-                                  "height": 15
+                                  "height": 18
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -8980,7 +8980,7 @@
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 246,
+                              "y": 282,
                               "width": 632,
                               "height": 25
                             },
@@ -9069,9 +9069,9 @@
         "name": "Footer",
         "geometry": {
           "x": 0,
-          "y": 8300,
+          "y": 8372,
           "width": 1440,
-          "height": 301
+          "height": 306
         },
         "opacity": 1,
         "visible": true,
@@ -9103,7 +9103,7 @@
               "x": 451,
               "y": 57,
               "width": 539,
-              "height": 162
+              "height": 167
             },
             "opacity": 1,
             "visible": true,
@@ -9119,7 +9119,7 @@
                   "x": 0,
                   "y": 0,
                   "width": 169,
-                  "height": 162
+                  "height": 167
                 },
                 "opacity": 1,
                 "visible": true,
@@ -9135,7 +9135,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 169,
-                      "height": 16
+                      "height": 18
                     },
                     "opacity": 1,
                     "visible": true,
@@ -9217,9 +9217,9 @@
                     "name": "Claude Design",
                     "geometry": {
                       "x": 0,
-                      "y": 43,
+                      "y": 45,
                       "width": 169,
-                      "height": 22
+                      "height": 23
                     },
                     "opacity": 1,
                     "visible": true,
@@ -9340,9 +9340,9 @@
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
-                      "y": 119,
+                      "y": 122,
                       "width": 169,
-                      "height": 16
+                      "height": 18
                     },
                     "opacity": 1,
                     "visible": true,
@@ -9431,7 +9431,7 @@
                 "name": "Foot Right",
                 "geometry": {
                   "x": 209,
-                  "y": 140,
+                  "y": 145,
                   "width": 330,
                   "height": 22
                 },
@@ -9567,7 +9567,7 @@
                         },
                         "opacity": 1,
                         "visible": true,
-                        "path": "M 1.5 7 A 5.5 5.5 0 1 0 12.5 7 A 5.5 5.5 0 1 0 1.5 7 Z M 7 4 V 7 L 9 8.5",
+                        "path": "M 1.5 7 A 5.5 5.5 0 1 0 12.5 7 A 5.5 5.5 0 1 0 1.5 7 Z M 7 4 L 7 7 L 9 8.5",
                         "fills": [],
                         "strokes": [],
                         "childLayout": {
@@ -9665,7 +9665,7 @@
                         },
                         "opacity": 1,
                         "visible": true,
-                        "path": "M 7 1 L 13 12 H 1 Z M 7 6 V 8.5 M 7 10 V 10.5",
+                        "path": "M 7 1 L 13 12 L 1 12 Z M 7 6 L 7 8.5 M 7 10 L 7 10.5",
                         "fills": [],
                         "strokes": [],
                         "childLayout": {
@@ -9780,7 +9780,7 @@
             "name": "Built With",
             "geometry": {
               "x": 80,
-              "y": 219,
+              "y": 224,
               "width": 1280,
               "height": 18
             },
@@ -11484,7 +11484,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 114,
+          "width": 113,
           "height": 42
         },
         "opacity": 1,
@@ -11528,7 +11528,7 @@
             "geometry": {
               "x": 11,
               "y": 9,
-              "width": 55,
+              "width": 54,
               "height": 24
             },
             "opacity": 1,
@@ -11646,7 +11646,7 @@
           "x": 24,
           "y": 24,
           "width": 632,
-          "height": 15
+          "height": 18
         },
         "opacity": 1,
         "visible": true,
@@ -11662,7 +11662,7 @@
               "x": 0,
               "y": 0,
               "width": 632,
-              "height": 15
+              "height": 18
             },
             "opacity": 1,
             "visible": true,
@@ -12038,7 +12038,7 @@
             },
             "opacity": 1,
             "visible": true,
-            "path": "M 0 6 H 15 M 11 2 L 15 6 L 11 10",
+            "path": "M 0 6 L 15 6 M 11 2 L 15 6 L 11 10",
             "fills": [],
             "strokes": [],
             "childLayout": {

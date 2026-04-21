@@ -1,18 +1,15 @@
 {
-  "source": "examples/landing/source/index.html",
-  "output": "examples/landing/claude-to-figma.ir.json",
+  "source": "/Users/brian.leach/code/claude-to-figma/examples/landing/source/index.html",
+  "output": "/Users/brian.leach/code/claude-to-figma/examples/landing/claude-to-figma.ir.json",
   "stats": {
-    "nodes": 373,
+    "nodes": 375,
     "components": 12,
     "instances": 48,
     "paintStyles": 16,
-    "textStyles": 33
+    "textStyles": 34
   },
   "warnings": [
-    "<link href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap\"> could not be resolved",
-    "<svg> had no <path d=\"...\"> — emitted with empty path",
-    "<svg> had no <path d=\"...\"> — emitted with empty path",
-    "<svg> had no <path d=\"...\"> — emitted with empty path"
+    "<link href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap\"> could not be resolved"
   ],
-  "generatedAt": "2026-04-18T17:56:42.105Z"
+  "generatedAt": "2026-04-21T20:59:21.639Z"
 }

@@ -62,21 +62,34 @@ node packages/cli/dist/index.js convert \
 - **Layout fidelity** — the Figma render should look like the browser
   render. Differences are the converter's bugs to file.
 
-## Known issues in the current render
+## M9 fidelity update
 
-The landing page is the first real dogfood artifact, and the Figma output
-isn't yet at parity with the browser. Open `claude-to-figma.fig` next to
-`screenshots/browser.png` and you'll see:
+The artifacts in this directory were refreshed after the M9 fidelity
+milestone. The concrete wins on this page:
 
-- Section/component labels bleed outside their containers at the top of the
-  page instead of sitting where they belong.
-- The hero heading overflows the viewport horizontally — text wrapping /
-  max-width isn't resolving the same way the browser resolves it.
-- Minor drift in spacing and typography vs. the browser reference.
+- **Text dimensions.** 73 text leaves are measured inside headless
+  Chromium (ADR 0006), so the hero heading now wraps correctly instead
+  of overflowing a single 1152×149 line. Short nav items also size
+  accurately (the heuristic over-estimated by ~10–13px each).
+- **Borders and shadows.** 39 frames carry real `strokes` (e.g. the
+  Figma-card outline), and the two `box-shadow: var(--shadow)` sites
+  emit 6 DROP_SHADOW effects. Previously: `strokes: []` and
+  `effects: []` literals.
+- **Grid geometry.** All five grid sections (`.hero-grid`, `.steps`,
+  `.editable-grid`, `.pipeline`, `.get-started-grid`) are
+  HORIZONTAL + WRAP auto-layout frames with correct track widths
+  (ADR 0008). Previously: block-stacked column with no grid semantics.
+- **Max-width centering.** All six `.wrap` elements land at x=80 on a
+  1440 viewport (= (1440 − 1280) / 2) — previously stuck at x=0.
+- **Layer names.** `Page > Nav / Hero / Problem / How / Editable /
+  Pipeline Section / Get Started / Footer` instead of `body > section >
+  .wrap > .hero-grid`.
 
-These are real bugs that the dogfood exposed. They'll be fixed in a
-follow-up milestone; when the render matches the browser we'll add a
-`screenshots/figma.png` to this directory as proof.
+A screenshot-level diff against `screenshots/browser.png` and a
+refreshed `.fig` will land once we manually re-run the plugin; the
+pipeline output on this page is warning-free except for the offline
+Google Fonts CDN block (expected — `--hydrate` runs `offline: true`
+for security).
 
 ## Hosting
 

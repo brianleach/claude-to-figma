@@ -12,13 +12,13 @@ execution against that spec.
 
 ## Current status
 
-**Active milestone:** ✅ all milestones shipped (M1–M8)
-**Last tag:** `m8`
-**Next action:** project is feature-complete for the M1–M8 scope.
-Open-source release prep is done (LIMITATIONS.md, CONTRIBUTING.md,
-README polish, integration harness). New work happens off `main`
-following the per-milestone flow in this doc; see CONTRIBUTING.md for
-the contributor flow.
+**Active milestone:** ✅ all milestones shipped (M1–M9)
+**Last tag:** `m9`
+**Next action:** post-M9 work continues on editability / polish (M10
+territory: variant detection, image overrides on instances, role-aware
+token naming, bucket-collision cleanup). Solo-dev workflow: commit
+directly on `main` and push, no per-milestone branch dance. Tags on
+`main` still mark milestones.
 
 ## Working branch
 
@@ -61,6 +61,7 @@ on the remote for archive only.
 | M6  | ✅ | `m6` | brianleach @ 2026-04-18 | Component detection: hash → group → INSTANCE rewrite with text overrides. `--component-threshold` flag, default 3. |
 | M7  | ✅ | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
 | M8  | ✅ | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
+| M9  | ✅ | `m9` | brianleach @ 2026-04-21 | Visual fidelity pass driven by `docs/quality-gap-report.md`. 8 commits closing gaps #1–#8, #10, #13. ADRs 0006 (Chromium text measurement), 0007 (shorthand registry), 0008 (grid → flex-wrap), 0009 (gradient paints). |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
 
@@ -282,3 +283,4 @@ Chronological, terse. Append-only. One line per material event.
 - `2026-04-18` — M8 shipped on `m8-real-world-harness`: `runHarness` + `scripts/integration.ts` walking `fixtures/claude-design/`, `--verbose` / `--report` flags, `LIMITATIONS.md` (19 entries), `CONTRIBUTING.md`, README polish (Install, Usage with flag table + demo-fixture matrix + harness, Troubleshooting table). 5 new tests (176 total).
 - `2026-04-18` — V-M8-REAL surfaced four real-world issues that all got fixed in the same milestone: (1) Claude Design ships JS-bundled HTML; added `--hydrate` flag (Playwright headless Chromium, ~100 MB browser binary) — fixes both `*.standalone.html` and `*.html` (React+Babel-from-unpkg) formats. (2) Default Playwright viewport (1280×720) put responsive pages in the wrong breakpoint; added `--viewport WxH`, default 1440×900. (3) Figma plugin can't install fonts — added `claude-to-figma fonts` subcommand to print the shopping list, plus `--font-fallback <Family>` for the "I don't want to install" escape hatch. (4) CSS `system-ui` was leaking into the IR's font manifest as a real font; `parseFontFamily` now skips generic CSS keywords. (5) Figma's vector path parser needs whitespace-separated tokens (compact SVG `M0,65L100,50` was rejected); added `normalizeSvgPath` and made the plugin fail-soft on per-vector errors.
 - `2026-04-18` — M8 verified end-to-end by dogfooding: built `claude-to-figma`'s own landing page in [Claude Design](https://claude.ai/design), ran it through the CLI, and committed the source / IR / report / `.fig` to `examples/landing/`. The render isn't yet at parity with the browser (known issues documented in the example README), but the full pipeline ran clean. Tagged `m8`. Project is feature-complete for the M1–M8 scope.
+- `2026-04-21` — M9 fidelity pass shipped in 8 trunk commits on `main` (solo-dev workflow, no per-milestone branch). Diagnosis report `docs/quality-gap-report.md` ranked 17 gaps against the landing dogfood; closed #1 (grid → flex-wrap, ADR 0008), #2 / #3 (strokes + effects via shorthand registry, ADR 0007), #4 (text measurement via Chromium during --hydrate, ADR 0006), #5 (em letter-spacing), #6 (multi-path SVG + basic shape → path conversion), #7 (aspect-ratio + text-wrap implicit via measurement), #8 (margin:auto centring + viewport plumbing), #10 (gradient paints, ADR 0009), #13 (title-cased layer names). Landing artifacts refreshed: 73 text nodes measured, 39 strokes, 6 DROP_SHADOWs, 27 HORIZONTAL+WRAP auto-layout frames, all `.wrap` frames centred at x=80, designer-friendly layer tree. 233 CLI / 251 workspace tests green. Remaining gaps (#9 pseudo-class, #11 border longhand cascade, #12 shadow shorthand, #14–17 editability / polish) moved to M10.

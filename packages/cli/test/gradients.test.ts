@@ -32,7 +32,7 @@ function asRadial(p: unknown): RadialGradientPaint {
 }
 
 function findFrame(node: IRNode, name: string): FrameNode {
-  if (node.type === 'FRAME' && node.name === name) return node;
+  if (node.type === 'FRAME' && node.name.toLowerCase() === name.toLowerCase()) return node;
   if (node.type === 'FRAME') {
     for (const c of node.children) {
       try {

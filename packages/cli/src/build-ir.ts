@@ -155,6 +155,12 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   };
 
   const root = buildFrameFromElement(body, ctx, 'root');
+  // A designer opening the file expects the top-level frame to read like
+  // the page, not the literal `<body>` tag. Use the document name if it
+  // carries useful signal, else "Page".
+  if (!getAttr(body, 'id') && !getAttr(body, 'class')) {
+    root.name = opts.name && !/\.(html|json)$/i.test(opts.name) ? opts.name : 'Page';
+  }
   registerFont(ctx, DEFAULT_TEXT_STYLE.fontFamily, DEFAULT_TEXT_STYLE.fontStyle);
 
   const baseDocument: IRDocument = {
@@ -584,12 +590,47 @@ function getAttr(el: P5Element, name: string): string | undefined {
 }
 
 function nameFor(el: P5Element, fallback?: string): string {
-  const id = getAttr(el, 'id');
-  if (id) return id;
+  // Class names win over IDs when both are present — real pages commonly
+  // carry both (class="hero" id="hero") and the class-derived title case
+  // reads better. Stripped-leading-dot names like ".hero-grid" from the
+  // old nameFor become "Hero Grid" here.
   const cls = getAttr(el, 'class');
-  if (cls) return `.${cls.trim().split(/\s+/)[0]}`;
+  if (cls) {
+    const first = cls.trim().split(/\s+/)[0];
+    if (first) return toTitleCase(first);
+  }
+  // IDs fall back next, also title-cased so a section with `id="how"`
+  // becomes "How" in the Figma layer panel (not the DOM-shaped "how").
+  const id = getAttr(el, 'id');
+  if (id) return toTitleCase(id);
   if (fallback) return fallback;
-  return el.tagName.toLowerCase();
+  // Semantic HTML5 landmarks → Title Case. Generic divs / spans stay
+  // lowercase so they're easy to spot-and-rename.
+  const tag = el.tagName.toLowerCase();
+  if (SEMANTIC_TAGS.has(tag)) return toTitleCase(tag);
+  return tag;
+}
+
+const SEMANTIC_TAGS = new Set([
+  'header',
+  'nav',
+  'main',
+  'article',
+  'section',
+  'aside',
+  'footer',
+  'figure',
+  'figcaption',
+  'form',
+  'dialog',
+]);
+
+function toTitleCase(s: string): string {
+  return s
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
 }
 
 function nextId(ctx: BuildContext, prefix: string): string {

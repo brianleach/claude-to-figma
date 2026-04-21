@@ -45,7 +45,7 @@ function findFrameByName(node: IRNode, name: string): FrameNode {
 }
 
 function findFrameByNameOpt(node: IRNode, name: string): FrameNode | undefined {
-  if (node.type === 'FRAME' && node.name === name) return node;
+  if (node.type === 'FRAME' && node.name.toLowerCase() === name.toLowerCase()) return node;
   if (node.type === 'FRAME') {
     for (const c of node.children) {
       const f = findFrameByNameOpt(c, name);
@@ -172,7 +172,7 @@ describe('cascade', () => {
       </body></html>
     `;
     const ir = convertHtml(html, { name: 'specificity' }).document;
-    const card = findFrameByName(ir.root, 'card');
+    const card = findFrameByName(ir.root, 'Card');
     expect(firstSolidColor(card.fills)?.b).toBe(1);
     expect(firstSolidColor(card.fills)?.r).toBe(0);
   });
@@ -188,7 +188,7 @@ describe('cascade', () => {
       </body></html>
     `;
     const ir = convertHtml(html, { name: 'order' }).document;
-    const node = findFrameByName(ir.root, 'x');
+    const node = findFrameByName(ir.root, 'A');
     const c = firstSolidColor(node.fills);
     expect(c?.g).toBeCloseTo(128 / 255, 2);
   });
@@ -204,7 +204,7 @@ describe('cascade', () => {
       </body></html>
     `;
     const ir = convertHtml(html, { name: 'important' }).document;
-    const card = findFrameByName(ir.root, 'card');
+    const card = findFrameByName(ir.root, 'Card');
     expect(firstSolidColor(card.fills)?.r).toBe(1);
   });
 

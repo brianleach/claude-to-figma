@@ -10,7 +10,7 @@ import { convertHtml } from '../src/convert.js';
 import { parseAspectRatio, parseLetterSpacing } from '../src/style.js';
 
 function findVectorByName(node: IRNode, name: string): VectorNode {
-  if (node.type === 'VECTOR' && node.name === name) return node;
+  if (node.type === 'VECTOR' && node.name.toLowerCase() === name.toLowerCase()) return node;
   if (node.type === 'FRAME') {
     for (const c of node.children) {
       try {
@@ -153,7 +153,7 @@ describe('aspect-ratio parsing (gap #7)', () => {
       { name: 'aspect-ratio' },
     ).document;
     function findById(n: IRNode, id: string): IRNode | undefined {
-      if (n.name === id) return n;
+      if (n.name.toLowerCase() === id.toLowerCase()) return n;
       if (n.type === 'FRAME')
         for (const c of n.children) {
           const hit = findById(c, id);

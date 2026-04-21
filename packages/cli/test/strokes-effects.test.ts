@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { convertHtml } from '../src/convert.js';
 
 function findFrame(node: IRNode, name: string): FrameNode {
-  if (node.type === 'FRAME' && node.name === name) return node;
+  if (node.type === 'FRAME' && node.name.toLowerCase() === name.toLowerCase()) return node;
   if (node.type === 'FRAME') {
     for (const c of node.children) {
       try {
@@ -54,7 +54,7 @@ describe('stroke extraction', () => {
       { name: 'var-in-border' },
     );
 
-    const card = findFrame(document.root, 'card');
+    const card = findFrame(document.root, 'Card');
     expect(card.strokes).toHaveLength(1);
     expect(card.strokes[0]?.weight).toBe(1.5);
     const paint = card.strokes[0]?.paint as SolidPaint;

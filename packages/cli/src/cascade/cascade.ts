@@ -142,8 +142,26 @@ function applyInheritanceAndVars(
     }
   }
 
-  // Apply this element's winning declarations.
+  // Apply this element's winning declarations. Resolve the `inherit`
+  // keyword against the parent — without this, a literal
+  // `a { color: inherit }` overwrites the inherited value with the
+  // string `"inherit"`, which downstream consumers fail to parse.
+  // `unset` behaves as `inherit` for inherited properties and `initial`
+  // for non-inherited ones; treat both as inherit for now since the
+  // consumers are lenient about missing properties.
   for (const [prop, decl] of winners) {
+    const raw = decl.value.trim().toLowerCase();
+    if (raw === 'inherit' || raw === 'unset') {
+      const parentValue = parentStyle?.get(prop);
+      if (parentValue != null) {
+        style.set(prop, parentValue);
+        continue;
+      }
+      // No parent value — let the property fall back to whatever was
+      // already in the style map from the parent-inheritance loop above,
+      // or stay unset.
+      continue;
+    }
     style.set(prop, decl.value);
   }
 

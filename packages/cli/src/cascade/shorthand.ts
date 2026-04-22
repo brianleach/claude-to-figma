@@ -58,6 +58,9 @@ const REGISTRY: Array<[string, Expander]> = [
   ['box-shadow', expandBoxShadow],
   ['filter', expandFilter],
   ['backdrop-filter', expandBackdropFilter],
+  ['place-items', expandPlaceItems],
+  ['place-content', expandPlaceContent],
+  ['place-self', expandPlaceSelf],
 ];
 
 export function expandShorthands(style: ComputedStyle): void {
@@ -286,4 +289,39 @@ function splitTopLevel(value: string, separator: ' ' | ','): string[] {
 function matchesSeparator(ch: string, sep: ' ' | ','): boolean {
   if (sep === ',') return ch === ',';
   return ch === ' ' || ch === '\t' || ch === '\n';
+}
+
+// ---------------------------------------------------------------------------
+// place-* shorthands (grid / flex alignment)
+// ---------------------------------------------------------------------------
+
+/**
+ * `place-items: <align-items> [<justify-items>]` — single-value form
+ * applies to both axes (e.g. `place-items: center`). Without this
+ * expansion, a grid child with `place-items: center` on the parent has
+ * no `align-items`, so `mapFlexChild` falls back to CSS's `stretch`
+ * default and stretches the child — wrong for centered grid cells.
+ */
+function expandPlaceItems(value: string): Record<string, string> {
+  const parts = splitTopLevel(value.trim(), ' ');
+  const a = parts[0];
+  if (!a) return {};
+  const b = parts[1] ?? a;
+  return { 'align-items': a, 'justify-items': b };
+}
+
+function expandPlaceContent(value: string): Record<string, string> {
+  const parts = splitTopLevel(value.trim(), ' ');
+  const a = parts[0];
+  if (!a) return {};
+  const b = parts[1] ?? a;
+  return { 'align-content': a, 'justify-content': b };
+}
+
+function expandPlaceSelf(value: string): Record<string, string> {
+  const parts = splitTopLevel(value.trim(), ' ');
+  const a = parts[0];
+  if (!a) return {};
+  const b = parts[1] ?? a;
+  return { 'align-self': a, 'justify-self': b };
 }

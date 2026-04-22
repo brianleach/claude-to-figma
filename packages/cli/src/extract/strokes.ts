@@ -13,13 +13,13 @@
 
 import type { Stroke } from '@claude-to-figma/ir';
 import type { ComputedStyle } from '../cascade/index.js';
-import { parseColor, parsePx } from '../style.js';
+import { type LengthContext, parseColor, parsePx } from '../style.js';
 
 const SIDES = ['top', 'right', 'bottom', 'left'] as const;
 
-export function readStroke(style: ComputedStyle): Stroke | undefined {
+export function readStroke(style: ComputedStyle, ctx: LengthContext = {}): Stroke | undefined {
   for (const side of SIDES) {
-    const width = parsePx(style.get(`border-${side}-width`));
+    const width = parsePx(style.get(`border-${side}-width`), ctx);
     const styleToken = style.get(`border-${side}-style`)?.toLowerCase();
     const color = parseColor(style.get(`border-${side}-color`));
 

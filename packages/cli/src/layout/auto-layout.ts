@@ -14,7 +14,7 @@
 
 import type { ChildLayout, LayoutProps } from '@claude-to-figma/ir';
 import type { ComputedStyle } from '../cascade/index.js';
-import { parsePx } from '../style.js';
+import { type LengthContext, parsePx } from '../style.js';
 
 /**
  * Returns `LayoutProps` when this element is a flex container, otherwise
@@ -22,7 +22,10 @@ import { parsePx } from '../style.js';
  * on non-auto-layout frames if `layoutMode != NONE`, but on plain frames
  * it's ignored — so we only emit on flex containers).
  */
-export function mapFlexContainer(style: ComputedStyle): LayoutProps | undefined {
+export function mapFlexContainer(
+  style: ComputedStyle,
+  ctx: LengthContext = {},
+): LayoutProps | undefined {
   const display = (style.get('display') ?? '').toLowerCase();
   const isFlex = display === 'flex' || display === 'inline-flex';
   const isGrid = display === 'grid' || display === 'inline-grid';
@@ -44,13 +47,13 @@ export function mapFlexContainer(style: ComputedStyle): LayoutProps | undefined 
       ? 'WRAP'
       : 'NO_WRAP';
 
-  const padding = readPadding(style);
+  const padding = readPadding(style, ctx);
 
   // Gap → itemSpacing (main axis) + counterAxisSpacing (cross axis).
   // CSS `row-gap` is the gap between rows (cross axis in horizontal flex,
   // main axis in vertical). `column-gap` is the inverse. The shorthand
   // `gap` sets both.
-  const { itemSpacing, counterAxisSpacing } = readGaps(style, layoutMode);
+  const { itemSpacing, counterAxisSpacing } = readGaps(style, layoutMode, ctx);
 
   return {
     layoutMode,
@@ -119,19 +122,17 @@ export function mapFlexChild(
 // Helpers
 // ---------------------------------------------------------------------------
 
-function readPadding(style: ComputedStyle): {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-} {
+function readPadding(
+  style: ComputedStyle,
+  ctx: LengthContext,
+): { top: number; right: number; bottom: number; left: number } {
   // Longhands win when present.
-  const top = parsePx(style.get('padding-top'));
-  const right = parsePx(style.get('padding-right'));
-  const bottom = parsePx(style.get('padding-bottom'));
-  const left = parsePx(style.get('padding-left'));
+  const top = parsePx(style.get('padding-top'), ctx);
+  const right = parsePx(style.get('padding-right'), ctx);
+  const bottom = parsePx(style.get('padding-bottom'), ctx);
+  const left = parsePx(style.get('padding-left'), ctx);
 
-  const shorthand = expandShorthand(style.get('padding'));
+  const shorthand = expandShorthand(style.get('padding'), ctx);
   return {
     top: top ?? shorthand.top,
     right: right ?? shorthand.right,
@@ -140,17 +141,15 @@ function readPadding(style: ComputedStyle): {
   };
 }
 
-function expandShorthand(value: string | undefined): {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-} {
+function expandShorthand(
+  value: string | undefined,
+  ctx: LengthContext,
+): { top: number; right: number; bottom: number; left: number } {
   if (!value) return { top: 0, right: 0, bottom: 0, left: 0 };
   const parts = value
     .trim()
     .split(/\s+/)
-    .map((p) => parsePx(p) ?? 0);
+    .map((p) => parsePx(p, ctx) ?? 0);
   const a = parts[0] ?? 0;
   const b = parts[1] ?? a;
   const c = parts[2] ?? a;
@@ -161,15 +160,16 @@ function expandShorthand(value: string | undefined): {
 function readGaps(
   style: ComputedStyle,
   layoutMode: 'HORIZONTAL' | 'VERTICAL',
+  ctx: LengthContext,
 ): { itemSpacing: number; counterAxisSpacing: number } {
   // gap shorthand: `gap: <row-gap> [<column-gap>]`
   const gap = style.get('gap');
-  let rowGap = parsePx(style.get('row-gap'));
-  let colGap = parsePx(style.get('column-gap'));
+  let rowGap = parsePx(style.get('row-gap'), ctx);
+  let colGap = parsePx(style.get('column-gap'), ctx);
   if (gap) {
     const parts = gap.trim().split(/\s+/);
-    const r = parsePx(parts[0]);
-    const c = parts[1] !== undefined ? parsePx(parts[1]) : r;
+    const r = parsePx(parts[0], ctx);
+    const c = parts[1] !== undefined ? parsePx(parts[1], ctx) : r;
     if (rowGap == null && r != null) rowGap = r;
     if (colGap == null && c != null) colGap = c;
   }

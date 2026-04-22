@@ -64,6 +64,7 @@ program
         componentThreshold: opts.componentThreshold,
         textMeasurements: hydrated?.textMeasurements,
         viewportWidth: viewport.viewportWidth ?? (opts.hydrate ? 1440 : undefined),
+        viewportHeight: viewport.viewportHeight ?? (opts.hydrate ? 900 : undefined),
       });
       const result = opts.fontFallback
         ? { ...baseResult, document: substituteFontFamily(baseResult.document, opts.fontFallback) }

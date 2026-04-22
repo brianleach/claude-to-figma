@@ -20,7 +20,13 @@ import Yoga, {
 } from 'yoga-layout';
 import type { ComputedStyle, P5Element } from '../cascade/index.js';
 import { IGNORED_TAGS, collectInnerText, isTextElement } from '../classify.js';
-import { parseAspectRatio, parseGridTracks, parseLineHeight, parsePx } from '../style.js';
+import {
+  type LengthContext,
+  parseAspectRatio,
+  parseGridTracks,
+  parseLineHeight,
+  parsePx,
+} from '../style.js';
 import { measureText, measuredText } from './measure.js';
 
 export interface ComputedGeometry {
@@ -53,6 +59,12 @@ export interface ComputeLayoutOptions {
    * the conversion ran at.
    */
   viewportWidth?: number;
+  /**
+   * Height of the viewport in px. Used to resolve `vh` units. Defaults
+   * to 900 when omitted — a sensible browser desktop default that
+   * matches the CLI's `--viewport` default.
+   */
+  viewportHeight?: number;
 }
 
 /**
@@ -67,11 +79,23 @@ export function computeLayout(
   const yogaByEl = new Map<P5Element, YogaNode>();
   const measurements = opts.textMeasurements;
 
+  // Build the length-parsing context once. rootFontSize comes from the
+  // cascade root's resolved `font-size` (or 16 — the browser default).
+  // Viewport dims fall back to 1440×900, matching the CLI's default
+  // `--viewport`, so `vw`/`vh` resolve even on fixtures that didn't pass
+  // an explicit viewport.
+  const rootStyle = styles.get(root);
+  const lengthCtx: LengthContext = {
+    rootFontSize: rootStyle ? (parsePx(rootStyle.get('font-size')) ?? 16) : 16,
+    viewportWidth: opts.viewportWidth ?? 1440,
+    viewportHeight: opts.viewportHeight ?? 900,
+  };
+
   const buildYoga = (el: P5Element, availableContentWidth: number | undefined): YogaNode => {
     const yoga = Yoga.Node.create();
     yogaByEl.set(el, yoga);
     const style = styles.get(el) ?? new Map();
-    applyYogaStyle(yoga, style);
+    applyYogaStyle(yoga, style, lengthCtx);
 
     // `<svg width="14" height="14">` and `<img width="800" height="600">`
     // carry intrinsic dimensions on the HTML element itself, not in CSS.
@@ -81,18 +105,18 @@ export function computeLayout(
     const tagLower = el.tagName.toLowerCase();
     if (tagLower === 'svg' || tagLower === 'img') {
       if (!style.has('width')) {
-        const w = parsePx(attrValue(el, 'width'));
+        const w = parsePx(attrValue(el, 'width'), lengthCtx);
         if (w != null) yoga.setWidth(w);
       }
       if (!style.has('height')) {
-        const h = parsePx(attrValue(el, 'height'));
+        const h = parsePx(attrValue(el, 'height'), lengthCtx);
         if (h != null) yoga.setHeight(h);
       }
     }
 
     if (isTextElement(el, style.get('display'))) {
       // TEXT nodes never have children — yoga measures them via the callback.
-      yoga.setMeasureFunc(buildMeasureFn(el, style, measurements));
+      yoga.setMeasureFunc(buildMeasureFn(el, style, measurements, lengthCtx));
       return yoga;
     }
 
@@ -102,7 +126,7 @@ export function computeLayout(
     // first. Setting width = min(available, max-width) gives the block
     // behaviour (closes gap #8 in docs/quality-gap-report.md).
     if (availableContentWidth != null && !style.has('width')) {
-      const maxWidth = parsePx(style.get('max-width'));
+      const maxWidth = parsePx(style.get('max-width'), lengthCtx);
       if (maxWidth != null && hasAutoHorizontalMargin(style)) {
         yoga.setWidth(Math.min(availableContentWidth, maxWidth));
       }
@@ -111,14 +135,14 @@ export function computeLayout(
     // Compute this element's own content width so children can use it as
     // their available width. Grid track sizing (ADR 0008) needs it to
     // resolve cell widths against gap + track count in px.
-    const myContentWidth = computeContentWidth(style, availableContentWidth);
+    const myContentWidth = computeContentWidth(style, availableContentWidth, lengthCtx);
 
     // Grid track widths in px, if this element is a grid container.
     // Weighted fr values are honoured — `1.15fr 1fr` produces unequal
     // tracks. Fixed px tracks take their declared size first; remaining
     // space splits by fr weight. Falls back to equal distribution when
     // content width isn't known.
-    const trackWidths = computeGridTrackWidths(style, myContentWidth);
+    const trackWidths = computeGridTrackWidths(style, myContentWidth, lengthCtx);
 
     let index = 0;
     for (const child of el.childNodes) {
@@ -145,7 +169,7 @@ export function computeLayout(
         const text = child.value.trim();
         if (!text) continue;
         const textYoga = Yoga.Node.create();
-        textYoga.setMeasureFunc(buildBareTextMeasureFn(text, style));
+        textYoga.setMeasureFunc(buildBareTextMeasureFn(text, style, lengthCtx));
         yoga.insertChild(textYoga, index);
         index += 1;
       }
@@ -179,12 +203,13 @@ export function computeLayout(
 function buildMeasureFn(
   el: P5Element,
   style: ComputedStyle,
-  measurements?: ReadonlyMap<string, TextMeasurement>,
+  measurements: ReadonlyMap<string, TextMeasurement> | undefined,
+  ctx: LengthContext,
 ) {
   const hit = measurements && lookupMeasurement(el, measurements);
   if (hit) return measuredText(hit);
 
-  const fontSize = parsePx(style.get('font-size')) ?? 16;
+  const fontSize = parsePx(style.get('font-size'), ctx) ?? 16;
   const lineHeight = parseLineHeight(style.get('line-height')) ?? { unit: 'AUTO' };
   return measureText({
     characters: collectInnerText(el),
@@ -203,8 +228,12 @@ function lookupMeasurement(
 
 /** Same heuristic, but the parent's resolved style provides the font size /
  * line-height (since bare-text nodes inherit typography from their parent). */
-function buildBareTextMeasureFn(characters: string, parentStyle: ComputedStyle) {
-  const fontSize = parsePx(parentStyle.get('font-size')) ?? 16;
+function buildBareTextMeasureFn(
+  characters: string,
+  parentStyle: ComputedStyle,
+  ctx: LengthContext,
+) {
+  const fontSize = parsePx(parentStyle.get('font-size'), ctx) ?? 16;
   const lineHeight = parseLineHeight(parentStyle.get('line-height')) ?? { unit: 'AUTO' };
   return measureText({ characters, fontSize, lineHeight });
 }
@@ -222,6 +251,7 @@ function buildBareTextMeasureFn(characters: string, parentStyle: ComputedStyle) 
 function computeGridTrackWidths(
   style: ComputedStyle,
   contentWidth: number | undefined,
+  ctx: LengthContext,
 ): number[] | undefined {
   const display = (style.get('display') ?? '').toLowerCase();
   if (display !== 'grid' && display !== 'inline-grid') return undefined;
@@ -232,7 +262,7 @@ function computeGridTrackWidths(
     // a container width for resolving fr weights).
     return undefined;
   }
-  const colGap = readColumnGap(style);
+  const colGap = readColumnGap(style, ctx);
   const totalGap = Math.max(0, (tracks.length - 1) * colGap);
   let fixedTotal = 0;
   let frTotal = 0;
@@ -272,22 +302,23 @@ function applyGridCellSize(
 function computeContentWidth(
   style: ComputedStyle,
   parentContentWidth: number | undefined,
+  ctx: LengthContext,
 ): number | undefined {
-  const cssWidth = parsePx(style.get('width'));
-  const maxWidth = parsePx(style.get('max-width'));
+  const cssWidth = parsePx(style.get('width'), ctx);
+  const maxWidth = parsePx(style.get('max-width'), ctx);
   let myWidth = cssWidth ?? parentContentWidth;
   if (myWidth == null) return undefined;
   if (cssWidth == null) {
-    const marginL = readEdgePx(style, 'margin', 'left');
-    const marginR = readEdgePx(style, 'margin', 'right');
+    const marginL = readEdgePx(style, 'margin', 'left', ctx);
+    const marginR = readEdgePx(style, 'margin', 'right', ctx);
     myWidth = Math.max(0, myWidth - marginL - marginR);
   }
   // Honour max-width so children of a `.wrap { max-width: 1280 }` see the
   // clamped 1280 available, not the 1440 viewport. Otherwise grid track
   // sizing comes out too wide and cells overflow their parent.
   if (maxWidth != null && myWidth > maxWidth) myWidth = maxWidth;
-  const padL = readEdgePx(style, 'padding', 'left');
-  const padR = readEdgePx(style, 'padding', 'right');
+  const padL = readEdgePx(style, 'padding', 'left', ctx);
+  const padR = readEdgePx(style, 'padding', 'right', ctx);
   return Math.max(0, myWidth - padL - padR);
 }
 
@@ -301,16 +332,17 @@ function readEdgePx(
   style: ComputedStyle,
   prop: 'padding' | 'margin',
   edge: 'top' | 'right' | 'bottom' | 'left',
+  ctx: LengthContext,
 ): number {
-  const longhand = parsePx(style.get(`${prop}-${edge}`));
+  const longhand = parsePx(style.get(`${prop}-${edge}`), ctx);
   if (longhand != null) return longhand;
   const shorthand = style.get(prop);
   if (!shorthand) return 0;
   const parts = shorthand.trim().split(/\s+/);
-  const a = parsePx(parts[0]);
-  const b = parts[1] !== undefined ? parsePx(parts[1]) : a;
-  const c = parts[2] !== undefined ? parsePx(parts[2]) : a;
-  const d = parts[3] !== undefined ? parsePx(parts[3]) : b;
+  const a = parsePx(parts[0], ctx);
+  const b = parts[1] !== undefined ? parsePx(parts[1], ctx) : a;
+  const c = parts[2] !== undefined ? parsePx(parts[2], ctx) : a;
+  const d = parts[3] !== undefined ? parsePx(parts[3], ctx) : b;
   const top = a ?? 0;
   const right = b ?? 0;
   const bottom = c ?? 0;
@@ -347,14 +379,14 @@ function hasAutoHorizontalMargin(style: ComputedStyle): boolean {
   return false;
 }
 
-function readColumnGap(style: ComputedStyle): number {
-  const colGap = parsePx(style.get('column-gap'));
+function readColumnGap(style: ComputedStyle, ctx: LengthContext): number {
+  const colGap = parsePx(style.get('column-gap'), ctx);
   if (colGap != null) return colGap;
   const gap = style.get('gap');
   if (!gap) return 0;
   // `gap: <row> <column>`; column defaults to row when omitted.
   const parts = gap.trim().split(/\s+/);
-  const second = parts[1] !== undefined ? parsePx(parts[1]) : parsePx(parts[0]);
+  const second = parts[1] !== undefined ? parsePx(parts[1], ctx) : parsePx(parts[0], ctx);
   return second ?? 0;
 }
 
@@ -362,7 +394,7 @@ function readColumnGap(style: ComputedStyle): number {
 // CSS → Yoga style mapping
 // ---------------------------------------------------------------------------
 
-function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
+function applyYogaStyle(node: YogaNode, style: ComputedStyle, ctx: LengthContext): void {
   // Display ----------------------------------------------------------------
   const display = (style.get('display') ?? 'block').toLowerCase();
   if (display === 'none') {
@@ -385,45 +417,47 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
   }
 
   // top / right / bottom / left
-  applyEdgeLength(style.get('top'), (v) => node.setPosition(Edge.Top, v));
-  applyEdgeLength(style.get('right'), (v) => node.setPosition(Edge.Right, v));
-  applyEdgeLength(style.get('bottom'), (v) => node.setPosition(Edge.Bottom, v));
-  applyEdgeLength(style.get('left'), (v) => node.setPosition(Edge.Left, v));
+  applyEdgeLength(style.get('top'), ctx, (v) => node.setPosition(Edge.Top, v));
+  applyEdgeLength(style.get('right'), ctx, (v) => node.setPosition(Edge.Right, v));
+  applyEdgeLength(style.get('bottom'), ctx, (v) => node.setPosition(Edge.Bottom, v));
+  applyEdgeLength(style.get('left'), ctx, (v) => node.setPosition(Edge.Left, v));
 
   // Dimensions -------------------------------------------------------------
-  applyDimension(style.get('width'), (v) => node.setWidth(v));
-  applyDimension(style.get('height'), (v) => node.setHeight(v));
+  applyDimension(style.get('width'), ctx, (v) => node.setWidth(v));
+  applyDimension(style.get('height'), ctx, (v) => node.setHeight(v));
   const aspectRatio = parseAspectRatio(style.get('aspect-ratio'));
   if (aspectRatio != null) node.setAspectRatio(aspectRatio);
   // min/max accept number or % only, not 'auto'.
-  applyEdgeLength(style.get('min-width'), (v) => node.setMinWidth(v));
-  applyEdgeLength(style.get('min-height'), (v) => node.setMinHeight(v));
-  applyEdgeLength(style.get('max-width'), (v) => node.setMaxWidth(v));
-  applyEdgeLength(style.get('max-height'), (v) => node.setMaxHeight(v));
+  applyEdgeLength(style.get('min-width'), ctx, (v) => node.setMinWidth(v));
+  applyEdgeLength(style.get('min-height'), ctx, (v) => node.setMinHeight(v));
+  applyEdgeLength(style.get('max-width'), ctx, (v) => node.setMaxWidth(v));
+  applyEdgeLength(style.get('max-height'), ctx, (v) => node.setMaxHeight(v));
 
   // Padding (longhands + 1–4 value shorthand) ------------------------------
-  applyEdgeLength(style.get('padding-top'), (v) => node.setPadding(Edge.Top, v));
-  applyEdgeLength(style.get('padding-right'), (v) => node.setPadding(Edge.Right, v));
-  applyEdgeLength(style.get('padding-bottom'), (v) => node.setPadding(Edge.Bottom, v));
-  applyEdgeLength(style.get('padding-left'), (v) => node.setPadding(Edge.Left, v));
-  applyShorthand(style.get('padding'), (edge, v) => node.setPadding(edge, v));
+  applyEdgeLength(style.get('padding-top'), ctx, (v) => node.setPadding(Edge.Top, v));
+  applyEdgeLength(style.get('padding-right'), ctx, (v) => node.setPadding(Edge.Right, v));
+  applyEdgeLength(style.get('padding-bottom'), ctx, (v) => node.setPadding(Edge.Bottom, v));
+  applyEdgeLength(style.get('padding-left'), ctx, (v) => node.setPadding(Edge.Left, v));
+  applyShorthand(style.get('padding'), ctx, (edge, v) => node.setPadding(edge, v));
 
   // Margin (auto allowed — `margin: 0 auto` centers a max-width child) ------
-  applyMarginEdge(style.get('margin-top'), node, Edge.Top);
-  applyMarginEdge(style.get('margin-right'), node, Edge.Right);
-  applyMarginEdge(style.get('margin-bottom'), node, Edge.Bottom);
-  applyMarginEdge(style.get('margin-left'), node, Edge.Left);
-  applyMarginShorthand(style.get('margin'), node);
+  applyMarginEdge(style.get('margin-top'), ctx, node, Edge.Top);
+  applyMarginEdge(style.get('margin-right'), ctx, node, Edge.Right);
+  applyMarginEdge(style.get('margin-bottom'), ctx, node, Edge.Bottom);
+  applyMarginEdge(style.get('margin-left'), ctx, node, Edge.Left);
+  applyMarginShorthand(style.get('margin'), ctx, node);
 
   // Border (geometry contribution only — paint comes from the cascade) ----
-  applyEdgeLength(style.get('border-top-width'), (v) => node.setBorder(Edge.Top, lengthOrZero(v)));
-  applyEdgeLength(style.get('border-right-width'), (v) =>
+  applyEdgeLength(style.get('border-top-width'), ctx, (v) =>
+    node.setBorder(Edge.Top, lengthOrZero(v)),
+  );
+  applyEdgeLength(style.get('border-right-width'), ctx, (v) =>
     node.setBorder(Edge.Right, lengthOrZero(v)),
   );
-  applyEdgeLength(style.get('border-bottom-width'), (v) =>
+  applyEdgeLength(style.get('border-bottom-width'), ctx, (v) =>
     node.setBorder(Edge.Bottom, lengthOrZero(v)),
   );
-  applyEdgeLength(style.get('border-left-width'), (v) =>
+  applyEdgeLength(style.get('border-left-width'), ctx, (v) =>
     node.setBorder(Edge.Left, lengthOrZero(v)),
   );
 
@@ -442,9 +476,9 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
     const align = style.get('align-items');
     if (align) node.setAlignItems(toAlign(align));
 
-    applyGapShorthand(style.get('gap'), node);
-    applyEdgeLength(style.get('row-gap'), (v) => node.setGap(Gutter.Row, v));
-    applyEdgeLength(style.get('column-gap'), (v) => node.setGap(Gutter.Column, v));
+    applyGapShorthand(style.get('gap'), ctx, node);
+    applyEdgeLength(style.get('row-gap'), ctx, (v) => node.setGap(Gutter.Row, v));
+    applyEdgeLength(style.get('column-gap'), ctx, (v) => node.setGap(Gutter.Column, v));
   } else if (isFlex) {
     const dir = (style.get('flex-direction') ?? 'row').toLowerCase();
     node.setFlexDirection(toFlexDirection(dir));
@@ -459,9 +493,9 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
     if (align) node.setAlignItems(toAlign(align));
 
     // gap shorthand (1 or 2 values) + per-axis longhands
-    applyGapShorthand(style.get('gap'), node);
-    applyEdgeLength(style.get('row-gap'), (v) => node.setGap(Gutter.Row, v));
-    applyEdgeLength(style.get('column-gap'), (v) => node.setGap(Gutter.Column, v));
+    applyGapShorthand(style.get('gap'), ctx, node);
+    applyEdgeLength(style.get('row-gap'), ctx, (v) => node.setGap(Gutter.Row, v));
+    applyEdgeLength(style.get('column-gap'), ctx, (v) => node.setGap(Gutter.Column, v));
   } else {
     node.setFlexDirection(FlexDirection.Column);
   }
@@ -479,7 +513,7 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
   }
   const flexBasis = style.get('flex-basis');
   if (flexBasis != null) {
-    const yv = toYogaLength(flexBasis);
+    const yv = toYogaLength(flexBasis, ctx);
     if (yv != null) node.setFlexBasis(yv);
   }
   const alignSelf = style.get('align-self');
@@ -492,7 +526,7 @@ function applyYogaStyle(node: YogaNode, style: ComputedStyle): void {
 
 type YogaLength = number | `${number}%` | 'auto' | undefined;
 
-function toYogaLength(value: string | undefined): YogaLength {
+function toYogaLength(value: string | undefined, ctx: LengthContext): YogaLength {
   if (value == null) return undefined;
   const v = value.trim().toLowerCase();
   if (!v) return undefined;
@@ -501,21 +535,27 @@ function toYogaLength(value: string | undefined): YogaLength {
     const n = Number(v.slice(0, -1));
     return Number.isFinite(n) ? (`${n}%` as `${number}%`) : undefined;
   }
-  if (v === '0') return 0;
-  // Strip a px suffix or accept a bare number.
-  const match = /^(-?\d+(?:\.\d+)?)(px)?$/i.exec(v);
-  if (!match) return undefined;
-  return Number(match[1]);
+  // Delegate to parsePx for px / rem / vw / vh / bare-0 handling.
+  const n = parsePx(value, ctx);
+  return n != null ? n : undefined;
 }
 
-function applyDimension(value: string | undefined, set: (v: YogaLength) => void): void {
-  const v = toYogaLength(value);
+function applyDimension(
+  value: string | undefined,
+  ctx: LengthContext,
+  set: (v: YogaLength) => void,
+): void {
+  const v = toYogaLength(value, ctx);
   if (v == null) return;
   set(v);
 }
 
-function applyEdgeLength(value: string | undefined, set: (v: number | `${number}%`) => void): void {
-  const v = toYogaLength(value);
+function applyEdgeLength(
+  value: string | undefined,
+  ctx: LengthContext,
+  set: (v: number | `${number}%`) => void,
+): void {
+  const v = toYogaLength(value, ctx);
   if (v == null || v === 'auto') return;
   set(v);
 }
@@ -525,8 +565,13 @@ function applyEdgeLength(value: string | undefined, set: (v: number | `${number}
  * auto margins on cross-axis centre the child, enabling `max-width +
  * margin: 0 auto` CSS centring through the default block path).
  */
-function applyMarginEdge(value: string | undefined, node: YogaNode, edge: Edge): void {
-  const v = toYogaLength(value);
+function applyMarginEdge(
+  value: string | undefined,
+  ctx: LengthContext,
+  node: YogaNode,
+  edge: Edge,
+): void {
+  const v = toYogaLength(value, ctx);
   if (v == null) return;
   if (v === 'auto') {
     node.setMarginAuto(edge);
@@ -535,38 +580,42 @@ function applyMarginEdge(value: string | undefined, node: YogaNode, edge: Edge):
   node.setMargin(edge, v);
 }
 
-function applyMarginShorthand(value: string | undefined, node: YogaNode): void {
+function applyMarginShorthand(value: string | undefined, ctx: LengthContext, node: YogaNode): void {
   if (!value) return;
   const parts = value.trim().split(/\s+/);
   const a = parts[0];
   const b = parts[1] ?? a;
   const c = parts[2] ?? a;
   const d = parts[3] ?? b;
-  applyMarginEdge(a, node, Edge.Top);
-  applyMarginEdge(b, node, Edge.Right);
-  applyMarginEdge(c, node, Edge.Bottom);
-  applyMarginEdge(d, node, Edge.Left);
+  applyMarginEdge(a, ctx, node, Edge.Top);
+  applyMarginEdge(b, ctx, node, Edge.Right);
+  applyMarginEdge(c, ctx, node, Edge.Bottom);
+  applyMarginEdge(d, ctx, node, Edge.Left);
 }
 
 /**
  * `gap` shorthand accepts 1 or 2 values: `gap: <row-gap> [<column-gap>]`.
  * Single-value shorthand goes to both axes; two-value splits row vs column.
  */
-function applyGapShorthand(value: string | undefined, node: YogaNode): void {
+function applyGapShorthand(value: string | undefined, ctx: LengthContext, node: YogaNode): void {
   if (!value) return;
   const parts = value.trim().split(/\s+/);
-  const row = toYogaLength(parts[0]);
-  const col = parts[1] !== undefined ? toYogaLength(parts[1]) : row;
+  const row = toYogaLength(parts[0], ctx);
+  const col = parts[1] !== undefined ? toYogaLength(parts[1], ctx) : row;
   if (row != null && row !== 'auto') node.setGap(Gutter.Row, row);
   if (col != null && col !== 'auto') node.setGap(Gutter.Column, col);
 }
 
 function applyShorthand(
   value: string | undefined,
+  ctx: LengthContext,
   set: (edge: Edge, v: number | `${number}%`) => void,
 ): void {
   if (!value) return;
-  const parts = value.trim().split(/\s+/).map(toYogaLength);
+  const parts = value
+    .trim()
+    .split(/\s+/)
+    .map((p) => toYogaLength(p, ctx));
   const edges = expandShorthand(parts);
   if (!edges) return;
   set(Edge.Top, edges.top);

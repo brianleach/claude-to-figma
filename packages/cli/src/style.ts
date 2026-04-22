@@ -22,17 +22,54 @@ export function parseInlineStyle(value: string | undefined): InlineStyle {
 }
 
 // ---------------------------------------------------------------------------
-// Length parsing — px / unitless number → number; everything else → undefined.
-// M3 will add em/rem/% via the cascade engine.
+// Length parsing — px / unitless number / rem / vw / vh → absolute pixels.
+// em and % are still unsupported (they need element-local context that the
+// call sites don't thread through yet).
 // ---------------------------------------------------------------------------
 
-export function parsePx(value: string | undefined): number | undefined {
+/**
+ * Context for length parsing. All fields optional; when a value uses a
+ * unit that needs a missing field (e.g. `1rem` without `rootFontSize`),
+ * the parse returns `undefined` and the caller drops the property
+ * silently — same as today's fall-through for unsupported units.
+ */
+export interface LengthContext {
+  /** Absolute px value of `:root` font-size. Defaults to 16 in `parsePx`. */
+  rootFontSize?: number;
+  /** Viewport width in px. Required for `vw` units. */
+  viewportWidth?: number;
+  /** Viewport height in px. Required for `vh` units. */
+  viewportHeight?: number;
+}
+
+/**
+ * Default rem base — matches the CSS spec's initial `font-size: medium`
+ * which every browser renders at 16px unless `html { font-size }`
+ * overrides it. Callers with access to the cascade root's computed
+ * font-size should pass `ctx.rootFontSize` explicitly.
+ */
+const DEFAULT_ROOT_FONT_SIZE = 16;
+
+export function parsePx(value: string | undefined, ctx: LengthContext = {}): number | undefined {
   if (!value) return undefined;
   const trimmed = value.trim();
   if (trimmed === '0') return 0;
-  const match = /^(-?\d+(?:\.\d+)?)(px)?$/i.exec(trimmed);
+  const match = /^(-?\d+(?:\.\d+)?)(px|rem|vw|vh)?$/i.exec(trimmed);
   if (!match) return undefined;
-  return Number(match[1]);
+  const n = Number(match[1]);
+  const unit = (match[2] ?? 'px').toLowerCase();
+  switch (unit) {
+    case 'px':
+      return n;
+    case 'rem':
+      return n * (ctx.rootFontSize ?? DEFAULT_ROOT_FONT_SIZE);
+    case 'vw':
+      return ctx.viewportWidth != null ? (n * ctx.viewportWidth) / 100 : undefined;
+    case 'vh':
+      return ctx.viewportHeight != null ? (n * ctx.viewportHeight) / 100 : undefined;
+    default:
+      return undefined;
+  }
 }
 
 // ---------------------------------------------------------------------------

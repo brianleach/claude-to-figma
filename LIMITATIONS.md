@@ -34,12 +34,16 @@ removed unless an explicit fix lands.
    stylesheets get their first matching ruleset applied as if no media
    query existed.
 
-4. **Limited CSS unit support.** `px` and `%` work everywhere. `em` is
-   supported for `letter-spacing` (converted to Figma's PERCENT, which
-   is also font-size-relative). `rem`, `vw`, `vh`, `ch`, `calc(...)`,
-   and unitless lengths (except `0`) are still treated as undefined
-   and the property is skipped. Real exports that rely on those will
-   lose those declarations silently.
+4. **CSS units: `px`, `%`, `rem`, `vw`, `vh` work.** `rem` resolves
+   against the `:root` / `html` element's computed `font-size` (default
+   16, honoured explicit `html { font-size }` overrides). `vw`/`vh`
+   resolve against the convert-time viewport — 1440×900 unless the CLI
+   was invoked with `--viewport WxH`. `em` is still only supported for
+   `letter-spacing` (converted to Figma's PERCENT, which is also
+   font-size-relative); `em` in other properties needs element-local
+   context the parser doesn't thread yet. `ch`, `calc(...)`, `vmin`,
+   `vmax`, container-query `cqw/cqh/cqi/cqb`, and unitless lengths
+   (except `0`) still resolve to undefined and drop silently.
 
 ## Layout
 

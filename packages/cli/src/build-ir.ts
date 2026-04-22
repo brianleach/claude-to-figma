@@ -43,6 +43,7 @@ import {
   mapFlexContainer,
 } from './layout/index.js';
 import {
+  type LengthContext,
   parseColor,
   parseFontFamily,
   parseLetterSpacing,
@@ -88,6 +89,8 @@ interface BuildContext {
   layout: LayoutMap;
   /** The body element — its IR frame is forced to (0,0) so the IR roots cleanly. */
   bodyEl: P5Element;
+  /** Shared context for rem / vw / vh resolution inside this conversion. */
+  lengthCtx: LengthContext;
 }
 
 export interface ConvertResult {
@@ -127,6 +130,11 @@ export interface ConvertOptions {
    * — typically the `--viewport` the conversion ran at.
    */
   viewportWidth?: number;
+  /**
+   * Root container height in px. Used to resolve `vh` lengths. Defaults
+   * downstream in `computeLayout` to 900 when omitted.
+   */
+  viewportHeight?: number;
 }
 
 export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertResult {
@@ -145,7 +153,15 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
   const layout = computeLayout(cascadeRoot, cascade.styles, {
     textMeasurements: opts.textMeasurements,
     viewportWidth: opts.viewportWidth,
+    viewportHeight: opts.viewportHeight,
   });
+
+  const rootStyle = cascade.styles.get(cascadeRoot);
+  const lengthCtx: LengthContext = {
+    rootFontSize: rootStyle ? (parsePx(rootStyle.get('font-size')) ?? 16) : 16,
+    viewportWidth: opts.viewportWidth ?? 1440,
+    viewportHeight: opts.viewportHeight ?? 900,
+  };
 
   const ctx: BuildContext = {
     warnings: [...collected.warnings],
@@ -155,6 +171,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
     styles: cascade.styles,
     layout,
     bodyEl: body,
+    lengthCtx,
   };
 
   const root = buildFrameFromElement(body, ctx, 'root');
@@ -230,8 +247,8 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   const style = styleOf(ctx, el);
   const geometry = geometryOf(ctx, el);
   const fills = readBackgroundFills(style);
-  const cornerRadius = parsePx(style.get('border-radius'));
-  const layout = mapFlexContainer(style);
+  const cornerRadius = parsePx(style.get('border-radius'), ctx.lengthCtx);
+  const layout = mapFlexContainer(style, ctx.lengthCtx);
 
   const children: IRNode[] = [];
   for (const child of el.childNodes) {
@@ -241,7 +258,7 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
     children.push(built);
   }
 
-  const stroke = readStroke(style);
+  const stroke = readStroke(style, ctx.lengthCtx);
   const effects = readEffects(style);
 
   const frame: FrameNode = {
@@ -287,7 +304,7 @@ function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
   if (!characters) return null;
 
   const style = styleOf(ctx, el);
-  const textStyle = resolveTextStyle(style);
+  const textStyle = resolveTextStyle(style, ctx.lengthCtx);
   registerFont(ctx, textStyle.fontFamily, textStyle.fontStyle);
 
   const fillColor = parseColor(style.get('color'));
@@ -585,7 +602,7 @@ function buildChild(child: P5ChildNode, parent: P5Element, ctx: BuildContext): I
     // Bare text directly inside a frame: wrap in an anonymous TEXT node.
     // Inherits typography + color from the parent frame's computed style.
     const parentStyle = styleOf(ctx, parent);
-    const textStyle = resolveTextStyle(parentStyle);
+    const textStyle = resolveTextStyle(parentStyle, ctx.lengthCtx);
     registerFont(ctx, textStyle.fontFamily, textStyle.fontStyle);
     const fillColor = parseColor(parentStyle.get('color'));
     return {
@@ -814,7 +831,7 @@ function parseOpacity(style: ComputedStyle): number {
   return Math.max(0, Math.min(1, n));
 }
 
-function resolveTextStyle(style: ComputedStyle): TextStyle {
+function resolveTextStyle(style: ComputedStyle, ctx: LengthContext = {}): TextStyle {
   const family = parseFontFamily(style.get('font-family')) ?? DEFAULT_TEXT_STYLE.fontFamily;
   const italic = (style.get('font-style')?.toLowerCase() ?? '').includes('italic');
   const figmaStyle = style.get('font-weight')
@@ -822,7 +839,7 @@ function resolveTextStyle(style: ComputedStyle): TextStyle {
     : italic
       ? weightToFigmaStyle('400', true)
       : DEFAULT_TEXT_STYLE.fontStyle;
-  const size = parsePx(style.get('font-size')) ?? DEFAULT_TEXT_STYLE.fontSize;
+  const size = parsePx(style.get('font-size'), ctx) ?? DEFAULT_TEXT_STYLE.fontSize;
   const lineHeight = parseLineHeight(style.get('line-height')) ?? DEFAULT_TEXT_STYLE.lineHeight;
   const letterSpacing =
     parseLetterSpacing(style.get('letter-spacing')) ?? DEFAULT_TEXT_STYLE.letterSpacing;

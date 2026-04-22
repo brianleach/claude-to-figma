@@ -244,6 +244,13 @@ export interface FrameNode {
   effectStyleId?: string;
   cornerRadius?: number;
   children: IRNode[];
+  /**
+   * Raw `<svg>...</svg>` markup — set on the wrapping FRAME of a
+   * multi-shape SVG. Same contract as `VectorNode.svgSource`: when
+   * present, the plugin uses `figma.createNodeFromSvg(...)` and
+   * disregards `children` / paint fields.
+   */
+  svgSource?: string;
 }
 
 export interface TextNode {
@@ -292,6 +299,11 @@ export interface VectorNode {
   fillStyleId?: string;
   strokes: Stroke[];
   strokeStyleId?: string;
+  /**
+   * Raw `<svg>...</svg>` markup. When set, the plugin imports this via
+   * `figma.createNodeFromSvg(...)` for pixel-perfect rendering.
+   */
+  svgSource?: string;
 }
 
 export interface InstanceNode {
@@ -335,6 +347,7 @@ export const FrameNodeSchema = z.object({
   effectStyleId: z.string().optional(),
   cornerRadius: z.number().min(0).optional(),
   children: z.array(IRNodeSchema).default([]),
+  svgSource: z.string().optional(),
 });
 
 export const TextNodeSchema = z.object({
@@ -364,6 +377,14 @@ export const VectorNodeSchema = z.object({
   fillStyleId: z.string().optional(),
   strokes: z.array(StrokeSchema).default([]),
   strokeStyleId: z.string().optional(),
+  /**
+   * Raw `<svg>...</svg>` markup. When set, the plugin imports this via
+   * `figma.createNodeFromSvg(...)` for pixel-perfect rendering (preserves
+   * viewBox, currentColor, stroke-linecap, per-shape attributes, etc.)
+   * and ignores `path` / `fills` / `strokes` on this node. Those fields
+   * stay populated as a fallback for consumers without an SVG parser.
+   */
+  svgSource: z.string().optional(),
 });
 
 export const InstanceNodeSchema = z.object({

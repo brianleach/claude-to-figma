@@ -228,6 +228,10 @@ async function buildFrame(
   node: Extract<IRNode, { type: 'FRAME' }>,
   ctx: BuildContext,
 ): Promise<FrameNode> {
+  if (node.svgSource) {
+    const imported = importSvg(node.svgSource, node.name, node.geometry);
+    if (imported) return imported;
+  }
   const frame = figma.createFrame();
   applyFrameProps(frame, node, ctx);
   for (const child of node.children) {
@@ -236,6 +240,36 @@ async function buildFrame(
     applyChildLayout(built, child);
   }
   return frame;
+}
+
+/**
+ * Import a raw `<svg>...</svg>` markup via Figma's native SVG parser.
+ * Returns `undefined` on failure so the caller can fall back to the
+ * path-based IR representation. Figma handles viewBox scaling,
+ * `currentColor`, stroke-linecap, per-shape attributes — everything
+ * the author wrote in the SVG survives the round-trip.
+ */
+function importSvg(
+  source: string,
+  name: string,
+  geometry: { x: number; y: number; width: number; height: number } | undefined,
+): FrameNode | undefined {
+  try {
+    const imported = figma.createNodeFromSvg(source);
+    imported.name = name || 'svg';
+    if (geometry) {
+      imported.x = geometry.x;
+      imported.y = geometry.y;
+      if (geometry.width > 0 && geometry.height > 0) {
+        imported.resize(geometry.width, geometry.height);
+      }
+    }
+    return imported;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    figma.notify(`Skipped SVG import on "${name}": ${msg}`);
+    return undefined;
+  }
 }
 
 function applyFrameProps(
@@ -368,7 +402,14 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
   return rect;
 }
 
-function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>, ctx: BuildContext): VectorNode {
+function buildVector(
+  node: Extract<IRNode, { type: 'VECTOR' }>,
+  ctx: BuildContext,
+): VectorNode | FrameNode {
+  if (node.svgSource) {
+    const imported = importSvg(node.svgSource, node.name, node.geometry);
+    if (imported) return imported;
+  }
   const v = figma.createVector();
   v.name = node.name || 'Vector';
   if (node.path) {

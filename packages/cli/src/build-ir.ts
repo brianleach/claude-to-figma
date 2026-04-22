@@ -25,7 +25,7 @@ import {
   type TextStyle,
   type VectorNode,
 } from '@claude-to-figma/ir';
-import { type DefaultTreeAdapterTypes, parse } from 'parse5';
+import { type DefaultTreeAdapterTypes, parse, serializeOuter } from 'parse5';
 import {
   type ComputedStyle,
   collectStylesheets,
@@ -384,13 +384,22 @@ function buildVector(el: P5Element, ctx: BuildContext): IRNode {
   };
   const opacity = parseOpacity(style);
 
+  // `fill="currentColor"` / `stroke="currentColor"` resolves to the
+  // inherited CSS `color` property on the <svg> element — that's how
+  // most icon sets colour themselves without hardcoding the palette.
+  const currentColor = style.get('color');
+  const resolveCurrent = (paint: string | undefined): string | undefined => {
+    if (!paint) return paint;
+    return paint.toLowerCase() === 'currentcolor' ? currentColor : paint;
+  };
+
   const buildShape = (
     shape: SvgShape,
     idx: number,
     childGeometry: VectorNode['geometry'],
   ): VectorNode => {
-    const effectiveFill = shape.fill ?? inherited.fill;
-    const effectiveStroke = shape.stroke ?? inherited.stroke;
+    const effectiveFill = resolveCurrent(shape.fill ?? inherited.fill);
+    const effectiveStroke = resolveCurrent(shape.stroke ?? inherited.stroke);
     const effectiveStrokeW = shape.strokeWidth ?? inherited.strokeWidth ?? 1;
 
     const fills: Paint[] = [];
@@ -424,6 +433,13 @@ function buildVector(el: P5Element, ctx: BuildContext): IRNode {
     };
   };
 
+  // Capture the raw `<svg>...</svg>` markup so the Figma plugin can import
+  // it via `createNodeFromSvg(...)` and get viewBox / stroke-linecap /
+  // per-shape attributes handled natively, instead of our (lossy) path
+  // rewrite. `currentColor` is resolved here (not at Figma-import time)
+  // because `createNodeFromSvg` has no CSS context to inherit from.
+  const svgSource = safeSerializeSvg(el, currentColor);
+
   if (shapes.length === 1) {
     const only = shapes[0];
     if (!only) {
@@ -433,13 +449,14 @@ function buildVector(el: P5Element, ctx: BuildContext): IRNode {
     // Preserve the old name when there's only one shape — the outer <svg>'s
     // id / class is what users will recognise in the layer panel.
     v.name = nameFor(el);
+    if (svgSource) v.svgSource = svgSource;
     return v;
   }
 
   const children: IRNode[] = shapes.map((shape, i) =>
     buildShape(shape, i, { x: 0, y: 0, width: geometry.width, height: geometry.height }),
   );
-  return {
+  const wrapper: FrameNode = {
     type: 'FRAME',
     id: nextId(ctx, 'svg'),
     name: nameFor(el),
@@ -451,6 +468,30 @@ function buildVector(el: P5Element, ctx: BuildContext): IRNode {
     effects: [],
     children,
   };
+  if (svgSource) wrapper.svgSource = svgSource;
+  return wrapper;
+}
+
+/**
+ * Serialize an `<svg>` element back to its outer markup for the plugin
+ * to import via `figma.createNodeFromSvg(...)`. Returns `undefined` if
+ * parse5's serializer throws — the path-based IR fallback stays intact.
+ *
+ * `currentColor` references in the markup are rewritten to the resolved
+ * CSS `color` at this element. Figma's SVG parser has no CSS context to
+ * do that inheritance itself, so `currentColor` icons would otherwise
+ * render as black / transparent instead of the intended palette colour.
+ */
+function safeSerializeSvg(el: P5Element, resolvedColor: string | undefined): string | undefined {
+  try {
+    let out = serializeOuter(el);
+    if (resolvedColor) {
+      out = out.replace(/currentColor/gi, resolvedColor);
+    }
+    return out;
+  } catch {
+    return undefined;
+  }
 }
 
 /**

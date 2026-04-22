@@ -165,6 +165,101 @@ describe('multi-path SVG (gap #6)', () => {
   });
 });
 
+describe('SVG path tokenizer + arc lowering', () => {
+  function getPath(html: string, id = 'icon'): string {
+    const { document } = convertHtml(`<html><body>${html}</body></html>`, { name: id });
+    const wrapper = findNodeByName(document.root, id);
+    const vectors = collectVectors(wrapper);
+    return vectors[0]?.path ?? '';
+  }
+
+  it('splits sign-concatenated numbers (`0-2.53` → `0 -2.53`)', () => {
+    const path = getPath(
+      `<svg id="signs" width="10" height="10"><path d="M0 0l0-2.53l3.5 0"/></svg>`,
+      'signs',
+    );
+    expect(path).toContain('-2.53');
+    // No `A` since no arcs; also no glued tokens like `0-2.53`.
+    expect(path).not.toMatch(/\d-\d/);
+  });
+
+  it('splits chained decimal numbers (`.4.07.55` → `.4 .07 .55`)', () => {
+    // 4 numeric args → 2 implicit `l` lineto pairs. Figma's parser rejects
+    // glued decimals; the tokenizer must emit them as separate tokens.
+    const path = getPath(
+      `<svg id="decimals" width="10" height="10"><path d="M0 0l.4.07.55.08"/></svg>`,
+      'decimals',
+    );
+    // Each implicit chained pair gets its own `l` emitted (valid SVG), and
+    // every number ends up space-separated rather than glued.
+    expect(path).toMatch(/l \.4 \.07 l \.55 \.08/);
+  });
+
+  it('accepts numbers in exponent form (`1e-3`)', () => {
+    const path = getPath(
+      `<svg id="exp" width="10" height="10"><path d="M0 0 L1e1 1.5e-1"/></svg>`,
+      'exp',
+    );
+    // Tokenizer keeps exponent notation intact — `1e1` and `1.5e-1` are each
+    // one token, not split into `1`, `e1`, `1.5`, `e`, `-1`.
+    expect(path).toMatch(/L 1e1 1\.5e-1/);
+  });
+
+  it('lowers absolute `A` commands to cubic Béziers', () => {
+    // Quarter arc from (10,0) to (0,10) with rx=ry=10, sweep=1 (CW).
+    const path = getPath(
+      `<svg id="arc" width="20" height="20"><path d="M10 0 A10 10 0 0 1 0 10"/></svg>`,
+      'arc',
+    );
+    // No raw `A` survives; endpoint lands on (0,10) within float tolerance.
+    expect(path).not.toMatch(/ A /);
+    expect(path).toMatch(/^M 10 0 C /);
+    const match = path.match(/C [^C]+$/);
+    expect(match).toBeTruthy();
+    const tail = match?.[0]?.split(/\s+/) ?? [];
+    const endX = Number(tail[tail.length - 2]);
+    const endY = Number(tail[tail.length - 1]);
+    expect(endX).toBeCloseTo(0, 5);
+    expect(endY).toBeCloseTo(10, 5);
+  });
+
+  it('lowers relative `a` commands (endpoint relative to current point)', () => {
+    const path = getPath(
+      `<svg id="rel-arc" width="20" height="20"><path d="M10 0 a10 10 0 0 1 -10 10"/></svg>`,
+      'rel-arc',
+    );
+    expect(path).not.toMatch(/ a /);
+    const match = path.match(/C [^C]+$/);
+    expect(match).toBeTruthy();
+    const tail = match?.[0]?.split(/\s+/) ?? [];
+    const endX = Number(tail[tail.length - 2]);
+    const endY = Number(tail[tail.length - 1]);
+    expect(endX).toBeCloseTo(0, 5);
+    expect(endY).toBeCloseTo(10, 5);
+  });
+
+  it('splits a >π/2 arc into multiple cubic segments', () => {
+    // Half-circle: sweep ≈ π, should produce ≥ 2 cubic segments.
+    const path = getPath(
+      `<svg id="half" width="20" height="20"><path d="M10 0 A10 10 0 0 1 -10 0"/></svg>`,
+      'half',
+    );
+    const cubicCount = (path.match(/C /g) ?? []).length;
+    expect(cubicCount).toBeGreaterThanOrEqual(2);
+  });
+
+  it('degenerates a zero-radius arc to a straight line', () => {
+    const path = getPath(
+      `<svg id="zero-r" width="20" height="20"><path d="M0 0 A0 0 0 0 1 10 10"/></svg>`,
+      'zero-r',
+    );
+    expect(path).not.toMatch(/ A /);
+    // Zero-radius collapses to one cubic whose control points coincide with
+    // the endpoints — functionally a straight line.
+    expect(path).toMatch(/^M 0 0 C 0 0 10 10 10 10/);
+  });
+});
+
 describe('aspect-ratio parsing (gap #7)', () => {
   it('parses `<num> / <num>`', () => {
     expect(parseAspectRatio('1 / 1')).toBeCloseTo(1);

@@ -466,16 +466,29 @@ function buildVector(el: P5Element, ctx: BuildContext): IRNode {
  */
 function normalizeSvgPath(d: string): string {
   if (!d) return '';
-  const spaced = d
-    .replace(/([A-Za-z])/g, ' $1 ')
-    .replace(/,/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  return expandHVCommands(spaced);
+  const tokens = tokenizeSvgPath(d);
+  return expandCommands(tokens);
 }
 
-function expandHVCommands(d: string): string {
-  const tokens = d.split(/\s+/).filter(Boolean);
+/**
+ * Tokenize an SVG path `d` attribute into command letters and numeric args.
+ * Handles the tricky cases the previous regex-split didn't:
+ *   - Concatenated numbers with sign transitions (`0-2.53` → `0`, `-2.53`).
+ *   - Chained decimals (`.4.07.55` → `.4`, `.07`, `.55`).
+ *   - Exponents (`1e-3`, `1.5e+2`).
+ */
+function tokenizeSvgPath(d: string): string[] {
+  const tokens: string[] = [];
+  const re = /([MmLlHhVvCcSsQqTtAaZz])|([-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?)/g;
+  let m: RegExpExecArray | null = re.exec(d);
+  while (m !== null) {
+    tokens.push((m[1] ?? m[2]) as string);
+    m = re.exec(d);
+  }
+  return tokens;
+}
+
+function expandCommands(tokens: string[]): string {
   const out: string[] = [];
   let cmd: string | null = null;
   let cx = 0;
@@ -491,14 +504,17 @@ function expandHVCommands(d: string): string {
     }
     if (/^[A-Za-z]$/.test(tok)) {
       cmd = tok;
-      out.push(tok);
-      i += 1;
       // Z / z has no args — close path, reset current point to subpath start.
       if (cmd === 'Z' || cmd === 'z') {
+        out.push(tok);
         cx = startX;
         cy = startY;
         cmd = null;
+        i += 1;
+        continue;
       }
+      // Defer emitting the command letter — H/V and A rewrite it.
+      i += 1;
       continue;
     }
     // Numeric token — consume as argument group based on current command.
@@ -517,17 +533,13 @@ function expandHVCommands(d: string): string {
     if (args.length < groupSize) break;
     i += groupSize;
 
-    const rel = cmd === cmd.toLowerCase();
+    const rel: boolean = cmd === cmd.toLowerCase();
     switch (cmd) {
       case 'H':
       case 'h': {
         const x = Number(args[0]);
         const nx = rel ? cx + x : x;
-        // Replace the emitted `H` / `h` with `L` / `l`, then append the two
-        // args. Rewrite the last-emitted command letter.
-        out[out.length - 1] = rel ? 'l' : 'L';
-        out.push(String(nx - (rel ? cx : 0)));
-        out.push(rel ? '0' : String(cy));
+        out.push(rel ? 'l' : 'L', String(nx - (rel ? cx : 0)), rel ? '0' : String(cy));
         cx = nx;
         break;
       }
@@ -535,17 +547,41 @@ function expandHVCommands(d: string): string {
       case 'v': {
         const y = Number(args[0]);
         const ny = rel ? cy + y : y;
-        out[out.length - 1] = rel ? 'l' : 'L';
-        out.push(rel ? '0' : String(cx));
-        out.push(String(ny - (rel ? cy : 0)));
+        out.push(rel ? 'l' : 'L', rel ? '0' : String(cx), String(ny - (rel ? cy : 0)));
+        cy = ny;
+        break;
+      }
+      case 'A':
+      case 'a': {
+        const rx = Number(args[0]);
+        const ry = Number(args[1]);
+        const phi = Number(args[2]);
+        const largeArc = Number(args[3]) ? 1 : 0;
+        const sweep = Number(args[4]) ? 1 : 0;
+        const ex = Number(args[5]);
+        const ey = Number(args[6]);
+        const nx = rel ? cx + ex : ex;
+        const ny = rel ? cy + ey : ey;
+        // Figma's vector parser rejects `A` — lower each arc to one or more
+        // absolute cubic Béziers.
+        const cubics = arcToCubics(cx, cy, rx, ry, phi, largeArc, sweep, nx, ny);
+        for (const c of cubics) {
+          out.push(
+            'C',
+            String(c.c1x),
+            String(c.c1y),
+            String(c.c2x),
+            String(c.c2y),
+            String(c.x),
+            String(c.y),
+          );
+        }
+        cx = nx;
         cy = ny;
         break;
       }
       default: {
-        // All other commands pass through unchanged; we just need to update
-        // the current point using the last two numeric args (the endpoint
-        // for M/L/T/A and for curves' terminal coord).
-        out.push(...args);
+        out.push(cmd, ...args);
         if (args.length >= 2) {
           const xi = Number(args[args.length - 2]);
           const yi = Number(args[args.length - 1]);
@@ -565,6 +601,124 @@ function expandHVCommands(d: string): string {
     }
   }
   return out.join(' ');
+}
+
+/**
+ * SVG arc → cubic Bézier approximation.
+ *
+ * Implements the endpoint-to-center parameterization from
+ * https://www.w3.org/TR/SVG/implnote.html#ArcImplementationNotes, then splits
+ * the arc into ≤ π/2 sweep segments and approximates each with a standard
+ * four-control-point cubic. The returned cubics are in absolute coordinates.
+ */
+function arcToCubics(
+  x1: number,
+  y1: number,
+  rxIn: number,
+  ryIn: number,
+  phiDeg: number,
+  largeArc: number,
+  sweep: number,
+  x2: number,
+  y2: number,
+): Array<{ c1x: number; c1y: number; c2x: number; c2y: number; x: number; y: number }> {
+  if (x1 === x2 && y1 === y2) return [];
+  // Zero-radius arc degenerates to a line.
+  if (rxIn === 0 || ryIn === 0) {
+    return [{ c1x: x1, c1y: y1, c2x: x2, c2y: y2, x: x2, y: y2 }];
+  }
+  let rx = Math.abs(rxIn);
+  let ry = Math.abs(ryIn);
+  const phi = (phiDeg * Math.PI) / 180;
+  const cosPhi = Math.cos(phi);
+  const sinPhi = Math.sin(phi);
+
+  const dx = (x1 - x2) / 2;
+  const dy = (y1 - y2) / 2;
+  const x1p = cosPhi * dx + sinPhi * dy;
+  const y1p = -sinPhi * dx + cosPhi * dy;
+
+  const lambda = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry);
+  if (lambda > 1) {
+    const s = Math.sqrt(lambda);
+    rx *= s;
+    ry *= s;
+  }
+
+  const rx2 = rx * rx;
+  const ry2 = ry * ry;
+  const x1p2 = x1p * x1p;
+  const y1p2 = y1p * y1p;
+  const denom = rx2 * y1p2 + ry2 * x1p2;
+  let factor = denom === 0 ? 0 : (rx2 * ry2 - rx2 * y1p2 - ry2 * x1p2) / denom;
+  if (factor < 0) factor = 0;
+  factor = Math.sqrt(factor) * (largeArc === sweep ? -1 : 1);
+  const cxp = factor * ((rx * y1p) / ry);
+  const cyp = factor * -((ry * x1p) / rx);
+
+  const cx = cosPhi * cxp - sinPhi * cyp + (x1 + x2) / 2;
+  const cy = sinPhi * cxp + cosPhi * cyp + (y1 + y2) / 2;
+
+  const vAngle = (ux: number, uy: number, vx: number, vy: number): number => {
+    const n = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
+    let cosA = (ux * vx + uy * vy) / n;
+    if (cosA < -1) cosA = -1;
+    if (cosA > 1) cosA = 1;
+    const sign = ux * vy - uy * vx < 0 ? -1 : 1;
+    return sign * Math.acos(cosA);
+  };
+
+  const theta1 = vAngle(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry);
+  let deltaTheta = vAngle((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry);
+  if (sweep === 0 && deltaTheta > 0) deltaTheta -= 2 * Math.PI;
+  if (sweep === 1 && deltaTheta < 0) deltaTheta += 2 * Math.PI;
+
+  const segments = Math.max(1, Math.ceil(Math.abs(deltaTheta) / (Math.PI / 2)));
+  const delta = deltaTheta / segments;
+  const t = (4 / 3) * Math.tan(delta / 4);
+
+  const result: Array<{
+    c1x: number;
+    c1y: number;
+    c2x: number;
+    c2y: number;
+    x: number;
+    y: number;
+  }> = [];
+  let theta = theta1;
+  for (let i = 0; i < segments; i += 1) {
+    const nextTheta = theta + delta;
+    const cos1 = Math.cos(theta);
+    const sin1 = Math.sin(theta);
+    const cos2 = Math.cos(nextTheta);
+    const sin2 = Math.sin(nextTheta);
+
+    const p1x = cos1;
+    const p1y = sin1;
+    const p2x = cos1 - t * sin1;
+    const p2y = sin1 + t * cos1;
+    const p3x = cos2 + t * sin2;
+    const p3y = sin2 - t * cos2;
+    const p4x = cos2;
+    const p4y = sin2;
+
+    const toWorld = (ux: number, uy: number): [number, number] => {
+      const sx = ux * rx;
+      const sy = uy * ry;
+      return [cosPhi * sx - sinPhi * sy + cx, sinPhi * sx + cosPhi * sy + cy];
+    };
+    // Skip p1 — it's the previous segment's endpoint (already emitted).
+    void p1x;
+    void p1y;
+    const [c1x, c1y] = toWorld(p2x, p2y);
+    const [c2x, c2y] = toWorld(p3x, p3y);
+    const [endX, endY] = toWorld(p4x, p4y);
+
+    result.push({ c1x, c1y, c2x, c2y, x: endX, y: endY });
+    theta = nextTheta;
+  }
+
+  return result;
 }
 
 function argCount(cmd: string): number {

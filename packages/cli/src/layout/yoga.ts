@@ -73,7 +73,24 @@ export function computeLayout(
     const style = styles.get(el) ?? new Map();
     applyYogaStyle(yoga, style);
 
-    if (isTextElement(el)) {
+    // `<svg width="14" height="14">` and `<img width="800" height="600">`
+    // carry intrinsic dimensions on the HTML element itself, not in CSS.
+    // Browsers fold these into flow sizing; yoga needs us to forward them
+    // when CSS hasn't already set the width/height. Without this, SVG
+    // icons land in the tree at 0×0 — no rendered geometry, no pixels.
+    const tagLower = el.tagName.toLowerCase();
+    if (tagLower === 'svg' || tagLower === 'img') {
+      if (!style.has('width')) {
+        const w = parsePx(attrValue(el, 'width'));
+        if (w != null) yoga.setWidth(w);
+      }
+      if (!style.has('height')) {
+        const h = parsePx(attrValue(el, 'height'));
+        if (h != null) yoga.setHeight(h);
+      }
+    }
+
+    if (isTextElement(el, style.get('display'))) {
       // TEXT nodes never have children — yoga measures them via the callback.
       yoga.setMeasureFunc(buildMeasureFn(el, style, measurements));
       return yoga;
@@ -639,4 +656,8 @@ function toAlign(v: string): Align {
 
 function isElement(node: { nodeName: string }): node is P5Element {
   return 'tagName' in node && node.nodeName !== '#text' && node.nodeName !== '#comment';
+}
+
+function attrValue(el: P5Element, name: string): string | undefined {
+  return el.attrs.find((a) => a.name === name)?.value;
 }

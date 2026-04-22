@@ -112,8 +112,8 @@
                     "geometry": {
                       "x": 2,
                       "y": 2,
-                      "width": 0,
-                      "height": 0
+                      "width": 14,
+                      "height": 14
                     },
                     "opacity": 1,
                     "visible": true,
@@ -232,7 +232,7 @@
             "id": "div-10",
             "name": "Nav Links",
             "geometry": {
-              "x": 460,
+              "x": 453,
               "y": 37,
               "width": 444,
               "height": 22
@@ -520,9 +520,9 @@
             "id": "a-13",
             "name": "Nav Cta",
             "geometry": {
-              "x": 1135,
+              "x": 1121,
               "y": 28,
-              "width": 81,
+              "width": 95,
               "height": 39
             },
             "opacity": 1,
@@ -565,9 +565,9 @@
                 "name": "svg",
                 "geometry": {
                   "x": 15,
-                  "y": 20,
-                  "width": 0,
-                  "height": 0
+                  "y": 13,
+                  "width": 14,
+                  "height": 14
                 },
                 "opacity": 1,
                 "visible": true,
@@ -662,7 +662,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-97",
+        "id": "section-98",
         "name": "Hero",
         "geometry": {
           "x": 0,
@@ -678,7 +678,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-96",
+            "id": "div-97",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -694,7 +694,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-95",
+                "id": "div-96",
                 "name": "Hero Grid",
                 "geometry": {
                   "x": 64,
@@ -710,13 +710,13 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-24",
+                    "id": "div-25",
                     "name": "div",
                     "geometry": {
                       "x": 0,
-                      "y": 0,
+                      "y": 15,
                       "width": 549,
-                      "height": 481
+                      "height": 451
                     },
                     "opacity": 1,
                     "visible": true,
@@ -888,13 +888,13 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-23",
+                        "id": "div-24",
                         "name": "Cta Row",
                         "geometry": {
                           "x": 0,
                           "y": 397,
                           "width": 549,
-                          "height": 84
+                          "height": 54
                         },
                         "opacity": 1,
                         "visible": true,
@@ -908,8 +908,8 @@
                             "name": "Btn",
                             "geometry": {
                               "x": 0,
-                              "y": 15,
-                              "width": 172,
+                              "y": 0,
+                              "width": 188,
                               "height": 54
                             },
                             "opacity": 1,
@@ -952,9 +952,9 @@
                                 "name": "svg",
                                 "geometry": {
                                   "x": 23,
-                                  "y": 27,
-                                  "width": 0,
-                                  "height": 0
+                                  "y": 19,
+                                  "width": 16,
+                                  "height": 16
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -1031,54 +1031,111 @@
                             "fillStyleId": "ink/primary"
                           },
                           {
-                            "type": "TEXT",
-                            "id": "text-22",
+                            "type": "FRAME",
+                            "id": "a-23",
                             "name": "Btn",
                             "geometry": {
-                              "x": 188,
+                              "x": 204,
                               "y": 0,
-                              "width": 198,
-                              "height": 84
+                              "width": 162,
+                              "height": 54
                             },
                             "opacity": 1,
                             "visible": true,
-                            "characters": "How it works →",
-                            "textStyle": {
-                              "fontFamily": "DM Sans",
-                              "fontStyle": "Medium",
-                              "fontSize": 15,
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 155
-                              },
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "textAlign": "LEFT",
-                              "textDecoration": "NONE",
-                              "textCase": "ORIGINAL"
-                            },
                             "fills": [
                               {
                                 "type": "SOLID",
                                 "color": {
-                                  "r": 0.10980392156862745,
-                                  "g": 0.10196078431372549,
-                                  "b": 0.08627450980392157,
-                                  "a": 1
+                                  "r": 0,
+                                  "g": 0,
+                                  "b": 0,
+                                  "a": 0
                                 },
                                 "opacity": 1,
                                 "visible": true
                               }
                             ],
+                            "strokes": [
+                              {
+                                "paint": {
+                                  "type": "SOLID",
+                                  "color": {
+                                    "r": 0.10980392156862745,
+                                    "g": 0.10196078431372549,
+                                    "b": 0.08627450980392157,
+                                    "a": 1
+                                  },
+                                  "opacity": 1,
+                                  "visible": true
+                                },
+                                "weight": 1,
+                                "align": "INSIDE"
+                              }
+                            ],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "id": "text-22",
+                                "name": "How it works →",
+                                "opacity": 1,
+                                "visible": true,
+                                "characters": "How it works →",
+                                "textStyle": {
+                                  "fontFamily": "DM Sans",
+                                  "fontStyle": "Medium",
+                                  "fontSize": 15,
+                                  "lineHeight": {
+                                    "unit": "PERCENT",
+                                    "value": 155
+                                  },
+                                  "letterSpacing": {
+                                    "unit": "PIXELS",
+                                    "value": 0
+                                  },
+                                  "textAlign": "LEFT",
+                                  "textDecoration": "NONE",
+                                  "textCase": "ORIGINAL"
+                                },
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.10980392156862745,
+                                      "g": 0.10196078431372549,
+                                      "b": 0.08627450980392157,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "fillStyleId": "ink/primary",
+                                "textStyleId": "body/md-medium"
+                              }
+                            ],
+                            "layout": {
+                              "layoutMode": "HORIZONTAL",
+                              "itemSpacing": 10,
+                              "counterAxisSpacing": 10,
+                              "paddingTop": 14,
+                              "paddingRight": 22,
+                              "paddingBottom": 14,
+                              "paddingLeft": 22,
+                              "primaryAxisAlignItems": "MIN",
+                              "counterAxisAlignItems": "CENTER",
+                              "layoutWrap": "NO_WRAP",
+                              "primaryAxisSizingMode": "FIXED",
+                              "counterAxisSizingMode": "FIXED",
+                              "clipsContent": false
+                            },
+                            "cornerRadius": 10,
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "ink/primary",
-                            "textStyleId": "body/md-medium"
+                            "fillStyleId": "color/black"
                           }
                         ],
                         "layout": {
@@ -1106,7 +1163,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-94",
+                    "id": "div-95",
                     "name": "Hero Visual",
                     "geometry": {
                       "x": 629,
@@ -1122,7 +1179,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-42",
+                        "id": "div-43",
                         "name": "Figma Card",
                         "geometry": {
                           "x": 0,
@@ -1199,7 +1256,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-28",
+                            "id": "div-29",
                             "name": "Figma Titlebar",
                             "geometry": {
                               "x": 1,
@@ -1243,7 +1300,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-25",
+                                "id": "div-26",
                                 "name": "Dots",
                                 "geometry": {
                                   "x": 12,
@@ -1280,7 +1337,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-26",
+                                "id": "text-27",
                                 "name": "Label",
                                 "geometry": {
                                   "x": 65,
@@ -1330,7 +1387,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-27",
+                                "id": "text-28",
                                 "name": "Figma Tag",
                                 "geometry": {
                                   "x": 300,
@@ -1398,7 +1455,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-41",
+                            "id": "div-42",
                             "name": "Figma Body",
                             "geometry": {
                               "x": 1,
@@ -1414,7 +1471,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-35",
+                                "id": "div-36",
                                 "name": "Figma Canvas",
                                 "geometry": {
                                   "x": 0,
@@ -1458,7 +1515,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-34",
+                                    "id": "div-35",
                                     "name": "Locked Shot",
                                     "geometry": {
                                       "x": 18,
@@ -1490,7 +1547,7 @@
                                     "children": [
                                       {
                                         "type": "FRAME",
-                                        "id": "div-32",
+                                        "id": "div-33",
                                         "name": "Lock",
                                         "geometry": {
                                           "x": 944,
@@ -1534,13 +1591,13 @@
                                         "children": [
                                           {
                                             "type": "FRAME",
-                                            "id": "svg-31",
+                                            "id": "svg-32",
                                             "name": "svg",
                                             "geometry": {
                                               "x": 1,
                                               "y": 1,
-                                              "width": 0,
-                                              "height": 0
+                                              "width": 10,
+                                              "height": 10
                                             },
                                             "opacity": 1,
                                             "visible": true,
@@ -1550,13 +1607,13 @@
                                             "children": [
                                               {
                                                 "type": "VECTOR",
-                                                "id": "path-29",
+                                                "id": "path-30",
                                                 "name": "Path 1",
                                                 "geometry": {
                                                   "x": 0,
                                                   "y": 0,
-                                                  "width": 0,
-                                                  "height": 0
+                                                  "width": 10,
+                                                  "height": 10
                                                 },
                                                 "opacity": 1,
                                                 "visible": true,
@@ -1582,13 +1639,13 @@
                                               },
                                               {
                                                 "type": "VECTOR",
-                                                "id": "path-30",
+                                                "id": "path-31",
                                                 "name": "Path 2",
                                                 "geometry": {
                                                   "x": 0,
                                                   "y": 0,
-                                                  "width": 0,
-                                                  "height": 0
+                                                  "width": 10,
+                                                  "height": 10
                                                 },
                                                 "opacity": 1,
                                                 "visible": true,
@@ -1645,7 +1702,7 @@
                                       },
                                       {
                                         "type": "TEXT",
-                                        "id": "text-33",
+                                        "id": "text-34",
                                         "name": "page.png · 1440 × 2400",
                                         "opacity": 1,
                                         "visible": true,
@@ -1710,7 +1767,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-40",
+                                "id": "div-41",
                                 "name": "Figma Panel",
                                 "geometry": {
                                   "x": 0,
@@ -1726,7 +1783,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-37",
+                                    "id": "div-38",
                                     "name": "Panel Title",
                                     "geometry": {
                                       "x": 10,
@@ -1742,7 +1799,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-36",
+                                        "id": "text-37",
                                         "name": "Layers",
                                         "opacity": 1,
                                         "visible": true,
@@ -1783,7 +1840,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-39",
+                                    "id": "div-40",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -1799,7 +1856,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-38",
+                                        "id": "text-39",
                                         "name": "page.png",
                                         "opacity": 1,
                                         "visible": true,
@@ -1884,7 +1941,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-93",
+                        "id": "div-94",
                         "name": "Figma Card",
                         "geometry": {
                           "x": 115,
@@ -1961,7 +2018,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-46",
+                            "id": "div-47",
                             "name": "Figma Titlebar",
                             "geometry": {
                               "x": 1,
@@ -2005,7 +2062,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-43",
+                                "id": "div-44",
                                 "name": "Dots",
                                 "geometry": {
                                   "x": 12,
@@ -2042,7 +2099,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-44",
+                                "id": "text-45",
                                 "name": "Label",
                                 "geometry": {
                                   "x": 65,
@@ -2092,7 +2149,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-45",
+                                "id": "text-46",
                                 "name": "Figma Tag",
                                 "geometry": {
                                   "x": 312,
@@ -2160,7 +2217,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-92",
+                            "id": "div-93",
                             "name": "Figma Body",
                             "geometry": {
                               "x": 1,
@@ -2176,7 +2233,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-72",
+                                "id": "div-73",
                                 "name": "Figma Canvas",
                                 "geometry": {
                                   "x": 0,
@@ -2220,7 +2277,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-71",
+                                    "id": "div-72",
                                     "name": "Live Card Grid",
                                     "geometry": {
                                       "x": 18,
@@ -2375,7 +2432,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-91",
+                                "id": "div-92",
                                 "name": "Figma Panel",
                                 "geometry": {
                                   "x": 0,
@@ -2391,7 +2448,7 @@
                                 "children": [
                                   {
                                     "type": "FRAME",
-                                    "id": "div-74",
+                                    "id": "div-75",
                                     "name": "Panel Title",
                                     "geometry": {
                                       "x": 10,
@@ -2407,7 +2464,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-73",
+                                        "id": "text-74",
                                         "name": "Layers",
                                         "opacity": 1,
                                         "visible": true,
@@ -2448,7 +2505,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-76",
+                                    "id": "div-77",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2464,7 +2521,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-75",
+                                        "id": "text-76",
                                         "name": "Page",
                                         "opacity": 1,
                                         "visible": true,
@@ -2521,7 +2578,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-78",
+                                    "id": "div-79",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2537,7 +2594,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-77",
+                                        "id": "text-78",
                                         "name": "CardGrid",
                                         "opacity": 1,
                                         "visible": true,
@@ -2594,7 +2651,7 @@
                                   },
                                   {
                                     "type": "FRAME",
-                                    "id": "div-80",
+                                    "id": "div-81",
                                     "name": "Layer",
                                     "geometry": {
                                       "x": 10,
@@ -2610,7 +2667,7 @@
                                     "children": [
                                       {
                                         "type": "TEXT",
-                                        "id": "text-79",
+                                        "id": "text-80",
                                         "name": "Card",
                                         "opacity": 1,
                                         "visible": true,
@@ -2793,7 +2850,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-140",
+        "id": "section-141",
         "name": "Problem",
         "geometry": {
           "x": 0,
@@ -2821,7 +2878,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-139",
+            "id": "div-140",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -2865,7 +2922,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-138",
+                "id": "div-139",
                 "name": "Problem Grid",
                 "geometry": {
                   "x": 64,
@@ -2881,7 +2938,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-106",
+                    "id": "div-107",
                     "name": "div",
                     "geometry": {
                       "x": 0,
@@ -2897,7 +2954,7 @@
                     "children": [
                       {
                         "type": "TEXT",
-                        "id": "text-103",
+                        "id": "text-104",
                         "name": "Section Title",
                         "geometry": {
                           "x": 0,
@@ -2942,7 +2999,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-104",
+                        "id": "text-105",
                         "name": "Design teams live in Figma. The ",
                         "geometry": {
                           "x": 0,
@@ -2987,7 +3044,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-105",
+                        "id": "text-106",
                         "name": "The moment a designer wants to i",
                         "geometry": {
                           "x": 0,
@@ -3039,7 +3096,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-137",
+                    "id": "div-138",
                     "name": "Export Matrix",
                     "geometry": {
                       "x": 642,
@@ -3083,7 +3140,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-108",
+                        "id": "div-109",
                         "name": "Em Title",
                         "geometry": {
                           "x": 29,
@@ -3099,7 +3156,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-107",
+                            "id": "text-108",
                             "name": "Claude Design · Export targets",
                             "opacity": 1,
                             "visible": true,
@@ -3211,7 +3268,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-133",
+                        "id": "div-134",
                         "name": "Export Row",
                         "geometry": {
                           "x": 29,
@@ -3243,7 +3300,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-130",
+                            "id": "div-131",
                             "name": "Fmt",
                             "geometry": {
                               "x": 0,
@@ -3259,7 +3316,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-129",
+                                "id": "text-130",
                                 "name": "Figma",
                                 "opacity": 1,
                                 "visible": true,
@@ -3305,7 +3362,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-132",
+                            "id": "div-133",
                             "name": "Stat",
                             "geometry": {
                               "x": 0,
@@ -3349,7 +3406,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-131",
+                                "id": "text-132",
                                 "name": "— gap —",
                                 "opacity": 1,
                                 "visible": true,
@@ -3414,7 +3471,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-136",
+                        "id": "div-137",
                         "name": "Export Foot",
                         "geometry": {
                           "x": 29,
@@ -3430,7 +3487,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-134",
+                            "id": "text-135",
                             "name": "// claude-to-figma fills the las",
                             "opacity": 1,
                             "visible": true,
@@ -3469,7 +3526,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-135",
+                            "id": "text-136",
                             "name": "// HTML in → editable .fig out.",
                             "opacity": 1,
                             "visible": true,
@@ -3541,7 +3598,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-187",
+        "id": "section-188",
         "name": "How",
         "geometry": {
           "x": 0,
@@ -3557,7 +3614,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-186",
+            "id": "div-187",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -3606,7 +3663,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-146",
+                "id": "text-147",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -3651,7 +3708,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-185",
+                "id": "div-186",
                 "name": "Steps",
                 "geometry": {
                   "x": 64,
@@ -3683,7 +3740,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-160",
+                    "id": "div-161",
                     "name": "Step",
                     "geometry": {
                       "x": 0,
@@ -3729,7 +3786,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-156",
+                        "id": "div-157",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -3773,13 +3830,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-155",
+                            "id": "svg-156",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 26,
+                              "height": 26
                             },
                             "opacity": 1,
                             "visible": true,
@@ -3789,13 +3846,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-149",
+                                "id": "path-150",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3821,13 +3878,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-150",
+                                "id": "path-151",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3853,13 +3910,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-151",
+                                "id": "path-152",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3885,13 +3942,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-152",
+                                "id": "path-153",
                                 "name": "Path 4",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3917,13 +3974,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-153",
+                                "id": "path-154",
                                 "name": "Path 5",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3945,13 +4002,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-154",
+                                "id": "path-155",
                                 "name": "Path 6",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -3999,7 +4056,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-157",
+                        "id": "text-158",
                         "name": "Export from Claude Design.",
                         "geometry": {
                           "x": 36,
@@ -4044,7 +4101,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-158",
+                        "id": "text-159",
                         "name": "Standard HTML export. No special",
                         "geometry": {
                           "x": 36,
@@ -4089,7 +4146,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-159",
+                        "id": "text-160",
                         "name": "page.html + assets/",
                         "geometry": {
                           "x": 36,
@@ -4141,7 +4198,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-171",
+                    "id": "div-172",
                     "name": "Step",
                     "geometry": {
                       "x": 384,
@@ -4192,7 +4249,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-167",
+                        "id": "div-168",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -4236,13 +4293,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-166",
+                            "id": "svg-167",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 26,
+                              "height": 26
                             },
                             "opacity": 1,
                             "visible": true,
@@ -4252,13 +4309,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-163",
+                                "id": "path-164",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4284,13 +4341,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-164",
+                                "id": "path-165",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4316,13 +4373,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-165",
+                                "id": "path-166",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4374,7 +4431,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-168",
+                        "id": "text-169",
                         "name": "Run the CLI.",
                         "geometry": {
                           "x": 36,
@@ -4419,7 +4476,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-169",
+                        "id": "text-170",
                         "name": "One command. Resolves CSS, compu",
                         "geometry": {
                           "x": 36,
@@ -4464,7 +4521,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-170",
+                        "id": "text-171",
                         "name": "claude-to-figma convert page.htm",
                         "geometry": {
                           "x": 36,
@@ -4516,7 +4573,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-184",
+                    "id": "div-185",
                     "name": "Step",
                     "geometry": {
                       "x": 768,
@@ -4551,7 +4608,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-180",
+                        "id": "div-181",
                         "name": "Step Icon",
                         "geometry": {
                           "x": 36,
@@ -4595,13 +4652,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-179",
+                            "id": "svg-180",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 26,
+                              "height": 26
                             },
                             "opacity": 1,
                             "visible": true,
@@ -4611,13 +4668,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-174",
+                                "id": "path-175",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4643,13 +4700,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-175",
+                                "id": "path-176",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4675,13 +4732,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-176",
+                                "id": "path-177",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4719,13 +4776,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-177",
+                                "id": "path-178",
                                 "name": "Path 4",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4751,13 +4808,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-178",
+                                "id": "path-179",
                                 "name": "Path 5",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 26,
+                                  "height": 26
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -4809,7 +4866,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-181",
+                        "id": "text-182",
                         "name": "Paste into the Figma plugin.",
                         "geometry": {
                           "x": 36,
@@ -4854,7 +4911,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-182",
+                        "id": "text-183",
                         "name": "Builds a real scene graph: frame",
                         "geometry": {
                           "x": 36,
@@ -4899,7 +4956,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-183",
+                        "id": "text-184",
                         "name": "⌘V → Build → done.",
                         "geometry": {
                           "x": 36,
@@ -4972,7 +5029,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-277",
+        "id": "section-278",
         "name": "Editable",
         "geometry": {
           "x": 0,
@@ -4988,7 +5045,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-276",
+            "id": "div-277",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -5037,7 +5094,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-193",
+                "id": "text-194",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -5082,7 +5139,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-275",
+                "id": "div-276",
                 "name": "Editable Grid",
                 "geometry": {
                   "x": 64,
@@ -5098,7 +5155,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-211",
+                    "id": "div-212",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -5142,7 +5199,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-197",
+                        "id": "div-198",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -5186,13 +5243,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-196",
+                            "id": "svg-197",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 22,
+                              "height": 22
                             },
                             "opacity": 1,
                             "visible": true,
@@ -5202,13 +5259,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-194",
+                                "id": "path-195",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5234,13 +5291,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-195",
+                                "id": "path-196",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5292,7 +5349,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-198",
+                        "id": "text-199",
                         "name": "Frames, not raster images.",
                         "geometry": {
                           "x": 33,
@@ -5337,7 +5394,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-199",
+                        "id": "text-200",
                         "name": "Every <div> becomes a FrameNode.",
                         "geometry": {
                           "x": 33,
@@ -5382,7 +5439,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-210",
+                        "id": "div-211",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -5426,7 +5483,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-209",
+                            "id": "div-210",
                             "name": "Frame Demo",
                             "geometry": {
                               "x": 17,
@@ -5542,7 +5599,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-228",
+                    "id": "div-229",
                     "name": "E Card",
                     "geometry": {
                       "x": 588,
@@ -5586,7 +5643,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-217",
+                        "id": "div-218",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -5630,13 +5687,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-216",
+                            "id": "svg-217",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 22,
+                              "height": 22
                             },
                             "opacity": 1,
                             "visible": true,
@@ -5646,13 +5703,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-212",
+                                "id": "path-213",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5678,13 +5735,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-213",
+                                "id": "path-214",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5710,13 +5767,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-214",
+                                "id": "path-215",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5742,13 +5799,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-215",
+                                "id": "path-216",
                                 "name": "Path 4",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -5800,7 +5857,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-218",
+                        "id": "text-219",
                         "name": "Auto-layout that works.",
                         "geometry": {
                           "x": 33,
@@ -5845,7 +5902,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-219",
+                        "id": "text-220",
                         "name": "display:flex; gap:16px; justify-",
                         "geometry": {
                           "x": 33,
@@ -5890,7 +5947,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-227",
+                        "id": "div-228",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -5934,7 +5991,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-224",
+                            "id": "div-225",
                             "name": "Al Row",
                             "geometry": {
                               "x": 17,
@@ -6073,7 +6130,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-226",
+                            "id": "div-227",
                             "name": "div",
                             "geometry": {
                               "x": 17,
@@ -6089,7 +6146,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-225",
+                                "id": "text-226",
                                 "name": "↳ drop a child in — Figma lays i",
                                 "opacity": 1,
                                 "visible": true,
@@ -6143,7 +6200,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-247",
+                    "id": "div-248",
                     "name": "E Card",
                     "geometry": {
                       "x": 0,
@@ -6187,7 +6244,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-234",
+                        "id": "div-235",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -6231,13 +6288,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-233",
+                            "id": "svg-234",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 22,
+                              "height": 22
                             },
                             "opacity": 1,
                             "visible": true,
@@ -6247,13 +6304,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-229",
+                                "id": "path-230",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6291,13 +6348,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-230",
+                                "id": "path-231",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6323,13 +6380,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-231",
+                                "id": "path-232",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6355,13 +6412,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-232",
+                                "id": "path-233",
                                 "name": "Path 4",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6413,7 +6470,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-235",
+                        "id": "text-236",
                         "name": "Components, not duplicates.",
                         "geometry": {
                           "x": 33,
@@ -6458,7 +6515,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-236",
+                        "id": "text-237",
                         "name": "Six identical card markups becom",
                         "geometry": {
                           "x": 33,
@@ -6503,7 +6560,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-246",
+                        "id": "div-247",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -6547,7 +6604,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-245",
+                            "id": "div-246",
                             "name": "Comp Demo",
                             "geometry": {
                               "x": 17,
@@ -6563,7 +6620,7 @@
                             "children": [
                               {
                                 "type": "FRAME",
-                                "id": "div-237",
+                                "id": "div-238",
                                 "name": "Comp Master",
                                 "geometry": {
                                   "x": 0,
@@ -6615,7 +6672,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-244",
+                                "id": "div-245",
                                 "name": "Comp Instances",
                                 "geometry": {
                                   "x": 88,
@@ -6797,7 +6854,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-274",
+                    "id": "div-275",
                     "name": "E Card",
                     "geometry": {
                       "x": 588,
@@ -6841,7 +6898,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-252",
+                        "id": "div-253",
                         "name": "E Icon",
                         "geometry": {
                           "x": 33,
@@ -6885,13 +6942,13 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "svg-251",
+                            "id": "svg-252",
                             "name": "svg",
                             "geometry": {
                               "x": 1,
                               "y": 1,
-                              "width": 0,
-                              "height": 0
+                              "width": 22,
+                              "height": 22
                             },
                             "opacity": 1,
                             "visible": true,
@@ -6901,13 +6958,13 @@
                             "children": [
                               {
                                 "type": "VECTOR",
-                                "id": "path-248",
+                                "id": "path-249",
                                 "name": "Path 1",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6933,13 +6990,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-249",
+                                "id": "path-250",
                                 "name": "Path 2",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6977,13 +7034,13 @@
                               },
                               {
                                 "type": "VECTOR",
-                                "id": "path-250",
+                                "id": "path-251",
                                 "name": "Path 3",
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 0,
-                                  "height": 0
+                                  "width": 22,
+                                  "height": 22
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -7035,7 +7092,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-253",
+                        "id": "text-254",
                         "name": "Named design tokens.",
                         "geometry": {
                           "x": 33,
@@ -7080,7 +7137,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-254",
+                        "id": "text-255",
                         "name": "Repeated colors become color/pri",
                         "geometry": {
                           "x": 33,
@@ -7125,7 +7182,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-273",
+                        "id": "div-274",
                         "name": "E Demo",
                         "geometry": {
                           "x": 33,
@@ -7169,7 +7226,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-272",
+                            "id": "div-273",
                             "name": "Token List",
                             "geometry": {
                               "x": 17,
@@ -7258,7 +7315,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-267",
+                                "id": "div-268",
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
@@ -7274,7 +7331,7 @@
                                 "children": [
                                   {
                                     "type": "TEXT",
-                                    "id": "text-264",
+                                    "id": "text-265",
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
@@ -7324,7 +7381,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-265",
+                                    "id": "text-266",
                                     "name": "Type Name",
                                     "geometry": {
                                       "x": 0,
@@ -7374,7 +7431,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-266",
+                                    "id": "text-267",
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
@@ -7446,7 +7503,7 @@
                               },
                               {
                                 "type": "FRAME",
-                                "id": "div-271",
+                                "id": "div-272",
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
@@ -7462,7 +7519,7 @@
                                 "children": [
                                   {
                                     "type": "TEXT",
-                                    "id": "text-268",
+                                    "id": "text-269",
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
@@ -7512,7 +7569,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-269",
+                                    "id": "text-270",
                                     "name": "Type Name",
                                     "geometry": {
                                       "x": 0,
@@ -7562,7 +7619,7 @@
                                   },
                                   {
                                     "type": "TEXT",
-                                    "id": "text-270",
+                                    "id": "text-271",
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
@@ -7685,7 +7742,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-341",
+        "id": "section-342",
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
@@ -7713,7 +7770,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-340",
+            "id": "div-341",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -7729,7 +7786,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-278",
+                "id": "div-279",
                 "name": "Section Rule",
                 "geometry": {
                   "x": 64,
@@ -7759,7 +7816,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-282",
+                "id": "div-283",
                 "name": "Section Head",
                 "geometry": {
                   "x": 64,
@@ -7775,7 +7832,7 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-281",
+                    "id": "div-282",
                     "name": "div",
                     "geometry": {
                       "x": 0,
@@ -7791,7 +7848,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-280",
+                        "id": "div-281",
                         "name": "Section Num",
                         "geometry": {
                           "x": 0,
@@ -7807,7 +7864,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-279",
+                            "id": "text-280",
                             "name": "05 · The pipeline",
                             "opacity": 1,
                             "visible": true,
@@ -7872,7 +7929,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-283",
+                "id": "text-284",
                 "name": "Section Title",
                 "geometry": {
                   "x": 64,
@@ -7917,7 +7974,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-338",
+                "id": "div-339",
                 "name": "Pipeline",
                 "geometry": {
                   "x": 64,
@@ -7988,7 +8045,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-316",
+                    "id": "div-317",
                     "name": "Pipe Box",
                     "geometry": {
                       "x": 466,
@@ -8032,7 +8089,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-310",
+                        "id": "div-311",
                         "name": "div",
                         "geometry": {
                           "x": 21,
@@ -8048,7 +8105,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-307",
+                            "id": "div-308",
                             "name": "Pb Tag",
                             "geometry": {
                               "x": 0,
@@ -8064,7 +8121,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-306",
+                                "id": "text-307",
                                 "name": "The product",
                                 "opacity": 1,
                                 "visible": true,
@@ -8105,7 +8162,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-309",
+                            "id": "div-310",
                             "name": "Pb Title",
                             "geometry": {
                               "x": 0,
@@ -8121,7 +8178,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-308",
+                                "id": "text-309",
                                 "name": "IR JSON",
                                 "opacity": 1,
                                 "visible": true,
@@ -8169,7 +8226,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-314",
+                        "id": "div-315",
                         "name": "Pb Meta",
                         "geometry": {
                           "x": 21,
@@ -8185,7 +8242,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-311",
+                            "id": "text-312",
                             "name": "portable",
                             "opacity": 1,
                             "visible": true,
@@ -8224,7 +8281,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-312",
+                            "id": "text-313",
                             "name": "tool-agnostic",
                             "opacity": 1,
                             "visible": true,
@@ -8263,7 +8320,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-313",
+                            "id": "text-314",
                             "name": "diffable",
                             "opacity": 1,
                             "visible": true,
@@ -8309,7 +8366,7 @@
                       },
                       {
                         "type": "VECTOR",
-                        "id": "path-315",
+                        "id": "path-316",
                         "name": "Pipe Arrow",
                         "geometry": {
                           "x": 212,
@@ -8390,7 +8447,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-337",
+                    "id": "div-338",
                     "name": "Pipe Box",
                     "geometry": {
                       "x": 931,
@@ -8434,7 +8491,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-332",
+                        "id": "div-333",
                         "name": "div",
                         "geometry": {
                           "x": 21,
@@ -8450,7 +8507,7 @@
                         "children": [
                           {
                             "type": "FRAME",
-                            "id": "div-329",
+                            "id": "div-330",
                             "name": "Pb Tag",
                             "geometry": {
                               "x": 0,
@@ -8466,7 +8523,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-328",
+                                "id": "text-329",
                                 "name": "Output",
                                 "opacity": 1,
                                 "visible": true,
@@ -8507,7 +8564,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-331",
+                            "id": "div-332",
                             "name": "Pb Title",
                             "geometry": {
                               "x": 0,
@@ -8523,7 +8580,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-330",
+                                "id": "text-331",
                                 "name": "Editable Figma file",
                                 "opacity": 1,
                                 "visible": true,
@@ -8571,7 +8628,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-336",
+                        "id": "div-337",
                         "name": "Pb Meta",
                         "geometry": {
                           "x": 21,
@@ -8587,7 +8644,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-333",
+                            "id": "text-334",
                             "name": "frames · components",
                             "opacity": 1,
                             "visible": true,
@@ -8626,7 +8683,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-334",
+                            "id": "text-335",
                             "name": "auto-layout · styles",
                             "opacity": 1,
                             "visible": true,
@@ -8665,7 +8722,7 @@
                           },
                           {
                             "type": "TEXT",
-                            "id": "text-335",
+                            "id": "text-336",
                             "name": "real text",
                             "opacity": 1,
                             "visible": true,
@@ -8752,7 +8809,7 @@
               },
               {
                 "type": "TEXT",
-                "id": "text-339",
+                "id": "text-340",
                 "name": "Pipe Caption",
                 "geometry": {
                   "x": 260,
@@ -8803,7 +8860,7 @@
       },
       {
         "type": "FRAME",
-        "id": "section-382",
+        "id": "section-387",
         "name": "Get Started",
         "geometry": {
           "x": 0,
@@ -8819,7 +8876,7 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-381",
+            "id": "div-386",
             "name": "Wrap",
             "geometry": {
               "x": 80,
@@ -8868,7 +8925,7 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-380",
+                "id": "div-385",
                 "name": "Get Started Grid",
                 "geometry": {
                   "x": 64,
@@ -8884,13 +8941,13 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "div-354",
+                    "id": "div-359",
                     "name": "div",
                     "geometry": {
                       "x": 0,
                       "y": 0,
                       "width": 487,
-                      "height": 321
+                      "height": 238
                     },
                     "opacity": 1,
                     "visible": true,
@@ -8900,7 +8957,7 @@
                     "children": [
                       {
                         "type": "TEXT",
-                        "id": "text-347",
+                        "id": "text-348",
                         "name": "Section Title",
                         "geometry": {
                           "x": 0,
@@ -8945,7 +9002,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-348",
+                        "id": "text-349",
                         "name": "Open source. MIT licensed. The p",
                         "geometry": {
                           "x": 0,
@@ -8990,13 +9047,13 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-353",
+                        "id": "div-358",
                         "name": "Start Links",
                         "geometry": {
                           "x": 0,
                           "y": 201,
                           "width": 487,
-                          "height": 120
+                          "height": 37
                         },
                         "opacity": 1,
                         "visible": true,
@@ -9005,204 +9062,95 @@
                         "effects": [],
                         "children": [
                           {
-                            "type": "TEXT",
-                            "id": "text-349",
+                            "type": "INSTANCE",
+                            "id": "instance-46",
                             "name": "Pill",
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 119,
-                              "height": 55
+                              "width": 70,
+                              "height": 37
                             },
-                            "opacity": 1,
-                            "visible": true,
-                            "characters": "README",
-                            "textStyle": {
-                              "fontFamily": "JetBrains Mono",
-                              "fontStyle": "Regular",
-                              "fontSize": 12,
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 155
-                              },
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "textAlign": "LEFT",
-                              "textDecoration": "NONE",
-                              "textCase": "ORIGINAL"
-                            },
-                            "fills": [
-                              {
-                                "type": "SOLID",
-                                "color": {
-                                  "r": 0.10980392156862745,
-                                  "g": 0.10196078431372549,
-                                  "b": 0.08627450980392157,
-                                  "a": 1
-                                },
-                                "opacity": 1,
-                                "visible": true
-                              }
-                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "ink/primary",
-                            "textStyleId": "body/sm-regular-2"
+                            "opacity": 1,
+                            "visible": true,
+                            "componentId": "pill"
                           },
                           {
-                            "type": "TEXT",
-                            "id": "text-350",
+                            "type": "INSTANCE",
+                            "id": "instance-47",
                             "name": "Pill",
                             "geometry": {
-                              "x": 129,
+                              "x": 80,
                               "y": 0,
-                              "width": 155,
-                              "height": 55
+                              "width": 103,
+                              "height": 37
                             },
-                            "opacity": 1,
-                            "visible": true,
-                            "characters": "LIMITATIONS",
-                            "textStyle": {
-                              "fontFamily": "JetBrains Mono",
-                              "fontStyle": "Regular",
-                              "fontSize": 12,
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 155
-                              },
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "textAlign": "LEFT",
-                              "textDecoration": "NONE",
-                              "textCase": "ORIGINAL"
-                            },
-                            "fills": [
-                              {
-                                "type": "SOLID",
-                                "color": {
-                                  "r": 0.10980392156862745,
-                                  "g": 0.10196078431372549,
-                                  "b": 0.08627450980392157,
-                                  "a": 1
-                                },
-                                "opacity": 1,
-                                "visible": true
-                              }
-                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "ink/primary",
-                            "textStyleId": "body/sm-regular-2"
+                            "opacity": 1,
+                            "visible": true,
+                            "componentId": "pill",
+                            "overrides": {
+                              "pill.text-0": {
+                                "characters": "LIMITATIONS"
+                              }
+                            }
                           },
                           {
-                            "type": "TEXT",
-                            "id": "text-351",
+                            "type": "INSTANCE",
+                            "id": "instance-48",
                             "name": "Pill",
                             "geometry": {
-                              "x": 294,
+                              "x": 193,
+                              "y": 0,
+                              "width": 110,
+                              "height": 37
+                            },
+                            "childLayout": {
+                              "layoutPositioning": "AUTO",
+                              "layoutGrow": 0,
+                              "layoutAlign": "STRETCH"
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "componentId": "pill",
+                            "overrides": {
+                              "pill.text-0": {
+                                "characters": "CONTRIBUTING"
+                              }
+                            }
+                          },
+                          {
+                            "type": "INSTANCE",
+                            "id": "instance-49",
+                            "name": "Pill",
+                            "geometry": {
+                              "x": 313,
                               "y": 0,
                               "width": 162,
-                              "height": 55
+                              "height": 37
                             },
-                            "opacity": 1,
-                            "visible": true,
-                            "characters": "CONTRIBUTING",
-                            "textStyle": {
-                              "fontFamily": "JetBrains Mono",
-                              "fontStyle": "Regular",
-                              "fontSize": 12,
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 155
-                              },
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "textAlign": "LEFT",
-                              "textDecoration": "NONE",
-                              "textCase": "ORIGINAL"
-                            },
-                            "fills": [
-                              {
-                                "type": "SOLID",
-                                "color": {
-                                  "r": 0.10980392156862745,
-                                  "g": 0.10196078431372549,
-                                  "b": 0.08627450980392157,
-                                  "a": 1
-                                },
-                                "opacity": 1,
-                                "visible": true
-                              }
-                            ],
                             "childLayout": {
                               "layoutPositioning": "AUTO",
                               "layoutGrow": 0,
                               "layoutAlign": "STRETCH"
                             },
-                            "fillStyleId": "ink/primary",
-                            "textStyleId": "body/sm-regular-2"
-                          },
-                          {
-                            "type": "TEXT",
-                            "id": "text-352",
-                            "name": "Pill",
-                            "geometry": {
-                              "x": 0,
-                              "y": 65,
-                              "width": 220,
-                              "height": 55
-                            },
                             "opacity": 1,
                             "visible": true,
-                            "characters": "Figma plugin install",
-                            "textStyle": {
-                              "fontFamily": "JetBrains Mono",
-                              "fontStyle": "Regular",
-                              "fontSize": 12,
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 155
-                              },
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "textAlign": "LEFT",
-                              "textDecoration": "NONE",
-                              "textCase": "ORIGINAL"
-                            },
-                            "fills": [
-                              {
-                                "type": "SOLID",
-                                "color": {
-                                  "r": 0.10980392156862745,
-                                  "g": 0.10196078431372549,
-                                  "b": 0.08627450980392157,
-                                  "a": 1
-                                },
-                                "opacity": 1,
-                                "visible": true
+                            "componentId": "pill",
+                            "overrides": {
+                              "pill.text-0": {
+                                "characters": "Figma plugin install"
                               }
-                            ],
-                            "childLayout": {
-                              "layoutPositioning": "AUTO",
-                              "layoutGrow": 0,
-                              "layoutAlign": "STRETCH"
-                            },
-                            "fillStyleId": "ink/primary",
-                            "textStyleId": "body/sm-regular-2"
+                            }
                           }
                         ],
                         "layout": {
@@ -9230,7 +9178,7 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "div-379",
+                    "id": "div-384",
                     "name": "Terminal",
                     "geometry": {
                       "x": 567,
@@ -9291,7 +9239,7 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "div-356",
+                        "id": "div-361",
                         "name": "Terminal Bar",
                         "geometry": {
                           "x": 0,
@@ -9335,7 +9283,7 @@
                         "children": [
                           {
                             "type": "TEXT",
-                            "id": "text-355",
+                            "id": "text-360",
                             "name": "Tlabel",
                             "geometry": {
                               "x": 72,
@@ -9403,7 +9351,7 @@
                       },
                       {
                         "type": "FRAME",
-                        "id": "div-378",
+                        "id": "div-383",
                         "name": "Terminal Body",
                         "geometry": {
                           "x": 0,
@@ -9419,7 +9367,7 @@
                         "children": [
                           {
                             "type": "INSTANCE",
-                            "id": "instance-46",
+                            "id": "instance-50",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -9433,7 +9381,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-362",
+                            "id": "div-367",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -9449,7 +9397,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-359",
+                                "id": "text-364",
                                 "name": "Prompt",
                                 "geometry": {
                                   "x": 0,
@@ -9494,7 +9442,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-360",
+                                "id": "text-365",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 0,
@@ -9539,7 +9487,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-361",
+                                "id": "text-366",
                                 "name": "Str",
                                 "geometry": {
                                   "x": 0,
@@ -9586,7 +9534,7 @@
                           },
                           {
                             "type": "INSTANCE",
-                            "id": "instance-47",
+                            "id": "instance-51",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -9605,138 +9553,11 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-367",
-                            "name": "Ln",
-                            "geometry": {
-                              "x": 24,
-                              "y": 128,
-                              "width": 537,
-                              "height": 36
-                            },
-                            "opacity": 1,
-                            "visible": true,
-                            "fills": [],
-                            "strokes": [],
-                            "effects": [],
-                            "children": [
-                              {
-                                "type": "TEXT",
-                                "id": "text-365",
-                                "name": "Prompt",
-                                "geometry": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 537,
-                                  "height": 18
-                                },
-                                "opacity": 1,
-                                "visible": true,
-                                "characters": "$",
-                                "textStyle": {
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontStyle": "Regular",
-                                  "fontSize": 13.5,
-                                  "lineHeight": {
-                                    "unit": "PERCENT",
-                                    "value": 185
-                                  },
-                                  "letterSpacing": {
-                                    "unit": "PIXELS",
-                                    "value": 0
-                                  },
-                                  "textAlign": "LEFT",
-                                  "textDecoration": "NONE",
-                                  "textCase": "ORIGINAL"
-                                },
-                                "fills": [
-                                  {
-                                    "type": "SOLID",
-                                    "color": {
-                                      "r": 0.9098039215686274,
-                                      "g": 0.788235294117647,
-                                      "b": 0.7137254901960784,
-                                      "a": 1
-                                    },
-                                    "opacity": 1,
-                                    "visible": true
-                                  }
-                                ],
-                                "fillStyleId": "brand/accent",
-                                "textStyleId": "body/sm-regular"
-                              },
-                              {
-                                "type": "TEXT",
-                                "id": "text-366",
-                                "name": "Cmd",
-                                "geometry": {
-                                  "x": 0,
-                                  "y": 18,
-                                  "width": 537,
-                                  "height": 18
-                                },
-                                "opacity": 1,
-                                "visible": true,
-                                "characters": "cd claude-to-figma && pnpm install && pnpm -r build",
-                                "textStyle": {
-                                  "fontFamily": "JetBrains Mono",
-                                  "fontStyle": "Regular",
-                                  "fontSize": 13.5,
-                                  "lineHeight": {
-                                    "unit": "PERCENT",
-                                    "value": 185
-                                  },
-                                  "letterSpacing": {
-                                    "unit": "PIXELS",
-                                    "value": 0
-                                  },
-                                  "textAlign": "LEFT",
-                                  "textDecoration": "NONE",
-                                  "textCase": "ORIGINAL"
-                                },
-                                "fills": [
-                                  {
-                                    "type": "SOLID",
-                                    "color": {
-                                      "r": 0.9490196078431372,
-                                      "g": 0.9294117647058824,
-                                      "b": 0.8784313725490196,
-                                      "a": 1
-                                    },
-                                    "opacity": 1,
-                                    "visible": true
-                                  }
-                                ],
-                                "fillStyleId": "surface/primary",
-                                "textStyleId": "body/sm-regular"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "INSTANCE",
-                            "id": "instance-48",
-                            "name": "Ln",
-                            "geometry": {
-                              "x": 24,
-                              "y": 178,
-                              "width": 537,
-                              "height": 18
-                            },
-                            "opacity": 1,
-                            "visible": true,
-                            "componentId": "ln",
-                            "overrides": {
-                              "ln.text-0": {
-                                "characters": "# 3 · convert your export"
-                              }
-                            }
-                          },
-                          {
-                            "type": "FRAME",
                             "id": "div-372",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
-                              "y": 196,
+                              "y": 128,
                               "width": 537,
                               "height": 36
                             },
@@ -9803,6 +9624,133 @@
                                 },
                                 "opacity": 1,
                                 "visible": true,
+                                "characters": "cd claude-to-figma && pnpm install && pnpm -r build",
+                                "textStyle": {
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontStyle": "Regular",
+                                  "fontSize": 13.5,
+                                  "lineHeight": {
+                                    "unit": "PERCENT",
+                                    "value": 185
+                                  },
+                                  "letterSpacing": {
+                                    "unit": "PIXELS",
+                                    "value": 0
+                                  },
+                                  "textAlign": "LEFT",
+                                  "textDecoration": "NONE",
+                                  "textCase": "ORIGINAL"
+                                },
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.9490196078431372,
+                                      "g": 0.9294117647058824,
+                                      "b": 0.8784313725490196,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "fillStyleId": "surface/primary",
+                                "textStyleId": "body/sm-regular"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "INSTANCE",
+                            "id": "instance-52",
+                            "name": "Ln",
+                            "geometry": {
+                              "x": 24,
+                              "y": 178,
+                              "width": 537,
+                              "height": 18
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "componentId": "ln",
+                            "overrides": {
+                              "ln.text-0": {
+                                "characters": "# 3 · convert your export"
+                              }
+                            }
+                          },
+                          {
+                            "type": "FRAME",
+                            "id": "div-377",
+                            "name": "Ln",
+                            "geometry": {
+                              "x": 24,
+                              "y": 196,
+                              "width": 537,
+                              "height": 36
+                            },
+                            "opacity": 1,
+                            "visible": true,
+                            "fills": [],
+                            "strokes": [],
+                            "effects": [],
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "id": "text-375",
+                                "name": "Prompt",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 537,
+                                  "height": 18
+                                },
+                                "opacity": 1,
+                                "visible": true,
+                                "characters": "$",
+                                "textStyle": {
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontStyle": "Regular",
+                                  "fontSize": 13.5,
+                                  "lineHeight": {
+                                    "unit": "PERCENT",
+                                    "value": 185
+                                  },
+                                  "letterSpacing": {
+                                    "unit": "PIXELS",
+                                    "value": 0
+                                  },
+                                  "textAlign": "LEFT",
+                                  "textDecoration": "NONE",
+                                  "textCase": "ORIGINAL"
+                                },
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": {
+                                      "r": 0.9098039215686274,
+                                      "g": 0.788235294117647,
+                                      "b": 0.7137254901960784,
+                                      "a": 1
+                                    },
+                                    "opacity": 1,
+                                    "visible": true
+                                  }
+                                ],
+                                "fillStyleId": "brand/accent",
+                                "textStyleId": "body/sm-regular"
+                              },
+                              {
+                                "type": "TEXT",
+                                "id": "text-376",
+                                "name": "Cmd",
+                                "geometry": {
+                                  "x": 0,
+                                  "y": 18,
+                                  "width": 537,
+                                  "height": 18
+                                },
+                                "opacity": 1,
+                                "visible": true,
                                 "characters": "node packages/cli/dist/index.js convert your-export.html \\",
                                 "textStyle": {
                                   "fontFamily": "JetBrains Mono",
@@ -9840,7 +9788,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-375",
+                            "id": "div-380",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -9856,7 +9804,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-373",
+                                "id": "text-378",
                                 "name": "Cmd",
                                 "geometry": {
                                   "x": 24,
@@ -9901,7 +9849,7 @@
                               },
                               {
                                 "type": "TEXT",
-                                "id": "text-374",
+                                "id": "text-379",
                                 "name": "Flag",
                                 "geometry": {
                                   "x": 24,
@@ -9948,7 +9896,7 @@
                           },
                           {
                             "type": "FRAME",
-                            "id": "div-377",
+                            "id": "div-382",
                             "name": "Ln",
                             "geometry": {
                               "x": 24,
@@ -9964,7 +9912,7 @@
                             "children": [
                               {
                                 "type": "TEXT",
-                                "id": "text-376",
+                                "id": "text-381",
                                 "name": "→ wrote page.ir.json (373 nodes ",
                                 "opacity": 1,
                                 "visible": true,
@@ -10037,7 +9985,7 @@
       },
       {
         "type": "FRAME",
-        "id": "footer-408",
+        "id": "footer-413",
         "name": "Footer",
         "geometry": {
           "x": 0,
@@ -10069,12 +10017,12 @@
         "children": [
           {
             "type": "FRAME",
-            "id": "div-405",
+            "id": "div-410",
             "name": "Footer Grid",
             "geometry": {
-              "x": 451,
+              "x": 430,
               "y": 57,
-              "width": 539,
+              "width": 581,
               "height": 167
             },
             "opacity": 1,
@@ -10085,7 +10033,7 @@
             "children": [
               {
                 "type": "FRAME",
-                "id": "div-390",
+                "id": "div-395",
                 "name": "Foot Left",
                 "geometry": {
                   "x": 0,
@@ -10101,7 +10049,7 @@
                 "children": [
                   {
                     "type": "TEXT",
-                    "id": "text-383",
+                    "id": "text-388",
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
@@ -10146,7 +10094,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-384",
+                    "id": "text-389",
                     "name": "· Built in",
                     "opacity": 1,
                     "visible": true,
@@ -10185,7 +10133,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-385",
+                    "id": "text-390",
                     "name": "Claude Design",
                     "geometry": {
                       "x": 0,
@@ -10230,7 +10178,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-386",
+                    "id": "text-391",
                     "name": "·",
                     "opacity": 1,
                     "visible": true,
@@ -10269,7 +10217,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-387",
+                    "id": "text-392",
                     "name": "Dogfood input for",
                     "opacity": 1,
                     "visible": true,
@@ -10308,7 +10256,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-388",
+                    "id": "text-393",
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
@@ -10353,7 +10301,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "id": "text-389",
+                    "id": "text-394",
                     "name": ".",
                     "opacity": 1,
                     "visible": true,
@@ -10399,12 +10347,12 @@
               },
               {
                 "type": "FRAME",
-                "id": "div-404",
+                "id": "div-409",
                 "name": "Foot Right",
                 "geometry": {
                   "x": 209,
                   "y": 145,
-                  "width": 330,
+                  "width": 372,
                   "height": 22
                 },
                 "opacity": 1,
@@ -10415,12 +10363,12 @@
                 "children": [
                   {
                     "type": "FRAME",
-                    "id": "a-393",
+                    "id": "a-398",
                     "name": "a",
                     "geometry": {
                       "x": 0,
                       "y": 0,
-                      "width": 53,
+                      "width": 67,
                       "height": 22
                     },
                     "opacity": 1,
@@ -10431,13 +10379,13 @@
                     "children": [
                       {
                         "type": "VECTOR",
-                        "id": "path-391",
+                        "id": "path-396",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
-                          "y": 11,
-                          "width": 0,
-                          "height": 0
+                          "y": 4,
+                          "width": 14,
+                          "height": 14
                         },
                         "opacity": 1,
                         "visible": true,
@@ -10452,7 +10400,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-392",
+                        "id": "text-397",
                         "name": "GitHub",
                         "opacity": 1,
                         "visible": true,
@@ -10513,12 +10461,12 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "a-398",
+                    "id": "a-403",
                     "name": "a",
                     "geometry": {
-                      "x": 81,
+                      "x": 95,
                       "y": 0,
-                      "width": 99,
+                      "width": 113,
                       "height": 22
                     },
                     "opacity": 1,
@@ -10529,13 +10477,13 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "svg-396",
+                        "id": "svg-401",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
-                          "y": 11,
-                          "width": 0,
-                          "height": 0
+                          "y": 4,
+                          "width": 14,
+                          "height": 14
                         },
                         "opacity": 1,
                         "visible": true,
@@ -10545,13 +10493,13 @@
                         "children": [
                           {
                             "type": "VECTOR",
-                            "id": "path-394",
+                            "id": "path-399",
                             "name": "Path 1",
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 0,
-                              "height": 0
+                              "width": 14,
+                              "height": 14
                             },
                             "opacity": 1,
                             "visible": true,
@@ -10561,13 +10509,13 @@
                           },
                           {
                             "type": "VECTOR",
-                            "id": "path-395",
+                            "id": "path-400",
                             "name": "Path 2",
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 0,
-                              "height": 0
+                              "width": 14,
+                              "height": 14
                             },
                             "opacity": 1,
                             "visible": true,
@@ -10584,7 +10532,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-397",
+                        "id": "text-402",
                         "name": "Figma plugin",
                         "opacity": 1,
                         "visible": true,
@@ -10645,12 +10593,12 @@
                   },
                   {
                     "type": "FRAME",
-                    "id": "a-403",
+                    "id": "a-408",
                     "name": "a",
                     "geometry": {
-                      "x": 208,
+                      "x": 236,
                       "y": 0,
-                      "width": 122,
+                      "width": 136,
                       "height": 22
                     },
                     "opacity": 1,
@@ -10661,13 +10609,13 @@
                     "children": [
                       {
                         "type": "FRAME",
-                        "id": "svg-401",
+                        "id": "svg-406",
                         "name": "svg",
                         "geometry": {
                           "x": 0,
-                          "y": 11,
-                          "width": 0,
-                          "height": 0
+                          "y": 4,
+                          "width": 14,
+                          "height": 14
                         },
                         "opacity": 1,
                         "visible": true,
@@ -10677,13 +10625,13 @@
                         "children": [
                           {
                             "type": "VECTOR",
-                            "id": "path-399",
+                            "id": "path-404",
                             "name": "Path 1",
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 0,
-                              "height": 0
+                              "width": 14,
+                              "height": 14
                             },
                             "opacity": 1,
                             "visible": true,
@@ -10693,13 +10641,13 @@
                           },
                           {
                             "type": "VECTOR",
-                            "id": "path-400",
+                            "id": "path-405",
                             "name": "Path 2",
                             "geometry": {
                               "x": 0,
                               "y": 0,
-                              "width": 0,
-                              "height": 0
+                              "width": 14,
+                              "height": 14
                             },
                             "opacity": 1,
                             "visible": true,
@@ -10716,7 +10664,7 @@
                       },
                       {
                         "type": "TEXT",
-                        "id": "text-402",
+                        "id": "text-407",
                         "name": "Report an issue",
                         "opacity": 1,
                         "visible": true,
@@ -10816,7 +10764,7 @@
           },
           {
             "type": "FRAME",
-            "id": "div-407",
+            "id": "div-412",
             "name": "Built With",
             "geometry": {
               "x": 80,
@@ -10832,7 +10780,7 @@
             "children": [
               {
                 "type": "TEXT",
-                "id": "text-406",
+                "id": "text-411",
                 "name": "// this page → claude-to-figma →",
                 "opacity": 1,
                 "visible": true,
@@ -12395,6 +12343,117 @@
           "counterAxisSizingMode": "FIXED",
           "clipsContent": false
         }
+      }
+    },
+    {
+      "id": "pill",
+      "name": "Pill",
+      "root": {
+        "type": "FRAME",
+        "id": "pill",
+        "name": "Pill",
+        "geometry": {
+          "x": 0,
+          "y": 0,
+          "width": 70,
+          "height": 37
+        },
+        "opacity": 1,
+        "visible": true,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.9490196078431372,
+              "g": 0.9294117647058824,
+              "b": 0.8784313725490196,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ],
+        "strokes": [
+          {
+            "paint": {
+              "type": "SOLID",
+              "color": {
+                "r": 0.10980392156862745,
+                "g": 0.10196078431372549,
+                "b": 0.08627450980392157,
+                "a": 1
+              },
+              "opacity": 1,
+              "visible": true
+            },
+            "weight": 1,
+            "align": "INSIDE"
+          }
+        ],
+        "effects": [],
+        "children": [
+          {
+            "type": "TEXT",
+            "id": "pill.text-0",
+            "name": "README",
+            "opacity": 1,
+            "visible": true,
+            "characters": "README",
+            "textStyle": {
+              "fontFamily": "JetBrains Mono",
+              "fontStyle": "Regular",
+              "fontSize": 12,
+              "lineHeight": {
+                "unit": "PERCENT",
+                "value": 155
+              },
+              "letterSpacing": {
+                "unit": "PIXELS",
+                "value": 0
+              },
+              "textAlign": "LEFT",
+              "textDecoration": "NONE",
+              "textCase": "ORIGINAL"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": {
+                  "r": 0.10980392156862745,
+                  "g": 0.10196078431372549,
+                  "b": 0.08627450980392157,
+                  "a": 1
+                },
+                "opacity": 1,
+                "visible": true
+              }
+            ],
+            "fillStyleId": "ink/primary",
+            "textStyleId": "body/sm-regular-2"
+          }
+        ],
+        "layout": {
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 8,
+          "counterAxisSpacing": 8,
+          "paddingTop": 8,
+          "paddingRight": 14,
+          "paddingBottom": 8,
+          "paddingLeft": 14,
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "CENTER",
+          "layoutWrap": "NO_WRAP",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "clipsContent": false
+        },
+        "cornerRadius": 999,
+        "childLayout": {
+          "layoutPositioning": "AUTO",
+          "layoutGrow": 0,
+          "layoutAlign": "STRETCH"
+        },
+        "fillStyleId": "surface/primary"
       }
     },
     {

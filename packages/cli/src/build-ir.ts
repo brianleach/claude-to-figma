@@ -206,11 +206,21 @@ function buildNodeFromElement(el: P5Element, ctx: BuildContext): IRNode | null {
   if (tag === 'svg') return buildVector(el, ctx);
   if (tag === 'br') return null;
 
-  if (TEXT_TAGS.has(tag) && containsOnlyText(el)) {
+  // Honor CSS `display` when deciding whether a text-tag is a TEXT node
+  // or a FRAME. `<a class="btn">` with `display: inline-flex` needs to
+  // be a FRAME so its padding / border / background render.
+  const display = styleOf(ctx, el).get('display');
+  if (TEXT_TAGS.has(tag) && containsOnlyText(el) && !isContainerDisplay(display)) {
     return buildText(el, ctx);
   }
 
   return buildFrameFromElement(el, ctx);
+}
+
+function isContainerDisplay(display: string | undefined): boolean {
+  if (!display) return false;
+  const d = display.toLowerCase();
+  return d === 'flex' || d === 'inline-flex' || d === 'grid' || d === 'inline-grid';
 }
 
 function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string): FrameNode {

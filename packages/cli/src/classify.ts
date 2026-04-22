@@ -50,12 +50,7 @@ export const IGNORED_TAGS = new Set([
  * button frame even if its only content is text — padding / border /
  * background / radius all need FRAME-level rendering.
  */
-const CONTAINER_DISPLAYS = new Set([
-  'flex',
-  'inline-flex',
-  'grid',
-  'inline-grid',
-]);
+const CONTAINER_DISPLAYS = new Set(['flex', 'inline-flex', 'grid', 'inline-grid']);
 
 /**
  * True if `el` will become an IR TEXT node — only when it's in

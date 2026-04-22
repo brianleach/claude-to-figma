@@ -259,6 +259,11 @@ function applyFrameProps(
   frame.opacity = node.opacity;
   frame.visible = node.visible;
   if (typeof node.cornerRadius === 'number') frame.cornerRadius = node.cornerRadius;
+  // CSS rotate(Ndeg) is clockwise, Figma's `rotation` is anti-clockwise
+  // when positive. Flip sign to match.
+  if (typeof node.rotation === 'number' && node.rotation !== 0) {
+    frame.rotation = -node.rotation;
+  }
 
   frame.fills = node.fills.map(toFigmaPaint);
   if (node.strokes.length > 0) {

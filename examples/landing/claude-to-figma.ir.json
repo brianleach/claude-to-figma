@@ -1937,6 +1937,7 @@
                           }
                         ],
                         "cornerRadius": 10,
+                        "rotation": -2.5,
                         "fillStyleId": "color/fafaf8"
                       },
                       {
@@ -2818,6 +2819,7 @@
                           }
                         ],
                         "cornerRadius": 10,
+                        "rotation": 1.5,
                         "fillStyleId": "color/fafaf8"
                       }
                     ],

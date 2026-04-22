@@ -51,6 +51,7 @@ import {
   parseTextAlign,
   parseTextDecoration,
   parseTextTransform,
+  parseTransformRotation,
   weightToFigmaStyle,
 } from './style.js';
 
@@ -255,6 +256,8 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   };
   if (layout) frame.layout = layout;
   if (cornerRadius != null) frame.cornerRadius = cornerRadius;
+  const rotation = parseTransformRotation(style.get('transform'));
+  if (rotation != null) frame.rotation = rotation;
   return frame;
 }
 

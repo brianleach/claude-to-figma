@@ -221,6 +221,28 @@ export function parseLetterSpacing(value: string | undefined): LetterSpacing | u
 }
 
 /**
+ * Parse a CSS `transform` value and extract rotation in degrees.
+ * Supports `rotate(Ndeg)`, `rotate(Nturn)`, `rotate(Nrad)`, and
+ * `rotate(Ngrad)`. Only rotation is modeled today — `translate`,
+ * `scale`, `skew`, and `matrix(…)` are ignored (layout already placed
+ * the element at its absolute position, so translate would double-count;
+ * scale / skew / matrix have no straight Figma analogue).
+ */
+export function parseTransformRotation(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const match = /\brotate\(\s*([-\d.]+)(deg|turn|rad|grad)?\s*\)/i.exec(value);
+  if (!match) return undefined;
+  const n = Number(match[1]);
+  if (!Number.isFinite(n)) return undefined;
+  const unit = (match[2] ?? 'deg').toLowerCase();
+  if (unit === 'deg') return n;
+  if (unit === 'turn') return n * 360;
+  if (unit === 'rad') return (n * 180) / Math.PI;
+  if (unit === 'grad') return (n * 360) / 400;
+  return undefined;
+}
+
+/**
  * Parse a CSS `aspect-ratio` value. Grammar: `auto | <ratio>` where
  * `<ratio>` is `<number>` or `<number> / <number>`. Returns the
  * `width / height` ratio as a single number — yoga's setAspectRatio

@@ -210,6 +210,13 @@ const BaseNodeShape = {
   childLayout: ChildLayoutSchema.optional(),
   opacity: z.number().min(0).max(1).default(1),
   visible: z.boolean().default(true),
+  /**
+   * CSS `transform: rotate(Ndeg)` in degrees, CSS convention
+   * (positive = clockwise). Applied in the plugin via `node.rotation`.
+   * Only rotation is modeled today — `translate`, `scale`, and
+   * `matrix` transforms are ignored.
+   */
+  rotation: z.number().optional(),
 } as const;
 
 // --- TS types (declared before schemas so z.lazy can close over them) -------
@@ -222,6 +229,7 @@ export interface FrameNode {
   childLayout?: ChildLayout;
   opacity: number;
   visible: boolean;
+  rotation?: number;
   layout?: LayoutProps;
   fills: Paint[];
   fillStyleId?: string;
@@ -239,6 +247,7 @@ export interface TextNode {
   childLayout?: ChildLayout;
   opacity: number;
   visible: boolean;
+  rotation?: number;
   characters: string;
   textStyle: TextStyle;
   textStyleId?: string;
@@ -254,6 +263,7 @@ export interface ImageNode {
   childLayout?: ChildLayout;
   opacity: number;
   visible: boolean;
+  rotation?: number;
   imageRef: string;
   scaleMode: 'FILL' | 'FIT' | 'CROP' | 'TILE';
   cornerRadius?: number;
@@ -268,6 +278,7 @@ export interface VectorNode {
   childLayout?: ChildLayout;
   opacity: number;
   visible: boolean;
+  rotation?: number;
   /** SVG path 'd' attribute. */
   path: string;
   fills: Paint[];
@@ -282,6 +293,7 @@ export interface InstanceNode {
   childLayout?: ChildLayout;
   opacity: number;
   visible: boolean;
+  rotation?: number;
   /** ID of the component definition in the registry. */
   componentId: string;
   /** Optional per-instance text overrides keyed by node id within the component tree. */

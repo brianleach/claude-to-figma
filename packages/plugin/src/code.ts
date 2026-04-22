@@ -214,7 +214,7 @@ async function buildNode(node: IRNode, ctx: BuildContext): Promise<SceneNode> {
       built = buildImage(node);
       break;
     case 'VECTOR':
-      built = buildVector(node);
+      built = buildVector(node, ctx);
       break;
     case 'INSTANCE':
       built = await buildInstance(node, ctx);
@@ -292,6 +292,10 @@ function applyFrameProps(
     const style = ctx.paintStyles.get(node.fillStyleId);
     if (style) frame.fillStyleId = style.id;
   }
+  if (node.strokeStyleId) {
+    const style = ctx.paintStyles.get(node.strokeStyleId);
+    if (style) frame.strokeStyleId = style.id;
+  }
   if (node.effectStyleId) {
     const style = ctx.effectStyles.get(node.effectStyleId);
     if (style) frame.effectStyleId = style.id;
@@ -364,7 +368,7 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
   return rect;
 }
 
-function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>): VectorNode {
+function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>, ctx: BuildContext): VectorNode {
   const v = figma.createVector();
   v.name = node.name || 'Vector';
   if (node.path) {
@@ -392,6 +396,14 @@ function buildVector(node: Extract<IRNode, { type: 'VECTOR' }>): VectorNode {
       v.strokeWeight = first.weight;
       v.strokeAlign = first.align;
     }
+  }
+  if (node.fillStyleId) {
+    const style = ctx.paintStyles.get(node.fillStyleId);
+    if (style) v.fillStyleId = style.id;
+  }
+  if (node.strokeStyleId) {
+    const style = ctx.paintStyles.get(node.strokeStyleId);
+    if (style) v.strokeStyleId = style.id;
   }
   return v;
 }

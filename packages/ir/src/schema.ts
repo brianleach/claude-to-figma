@@ -234,6 +234,12 @@ export interface FrameNode {
   fills: Paint[];
   fillStyleId?: string;
   strokes: Stroke[];
+  /**
+   * Reference to a PaintStyle in `styles.paints` whose paints should be
+   * applied as the stroke fill. Weight + align stay on `strokes[0]`
+   * (Figma's PaintStyle API doesn't carry them).
+   */
+  strokeStyleId?: string;
   effects: Effect[];
   effectStyleId?: string;
   cornerRadius?: number;
@@ -283,7 +289,9 @@ export interface VectorNode {
   /** SVG path 'd' attribute. */
   path: string;
   fills: Paint[];
+  fillStyleId?: string;
   strokes: Stroke[];
+  strokeStyleId?: string;
 }
 
 export interface InstanceNode {
@@ -322,6 +330,7 @@ export const FrameNodeSchema = z.object({
   fills: z.array(PaintSchema).default([]),
   fillStyleId: z.string().optional(),
   strokes: z.array(StrokeSchema).default([]),
+  strokeStyleId: z.string().optional(),
   effects: z.array(EffectSchema).default([]),
   effectStyleId: z.string().optional(),
   cornerRadius: z.number().min(0).optional(),
@@ -352,7 +361,9 @@ export const VectorNodeSchema = z.object({
   ...BaseNodeShape,
   path: z.string(),
   fills: z.array(PaintSchema).default([]),
+  fillStyleId: z.string().optional(),
   strokes: z.array(StrokeSchema).default([]),
+  strokeStyleId: z.string().optional(),
 });
 
 export const InstanceNodeSchema = z.object({

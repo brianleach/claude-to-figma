@@ -13,6 +13,7 @@ import {
   type IRNode,
   IR_VERSION,
   type Paint,
+  type Stroke,
   type TextNode,
   type TextStyle,
 } from '@claude-to-figma/ir';
@@ -52,6 +53,7 @@ function frame(
   opts: {
     name?: string;
     fills?: Paint[];
+    strokes?: Stroke[];
     effects?: Effect[];
     children?: IRNode[];
   } = {},
@@ -64,10 +66,14 @@ function frame(
     opacity: 1,
     visible: true,
     fills: opts.fills ?? [],
-    strokes: [],
+    strokes: opts.strokes ?? [],
     effects: opts.effects ?? [],
     children: opts.children ?? [],
   };
+}
+
+function strokeOf(paint: Paint, weight = 1): Stroke {
+  return { paint, weight, align: 'INSIDE' };
 }
 
 function text(style: TextStyle, fills: Paint[] = []): TextNode {
@@ -295,6 +301,41 @@ describe('applyPaintStyles', () => {
     const ext = extractPaintStyles(d);
     const updated = applyPaintStyles(d, ext.styleIdByColorKey);
     expect((updated.components[0]?.root as FrameNode).fillStyleId).toBe('surface/primary');
+  });
+
+  it('stamps strokeStyleId on FRAME whose first stroke paint matches a registered style', () => {
+    // A neutral used only as stroke lands in border/* bucket.
+    const rule = solid(0.3, 0.3, 0.3);
+    const root = frame({
+      strokes: [strokeOf(rule)],
+      children: [frame({ strokes: [strokeOf(rule)] })],
+    });
+    const ext = extractPaintStyles(doc(root));
+    const updated = applyPaintStyles(doc(root), ext.styleIdByColorKey);
+    const r = updated.root as FrameNode;
+    expect(r.strokeStyleId).toBe('border/default');
+    const child = r.children[0] as FrameNode;
+    expect(child.strokeStyleId).toBe('border/default');
+  });
+
+  it('fill and stroke with the same paint point at the same style id', () => {
+    // One colour used as both background and border should yield one
+    // PaintStyle with both fillStyleId and strokeStyleId referencing it.
+    const blue = solid(0, 0, 1);
+    const root = frame({ fills: [blue], strokes: [strokeOf(blue)] });
+    const ext = extractPaintStyles(doc(root));
+    const updated = applyPaintStyles(doc(root), ext.styleIdByColorKey);
+    const r = updated.root as FrameNode;
+    expect(r.fillStyleId).toBeDefined();
+    expect(r.strokeStyleId).toBe(r.fillStyleId);
+  });
+
+  it('leaves strokeStyleId unset when the node has no strokes', () => {
+    const cream = solid(0xf0 / 255, 0xeb / 255, 0xe0 / 255);
+    const root = frame({ fills: [cream] });
+    const ext = extractPaintStyles(doc(root));
+    const updated = applyPaintStyles(doc(root), ext.styleIdByColorKey);
+    expect((updated.root as FrameNode).strokeStyleId).toBeUndefined();
   });
 });
 

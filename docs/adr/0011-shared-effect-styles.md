@@ -58,16 +58,24 @@ with separate `shadow/*` styles. Acceptable — CSS authors rarely vary
 order accidentally, and the numeric-suffix collision rule keeps names
 sane even if it happens.
 
-### Stroke styles are deliberately NOT promoted
+### Stroke styles reference the existing PaintStyle registry
 
 A stroke is paint + weight + align. Figma's shared-style system covers
 the paint (via PaintStyle + `strokeStyleId`, which is the same
 PaintStyle type as `fillStyleId`) but does NOT share weight or align —
-those always live on the node. Promoting only the paint would half-solve
-the problem and introduce a split between "shared paint" and "inline
-weight" that's confusing for designers. Deferred pending either a
-Figma-API way to share full stroke configs, or a product decision to
-accept the partial sharing.
+those always live on the node. Earlier drafts of this ADR deferred
+stroke sharing on the grounds that partial sharing is confusing.
+Reversed after running numbers on the landing fixture: 73 frames with
+strokes, 6 unique paint colours, top repeat at 30 nodes — leaving every
+stroke inline costs a designer 73 edit sites for 6 logical tokens.
+
+Decision: `FrameNode` / `VectorNode` gain a `strokeStyleId` that points
+into the existing `styles.paints` registry (same naming, same bucket
+rules as ADR 0010 — stroke paints already land in `border/*`,
+`ink/*`, `brand/*` by role). The `Stroke` object still carries the
+weight + align inline, and the plugin sets `frame.strokeStyleId =
+paintStyle.id` whenever the IR provides one. No separate "stroke style"
+type — weight is intrinsically per-node and Figma's API enforces that.
 
 ## Consequences
 

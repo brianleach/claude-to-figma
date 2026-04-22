@@ -140,7 +140,8 @@
                       "layoutPositioning": "AUTO",
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
-                    }
+                    },
+                    "strokeStyleId": "ink/primary"
                   }
                 ],
                 "layout": {
@@ -164,7 +165,8 @@
                   "layoutGrow": 0,
                   "layoutAlign": "INHERIT"
                 },
-                "fillStyleId": "surface/primary"
+                "fillStyleId": "surface/primary",
+                "strokeStyleId": "ink/primary"
               },
               {
                 "type": "TEXT",
@@ -641,7 +643,8 @@
               "layoutGrow": 0,
               "layoutAlign": "INHERIT"
             },
-            "fillStyleId": "surface/primary"
+            "fillStyleId": "surface/primary",
+            "strokeStyleId": "ink/primary"
           }
         ],
         "layout": {
@@ -1028,7 +1031,8 @@
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "ink/primary"
+                            "fillStyleId": "ink/primary",
+                            "strokeStyleId": "ink/primary"
                           },
                           {
                             "type": "FRAME",
@@ -1135,7 +1139,8 @@
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "color/black"
+                            "fillStyleId": "color/black",
+                            "strokeStyleId": "ink/primary"
                           }
                         ],
                         "layout": {
@@ -1451,7 +1456,8 @@
                               "counterAxisSizingMode": "FIXED",
                               "clipsContent": false
                             },
-                            "fillStyleId": "surface/tertiary"
+                            "fillStyleId": "surface/tertiary",
+                            "strokeStyleId": "border/default"
                           },
                           {
                             "type": "FRAME",
@@ -1635,7 +1641,8 @@
                                                     "weight": 1,
                                                     "align": "CENTER"
                                                   }
-                                                ]
+                                                ],
+                                                "strokeStyleId": "ink/subtle"
                                               },
                                               {
                                                 "type": "VECTOR",
@@ -1667,7 +1674,8 @@
                                                     "weight": 1,
                                                     "align": "CENTER"
                                                   }
-                                                ]
+                                                ],
+                                                "strokeStyleId": "ink/subtle"
                                               }
                                             ],
                                             "childLayout": {
@@ -1698,7 +1706,8 @@
                                           "layoutGrow": 0,
                                           "layoutAlign": "STRETCH"
                                         },
-                                        "fillStyleId": "surface/primary"
+                                        "fillStyleId": "surface/primary",
+                                        "strokeStyleId": "ink/subtle"
                                       },
                                       {
                                         "type": "TEXT",
@@ -1755,7 +1764,8 @@
                                       "counterAxisSizingMode": "FIXED",
                                       "clipsContent": false
                                     },
-                                    "cornerRadius": 4
+                                    "cornerRadius": 4,
+                                    "strokeStyleId": "ink/subtle"
                                   }
                                 ],
                                 "childLayout": {
@@ -1763,7 +1773,8 @@
                                   "layoutGrow": 1,
                                   "layoutAlign": "STRETCH"
                                 },
-                                "fillStyleId": "color/f5f2ea"
+                                "fillStyleId": "color/f5f2ea",
+                                "strokeStyleId": "border/default"
                               },
                               {
                                 "type": "FRAME",
@@ -1939,6 +1950,7 @@
                         "cornerRadius": 10,
                         "rotation": -2.5,
                         "fillStyleId": "color/fafaf8",
+                        "strokeStyleId": "border/default",
                         "effectStyleId": "shadow/xl"
                       },
                       {
@@ -2215,7 +2227,8 @@
                               "counterAxisSizingMode": "FIXED",
                               "clipsContent": false
                             },
-                            "fillStyleId": "surface/tertiary"
+                            "fillStyleId": "surface/tertiary",
+                            "strokeStyleId": "border/default"
                           },
                           {
                             "type": "FRAME",
@@ -2430,7 +2443,8 @@
                                   "layoutGrow": 1,
                                   "layoutAlign": "STRETCH"
                                 },
-                                "fillStyleId": "color/f5f2ea"
+                                "fillStyleId": "color/f5f2ea",
+                                "strokeStyleId": "border/default"
                               },
                               {
                                 "type": "FRAME",
@@ -2822,6 +2836,7 @@
                         "cornerRadius": 10,
                         "rotation": 1.5,
                         "fillStyleId": "color/fafaf8",
+                        "strokeStyleId": "border/default",
                         "effectStyleId": "shadow/xl"
                       }
                     ],
@@ -3454,7 +3469,8 @@
                               "layoutGrow": 1,
                               "layoutAlign": "INHERIT"
                             },
-                            "fillStyleId": "color/black"
+                            "fillStyleId": "color/black",
+                            "strokeStyleId": "brand/primary"
                           }
                         ],
                         "layout": {
@@ -3471,7 +3487,8 @@
                           "primaryAxisSizingMode": "FIXED",
                           "counterAxisSizingMode": "FIXED",
                           "clipsContent": false
-                        }
+                        },
+                        "strokeStyleId": "border/default"
                       },
                       {
                         "type": "FRAME",
@@ -3576,7 +3593,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "INHERIT"
                     },
-                    "fillStyleId": "surface/secondary"
+                    "fillStyleId": "surface/secondary",
+                    "strokeStyleId": "border/default"
                   }
                 ],
                 "layout": {
@@ -3878,7 +3896,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -3910,7 +3929,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -3942,7 +3962,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -3974,7 +3995,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4002,7 +4024,8 @@
                                     "visible": true
                                   }
                                 ],
-                                "strokes": []
+                                "strokes": [],
+                                "fillStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4030,7 +4053,8 @@
                                     "visible": true
                                   }
                                 ],
-                                "strokes": []
+                                "strokes": [],
+                                "fillStyleId": "ink/primary"
                               }
                             ],
                             "childLayout": {
@@ -4056,7 +4080,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -4198,7 +4223,8 @@
                       "layoutPositioning": "AUTO",
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
-                    }
+                    },
+                    "strokeStyleId": "border/default"
                   },
                   {
                     "type": "FRAME",
@@ -4341,7 +4367,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4373,7 +4400,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4405,7 +4433,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               }
                             ],
                             "childLayout": {
@@ -4431,7 +4460,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -4573,7 +4603,8 @@
                       "layoutPositioning": "AUTO",
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
-                    }
+                    },
+                    "strokeStyleId": "border/default"
                   },
                   {
                     "type": "FRAME",
@@ -4700,7 +4731,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4732,7 +4764,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4776,7 +4809,9 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "fillStyleId": "brand/accent",
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4808,7 +4843,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -4840,7 +4876,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               }
                             ],
                             "childLayout": {
@@ -4866,7 +4903,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 12,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -5025,7 +5063,8 @@
                   "primaryAxisSizingMode": "FIXED",
                   "counterAxisSizingMode": "FIXED",
                   "clipsContent": false
-                }
+                },
+                "strokeStyleId": "border/default"
               }
             ]
           }
@@ -5291,7 +5330,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -5323,7 +5363,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               }
                             ],
                             "childLayout": {
@@ -5349,7 +5390,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -5590,7 +5632,8 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "border/default"
                       }
                     ],
                     "cornerRadius": 14,
@@ -5599,7 +5642,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "surface/secondary"
+                    "fillStyleId": "surface/secondary",
+                    "strokeStyleId": "border/default"
                   },
                   {
                     "type": "FRAME",
@@ -5735,7 +5779,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -5767,7 +5812,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -5799,7 +5845,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -5831,7 +5878,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               }
                             ],
                             "childLayout": {
@@ -5857,7 +5905,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -6130,7 +6179,8 @@
                               "clipsContent": false
                             },
                             "cornerRadius": 6,
-                            "fillStyleId": "surface/primary"
+                            "fillStyleId": "surface/primary",
+                            "strokeStyleId": "brand/primary"
                           },
                           {
                             "type": "FRAME",
@@ -6191,7 +6241,8 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "border/default"
                       }
                     ],
                     "cornerRadius": 14,
@@ -6200,7 +6251,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "surface/secondary"
+                    "fillStyleId": "surface/secondary",
+                    "strokeStyleId": "border/default"
                   },
                   {
                     "type": "FRAME",
@@ -6348,7 +6400,9 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "fillStyleId": "brand/accent",
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -6380,7 +6434,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -6412,7 +6467,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -6444,7 +6500,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "brand/primary"
                               }
                             ],
                             "childLayout": {
@@ -6470,7 +6527,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -6672,7 +6730,8 @@
                                   "layoutGrow": 0,
                                   "layoutAlign": "INHERIT"
                                 },
-                                "fillStyleId": "surface/primary"
+                                "fillStyleId": "surface/primary",
+                                "strokeStyleId": "brand/primary"
                               },
                               {
                                 "type": "FRAME",
@@ -6845,7 +6904,8 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "border/default"
                       }
                     ],
                     "cornerRadius": 14,
@@ -6854,7 +6914,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "surface/secondary"
+                    "fillStyleId": "surface/secondary",
+                    "strokeStyleId": "border/default"
                   },
                   {
                     "type": "FRAME",
@@ -6990,7 +7051,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -7034,7 +7096,9 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "fillStyleId": "brand/primary",
+                                "strokeStyleId": "ink/primary"
                               },
                               {
                                 "type": "VECTOR",
@@ -7066,7 +7130,8 @@
                                     "weight": 1.5,
                                     "align": "CENTER"
                                   }
-                                ]
+                                ],
+                                "strokeStyleId": "ink/primary"
                               }
                             ],
                             "childLayout": {
@@ -7092,7 +7157,8 @@
                           "clipsContent": false
                         },
                         "cornerRadius": 10,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "ink/primary"
                       },
                       {
                         "type": "TEXT",
@@ -7712,7 +7778,8 @@
                           }
                         ],
                         "cornerRadius": 8,
-                        "fillStyleId": "surface/primary"
+                        "fillStyleId": "surface/primary",
+                        "strokeStyleId": "border/default"
                       }
                     ],
                     "cornerRadius": 14,
@@ -7721,7 +7788,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "surface/secondary"
+                    "fillStyleId": "surface/secondary",
+                    "strokeStyleId": "border/default"
                   }
                 ],
                 "layout": {
@@ -8411,7 +8479,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "brand/primary"
+                    "fillStyleId": "brand/primary",
+                    "strokeStyleId": "color/ddd4be"
                   },
                   {
                     "type": "INSTANCE",
@@ -8792,7 +8861,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "STRETCH"
                     },
-                    "fillStyleId": "color/black"
+                    "fillStyleId": "color/black",
+                    "strokeStyleId": "color/ddd4be"
                   }
                 ],
                 "layout": {
@@ -9351,7 +9421,8 @@
                           "counterAxisSizingMode": "FIXED",
                           "clipsContent": false
                         },
-                        "fillStyleId": "color/2a2620"
+                        "fillStyleId": "color/2a2620",
+                        "strokeStyleId": "border/subtle"
                       },
                       {
                         "type": "FRAME",
@@ -10839,7 +10910,8 @@
               "clipsContent": false
             }
           }
-        ]
+        ],
+        "strokeStyleId": "border/default"
       }
     ],
     "fillStyleId": "surface/primary"
@@ -11930,7 +12002,8 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "surface/primary"
+        "fillStyleId": "surface/primary",
+        "strokeStyleId": "brand/primary"
       }
     },
     {
@@ -12079,7 +12152,8 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "surface/primary"
+        "fillStyleId": "surface/primary",
+        "strokeStyleId": "brand/primary"
       }
     },
     {
@@ -12387,7 +12461,8 @@
           "primaryAxisSizingMode": "FIXED",
           "counterAxisSizingMode": "FIXED",
           "clipsContent": false
-        }
+        },
+        "strokeStyleId": "border/default"
       }
     },
     {
@@ -12498,7 +12573,8 @@
           "layoutGrow": 0,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "surface/primary"
+        "fillStyleId": "surface/primary",
+        "strokeStyleId": "ink/primary"
       }
     },
     {
@@ -12810,7 +12886,8 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "surface/primary"
+        "fillStyleId": "surface/primary",
+        "strokeStyleId": "border/default"
       }
     },
     {
@@ -13247,7 +13324,8 @@
           "layoutGrow": 1,
           "layoutAlign": "STRETCH"
         },
-        "fillStyleId": "color/black"
+        "fillStyleId": "color/black",
+        "strokeStyleId": "color/ddd4be"
       }
     },
     {

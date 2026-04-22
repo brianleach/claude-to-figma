@@ -242,10 +242,17 @@ function applyToNode(node: IRNode, byKey: Map<string, string>): IRNode {
       return {
         ...node,
         ...withStyleId(node.fills, byKey, node.fillStyleId),
+        ...withStrokeStyleId(node.strokes, byKey, node.strokeStyleId),
         children: node.children.map((c) => applyToNode(c, byKey)),
       };
     case 'TEXT':
       return { ...node, ...withStyleId(node.fills, byKey, node.fillStyleId) };
+    case 'VECTOR':
+      return {
+        ...node,
+        ...withStyleId(node.fills, byKey, node.fillStyleId),
+        ...withStrokeStyleId(node.strokes, byKey, node.strokeStyleId),
+      };
     default:
       return node;
   }
@@ -264,6 +271,21 @@ function withStyleId(
   if (!first) return current ? { fillStyleId: current } : {};
   const id = byKey.get(colorKey(first.color));
   return id ? { fillStyleId: id } : current ? { fillStyleId: current } : {};
+}
+
+function withStrokeStyleId(
+  strokes: { paint: Paint }[],
+  byKey: Map<string, string>,
+  current: string | undefined,
+): { strokeStyleId?: string } {
+  // Mirror withStyleId for strokes. Figma's PaintStyle API doesn't carry
+  // weight/align, so those still live on the Stroke object — but the paint
+  // half links to the same paint style as any matching fill (already named
+  // via the border/* role bucket in ADR 0010).
+  const first = strokes[0]?.paint;
+  if (!first || first.type !== 'SOLID') return current ? { strokeStyleId: current } : {};
+  const id = byKey.get(colorKey((first as SolidPaint).color));
+  return id ? { strokeStyleId: id } : current ? { strokeStyleId: current } : {};
 }
 
 // ---------------------------------------------------------------------------

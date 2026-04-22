@@ -124,7 +124,14 @@ export function computeLayout(
     for (const child of el.childNodes) {
       if (isElement(child)) {
         if (IGNORED_TAGS.has(child.tagName.toLowerCase())) continue;
-        const childYoga = buildYoga(child, myContentWidth);
+        // Grid children see their track width as `availableContentWidth`,
+        // not the whole container — otherwise a grid cell's descendants
+        // compute block-centring / child grid tracks against the wrong
+        // parent width and overflow.
+        const childAvailable = trackWidths
+          ? trackWidths[index % trackWidths.length]
+          : myContentWidth;
+        const childYoga = buildYoga(child, childAvailable);
         if (trackWidths) {
           const w = trackWidths[index % trackWidths.length];
           if (w != null) applyGridCellSize(childYoga, styles.get(child), w);

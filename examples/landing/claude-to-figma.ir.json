@@ -9,7 +9,7 @@
       "x": 0,
       "y": 0,
       "width": 1440,
-      "height": 5776
+      "height": 5656
     },
     "opacity": 1,
     "visible": true,
@@ -1476,7 +1476,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 1012,
+                                  "width": 383,
                                   "height": 236
                                 },
                                 "opacity": 1,
@@ -1520,7 +1520,7 @@
                                     "geometry": {
                                       "x": 18,
                                       "y": 18,
-                                      "width": 975,
+                                      "width": 346,
                                       "height": 200
                                     },
                                     "opacity": 1,
@@ -1550,7 +1550,7 @@
                                         "id": "div-33",
                                         "name": "Lock",
                                         "geometry": {
-                                          "x": 944,
+                                          "x": 315,
                                           "y": 9,
                                           "width": 22,
                                           "height": 22
@@ -2238,7 +2238,7 @@
                                 "geometry": {
                                   "x": 0,
                                   "y": 0,
-                                  "width": 1012,
+                                  "width": 383,
                                   "height": 244
                                 },
                                 "opacity": 1,
@@ -2282,7 +2282,7 @@
                                     "geometry": {
                                       "x": 18,
                                       "y": 18,
-                                      "width": 975,
+                                      "width": 346,
                                       "height": 208
                                     },
                                     "opacity": 1,
@@ -2298,7 +2298,7 @@
                                         "geometry": {
                                           "x": 0,
                                           "y": 0,
-                                          "width": 367,
+                                          "width": 110,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2315,9 +2315,9 @@
                                         "id": "instance-2",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 375,
+                                          "x": 118,
                                           "y": 0,
-                                          "width": 366,
+                                          "width": 111,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2336,7 +2336,7 @@
                                         "geometry": {
                                           "x": 0,
                                           "y": 72,
-                                          "width": 367,
+                                          "width": 110,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2353,9 +2353,9 @@
                                         "id": "instance-4",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 375,
+                                          "x": 118,
                                           "y": 72,
-                                          "width": 366,
+                                          "width": 111,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2374,7 +2374,7 @@
                                         "geometry": {
                                           "x": 0,
                                           "y": 144,
-                                          "width": 367,
+                                          "width": 110,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -2391,9 +2391,9 @@
                                         "id": "instance-6",
                                         "name": "Mini Card",
                                         "geometry": {
-                                          "x": 375,
+                                          "x": 118,
                                           "y": 144,
-                                          "width": 366,
+                                          "width": 111,
                                           "height": 64
                                         },
                                         "childLayout": {
@@ -3305,7 +3305,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 15,
-                              "width": 548,
+                              "width": 227,
                               "height": 35
                             },
                             "opacity": 1,
@@ -3367,7 +3367,7 @@
                             "geometry": {
                               "x": 0,
                               "y": 50,
-                              "width": 548,
+                              "width": 227,
                               "height": 28
                             },
                             "opacity": 1,
@@ -5035,7 +5035,7 @@
           "x": 0,
           "y": 2485,
           "width": 1440,
-          "height": 1469
+          "height": 1349
         },
         "opacity": 1,
         "visible": true,
@@ -5051,7 +5051,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 1277
+              "height": 1157
             },
             "opacity": 1,
             "visible": true,
@@ -5145,7 +5145,7 @@
                   "x": 64,
                   "y": 204,
                   "width": 1152,
-                  "height": 1073
+                  "height": 953
                 },
                 "opacity": 1,
                 "visible": true,
@@ -6206,7 +6206,7 @@
                       "x": 0,
                       "y": 402,
                       "width": 564,
-                      "height": 671
+                      "height": 551
                     },
                     "opacity": 1,
                     "visible": true,
@@ -6566,7 +6566,7 @@
                           "x": 33,
                           "y": 215,
                           "width": 498,
-                          "height": 232
+                          "height": 130
                         },
                         "opacity": 1,
                         "visible": true,
@@ -6610,7 +6610,7 @@
                               "x": 17,
                               "y": 17,
                               "width": 464,
-                              "height": 198
+                              "height": 96
                             },
                             "opacity": 1,
                             "visible": true,
@@ -6678,7 +6678,7 @@
                                   "x": 88,
                                   "y": 0,
                                   "width": 464,
-                                  "height": 198
+                                  "height": 96
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -6693,7 +6693,7 @@
                                     "geometry": {
                                       "x": 0,
                                       "y": 0,
-                                      "width": 348,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6710,9 +6710,9 @@
                                     "id": "instance-33",
                                     "name": "Comp Instance",
                                     "geometry": {
-                                      "x": 0,
-                                      "y": 34,
-                                      "width": 348,
+                                      "x": 158,
+                                      "y": 0,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6730,8 +6730,8 @@
                                     "name": "Comp Instance",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 68,
-                                      "width": 348,
+                                      "y": 34,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6748,9 +6748,9 @@
                                     "id": "instance-35",
                                     "name": "Comp Instance",
                                     "geometry": {
-                                      "x": 0,
-                                      "y": 102,
-                                      "width": 348,
+                                      "x": 158,
+                                      "y": 34,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6768,8 +6768,8 @@
                                     "name": "Comp Instance",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 136,
-                                      "width": 348,
+                                      "y": 68,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6786,9 +6786,9 @@
                                     "id": "instance-37",
                                     "name": "Comp Instance",
                                     "geometry": {
-                                      "x": 0,
-                                      "y": 170,
-                                      "width": 348,
+                                      "x": 158,
+                                      "y": 68,
+                                      "width": 152,
                                       "height": 28
                                     },
                                     "childLayout": {
@@ -6860,7 +6860,7 @@
                       "x": 588,
                       "y": 402,
                       "width": 564,
-                      "height": 671
+                      "height": 551
                     },
                     "opacity": 1,
                     "visible": true,
@@ -7188,7 +7188,7 @@
                           "x": 33,
                           "y": 215,
                           "width": 498,
-                          "height": 419
+                          "height": 299
                         },
                         "opacity": 1,
                         "visible": true,
@@ -7232,7 +7232,7 @@
                               "x": 17,
                               "y": 17,
                               "width": 464,
-                              "height": 385
+                              "height": 265
                             },
                             "opacity": 1,
                             "visible": true,
@@ -7248,7 +7248,7 @@
                                   "x": 0,
                                   "y": 0,
                                   "width": 464,
-                                  "height": 71
+                                  "height": 47
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7265,9 +7265,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 77,
+                                  "y": 53,
                                   "width": 464,
-                                  "height": 71
+                                  "height": 47
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7292,9 +7292,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 154,
+                                  "y": 106,
                                   "width": 464,
-                                  "height": 71
+                                  "height": 47
                                 },
                                 "childLayout": {
                                   "layoutPositioning": "AUTO",
@@ -7319,9 +7319,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 231,
+                                  "y": 159,
                                   "width": 464,
-                                  "height": 74
+                                  "height": 50
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -7335,7 +7335,7 @@
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 0,
+                                      "y": 4,
                                       "width": 14,
                                       "height": 14
                                     },
@@ -7384,9 +7384,9 @@
                                     "id": "text-266",
                                     "name": "Type Name",
                                     "geometry": {
-                                      "x": 0,
-                                      "y": 24,
-                                      "width": 510,
+                                      "x": 24,
+                                      "y": 0,
+                                      "width": 216,
                                       "height": 22
                                     },
                                     "opacity": 1,
@@ -7435,8 +7435,8 @@
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 56,
-                                      "width": 510,
+                                      "y": 32,
+                                      "width": 216,
                                       "height": 18
                                     },
                                     "opacity": 1,
@@ -7507,9 +7507,9 @@
                                 "name": "Token",
                                 "geometry": {
                                   "x": 0,
-                                  "y": 311,
+                                  "y": 215,
                                   "width": 464,
-                                  "height": 74
+                                  "height": 50
                                 },
                                 "opacity": 1,
                                 "visible": true,
@@ -7523,7 +7523,7 @@
                                     "name": "Sw",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 0,
+                                      "y": 4,
                                       "width": 14,
                                       "height": 14
                                     },
@@ -7572,9 +7572,9 @@
                                     "id": "text-270",
                                     "name": "Type Name",
                                     "geometry": {
-                                      "x": 0,
-                                      "y": 24,
-                                      "width": 510,
+                                      "x": 24,
+                                      "y": 0,
+                                      "width": 216,
                                       "height": 22
                                     },
                                     "opacity": 1,
@@ -7623,8 +7623,8 @@
                                     "name": "Val",
                                     "geometry": {
                                       "x": 0,
-                                      "y": 56,
-                                      "width": 510,
+                                      "y": 32,
+                                      "width": 216,
                                       "height": 18
                                     },
                                     "opacity": 1,
@@ -7746,7 +7746,7 @@
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
-          "y": 3954,
+          "y": 3834,
           "width": 1440,
           "height": 818
         },
@@ -8864,7 +8864,7 @@
         "name": "Get Started",
         "geometry": {
           "x": 0,
-          "y": 4772,
+          "y": 4652,
           "width": 1440,
           "height": 658
         },
@@ -9989,7 +9989,7 @@
         "name": "Footer",
         "geometry": {
           "x": 0,
-          "y": 5470,
+          "y": 5350,
           "width": 1440,
           "height": 306
         },
@@ -11842,7 +11842,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 348,
+          "width": 152,
           "height": 28
         },
         "opacity": 1,
@@ -11898,7 +11898,7 @@
         "geometry": {
           "x": 0,
           "y": 0,
-          "width": 367,
+          "width": 110,
           "height": 64
         },
         "opacity": 1,
@@ -11942,7 +11942,7 @@
             "geometry": {
               "x": 9,
               "y": 9,
-              "width": 209,
+              "width": 56,
               "height": 4
             },
             "opacity": 1,
@@ -11973,7 +11973,7 @@
             "geometry": {
               "x": 9,
               "y": 18,
-              "width": 140,
+              "width": 37,
               "height": 3
             },
             "opacity": 1,
@@ -12002,7 +12002,7 @@
             "id": "mini-card.frame-2",
             "name": "Swatch",
             "geometry": {
-              "x": 346,
+              "x": 89,
               "y": 43,
               "width": 14,
               "height": 14
@@ -12196,7 +12196,7 @@
             "geometry": {
               "x": 0,
               "y": 15,
-              "width": 548,
+              "width": 227,
               "height": 35
             },
             "opacity": 1,
@@ -12258,7 +12258,7 @@
             "geometry": {
               "x": 0,
               "y": 50,
-              "width": 548,
+              "width": 227,
               "height": 26
             },
             "opacity": 1,
@@ -13277,7 +13277,7 @@
           "x": 0,
           "y": 0,
           "width": 464,
-          "height": 71
+          "height": 47
         },
         "opacity": 1,
         "visible": true,
@@ -13290,9 +13290,9 @@
             "id": "token.text-0",
             "name": "Name",
             "geometry": {
-              "x": 0,
-              "y": 24,
-              "width": 510,
+              "x": 24,
+              "y": 0,
+              "width": 216,
               "height": 19
             },
             "opacity": 1,
@@ -13341,8 +13341,8 @@
             "name": "Val",
             "geometry": {
               "x": 0,
-              "y": 53,
-              "width": 510,
+              "y": 29,
+              "width": 216,
               "height": 18
             },
             "opacity": 1,

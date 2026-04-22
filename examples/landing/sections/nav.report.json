@@ -1,0 +1,16 @@
+{
+  "source": "/Users/brian.leach/code/claude-to-figma/examples/landing/sections/nav.html",
+  "output": "/Users/brian.leach/code/claude-to-figma/examples/landing/sections/nav.ir.json",
+  "stats": {
+    "nodes": 14,
+    "components": 0,
+    "instances": 0,
+    "paintStyles": 3,
+    "textStyles": 3,
+    "effectStyles": 0
+  },
+  "warnings": [
+    "<link href=\"https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap\"> could not be resolved"
+  ],
+  "generatedAt": "2026-04-22T23:05:23.943Z"
+}

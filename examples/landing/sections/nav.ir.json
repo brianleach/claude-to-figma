@@ -1,0 +1,826 @@
+{
+  "version": 1,
+  "name": "nav.html",
+  "root": {
+    "type": "FRAME",
+    "id": "root",
+    "name": "Page",
+    "geometry": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 95
+    },
+    "opacity": 1,
+    "visible": true,
+    "fills": [
+      {
+        "type": "SOLID",
+        "color": {
+          "r": 0.9490196078431372,
+          "g": 0.9294117647058824,
+          "b": 0.8784313725490196,
+          "a": 1
+        },
+        "opacity": 1,
+        "visible": true
+      }
+    ],
+    "strokes": [],
+    "effects": [],
+    "children": [
+      {
+        "type": "FRAME",
+        "id": "nav-14",
+        "name": "Nav",
+        "geometry": {
+          "x": 80,
+          "y": 0,
+          "width": 1280,
+          "height": 95
+        },
+        "opacity": 1,
+        "visible": true,
+        "fills": [],
+        "strokes": [],
+        "effects": [],
+        "children": [
+          {
+            "type": "FRAME",
+            "id": "div-4",
+            "name": "Brand",
+            "geometry": {
+              "x": 64,
+              "y": 34,
+              "width": 164,
+              "height": 28
+            },
+            "opacity": 1,
+            "visible": true,
+            "fills": [],
+            "strokes": [],
+            "effects": [],
+            "children": [
+              {
+                "type": "FRAME",
+                "id": "span-2",
+                "name": "Brand Mark",
+                "geometry": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 28,
+                  "height": 28
+                },
+                "opacity": 1,
+                "visible": true,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.9490196078431372,
+                      "g": 0.9294117647058824,
+                      "b": 0.8784313725490196,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "strokes": [
+                  {
+                    "paint": {
+                      "type": "SOLID",
+                      "color": {
+                        "r": 0.10980392156862745,
+                        "g": 0.10196078431372549,
+                        "b": 0.08627450980392157,
+                        "a": 1
+                      },
+                      "opacity": 1,
+                      "visible": true
+                    },
+                    "weight": 1.5,
+                    "align": "INSIDE"
+                  }
+                ],
+                "effects": [],
+                "children": [
+                  {
+                    "type": "VECTOR",
+                    "id": "path-1",
+                    "name": "svg",
+                    "geometry": {
+                      "x": 2,
+                      "y": 2,
+                      "width": 14,
+                      "height": 14
+                    },
+                    "opacity": 1,
+                    "visible": true,
+                    "path": "M 2 7 L 6 11 L 12 3",
+                    "fills": [],
+                    "strokes": [
+                      {
+                        "paint": {
+                          "type": "SOLID",
+                          "color": {
+                            "r": 0.10980392156862745,
+                            "g": 0.10196078431372549,
+                            "b": 0.08627450980392157,
+                            "a": 1
+                          },
+                          "opacity": 1,
+                          "visible": true
+                        },
+                        "weight": 1.6,
+                        "align": "CENTER"
+                      }
+                    ],
+                    "svgSource": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\">\n        <path d=\"M2 7 L6 11 L12 3\" stroke=\"#1C1A16\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n      </svg>",
+                    "childLayout": {
+                      "layoutPositioning": "AUTO",
+                      "layoutGrow": 1,
+                      "layoutAlign": "INHERIT"
+                    },
+                    "strokeStyleId": "ink/primary"
+                  }
+                ],
+                "layout": {
+                  "layoutMode": "HORIZONTAL",
+                  "itemSpacing": 0,
+                  "counterAxisSpacing": 0,
+                  "paddingTop": 0,
+                  "paddingRight": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "CENTER",
+                  "layoutWrap": "WRAP",
+                  "primaryAxisSizingMode": "FIXED",
+                  "counterAxisSizingMode": "AUTO",
+                  "clipsContent": false
+                },
+                "cornerRadius": 6,
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "INHERIT"
+                },
+                "fillStyleId": "surface/primary",
+                "strokeStyleId": "ink/primary"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-3",
+                "name": "claude-to-figma",
+                "opacity": 1,
+                "visible": true,
+                "characters": "claude-to-figma",
+                "textStyle": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontStyle": "Medium",
+                  "fontSize": 15,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PERCENT",
+                    "value": -1
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.10980392156862745,
+                      "g": 0.10196078431372549,
+                      "b": 0.08627450980392157,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "fillStyleId": "ink/primary",
+                "textStyleId": "body/md-medium"
+              }
+            ],
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 12,
+              "counterAxisSpacing": 12,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "layoutWrap": "NO_WRAP",
+              "primaryAxisSizingMode": "FIXED",
+              "counterAxisSizingMode": "FIXED",
+              "clipsContent": false
+            },
+            "childLayout": {
+              "layoutPositioning": "AUTO",
+              "layoutGrow": 0,
+              "layoutAlign": "INHERIT"
+            }
+          },
+          {
+            "type": "FRAME",
+            "id": "div-10",
+            "name": "Nav Links",
+            "geometry": {
+              "x": 453,
+              "y": 37,
+              "width": 444,
+              "height": 22
+            },
+            "opacity": 1,
+            "visible": true,
+            "fills": [],
+            "strokes": [],
+            "effects": [],
+            "children": [
+              {
+                "type": "TEXT",
+                "id": "text-5",
+                "name": "Problem",
+                "geometry": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 54,
+                  "height": 22
+                },
+                "opacity": 1,
+                "visible": true,
+                "characters": "Problem",
+                "textStyle": {
+                  "fontFamily": "DM Sans",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.22745098039215686,
+                      "g": 0.21176470588235294,
+                      "b": 0.1803921568627451,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "STRETCH"
+                },
+                "fillStyleId": "ink/muted",
+                "textStyleId": "body/md-regular"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-6",
+                "name": "How it works",
+                "geometry": {
+                  "x": 86,
+                  "y": 0,
+                  "width": 83,
+                  "height": 22
+                },
+                "opacity": 1,
+                "visible": true,
+                "characters": "How it works",
+                "textStyle": {
+                  "fontFamily": "DM Sans",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.22745098039215686,
+                      "g": 0.21176470588235294,
+                      "b": 0.1803921568627451,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "STRETCH"
+                },
+                "fillStyleId": "ink/muted",
+                "textStyleId": "body/md-regular"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-7",
+                "name": "Editable",
+                "geometry": {
+                  "x": 201,
+                  "y": 0,
+                  "width": 53,
+                  "height": 22
+                },
+                "opacity": 1,
+                "visible": true,
+                "characters": "Editable",
+                "textStyle": {
+                  "fontFamily": "DM Sans",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.22745098039215686,
+                      "g": 0.21176470588235294,
+                      "b": 0.1803921568627451,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "STRETCH"
+                },
+                "fillStyleId": "ink/muted",
+                "textStyleId": "body/md-regular"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-8",
+                "name": "Pipeline",
+                "geometry": {
+                  "x": 286,
+                  "y": 0,
+                  "width": 51,
+                  "height": 22
+                },
+                "opacity": 1,
+                "visible": true,
+                "characters": "Pipeline",
+                "textStyle": {
+                  "fontFamily": "DM Sans",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.22745098039215686,
+                      "g": 0.21176470588235294,
+                      "b": 0.1803921568627451,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "STRETCH"
+                },
+                "fillStyleId": "ink/muted",
+                "textStyleId": "body/md-regular"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-9",
+                "name": "Get started",
+                "geometry": {
+                  "x": 369,
+                  "y": 0,
+                  "width": 75,
+                  "height": 22
+                },
+                "opacity": 1,
+                "visible": true,
+                "characters": "Get started",
+                "textStyle": {
+                  "fontFamily": "DM Sans",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.22745098039215686,
+                      "g": 0.21176470588235294,
+                      "b": 0.1803921568627451,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "STRETCH"
+                },
+                "fillStyleId": "ink/muted",
+                "textStyleId": "body/md-regular"
+              }
+            ],
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 32,
+              "counterAxisSpacing": 32,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "MIN",
+              "layoutWrap": "NO_WRAP",
+              "primaryAxisSizingMode": "FIXED",
+              "counterAxisSizingMode": "FIXED",
+              "clipsContent": false
+            },
+            "childLayout": {
+              "layoutPositioning": "AUTO",
+              "layoutGrow": 0,
+              "layoutAlign": "INHERIT"
+            }
+          },
+          {
+            "type": "FRAME",
+            "id": "a-13",
+            "name": "Nav Cta",
+            "geometry": {
+              "x": 1121,
+              "y": 28,
+              "width": 95,
+              "height": 39
+            },
+            "opacity": 1,
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": {
+                  "r": 0.9490196078431372,
+                  "g": 0.9294117647058824,
+                  "b": 0.8784313725490196,
+                  "a": 1
+                },
+                "opacity": 1,
+                "visible": true
+              }
+            ],
+            "strokes": [
+              {
+                "paint": {
+                  "type": "SOLID",
+                  "color": {
+                    "r": 0.10980392156862745,
+                    "g": 0.10196078431372549,
+                    "b": 0.08627450980392157,
+                    "a": 1
+                  },
+                  "opacity": 1,
+                  "visible": true
+                },
+                "weight": 1,
+                "align": "INSIDE"
+              }
+            ],
+            "effects": [],
+            "children": [
+              {
+                "type": "VECTOR",
+                "id": "path-11",
+                "name": "svg",
+                "geometry": {
+                  "x": 15,
+                  "y": 13,
+                  "width": 14,
+                  "height": 14
+                },
+                "opacity": 1,
+                "visible": true,
+                "path": "M 8 0 C 4.075697976612682 -0.0008730964921452866 0.7301533868082393 2.8448709927814955 0.10152777312913752 6.718496809879198 C -0.5270978405499633 10.592122626976902 1.7468182660384883 14.34981255088005 5.469999999999998 15.59 c .4 .07 .55 -.17 .55 -.38 l 0 -1.3399999999999999 c -2.22 .48 -2.69 -1.07 -2.69 -1.07 c -.36 -.92 -.89 -1.17 -.89 -1.17 c -.73 -.5 .05 -.49 .05 -.49 c .81 .06 1.23 .83 1.23 .83 c .72 1.23 1.88 .88 2.34 .67 c .07 -.52 .28 -.88 .5 -1.08 c -1.78 -.2 -3.65 -.89 -3.65 -3.95 c 0 -.87 .31 -1.59 .82 -2.15 c -.08 -.2 -.36 -1.01 .08 -2.11 c 0 0 .67 -.21 2.2 .82 C 7.319413633775342 3.8128281492391247 8.700586366224657 3.8128281492391247 10.01 4.169999999999999 c 1.53 -1.03 2.2 -.82 2.2 -.82 c .44 1.1 .16 1.91 .08 2.11 c .51 .56 .82 1.28 .82 2.15 c 0 3.07 -1.87 3.74 -3.66 3.94 c .29 .25 .54 .74 .54 1.49 l 0 2.210000000000001 c 0 .21 .15 .46 .55 .38 C 14.332390848751361 14.436817934671891 16.673152417090698 10.63974775379128 16.035440810005646 6.71556176216159 C 15.397729202920587 2.791375770531899 11.97506454634185 -0.06909155613937568 7.999999999999998 0 Z",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.10980392156862745,
+                      "g": 0.10196078431372549,
+                      "b": 0.08627450980392157,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "strokes": [],
+                "svgSource": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"#1C1A16\"><path d=\"M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.5-1.08-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.66 3.94.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z\"></path></svg>",
+                "childLayout": {
+                  "layoutPositioning": "AUTO",
+                  "layoutGrow": 0,
+                  "layoutAlign": "INHERIT"
+                },
+                "fillStyleId": "ink/primary"
+              },
+              {
+                "type": "TEXT",
+                "id": "text-12",
+                "name": "GitHub",
+                "opacity": 1,
+                "visible": true,
+                "characters": "GitHub",
+                "textStyle": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontStyle": "Regular",
+                  "fontSize": 13,
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 155
+                  },
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0
+                  },
+                  "textAlign": "LEFT",
+                  "textDecoration": "NONE",
+                  "textCase": "ORIGINAL"
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": {
+                      "r": 0.10980392156862745,
+                      "g": 0.10196078431372549,
+                      "b": 0.08627450980392157,
+                      "a": 1
+                    },
+                    "opacity": 1,
+                    "visible": true
+                  }
+                ],
+                "fillStyleId": "ink/primary",
+                "textStyleId": "body/sm"
+              }
+            ],
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "itemSpacing": 8,
+              "counterAxisSpacing": 8,
+              "paddingTop": 8,
+              "paddingRight": 14,
+              "paddingBottom": 8,
+              "paddingLeft": 14,
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "layoutWrap": "NO_WRAP",
+              "primaryAxisSizingMode": "FIXED",
+              "counterAxisSizingMode": "FIXED",
+              "clipsContent": false
+            },
+            "cornerRadius": 999,
+            "childLayout": {
+              "layoutPositioning": "AUTO",
+              "layoutGrow": 0,
+              "layoutAlign": "INHERIT"
+            },
+            "fillStyleId": "surface/primary",
+            "strokeStyleId": "ink/primary"
+          }
+        ],
+        "layout": {
+          "layoutMode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "counterAxisSpacing": 0,
+          "paddingTop": 28,
+          "paddingRight": 64,
+          "paddingBottom": 28,
+          "paddingLeft": 64,
+          "primaryAxisAlignItems": "SPACE_BETWEEN",
+          "counterAxisAlignItems": "CENTER",
+          "layoutWrap": "NO_WRAP",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "clipsContent": false
+        }
+      }
+    ],
+    "fillStyleId": "surface/primary"
+  },
+  "styles": {
+    "paints": [
+      {
+        "id": "ink/muted",
+        "name": "ink/muted",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.22745098039215686,
+              "g": 0.21176470588235294,
+              "b": 0.1803921568627451,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "ink/primary",
+        "name": "ink/primary",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.10980392156862745,
+              "g": 0.10196078431372549,
+              "b": 0.08627450980392157,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      },
+      {
+        "id": "surface/primary",
+        "name": "surface/primary",
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.9490196078431372,
+              "g": 0.9294117647058824,
+              "b": 0.8784313725490196,
+              "a": 1
+            },
+            "opacity": 1,
+            "visible": true
+          }
+        ]
+      }
+    ],
+    "texts": [
+      {
+        "id": "body/md-medium",
+        "name": "body/md-medium",
+        "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontStyle": "Medium",
+          "fontSize": 15,
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 155
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1
+          },
+          "textAlign": "LEFT",
+          "textDecoration": "NONE",
+          "textCase": "ORIGINAL"
+        }
+      },
+      {
+        "id": "body/md-regular",
+        "name": "body/md-regular",
+        "style": {
+          "fontFamily": "DM Sans",
+          "fontStyle": "Regular",
+          "fontSize": 14,
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 155
+          },
+          "letterSpacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "textAlign": "LEFT",
+          "textDecoration": "NONE",
+          "textCase": "ORIGINAL"
+        }
+      },
+      {
+        "id": "body/sm",
+        "name": "body/sm",
+        "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontStyle": "Regular",
+          "fontSize": 13,
+          "lineHeight": {
+            "unit": "PERCENT",
+            "value": 155
+          },
+          "letterSpacing": {
+            "unit": "PIXELS",
+            "value": 0
+          },
+          "textAlign": "LEFT",
+          "textDecoration": "NONE",
+          "textCase": "ORIGINAL"
+        }
+      }
+    ],
+    "effects": []
+  },
+  "components": [],
+  "fonts": [
+    {
+      "family": "JetBrains Mono",
+      "style": "Medium"
+    },
+    {
+      "family": "DM Sans",
+      "style": "Regular"
+    },
+    {
+      "family": "JetBrains Mono",
+      "style": "Regular"
+    },
+    {
+      "family": "Inter",
+      "style": "Regular"
+    }
+  ],
+  "images": [],
+  "metadata": {
+    "generator": "@claude-to-figma/cli",
+    "source": "nav.html"
+  }
+}

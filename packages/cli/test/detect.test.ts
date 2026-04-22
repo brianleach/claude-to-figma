@@ -70,7 +70,7 @@ function doc(root: FrameNode, components: ComponentDef[] = []): IRDocument {
     version: IR_VERSION,
     name: 'test',
     root,
-    styles: { paints: [], texts: [] },
+    styles: { paints: [], texts: [], effects: [] },
     components,
     fonts: [],
     images: [],

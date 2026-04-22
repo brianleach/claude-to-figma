@@ -7,6 +7,7 @@
 
 import {
   type Color,
+  type Effect,
   type FrameNode,
   type IRDocument,
   type IRNode,
@@ -18,9 +19,12 @@ import {
 import { describe, expect, it } from 'vitest';
 import { convertHtml } from '../src/convert.js';
 import {
+  applyEffectStyles,
   applyPaintStyles,
   applyTextStyles,
   colorKey,
+  effectStackKey,
+  extractEffectStyles,
   extractPaintStyles,
   extractTextStyles,
   extractTokens,
@@ -44,7 +48,14 @@ function solid(r: number, g: number, b: number, a = 1): Paint {
   };
 }
 
-function frame(opts: { name?: string; fills?: Paint[]; children?: IRNode[] } = {}): FrameNode {
+function frame(
+  opts: {
+    name?: string;
+    fills?: Paint[];
+    effects?: Effect[];
+    children?: IRNode[];
+  } = {},
+): FrameNode {
   return {
     type: 'FRAME',
     id: id(),
@@ -54,7 +65,7 @@ function frame(opts: { name?: string; fills?: Paint[]; children?: IRNode[] } = {
     visible: true,
     fills: opts.fills ?? [],
     strokes: [],
-    effects: [],
+    effects: opts.effects ?? [],
     children: opts.children ?? [],
   };
 }
@@ -90,7 +101,7 @@ function doc(root: FrameNode): IRDocument {
     version: IR_VERSION,
     name: 'test',
     root,
-    styles: { paints: [], texts: [] },
+    styles: { paints: [], texts: [], effects: [] },
     components: [],
     fonts: [],
     images: [],
@@ -400,23 +411,174 @@ describe('textStyleKey', () => {
 });
 
 // ---------------------------------------------------------------------------
+// extractEffectStyles + applyEffectStyles
+// ---------------------------------------------------------------------------
+
+interface ShadowOverrides {
+  color?: { r: number; g: number; b: number; a: number };
+  offset?: { x: number; y: number };
+  radius?: number;
+  spread?: number;
+  visible?: boolean;
+}
+
+function shadow(opts: ShadowOverrides = {}): Effect {
+  return {
+    type: 'DROP_SHADOW',
+    color: opts.color ?? { r: 0, g: 0, b: 0, a: 0.12 },
+    offset: opts.offset ?? { x: 0, y: 4 },
+    radius: opts.radius ?? 8,
+    spread: opts.spread ?? 0,
+    visible: opts.visible ?? true,
+  };
+}
+
+describe('extractEffectStyles', () => {
+  it('returns no styles when no frame has effects', () => {
+    const { styles } = extractEffectStyles(doc(frame({})));
+    expect(styles).toEqual([]);
+  });
+
+  it('dedupes the same effect stack across many frames', () => {
+    const a = frame({ effects: [shadow({ radius: 8 })] });
+    const b = frame({ effects: [shadow({ radius: 8 })] });
+    const c = frame({ effects: [shadow({ radius: 8 })] });
+    const root = frame({ children: [a, b, c] });
+    const { styles } = extractEffectStyles(doc(root));
+    expect(styles).toHaveLength(1);
+    expect(styles[0]!.name).toBe('shadow/md');
+  });
+
+  it('radius buckets: sm ≤ 4, md ≤ 12, lg ≤ 24, xl > 24', () => {
+    const root = frame({
+      children: [
+        frame({ effects: [shadow({ radius: 3 })] }),
+        frame({ effects: [shadow({ radius: 10 })] }),
+        frame({ effects: [shadow({ radius: 18 })] }),
+        frame({ effects: [shadow({ radius: 40 })] }),
+      ],
+    });
+    const { styles } = extractEffectStyles(doc(root));
+    const names = styles.map((s) => s.name).sort();
+    expect(names).toEqual(['shadow/lg', 'shadow/md', 'shadow/sm', 'shadow/xl']);
+  });
+
+  it('two different shadows in the same bucket get numeric suffixes on collision', () => {
+    const root = frame({
+      children: [
+        frame({ effects: [shadow({ color: { r: 1, g: 0, b: 0, a: 1 }, radius: 8 })] }),
+        frame({ effects: [shadow({ color: { r: 0, g: 1, b: 0, a: 1 }, radius: 10 })] }),
+      ],
+    });
+    const { styles } = extractEffectStyles(doc(root));
+    const names = styles.map((s) => s.name).sort();
+    expect(names).toEqual(['shadow/md', 'shadow/md-2']);
+  });
+
+  it('pure blur stacks use the blur/* family', () => {
+    const root = frame({
+      effects: [{ type: 'LAYER_BLUR', radius: 6, visible: true }],
+    });
+    const { styles } = extractEffectStyles(doc(root));
+    expect(styles[0]!.name).toBe('blur/md');
+  });
+
+  it('mixed shadow + blur stacks use the fx/* family', () => {
+    const mixed: Effect[] = [
+      shadow({ radius: 10 }),
+      { type: 'LAYER_BLUR', radius: 3, visible: true },
+    ];
+    const root = frame({ effects: mixed });
+    const { styles } = extractEffectStyles(doc(root));
+    expect(styles[0]!.name).toBe('fx/md');
+  });
+
+  it('collects effects inside component masters too', () => {
+    const masterRoot = frame({ effects: [shadow({ radius: 8 })] });
+    const document: IRDocument = {
+      ...doc(frame({})),
+      components: [{ id: 'c1', name: 'Card', root: masterRoot }],
+    };
+    const { styles } = extractEffectStyles(document);
+    expect(styles).toHaveLength(1);
+  });
+});
+
+describe('applyEffectStyles', () => {
+  it('stamps effectStyleId on every FRAME whose effect stack matches', () => {
+    const e = [shadow({ radius: 8 })];
+    const root = frame({ children: [frame({ effects: e }), frame({ effects: e })] });
+    const { styleIdByKey } = extractEffectStyles(doc(root));
+    const applied = applyEffectStyles(doc(root), styleIdByKey);
+    const children = (applied.root as FrameNode).children as FrameNode[];
+    expect(children[0]!.effectStyleId).toBe('shadow/md');
+    expect(children[1]!.effectStyleId).toBe('shadow/md');
+  });
+
+  it('also stamps effectStyleId on frames inside component masters', () => {
+    const e = [shadow({ radius: 8 })];
+    const masterRoot = frame({ effects: e });
+    const document: IRDocument = {
+      ...doc(frame({ effects: e })),
+      components: [{ id: 'c1', name: 'Card', root: masterRoot }],
+    };
+    const { styleIdByKey } = extractEffectStyles(document);
+    const applied = applyEffectStyles(document, styleIdByKey);
+    expect((applied.root as FrameNode).effectStyleId).toBe('shadow/md');
+    expect((applied.components[0]!.root as FrameNode).effectStyleId).toBe('shadow/md');
+  });
+
+  it('leaves effectStyleId unset on frames with no effects', () => {
+    const root = frame({ children: [frame({ effects: [shadow({ radius: 8 })] }), frame({})] });
+    const { styleIdByKey } = extractEffectStyles(doc(root));
+    const applied = applyEffectStyles(doc(root), styleIdByKey);
+    const children = (applied.root as FrameNode).children as FrameNode[];
+    expect(children[0]!.effectStyleId).toBe('shadow/md');
+    expect(children[1]!.effectStyleId).toBeUndefined();
+  });
+});
+
+describe('effectStackKey', () => {
+  it('identical stacks collapse to the same key', () => {
+    const a = [shadow({ radius: 8 })];
+    const b = [shadow({ radius: 8 })];
+    expect(effectStackKey(a)).toBe(effectStackKey(b));
+  });
+
+  it('changing radius changes the key', () => {
+    expect(effectStackKey([shadow({ radius: 8 })])).not.toBe(
+      effectStackKey([shadow({ radius: 10 })]),
+    );
+  });
+
+  it('shadow list order is meaningful — reordering changes the key', () => {
+    const a: Effect[] = [shadow({ radius: 4 }), shadow({ radius: 12 })];
+    const b: Effect[] = [shadow({ radius: 12 }), shadow({ radius: 4 })];
+    expect(effectStackKey(a)).not.toBe(effectStackKey(b));
+  });
+});
+
+// ---------------------------------------------------------------------------
 // extractTokens (orchestrator) end-to-end
 // ---------------------------------------------------------------------------
 
 describe('extractTokens', () => {
-  it('populates both registries and stamps ids on the tree in one pass', () => {
+  it('populates all three registries and stamps ids on the tree in one pass', () => {
     const ts = baseTextStyle({ fontSize: 14 });
     // Saturated blue → brand/primary (chroma 1.0).
     const blue = solid(0, 0, 1);
     const root = frame({
       fills: [blue],
+      effects: [shadow({ radius: 8 })],
       children: [text(ts, [blue])],
     });
     const result = extractTokens(doc(root));
     expect(result.stats.paints).toBe(1);
     expect(result.stats.texts).toBe(1);
+    expect(result.stats.effects).toBe(1);
     const r = result.document.root as FrameNode;
     expect(r.fillStyleId).toBe('brand/primary');
+    expect(r.effectStyleId).toBe('shadow/md');
     const t = r.children[0] as TextNode;
     expect(t.textStyleId).toBe('body/md');
     expect(t.fillStyleId).toBe('brand/primary');

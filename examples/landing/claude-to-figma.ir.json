@@ -9,7 +9,7 @@
       "x": 0,
       "y": 0,
       "width": 1440,
-      "height": 5656
+      "height": 5611
     },
     "opacity": 1,
     "visible": true,
@@ -232,9 +232,9 @@
             "id": "div-10",
             "name": "Nav Links",
             "geometry": {
-              "x": 453,
+              "x": 459,
               "y": 37,
-              "width": 444,
+              "width": 432,
               "height": 22
             },
             "opacity": 1,
@@ -250,7 +250,7 @@
                 "geometry": {
                   "x": 0,
                   "y": 0,
-                  "width": 54,
+                  "width": 53,
                   "height": 22
                 },
                 "opacity": 1,
@@ -298,9 +298,9 @@
                 "id": "text-6",
                 "name": "How it works",
                 "geometry": {
-                  "x": 86,
+                  "x": 85,
                   "y": 0,
-                  "width": 83,
+                  "width": 80,
                   "height": 22
                 },
                 "opacity": 1,
@@ -348,9 +348,9 @@
                 "id": "text-7",
                 "name": "Editable",
                 "geometry": {
-                  "x": 201,
+                  "x": 197,
                   "y": 0,
-                  "width": 53,
+                  "width": 51,
                   "height": 22
                 },
                 "opacity": 1,
@@ -398,9 +398,9 @@
                 "id": "text-8",
                 "name": "Pipeline",
                 "geometry": {
-                  "x": 286,
+                  "x": 280,
                   "y": 0,
-                  "width": 51,
+                  "width": 50,
                   "height": 22
                 },
                 "opacity": 1,
@@ -448,9 +448,9 @@
                 "id": "text-9",
                 "name": "Get started",
                 "geometry": {
-                  "x": 369,
+                  "x": 362,
                   "y": 0,
-                  "width": 75,
+                  "width": 70,
                   "height": 22
                 },
                 "opacity": 1,
@@ -668,7 +668,7 @@
           "x": 0,
           "y": 95,
           "width": 1440,
-          "height": 657
+          "height": 701
         },
         "opacity": 1,
         "visible": true,
@@ -684,7 +684,7 @@
               "x": 80,
               "y": 80,
               "width": 1280,
-              "height": 481
+              "height": 525
             },
             "opacity": 1,
             "visible": true,
@@ -700,7 +700,7 @@
                   "x": 64,
                   "y": 0,
                   "width": 1152,
-                  "height": 481
+                  "height": 525
                 },
                 "opacity": 1,
                 "visible": true,
@@ -714,9 +714,9 @@
                     "name": "div",
                     "geometry": {
                       "x": 0,
-                      "y": 15,
+                      "y": 0,
                       "width": 549,
-                      "height": 451
+                      "height": 525
                     },
                     "opacity": 1,
                     "visible": true,
@@ -804,7 +804,7 @@
                           "x": 0,
                           "y": 47,
                           "width": 550,
-                          "height": 224
+                          "height": 298
                         },
                         "opacity": 1,
                         "visible": true,
@@ -847,7 +847,7 @@
                         "name": "Hero Sub",
                         "geometry": {
                           "x": 0,
-                          "y": 299,
+                          "y": 373,
                           "width": 520,
                           "height": 58
                         },
@@ -892,7 +892,7 @@
                         "name": "Cta Row",
                         "geometry": {
                           "x": 0,
-                          "y": 397,
+                          "y": 471,
                           "width": 549,
                           "height": 54
                         },
@@ -1167,7 +1167,7 @@
                     "name": "Hero Visual",
                     "geometry": {
                       "x": 629,
-                      "y": 0,
+                      "y": 22,
                       "width": 523,
                       "height": 481
                     },
@@ -1938,7 +1938,8 @@
                         ],
                         "cornerRadius": 10,
                         "rotation": -2.5,
-                        "fillStyleId": "color/fafaf8"
+                        "fillStyleId": "color/fafaf8",
+                        "effectStyleId": "shadow/xl"
                       },
                       {
                         "type": "FRAME",
@@ -2820,7 +2821,8 @@
                         ],
                         "cornerRadius": 10,
                         "rotation": 1.5,
-                        "fillStyleId": "color/fafaf8"
+                        "fillStyleId": "color/fafaf8",
+                        "effectStyleId": "shadow/xl"
                       }
                     ],
                     "childLayout": {
@@ -2856,7 +2858,7 @@
         "name": "Problem",
         "geometry": {
           "x": 0,
-          "y": 752,
+          "y": 796,
           "width": 1440,
           "height": 892
         },
@@ -3604,9 +3606,9 @@
         "name": "How",
         "geometry": {
           "x": 0,
-          "y": 1644,
+          "y": 1688,
           "width": 1440,
-          "height": 841
+          "height": 755
         },
         "opacity": 1,
         "visible": true,
@@ -3622,7 +3624,7 @@
               "x": 80,
               "y": 96,
               "width": 1280,
-              "height": 649
+              "height": 563
             },
             "opacity": 1,
             "visible": true,
@@ -3671,7 +3673,7 @@
                   "x": 64,
                   "y": 100,
                   "width": 880,
-                  "height": 104
+                  "height": 52
                 },
                 "opacity": 1,
                 "visible": true,
@@ -3714,9 +3716,9 @@
                 "name": "Steps",
                 "geometry": {
                   "x": 64,
-                  "y": 204,
+                  "y": 152,
                   "width": 1152,
-                  "height": 445
+                  "height": 411
                 },
                 "opacity": 1,
                 "visible": true,
@@ -3748,7 +3750,7 @@
                       "x": 0,
                       "y": 1,
                       "width": 384,
-                      "height": 443
+                      "height": 409
                     },
                     "opacity": 1,
                     "visible": true,
@@ -4064,7 +4066,7 @@
                           "x": 36,
                           "y": 157,
                           "width": 311,
-                          "height": 60
+                          "height": 30
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4107,7 +4109,7 @@
                         "name": "Standard HTML export. No special",
                         "geometry": {
                           "x": 36,
-                          "y": 231,
+                          "y": 201,
                           "width": 311,
                           "height": 70
                         },
@@ -4152,7 +4154,7 @@
                         "name": "page.html + assets/",
                         "geometry": {
                           "x": 36,
-                          "y": 317,
+                          "y": 287,
                           "width": 311,
                           "height": 59
                         },
@@ -4206,7 +4208,7 @@
                       "x": 384,
                       "y": 1,
                       "width": 384,
-                      "height": 443
+                      "height": 409
                     },
                     "opacity": 1,
                     "visible": true,
@@ -4581,7 +4583,7 @@
                       "x": 768,
                       "y": 1,
                       "width": 384,
-                      "height": 443
+                      "height": 409
                     },
                     "opacity": 1,
                     "visible": true,
@@ -4874,7 +4876,7 @@
                           "x": 36,
                           "y": 157,
                           "width": 312,
-                          "height": 60
+                          "height": 30
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4917,9 +4919,9 @@
                         "name": "Builds a real scene graph: frame",
                         "geometry": {
                           "x": 36,
-                          "y": 231,
+                          "y": 201,
                           "width": 312,
-                          "height": 93
+                          "height": 70
                         },
                         "opacity": 1,
                         "visible": true,
@@ -4962,7 +4964,7 @@
                         "name": "⌘V → Build → done.",
                         "geometry": {
                           "x": 36,
-                          "y": 340,
+                          "y": 287,
                           "width": 312,
                           "height": 59
                         },
@@ -5035,7 +5037,7 @@
         "name": "Editable",
         "geometry": {
           "x": 0,
-          "y": 2485,
+          "y": 2443,
           "width": 1440,
           "height": 1349
         },
@@ -7748,7 +7750,7 @@
         "name": "Pipeline Section",
         "geometry": {
           "x": 0,
-          "y": 3834,
+          "y": 3792,
           "width": 1440,
           "height": 818
         },
@@ -8866,7 +8868,7 @@
         "name": "Get Started",
         "geometry": {
           "x": 0,
-          "y": 4652,
+          "y": 4610,
           "width": 1440,
           "height": 658
         },
@@ -8949,7 +8951,7 @@
                       "x": 0,
                       "y": 0,
                       "width": 487,
-                      "height": 238
+                      "height": 239
                     },
                     "opacity": 1,
                     "visible": true,
@@ -9010,7 +9012,7 @@
                           "x": 0,
                           "y": 120,
                           "width": 380,
-                          "height": 53
+                          "height": 54
                         },
                         "opacity": 1,
                         "visible": true,
@@ -9053,7 +9055,7 @@
                         "name": "Start Links",
                         "geometry": {
                           "x": 0,
-                          "y": 201,
+                          "y": 202,
                           "width": 487,
                           "height": 37
                         },
@@ -9962,7 +9964,8 @@
                       "layoutGrow": 1,
                       "layoutAlign": "INHERIT"
                     },
-                    "fillStyleId": "ink/primary"
+                    "fillStyleId": "ink/primary",
+                    "effectStyleId": "shadow/xl"
                   }
                 ],
                 "layout": {
@@ -9991,9 +9994,9 @@
         "name": "Footer",
         "geometry": {
           "x": 0,
-          "y": 5350,
+          "y": 5308,
           "width": 1440,
-          "height": 306
+          "height": 303
         },
         "opacity": 1,
         "visible": true,
@@ -10025,7 +10028,7 @@
               "x": 430,
               "y": 57,
               "width": 581,
-              "height": 167
+              "height": 164
             },
             "opacity": 1,
             "visible": true,
@@ -10041,7 +10044,7 @@
                   "x": 0,
                   "y": 0,
                   "width": 169,
-                  "height": 167
+                  "height": 164
                 },
                 "opacity": 1,
                 "visible": true,
@@ -10141,7 +10144,7 @@
                       "x": 0,
                       "y": 45,
                       "width": 169,
-                      "height": 23
+                      "height": 20
                     },
                     "opacity": 1,
                     "visible": true,
@@ -10262,7 +10265,7 @@
                     "name": "Mark",
                     "geometry": {
                       "x": 0,
-                      "y": 122,
+                      "y": 119,
                       "width": 169,
                       "height": 18
                     },
@@ -10353,7 +10356,7 @@
                 "name": "Foot Right",
                 "geometry": {
                   "x": 209,
-                  "y": 145,
+                  "y": 142,
                   "width": 372,
                   "height": 22
                 },
@@ -10770,7 +10773,7 @@
             "name": "Built With",
             "geometry": {
               "x": 80,
-              "y": 224,
+              "y": 221,
               "width": 1280,
               "height": 18
             },
@@ -11830,6 +11833,46 @@
           "textDecoration": "NONE",
           "textCase": "ORIGINAL"
         }
+      }
+    ],
+    "effects": [
+      {
+        "id": "shadow/xl",
+        "name": "shadow/xl",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0.10980392156862745,
+              "g": 0.10196078431372549,
+              "b": 0.08627450980392157,
+              "a": 0.06
+            },
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "radius": 0,
+            "spread": 0,
+            "visible": true
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0.10980392156862745,
+              "g": 0.10196078431372549,
+              "b": 0.08627450980392157,
+              "a": 0.18
+            },
+            "offset": {
+              "x": 0,
+              "y": 12
+            },
+            "radius": 40,
+            "spread": -18,
+            "visible": true
+          }
+        ]
       }
     ]
   },

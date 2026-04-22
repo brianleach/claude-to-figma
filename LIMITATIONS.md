@@ -112,14 +112,18 @@ removed unless an explicit fix lands.
     (the second loses the human-friendly bucket). The classifier doesn't
     look at element role (h1 vs h2), only the resolved style.
 
-14. **Stroke and effect styles are not promoted to shared styles.**
-    Borders, drop/inner shadows, and blurs are extracted to per-node
-    inline `strokes` / `effects` arrays (closed gaps #2 and #3 from
-    `docs/quality-gap-report.md`), but they're not collected into the
-    `styles` registry the way paint fills and text styles are —
-    identical shadow values live inline on every node that uses them.
-    Figma supports shared effect/stroke styles; promoting them is
-    follow-up work.
+14. **Effect styles are promoted; stroke styles are not.** Identical
+    drop/inner shadows and blurs now collapse to shared entries in
+    `styles.effects` and every matching FRAME carries an `effectStyleId`
+    reference — edit one style, all linked nodes update (ADR 0011).
+    Naming follows the largest-radius bucket (`shadow/sm`, `shadow/md`,
+    `shadow/lg`, `shadow/xl`, with `blur/*`, `backdrop-blur/*`, and
+    mixed `fx/*` families; `-2`, `-3` suffixes on collision). Stroke
+    styles are still inline: a stroke's paint already flows into
+    `styles.paints` via the border-role bucket, but the `Stroke` object
+    itself (weight + align) can't be shared because Figma's PaintStyle
+    API doesn't carry weight — so identical per-node border configs
+    still live inline on every node that uses them.
 
     Non-blur `filter:` functions (`saturate`, `contrast`, `brightness`,
     `hue-rotate`, `invert`, `grayscale`, `sepia`, `drop-shadow-as-filter`)

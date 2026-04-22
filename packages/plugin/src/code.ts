@@ -1,6 +1,7 @@
 /// <reference types="@figma/plugin-typings" />
 import {
   type ComponentDef,
+  type EffectStyleDef,
   type FontManifestEntry,
   type IRDocument,
   IRDocumentSchema,
@@ -61,6 +62,7 @@ function parseIr(text: string): IRDocument {
 interface BuildContext {
   paintStyles: Map<string, PaintStyle>;
   textStyles: Map<string, TextStyle>;
+  effectStyles: Map<string, EffectStyle>;
   components: Map<string, ComponentNode>;
   stats: { nodes: number; components: number };
 }
@@ -71,12 +73,14 @@ async function build(doc: IRDocument): Promise<{ rootId: string; stats: BuildCon
   const ctx: BuildContext = {
     paintStyles: new Map(),
     textStyles: new Map(),
+    effectStyles: new Map(),
     components: new Map(),
     stats: { nodes: 0, components: 0 },
   };
 
   for (const p of doc.styles.paints) registerPaintStyle(ctx, p);
   for (const t of doc.styles.texts) await registerTextStyle(ctx, t);
+  for (const e of doc.styles.effects) registerEffectStyle(ctx, e);
   for (const c of doc.components) await registerComponent(ctx, c);
 
   const root = await buildNode(doc.root, ctx);
@@ -154,6 +158,14 @@ function registerPaintStyle(ctx: BuildContext, def: PaintStyleDef): void {
   style.paints = def.paints.map(toFigmaPaint);
   if (def.description) style.description = def.description;
   ctx.paintStyles.set(def.id, style);
+}
+
+function registerEffectStyle(ctx: BuildContext, def: EffectStyleDef): void {
+  const style = figma.createEffectStyle();
+  style.name = def.name;
+  style.effects = def.effects.map(toFigmaEffect);
+  if (def.description) style.description = def.description;
+  ctx.effectStyles.set(def.id, style);
 }
 
 async function registerTextStyle(ctx: BuildContext, def: TextStyleDef): Promise<void> {
@@ -279,6 +291,10 @@ function applyFrameProps(
   if (node.fillStyleId) {
     const style = ctx.paintStyles.get(node.fillStyleId);
     if (style) frame.fillStyleId = style.id;
+  }
+  if (node.effectStyleId) {
+    const style = ctx.effectStyles.get(node.effectStyleId);
+    if (style) frame.effectStyleId = style.id;
   }
 }
 

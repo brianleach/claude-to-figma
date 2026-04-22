@@ -418,6 +418,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "color/white",
@@ -859,6 +860,7 @@ exports[`convertHtml > cascade-edge-cases > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/accent",
@@ -1279,6 +1281,7 @@ exports[`convertHtml > external-css > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -1855,6 +1858,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -2120,6 +2124,7 @@ exports[`convertHtml > flex-basic > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -2622,6 +2627,7 @@ exports[`convertHtml > flex-justify-variations > emits stable IR snapshot 1`] = 
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -3158,6 +3164,7 @@ exports[`convertHtml > flex-nested > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "color/white",
@@ -3504,6 +3511,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -3867,6 +3875,7 @@ exports[`convertHtml > nav-with-items > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "color/black",
@@ -4420,6 +4429,7 @@ exports[`convertHtml > nested-divs > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "color/white",
@@ -4860,6 +4870,7 @@ exports[`convertHtml > simple-divs > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "brand/primary",
@@ -5354,6 +5365,7 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
     "visible": true,
   },
   "styles": {
+    "effects": [],
     "paints": [
       {
         "id": "color/555555",

@@ -235,6 +235,7 @@ export interface FrameNode {
   fillStyleId?: string;
   strokes: Stroke[];
   effects: Effect[];
+  effectStyleId?: string;
   cornerRadius?: number;
   children: IRNode[];
 }
@@ -322,6 +323,7 @@ export const FrameNodeSchema = z.object({
   fillStyleId: z.string().optional(),
   strokes: z.array(StrokeSchema).default([]),
   effects: z.array(EffectSchema).default([]),
+  effectStyleId: z.string().optional(),
   cornerRadius: z.number().min(0).optional(),
   children: z.array(IRNodeSchema).default([]),
 });
@@ -382,9 +384,23 @@ export const TextStyleDefSchema = z.object({
 });
 export type TextStyleDef = z.infer<typeof TextStyleDefSchema>;
 
+/**
+ * Named effect style. Wraps a list of Effects — a single Figma EffectStyle
+ * can stack multiple shadows / blurs, matching `box-shadow: a, b, c` in CSS.
+ * Referenced by FRAME nodes via `effectStyleId`.
+ */
+export const EffectStyleDefSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  effects: z.array(EffectSchema).min(1),
+  description: z.string().optional(),
+});
+export type EffectStyleDef = z.infer<typeof EffectStyleDefSchema>;
+
 export const StylesRegistrySchema = z.object({
   paints: z.array(PaintStyleSchema).default([]),
   texts: z.array(TextStyleDefSchema).default([]),
+  effects: z.array(EffectStyleDefSchema).default([]),
 });
 export type StylesRegistry = z.infer<typeof StylesRegistrySchema>;
 
@@ -422,7 +438,7 @@ export const IRDocumentSchema = z.object({
   version: z.literal(IR_VERSION),
   name: z.string().default('Untitled'),
   root: IRNodeSchema,
-  styles: StylesRegistrySchema.default({ paints: [], texts: [] }),
+  styles: StylesRegistrySchema.default({ paints: [], texts: [], effects: [] }),
   components: z.array(ComponentDefSchema).default([]),
   fonts: z.array(FontManifestEntrySchema).default([]),
   images: z.array(ImageManifestEntrySchema).default([]),

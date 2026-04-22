@@ -99,6 +99,7 @@ export interface ConvertResult {
     instances: number;
     paintStyles: number;
     textStyles: number;
+    effectStyles: number;
   };
 }
 
@@ -169,7 +170,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
     version: IR_VERSION,
     name: opts.name ?? 'Untitled',
     root,
-    styles: { paints: [], texts: [] },
+    styles: { paints: [], texts: [], effects: [] },
     components: [],
     fonts: ctx.fonts,
     images: [],
@@ -191,6 +192,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
       instances: detection.stats.instances,
       paintStyles: extraction.stats.paints,
       textStyles: extraction.stats.texts,
+      effectStyles: extraction.stats.effects,
     },
   };
 }

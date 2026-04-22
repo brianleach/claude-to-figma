@@ -62,6 +62,14 @@ node packages/cli/dist/index.js convert \
 - **Layout fidelity** — the Figma render should look like the browser
   render. Differences are the converter's bugs to file.
 
+## M11 shared effect styles
+
+The three `.figma-card` frames used to each carry the same inline
+two-layer shadow stack. The regenerated IR now points all three at a
+single `shadow/xl` entry in `styles.effects` via `effectStyleId` — one
+EffectStyle in the Figma Local Styles panel, editable once. See
+[ADR 0011](../../docs/adr/0011-shared-effect-styles.md).
+
 ## M9 fidelity update
 
 The artifacts in this directory were refreshed after the M9 fidelity

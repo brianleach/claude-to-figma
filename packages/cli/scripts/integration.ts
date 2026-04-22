@@ -41,7 +41,7 @@ function formatRow(o: FixtureOutcome, root: string): string {
     truncate(rel, 40),
     `${o.stats.nodes} nodes`.padEnd(12),
     `${o.stats.components}c × ${o.stats.instances}i`.padEnd(14),
-    `${o.stats.paintStyles}p × ${o.stats.textStyles}t`.padEnd(12),
+    `${o.stats.paintStyles}p × ${o.stats.textStyles}t × ${o.stats.effectStyles}e`.padEnd(16),
     o.warnings.length === 0
       ? ''
       : `${o.warnings.length} warning${o.warnings.length === 1 ? '' : 's'}`,

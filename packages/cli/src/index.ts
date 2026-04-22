@@ -74,11 +74,13 @@ program
           process.stderr.write(`warn: ${warning}\n`);
         }
       }
-      const { nodes, components, instances, paintStyles, textStyles } = result.stats;
+      const { nodes, components, instances, paintStyles, textStyles, effectStyles } = result.stats;
       const componentsPart =
         components > 0 ? `, ${components} components × ${instances} instances` : '';
       const stylesPart =
-        paintStyles + textStyles > 0 ? `, ${paintStyles} paint × ${textStyles} text styles` : '';
+        paintStyles + textStyles + effectStyles > 0
+          ? `, ${paintStyles} paint × ${textStyles} text × ${effectStyles} effect styles`
+          : '';
       process.stdout.write(`wrote ${outputPath} (${nodes} nodes${componentsPart}${stylesPart})\n`);
 
       if (opts.verbose) {
@@ -89,6 +91,7 @@ program
         process.stdout.write(`  instances:     ${instances}\n`);
         process.stdout.write(`  paint styles:  ${paintStyles}\n`);
         process.stdout.write(`  text styles:   ${textStyles}\n`);
+        process.stdout.write(`  effect styles: ${effectStyles}\n`);
         if (hydrated) {
           process.stdout.write(
             `  measured text: ${hydrated.textMeasurements.size} nodes via Chromium\n`,

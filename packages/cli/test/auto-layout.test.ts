@@ -194,6 +194,18 @@ describe('mapFlexContainer', () => {
     );
   });
 
+  it('sets counterAxisSizingMode=AUTO when wrap is on (FIXED mutes wrap in Figma)', () => {
+    const wrapped = mapFlexContainer(s({ display: 'flex', 'flex-wrap': 'wrap' }));
+    expect(wrapped?.layoutWrap).toBe('WRAP');
+    expect(wrapped?.counterAxisSizingMode).toBe('AUTO');
+  });
+
+  it('keeps counterAxisSizingMode=FIXED on non-wrap containers', () => {
+    const straight = mapFlexContainer(s({ display: 'flex' }));
+    expect(straight?.layoutWrap).toBe('NO_WRAP');
+    expect(straight?.counterAxisSizingMode).toBe('FIXED');
+  });
+
   it('longhands override shorthand padding when both are present', () => {
     const l = mapFlexContainer(s({ display: 'flex', padding: '8px', 'padding-left': '32px' }));
     expect(l).toMatchObject({

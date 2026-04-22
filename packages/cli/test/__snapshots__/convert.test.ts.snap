@@ -370,7 +370,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
         "layout": {
           "clipsContent": false,
           "counterAxisAlignItems": "MIN",
-          "counterAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "AUTO",
           "counterAxisSpacing": 16,
           "itemSpacing": 16,
           "layoutMode": "HORIZONTAL",
@@ -3463,7 +3463,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
         "layout": {
           "clipsContent": false,
           "counterAxisAlignItems": "MIN",
-          "counterAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "AUTO",
           "counterAxisSpacing": 12,
           "itemSpacing": 12,
           "layoutMode": "HORIZONTAL",

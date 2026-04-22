@@ -67,7 +67,11 @@ export function mapFlexContainer(
     counterAxisAlignItems: mapCounterAxis(style.get('align-items')),
     layoutWrap,
     primaryAxisSizingMode: 'FIXED',
-    counterAxisSizingMode: 'FIXED',
+    // Figma enforces `counterAxisSizingMode=AUTO` for wrap to actually wrap
+    // rows. With FIXED, layoutWrap is silently ignored and all children pack
+    // into one row, which collapses grids with multiple rows into a single
+    // row of tall narrow cells.
+    counterAxisSizingMode: layoutWrap === 'WRAP' ? 'AUTO' : 'FIXED',
     clipsContent: false,
   };
 }

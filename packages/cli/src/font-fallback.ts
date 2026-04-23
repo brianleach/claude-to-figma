@@ -38,7 +38,14 @@ function rewriteNode(node: IRNode, family: string): IRNode {
     case 'FRAME':
       return { ...node, children: node.children.map((c) => rewriteNode(c, family)) };
     case 'TEXT':
-      return { ...node, textStyle: { ...node.textStyle, fontFamily: family } };
+      return {
+        ...node,
+        textStyle: { ...node.textStyle, fontFamily: family },
+        runs: node.runs?.map((r) => ({
+          ...r,
+          textStyle: { ...r.textStyle, fontFamily: family },
+        })),
+      };
     default:
       return node;
   }

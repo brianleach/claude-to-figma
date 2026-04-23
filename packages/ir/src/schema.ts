@@ -243,6 +243,14 @@ export interface FrameNode {
   effects: Effect[];
   effectStyleId?: string;
   cornerRadius?: number;
+  /**
+   * Whether the frame clips children that overflow its bounds. Maps
+   * from CSS `overflow: hidden | clip | auto | scroll`. Applied to
+   * `FrameNode.clipsContent` regardless of whether the frame uses
+   * auto-layout — unlike `LayoutProps.clipsContent`, which only
+   * applies when `layoutMode !== 'NONE'`.
+   */
+  clipsContent?: boolean;
   children: IRNode[];
   /**
    * Raw `<svg>...</svg>` markup — set on the wrapping FRAME of a
@@ -251,6 +259,15 @@ export interface FrameNode {
    * disregards `children` / paint fields.
    */
   svgSource?: string;
+}
+
+export interface TextRun {
+  /** Inclusive character offset into `TextNode.characters`. */
+  start: number;
+  /** Exclusive character offset into `TextNode.characters`. */
+  end: number;
+  textStyle: TextStyle;
+  fills: Paint[];
 }
 
 export interface TextNode {
@@ -267,6 +284,14 @@ export interface TextNode {
   textStyleId?: string;
   fills: Paint[];
   fillStyleId?: string;
+  /**
+   * Per-range style overrides — set when the source element contains
+   * inline children with different styles (e.g. `<em>` inside `<h1>`
+   * gives the heading a two-tone italic run). Plugin applies each run
+   * via Figma's `setRangeFontName` / `setRangeFills` / etc. Omitted
+   * when the whole text is one uniform style.
+   */
+  runs?: TextRun[];
 }
 
 export interface ImageNode {
@@ -346,8 +371,16 @@ export const FrameNodeSchema = z.object({
   effects: z.array(EffectSchema).default([]),
   effectStyleId: z.string().optional(),
   cornerRadius: z.number().min(0).optional(),
+  clipsContent: z.boolean().optional(),
   children: z.array(IRNodeSchema).default([]),
   svgSource: z.string().optional(),
+});
+
+export const TextRunSchema = z.object({
+  start: z.number().int().min(0),
+  end: z.number().int().min(0),
+  textStyle: TextStyleSchema,
+  fills: z.array(PaintSchema).default([]),
 });
 
 export const TextNodeSchema = z.object({
@@ -358,6 +391,7 @@ export const TextNodeSchema = z.object({
   textStyleId: z.string().optional(),
   fills: z.array(PaintSchema).default([]),
   fillStyleId: z.string().optional(),
+  runs: z.array(TextRunSchema).optional(),
 });
 
 export const ImageNodeSchema = z.object({

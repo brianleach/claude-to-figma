@@ -59,6 +59,33 @@ you should get:
   (`heading/md`, `body/sm`). They show up in Figma's local styles panel,
   ready to be published to a library.
 
+### What *isn't* editable by design — `data-c2f="snapshot"`
+
+Not every region of a generated page benefits from being broken apart into
+editable frames. A decorative illustration — e.g. a rotated stack of mocked-up
+"before / after" cards with dashed borders, stripes, and pseudo-element
+accents — is authored as a single visual. Designers replace that kind of
+thing wholesale; they don't tweak which direction the diagonal stripes run.
+
+Mark any element with `data-c2f="snapshot"` in the source HTML and
+`claude-to-figma convert --hydrate` will:
+
+1. Let Chromium render the whole subtree normally.
+2. Take an element-level PNG screenshot via Playwright.
+3. Replace the subtree in the IR with a single IMAGE node carrying the
+   PNG as a data URI.
+4. The plugin registers the PNG with Figma (`figma.createImage`) and
+   fills a single rectangle with it.
+
+In Figma, the region lives as one asset: resize it, replace its fill with
+a different PNG, swap it out entirely — all the normal Figma image
+operations. What it's *not* is a tree of nested frames you could pull
+apart pixel-by-pixel. That's the trade, and it's the one the prototype
+wants you to make for decorative content.
+
+Text, layout, components, and tokens stay editable everywhere *outside*
+a `data-c2f="snapshot"` subtree.
+
 ---
 
 ## How it works

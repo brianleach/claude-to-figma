@@ -47,11 +47,25 @@ export interface TextMeasurement {
   lineCount: number;
 }
 
+/**
+ * A single snapshotted DOM element — one author-marked decorative region
+ * rendered via `element.screenshot()` into a PNG and embedded as a data
+ * URI. The CLI swaps the subtree for a single IMAGE IR node so the
+ * Figma plugin can paste a pixel-perfect asset in place of the tree.
+ */
+export interface SnapshotResult {
+  dataUri: string;
+  width: number;
+  height: number;
+}
+
 export interface HydrateResult {
-  /** Post-render HTML, including `data-c2f-mid` stamps on measured elements. */
+  /** Post-render HTML, including `data-c2f-mid` / `data-c2f-sid` stamps. */
   html: string;
   /** Keyed by the element's `data-c2f-mid` attribute. */
   textMeasurements: Map<string, TextMeasurement>;
+  /** Keyed by the element's `data-c2f-sid` attribute. */
+  snapshots: Map<string, SnapshotResult>;
 }
 
 export async function hydrateHtml(
@@ -106,14 +120,55 @@ export async function hydrateHtml(
     }
 
     const entries = await measureTextLeaves(page);
+    const snapshots = await captureSnapshots(page);
     const html = await page.content();
     return {
       html,
       textMeasurements: new Map(entries),
+      snapshots,
     };
   } finally {
     await browser.close();
   }
+}
+
+/**
+ * For every element tagged with `data-c2f="snapshot"`, stamp it with a
+ * `data-c2f-sid="sN"` marker and capture a PNG screenshot via Playwright.
+ * The parse5-side walker then replaces the whole subtree with a single
+ * IMAGE IR node pointing at the PNG data URI.
+ *
+ * `omitBackground: true` honours the element's own background; the rest
+ * of the page is transparent in the PNG so the snapshot drops cleanly
+ * onto whatever frame it's placed inside in Figma.
+ */
+async function captureSnapshots(
+  page: import('playwright').Page,
+): Promise<Map<string, SnapshotResult>> {
+  const handles = await page.$$('[data-c2f="snapshot"]');
+  const out = new Map<string, SnapshotResult>();
+  let index = 0;
+  for (const handle of handles) {
+    const sid = `s${index}`;
+    index += 1;
+    await handle.evaluate((el, id) => el.setAttribute('data-c2f-sid', id), sid);
+    const box = await handle.boundingBox();
+    if (!box || box.width <= 0 || box.height <= 0) {
+      await handle.dispose();
+      continue;
+    }
+    let buf: Buffer;
+    try {
+      buf = await handle.screenshot({ type: 'png', omitBackground: true });
+    } catch {
+      await handle.dispose();
+      continue;
+    }
+    await handle.dispose();
+    const dataUri = `data:image/png;base64,${buf.toString('base64')}`;
+    out.set(sid, { dataUri, width: box.width, height: box.height });
+  }
+  return out;
 }
 
 /**

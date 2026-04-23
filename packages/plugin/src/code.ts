@@ -305,6 +305,10 @@ function applyFrameProps(
   frame.opacity = node.opacity;
   frame.visible = node.visible;
   if (typeof node.cornerRadius === 'number') frame.cornerRadius = node.cornerRadius;
+  // Apply clipsContent regardless of layout mode — the layout-embedded
+  // `clipsContent` only kicks in when auto-layout is on, so block frames
+  // with CSS `overflow: hidden` wouldn't clip otherwise.
+  if (typeof node.clipsContent === 'boolean') frame.clipsContent = node.clipsContent;
   // CSS rotate(Ndeg) is clockwise, Figma's `rotation` is anti-clockwise
   // when positive. Flip sign to match.
   if (typeof node.rotation === 'number' && node.rotation !== 0) {
@@ -359,6 +363,50 @@ async function buildText(
   text.visible = node.visible;
   text.fills = node.fills.map(toFigmaPaint);
 
+  const hasRuns = !!(node.runs && node.runs.length > 1);
+
+  // Link shared styles FIRST. Both `text.textStyleId` and `text.fillStyleId`
+  // replace every per-range override when assigned, so they must happen
+  // before the runs block — otherwise per-range colours/fonts silently
+  // collapse back to the shared-style defaults and mixed-style headings
+  // render as one flat colour.
+  if (node.textStyleId && !hasRuns) {
+    const style = ctx.textStyles.get(node.textStyleId);
+    if (style) text.textStyleId = style.id;
+  }
+  if (node.fillStyleId && !hasRuns) {
+    const style = ctx.paintStyles.get(node.fillStyleId);
+    if (style) text.fillStyleId = style.id;
+  }
+
+  // Apply per-range text runs — sub-styling for inline children like
+  // `<em>` inside `<h1>`. Runs cover the whole text, so the "base" setters
+  // above are just defaults that every run overrides. Font has to be
+  // loaded first since Figma rejects setRangeFontName otherwise.
+  if (hasRuns && node.runs) {
+    for (const run of node.runs) {
+      const start = Math.max(0, run.start);
+      const end = Math.min(node.characters.length, run.end);
+      if (end <= start) continue;
+      await figma.loadFontAsync({
+        family: run.textStyle.fontFamily,
+        style: run.textStyle.fontStyle,
+      });
+      text.setRangeFontName(start, end, {
+        family: run.textStyle.fontFamily,
+        style: run.textStyle.fontStyle,
+      });
+      text.setRangeFontSize(start, end, run.textStyle.fontSize);
+      text.setRangeLineHeight(start, end, run.textStyle.lineHeight);
+      text.setRangeLetterSpacing(start, end, run.textStyle.letterSpacing);
+      text.setRangeTextDecoration(start, end, run.textStyle.textDecoration);
+      text.setRangeTextCase(start, end, run.textStyle.textCase);
+      if (run.fills.length > 0) {
+        text.setRangeFills(start, end, run.fills.map(toFigmaPaint));
+      }
+    }
+  }
+
   // Figma TEXT nodes default to `WIDTH_AND_HEIGHT` auto-resize, which
   // grows the node wide enough to fit all characters on one line. That
   // blows past the IR-measured geometry and makes long headings / body
@@ -374,14 +422,6 @@ async function buildText(
     text.y = node.geometry.y;
   }
 
-  if (node.textStyleId) {
-    const style = ctx.textStyles.get(node.textStyleId);
-    if (style) text.textStyleId = style.id;
-  }
-  if (node.fillStyleId) {
-    const style = ctx.paintStyles.get(node.fillStyleId);
-    if (style) text.fillStyleId = style.id;
-  }
   return text;
 }
 
@@ -396,10 +436,50 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
   rect.opacity = node.opacity;
   rect.visible = node.visible;
   if (typeof node.cornerRadius === 'number') rect.cornerRadius = node.cornerRadius;
+
+  // Data URI — decode + register with Figma so the image gets a hash we
+  // can attach as an IMAGE fill. This is the `data-c2f="snapshot"` path:
+  // an author-marked decorative region becomes a single editable asset.
+  const figmaScaleMode = toFigmaScaleMode(node.scaleMode);
+  if (node.imageRef.startsWith('data:')) {
+    const bytes = decodeDataUri(node.imageRef);
+    if (bytes) {
+      const image = figma.createImage(bytes);
+      rect.fills = [{ type: 'IMAGE', imageHash: image.hash, scaleMode: figmaScaleMode }];
+      return rect;
+    }
+  }
   rect.fills = node.fills.length
     ? node.fills.map(toFigmaPaint)
     : [{ type: 'SOLID', color: { r: 0.9, g: 0.9, b: 0.92 } }];
   return rect;
+}
+
+/** IR scale-mode values map 1:1 to Figma's ImagePaint scale modes. */
+function toFigmaScaleMode(mode: 'FILL' | 'FIT' | 'CROP' | 'TILE'): 'FILL' | 'FIT' | 'CROP' | 'TILE' {
+  return mode;
+}
+
+/**
+ * Decode a `data:<type>;base64,<payload>` URI to a Uint8Array. Figma's
+ * sandbox doesn't expose `atob` / `Buffer`; do the base64 decode by hand
+ * via the plugin runtime's `Uint8Array.from(...)` + the standard base64
+ * alphabet. Returns undefined if the URI isn't base64-encoded.
+ */
+function decodeDataUri(uri: string): Uint8Array | undefined {
+  const match = /^data:[^;,]+;base64,(.*)$/i.exec(uri);
+  if (!match || !match[1]) return undefined;
+  const base64 = match[1];
+  // Figma's plugin runtime has `atob`. If it ever goes away, the manual
+  // decoder below is a drop-in replacement.
+  try {
+    const bin = atob(base64);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i += 1) out[i] = bin.charCodeAt(i);
+    return out;
+  } catch {
+    return undefined;
+  }
 }
 
 function buildVector(

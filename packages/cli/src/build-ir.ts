@@ -22,6 +22,7 @@ import {
   type Paint,
   type Stroke,
   type TextNode,
+  type TextRun,
   type TextStyle,
   type VectorNode,
 } from '@claude-to-figma/ir';
@@ -91,6 +92,8 @@ interface BuildContext {
   bodyEl: P5Element;
   /** Shared context for rem / vw / vh resolution inside this conversion. */
   lengthCtx: LengthContext;
+  /** Snapshot lookup keyed by `data-c2f-sid`; see ConvertOptions.snapshots. */
+  snapshots?: ReadonlyMap<string, import('./hydrate.js').SnapshotResult>;
 }
 
 export interface ConvertResult {
@@ -124,6 +127,14 @@ export interface ConvertOptions {
    * instead of the `0.55 × fontSize × chars` heuristic.
    */
   textMeasurements?: ReadonlyMap<string, TextMeasurement>;
+  /**
+   * Snapshots captured by `--hydrate` for every element carrying
+   * `data-c2f="snapshot"`. The walker replaces the whole subtree with
+   * a single IMAGE IR node pointing at the snapshot's data URI, so the
+   * Figma plugin pastes a pixel-perfect asset in place of reconstructing
+   * decorative regions as editable Frame trees.
+   */
+  snapshots?: ReadonlyMap<string, import('./hydrate.js').SnapshotResult>;
   /**
    * Root container width in px. Enables block-centring emulation and
    * grid-track sizing when the HTML's body has no explicit CSS width
@@ -172,6 +183,7 @@ export function convertHtml(html: string, opts: ConvertOptions = {}): ConvertRes
     layout,
     bodyEl: body,
     lengthCtx,
+    snapshots: opts.snapshots,
   };
 
   const root = buildFrameFromElement(body, ctx, 'root');
@@ -222,19 +234,73 @@ function buildNodeFromElement(el: P5Element, ctx: BuildContext): IRNode | null {
   const tag = el.tagName.toLowerCase();
   if (IGNORED_TAGS.has(tag)) return null;
 
+  // Author-marked snapshot regions win before any other classification:
+  // the whole subtree is replaced with a single IMAGE IR node pointing
+  // at the Chromium-captured PNG. Designers edit / replace the image
+  // just like they would any other asset in a Figma file, instead of
+  // trying to tweak nested Frame trees we reconstructed from CSS.
+  const snapshotNode = maybeBuildSnapshot(el, ctx);
+  if (snapshotNode) return snapshotNode;
+
   if (tag === 'img') return buildImage(el, ctx);
   if (tag === 'svg') return buildVector(el, ctx);
   if (tag === 'br') return null;
 
   // Honor CSS `display` when deciding whether a text-tag is a TEXT node
   // or a FRAME. `<a class="btn">` with `display: inline-flex` needs to
-  // be a FRAME so its padding / border / background render.
-  const display = styleOf(ctx, el).get('display');
-  if (TEXT_TAGS.has(tag) && containsOnlyText(el) && !isContainerDisplay(display)) {
-    return buildText(el, ctx);
+  // be a FRAME so its padding / border / background render. Same story
+  // for a plain `<span class="figma-tag">` pill — even without an explicit
+  // `display` keyword, any box-level styling (background, border-radius,
+  // padding, border) means the author wanted a rendered box, not inline
+  // text. TEXT nodes can't carry those so we promote to a FRAME.
+  const cssStyle = styleOf(ctx, el);
+  const display = cssStyle.get('display');
+  if (
+    TEXT_TAGS.has(tag) &&
+    containsOnlyText(el) &&
+    !isContainerDisplay(display) &&
+    !hasBoxStyling(cssStyle)
+  ) {
+    const textNode = buildText(el, ctx);
+    if (textNode) return textNode;
+    // Empty text-tag (e.g. `<span></span>` used as a decoration — the
+    // titlebar dots or an `.eyebrow .dot`). buildText returns null when
+    // there's no text content; fall through to the frame path so the
+    // element's width / height / background / border-radius still render.
   }
 
   return buildFrameFromElement(el, ctx);
+}
+
+/**
+ * A text-tag element carries box styling when it has a background, a
+ * border, a border-radius, or non-zero padding. In CSS that draws a
+ * pill / chip / card around the inline text — which our IR can only
+ * represent as a FRAME with a child TEXT. Inline defaults (no bg,
+ * no border, no radius, no padding) keep the TEXT-leaf shortcut.
+ */
+function hasBoxStyling(style: ComputedStyle): boolean {
+  if (style.has('background') || style.has('background-color')) return true;
+  if (style.has('border-radius')) return true;
+  if (
+    style.has('border') ||
+    style.has('border-top') ||
+    style.has('border-right') ||
+    style.has('border-bottom') ||
+    style.has('border-left') ||
+    style.has('border-width') ||
+    style.has('border-top-width') ||
+    style.has('border-right-width') ||
+    style.has('border-bottom-width') ||
+    style.has('border-left-width')
+  ) {
+    return true;
+  }
+  for (const prop of ['padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left']) {
+    const raw = style.get(prop);
+    if (raw && raw.trim() !== '0' && raw.trim() !== '0px') return true;
+  }
+  return false;
 }
 
 function isContainerDisplay(display: string | undefined): boolean {
@@ -247,7 +313,11 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   const style = styleOf(ctx, el);
   const geometry = geometryOf(ctx, el);
   const fills = readBackgroundFills(style);
-  const cornerRadius = parsePx(style.get('border-radius'), ctx.lengthCtx);
+  // `border-radius: 50%` on a square element is the idiomatic CSS for a
+  // circle — resolve it as half the element's smaller dimension. Figma's
+  // `cornerRadius` caps at `min(w,h)/2` anyway, so this is the same value
+  // the browser renders.
+  const cornerRadius = readCornerRadius(style.get('border-radius'), geometry, ctx.lengthCtx);
   const layout = mapFlexContainer(style, ctx.lengthCtx);
 
   const children: IRNode[] = [];
@@ -275,6 +345,13 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   };
   if (layout) frame.layout = layout;
   if (cornerRadius != null) frame.cornerRadius = cornerRadius;
+  // CSS `overflow: hidden | clip | scroll | auto` all clip their children
+  // visually — all three map to `clipsContent: true` in Figma. `visible`
+  // (the default) and `unset` leave clipping off.
+  const overflow = (style.get('overflow') ?? '').trim().toLowerCase();
+  if (overflow === 'hidden' || overflow === 'clip' || overflow === 'scroll' || overflow === 'auto') {
+    frame.clipsContent = true;
+  }
   const rotation = parseTransformRotation(style.get('transform'));
   if (rotation != null) frame.rotation = rotation;
   return frame;
@@ -300,19 +377,16 @@ function decorateChildLayout(
 }
 
 function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
-  const characters = collectInnerText(el);
+  const style = styleOf(ctx, el);
+  const rootTextStyle = resolveTextStyle(style, ctx.lengthCtx);
+  registerFont(ctx, rootTextStyle.fontFamily, rootTextStyle.fontStyle);
+
+  const rootFills = resolveTextFills(style);
+
+  const { characters, runs } = collectStyledRuns(el, ctx, rootTextStyle, rootFills);
   if (!characters) return null;
 
-  const style = styleOf(ctx, el);
-  const textStyle = resolveTextStyle(style, ctx.lengthCtx);
-  registerFont(ctx, textStyle.fontFamily, textStyle.fontStyle);
-
-  const fillColor = parseColor(style.get('color'));
-  const fills: Paint[] = fillColor
-    ? [{ type: 'SOLID', color: fillColor, opacity: 1, visible: true }]
-    : DEFAULT_TEXT_FILLS;
-
-  return {
+  const node: TextNode = {
     type: 'TEXT',
     id: nextId(ctx, 'text'),
     name: nameFor(el, characters.slice(0, 32)),
@@ -320,8 +394,147 @@ function buildText(el: P5Element, ctx: BuildContext): TextNode | null {
     opacity: parseOpacity(style),
     visible: true,
     characters,
-    textStyle,
-    fills,
+    textStyle: rootTextStyle,
+    fills: rootFills,
+  };
+  if (runs.length > 1 && runsAreNonUniform(runs)) {
+    node.runs = runs;
+    // Also register every run's font so the plugin can pre-load them.
+    for (const run of runs) registerFont(ctx, run.textStyle.fontFamily, run.textStyle.fontStyle);
+  }
+  return node;
+}
+
+/** Resolve the `fills` array for a text element from its `color` property. */
+function resolveTextFills(style: ComputedStyle): Paint[] {
+  const fillColor = parseColor(style.get('color'));
+  return fillColor
+    ? [{ type: 'SOLID', color: fillColor, opacity: 1, visible: true }]
+    : DEFAULT_TEXT_FILLS;
+}
+
+/**
+ * Walk the text element's children, producing segments with their
+ * resolved style / fills, then collapse whitespace across boundaries so
+ * the result matches `collectInnerText`'s single-string output while
+ * preserving per-range style info.
+ */
+function collectStyledRuns(
+  el: P5Element,
+  ctx: BuildContext,
+  rootStyle: TextStyle,
+  rootFills: Paint[],
+): { characters: string; runs: TextRun[] } {
+  interface RawSegment {
+    text: string;
+    textStyle: TextStyle;
+    fills: Paint[];
+  }
+
+  const segments: RawSegment[] = [];
+
+  const walk = (node: P5Element, inheritedStyle: TextStyle, inheritedFills: Paint[]): void => {
+    for (const child of node.childNodes) {
+      if (isTextNode(child)) {
+        segments.push({ text: child.value, textStyle: inheritedStyle, fills: inheritedFills });
+        continue;
+      }
+      if (!('tagName' in child)) continue;
+      const tag = child.tagName.toLowerCase();
+      if (tag === 'br') {
+        segments.push({ text: '\n', textStyle: inheritedStyle, fills: inheritedFills });
+        continue;
+      }
+      if (!TEXT_TAGS.has(tag)) continue;
+      const childCss = styleOf(ctx, child);
+      const childStyle = resolveTextStyle(childCss, ctx.lengthCtx);
+      const childFills = resolveTextFills(childCss);
+      walk(child, childStyle, childFills);
+    }
+  };
+
+  walk(el, rootStyle, rootFills);
+
+  // Collapse whitespace across segment boundaries: within a segment run
+  // /\s+/ into a single space; at boundaries, drop a leading space when
+  // the accumulated string already ends with one.
+  let characters = '';
+  const runs: TextRun[] = [];
+  for (const seg of segments) {
+    let text = seg.text.replace(/\s+/g, ' ');
+    if (characters.endsWith(' ') || characters.length === 0) {
+      text = text.replace(/^ /, '');
+    }
+    if (!text) continue;
+    const start = characters.length;
+    characters += text;
+    runs.push({ start, end: characters.length, textStyle: seg.textStyle, fills: seg.fills });
+  }
+
+  // Trim trailing space, shrinking the final run if it ends there.
+  while (characters.endsWith(' ')) {
+    characters = characters.slice(0, -1);
+    const last = runs[runs.length - 1];
+    if (last) {
+      last.end = characters.length;
+      if (last.end <= last.start) runs.pop();
+    }
+  }
+
+  return { characters, runs };
+}
+
+/** True when at least one run's style or fills differ from run[0]. */
+function runsAreNonUniform(runs: TextRun[]): boolean {
+  const first = runs[0];
+  if (!first) return false;
+  const firstStyleKey = JSON.stringify(first.textStyle);
+  const firstFillsKey = JSON.stringify(first.fills);
+  for (let i = 1; i < runs.length; i += 1) {
+    const r = runs[i];
+    if (!r) continue;
+    if (JSON.stringify(r.textStyle) !== firstStyleKey) return true;
+    if (JSON.stringify(r.fills) !== firstFillsKey) return true;
+  }
+  return false;
+}
+
+/**
+ * If this element was flagged with `data-c2f="snapshot"` AND Playwright
+ * captured a PNG for it during `--hydrate`, emit a single IMAGE IR node
+ * with the data URI as its `imageRef`. Returns null otherwise (falls
+ * through to the regular walker path).
+ *
+ * The element MUST have a `data-c2f-sid="sN"` stamp from hydrate.ts —
+ * without a sid we have no snapshot to reference, and without hydrate
+ * running there are no snapshots at all. In that case we log a warning
+ * so the author knows why their marked subtree still rendered as a
+ * Frame tree.
+ */
+function maybeBuildSnapshot(el: P5Element, ctx: BuildContext): ImageNode | null {
+  const marker = getAttr(el, 'data-c2f');
+  if (marker !== 'snapshot') return null;
+  const sid = getAttr(el, 'data-c2f-sid');
+  if (!sid || !ctx.snapshots) {
+    ctx.warnings.push(
+      `Element marked data-c2f="snapshot" but no capture available (pass --hydrate to enable).`,
+    );
+    return null;
+  }
+  const snapshot = ctx.snapshots.get(sid);
+  if (!snapshot) return null;
+
+  const style = styleOf(ctx, el);
+  return {
+    type: 'IMAGE',
+    id: nextId(ctx, 'snapshot'),
+    name: nameFor(el),
+    geometry: geometryOf(ctx, el),
+    opacity: parseOpacity(style),
+    visible: true,
+    imageRef: snapshot.dataUri,
+    scaleMode: 'FILL',
+    fills: [],
   };
 }
 
@@ -1002,6 +1215,32 @@ function geometryOf(
     width: layout.width,
     height: layout.height,
   };
+}
+
+/**
+ * Parse `border-radius` in either px or % form.
+ *
+ *   `border-radius: 8px`  → 8
+ *   `border-radius: 50%`  → min(w, h) / 2 (Figma caps there anyway)
+ *
+ * Ignores the shorthand's more exotic forms (per-corner longhands,
+ * `<h-radius> / <v-radius>` elliptical syntax) — they hit the single-value
+ * fast path by using `border-radius` itself.
+ */
+function readCornerRadius(
+  value: string | undefined,
+  geometry: { width: number; height: number },
+  ctx: LengthContext,
+): number | undefined {
+  if (!value) return undefined;
+  const px = parsePx(value, ctx);
+  if (px != null) return px;
+  const pct = /^(-?\d+(?:\.\d+)?)%$/i.exec(value.trim());
+  if (pct && pct[1] != null) {
+    const smaller = Math.min(geometry.width, geometry.height);
+    return (Number(pct[1]) / 100) * smaller;
+  }
+  return undefined;
 }
 
 function readBackgroundFills(style: ComputedStyle): Paint[] {

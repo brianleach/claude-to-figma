@@ -442,11 +442,18 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
   // an author-marked decorative region becomes a single editable asset.
   const figmaScaleMode = toFigmaScaleMode(node.scaleMode);
   if (node.imageRef.startsWith('data:')) {
-    const bytes = decodeDataUri(node.imageRef);
-    if (bytes) {
-      const image = figma.createImage(bytes);
-      rect.fills = [{ type: 'IMAGE', imageHash: image.hash, scaleMode: figmaScaleMode }];
-      return rect;
+    try {
+      const bytes = decodeDataUri(node.imageRef);
+      if (!bytes) {
+        figma.notify(`Image "${node.name}": could not decode data URI`);
+      } else {
+        const image = figma.createImage(bytes);
+        rect.fills = [{ type: 'IMAGE', imageHash: image.hash, scaleMode: figmaScaleMode }];
+        return rect;
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      figma.notify(`Image "${node.name}" failed: ${msg}`);
     }
   }
   rect.fills = node.fills.length
@@ -461,25 +468,41 @@ function toFigmaScaleMode(mode: 'FILL' | 'FIT' | 'CROP' | 'TILE'): 'FILL' | 'FIT
 }
 
 /**
- * Decode a `data:<type>;base64,<payload>` URI to a Uint8Array. Figma's
- * sandbox doesn't expose `atob` / `Buffer`; do the base64 decode by hand
- * via the plugin runtime's `Uint8Array.from(...)` + the standard base64
- * alphabet. Returns undefined if the URI isn't base64-encoded.
+ * Decode `data:<mime>;base64,<payload>` to a Uint8Array. Hand-rolled
+ * base64 decoder — Figma's plugin sandbox has `atob` in current builds
+ * but QuickJS-era runtimes didn't, and we'd rather not discover the
+ * difference by silently returning a grey placeholder. Returns
+ * undefined if the URI isn't base64-encoded or the payload is malformed.
  */
-function decodeDataUri(uri: string): Uint8Array | undefined {
-  const match = /^data:[^;,]+;base64,(.*)$/i.exec(uri);
-  if (!match || !match[1]) return undefined;
-  const base64 = match[1];
-  // Figma's plugin runtime has `atob`. If it ever goes away, the manual
-  // decoder below is a drop-in replacement.
-  try {
-    const bin = atob(base64);
-    const out = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i += 1) out[i] = bin.charCodeAt(i);
-    return out;
-  } catch {
-    return undefined;
+const BASE64_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+const BASE64_LOOKUP = (() => {
+  const lookup = new Uint8Array(256);
+  for (let i = 0; i < BASE64_CHARS.length; i += 1) {
+    lookup[BASE64_CHARS.charCodeAt(i)] = i;
   }
+  return lookup;
+})();
+
+function decodeDataUri(uri: string): Uint8Array | undefined {
+  const match = /^data:[^;,]+;base64,([\s\S]*)$/i.exec(uri);
+  if (!match || !match[1]) return undefined;
+  const clean = match[1].replace(/[^A-Za-z0-9+/=]/g, '');
+  let padding = 0;
+  if (clean.endsWith('==')) padding = 2;
+  else if (clean.endsWith('=')) padding = 1;
+  const byteLength = Math.floor((clean.length * 3) / 4) - padding;
+  const out = new Uint8Array(byteLength);
+  let outIdx = 0;
+  for (let i = 0; i < clean.length; i += 4) {
+    const a = BASE64_LOOKUP[clean.charCodeAt(i)] ?? 0;
+    const b = BASE64_LOOKUP[clean.charCodeAt(i + 1)] ?? 0;
+    const c = BASE64_LOOKUP[clean.charCodeAt(i + 2)] ?? 0;
+    const d = BASE64_LOOKUP[clean.charCodeAt(i + 3)] ?? 0;
+    if (outIdx < byteLength) out[outIdx++] = (a << 2) | (b >> 4);
+    if (outIdx < byteLength) out[outIdx++] = ((b & 0x0f) << 4) | (c >> 2);
+    if (outIdx < byteLength) out[outIdx++] = ((c & 0x03) << 6) | d;
+  }
+  return out;
 }
 
 function buildVector(

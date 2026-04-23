@@ -524,12 +524,24 @@ function maybeBuildSnapshot(el: P5Element, ctx: BuildContext): ImageNode | null 
   const snapshot = ctx.snapshots.get(sid);
   if (!snapshot) return null;
 
+  // The capture region can be larger than the element's own box (e.g. a
+  // figma-card mock with absolute children bleeding out via rotation and
+  // `bottom: 0`). Use the capture's actual dimensions for the image
+  // geometry so the PNG lands un-cropped, and shift the origin by the
+  // capture's offset so the element's box is still at its yoga position
+  // inside the larger rect.
   const style = styleOf(ctx, el);
+  const elGeom = geometryOf(ctx, el);
   return {
     type: 'IMAGE',
     id: nextId(ctx, 'snapshot'),
     name: nameFor(el),
-    geometry: geometryOf(ctx, el),
+    geometry: {
+      x: elGeom.x + snapshot.offsetX,
+      y: elGeom.y + snapshot.offsetY,
+      width: snapshot.width,
+      height: snapshot.height,
+    },
     opacity: parseOpacity(style),
     visible: true,
     imageRef: snapshot.dataUri,

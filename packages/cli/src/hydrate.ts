@@ -54,9 +54,16 @@ export interface TextMeasurement {
  * Figma plugin can paste a pixel-perfect asset in place of the tree.
  */
 export interface SnapshotResult {
+  /** base64-encoded PNG as a data URI. */
   dataUri: string;
+  /** Captured image's pixel width (may exceed the marked element's own box). */
   width: number;
+  /** Captured image's pixel height (may exceed the marked element's own box). */
   height: number;
+  /** Horizontal offset from the marked element's left edge to the capture's left edge (negative if capture extends leftward). */
+  offsetX: number;
+  /** Vertical offset from the marked element's top edge to the capture's top edge (negative if capture extends upward). */
+  offsetY: number;
 }
 
 export interface HydrateResult {
@@ -152,21 +159,69 @@ async function captureSnapshots(
     const sid = `s${index}`;
     index += 1;
     await handle.evaluate((el, id) => el.setAttribute('data-c2f-sid', id), sid);
-    const box = await handle.boundingBox();
-    if (!box || box.width <= 0 || box.height <= 0) {
+
+    // elementHandle.screenshot() clips to the element's own bounding box.
+    // Decorative regions often contain absolutely-positioned / rotated /
+    // transformed children that bleed past that box visually. Compute the
+    // union rect of the element + every descendant so the PNG captures
+    // what the browser actually drew, not just what CSS box-model reports.
+    const unionRect = await handle.evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      let minX = rect.left;
+      let minY = rect.top;
+      let maxX = rect.right;
+      let maxY = rect.bottom;
+      const walk = (node: Element): void => {
+        const r = node.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+          if (r.left < minX) minX = r.left;
+          if (r.top < minY) minY = r.top;
+          if (r.right > maxX) maxX = r.right;
+          if (r.bottom > maxY) maxY = r.bottom;
+        }
+        for (const child of Array.from(node.children)) walk(child);
+      };
+      walk(el);
+      return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+    });
+
+    if (unionRect.width <= 0 || unionRect.height <= 0) {
       await handle.dispose();
       continue;
     }
+
+    // Round to integer pixels for Playwright's clip (which rejects
+    // sub-pixel values in some versions) and for our IR's geometry
+    // (yoga rounds to ints when placing children anyway).
+    const clip = {
+      x: Math.floor(unionRect.x),
+      y: Math.floor(unionRect.y),
+      width: Math.ceil(unionRect.width),
+      height: Math.ceil(unionRect.height),
+    };
+    const elementBox = await handle.boundingBox();
+    await handle.dispose();
+
     let buf: Buffer;
     try {
-      buf = await handle.screenshot({ type: 'png', omitBackground: true });
+      buf = await page.screenshot({ type: 'png', omitBackground: true, clip });
     } catch {
-      await handle.dispose();
       continue;
     }
-    await handle.dispose();
     const dataUri = `data:image/png;base64,${buf.toString('base64')}`;
-    out.set(sid, { dataUri, width: box.width, height: box.height });
+    // `width` / `height` in the result describe the ASSET's dimensions;
+    // `offsetX` / `offsetY` are the delta from the CSS element's box to
+    // the captured region's top-left. The CLI walker places the IMAGE
+    // IR node at the element's yoga-computed position shifted by these
+    // offsets, so the asset lands pixel-aligned with what the browser
+    // drew — even when overflow extends above or left of the element.
+    out.set(sid, {
+      dataUri,
+      width: clip.width,
+      height: clip.height,
+      offsetX: clip.x - (elementBox?.x ?? clip.x),
+      offsetY: clip.y - (elementBox?.y ?? clip.y),
+    });
   }
   return out;
 }

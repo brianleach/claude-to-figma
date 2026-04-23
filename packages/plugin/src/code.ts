@@ -490,7 +490,9 @@ function isSingleLine(node: Extract<IRNode, { type: 'TEXT' }>): boolean {
 }
 
 /** IR scale-mode values map 1:1 to Figma's ImagePaint scale modes. */
-function toFigmaScaleMode(mode: 'FILL' | 'FIT' | 'CROP' | 'TILE'): 'FILL' | 'FIT' | 'CROP' | 'TILE' {
+function toFigmaScaleMode(
+  mode: 'FILL' | 'FIT' | 'CROP' | 'TILE',
+): 'FILL' | 'FIT' | 'CROP' | 'TILE' {
   return mode;
 }
 

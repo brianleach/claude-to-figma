@@ -62,7 +62,7 @@ type P5Document = DefaultTreeAdapterTypes.Document;
 type P5Element = DefaultTreeAdapterTypes.Element;
 type P5TextNode = DefaultTreeAdapterTypes.TextNode;
 
-import { IGNORED_TAGS, TEXT_TAGS, collectInnerText, containsOnlyText } from './classify.js';
+import { IGNORED_TAGS, TEXT_TAGS, containsOnlyText } from './classify.js';
 
 const DEFAULT_TEXT_STYLE: TextStyle = {
   fontFamily: 'Inter',
@@ -296,7 +296,13 @@ function hasBoxStyling(style: ComputedStyle): boolean {
   ) {
     return true;
   }
-  for (const prop of ['padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left']) {
+  for (const prop of [
+    'padding',
+    'padding-top',
+    'padding-right',
+    'padding-bottom',
+    'padding-left',
+  ]) {
     const raw = style.get(prop);
     if (raw && raw.trim() !== '0' && raw.trim() !== '0px') return true;
   }
@@ -349,7 +355,12 @@ function buildFrameFromElement(el: P5Element, ctx: BuildContext, idHint?: string
   // visually — all three map to `clipsContent: true` in Figma. `visible`
   // (the default) and `unset` leave clipping off.
   const overflow = (style.get('overflow') ?? '').trim().toLowerCase();
-  if (overflow === 'hidden' || overflow === 'clip' || overflow === 'scroll' || overflow === 'auto') {
+  if (
+    overflow === 'hidden' ||
+    overflow === 'clip' ||
+    overflow === 'scroll' ||
+    overflow === 'auto'
+  ) {
     frame.clipsContent = true;
   }
   const rotation = parseTransformRotation(style.get('transform'));

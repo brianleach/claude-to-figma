@@ -487,7 +487,7 @@ describe('extractEffectStyles', () => {
     const root = frame({ children: [a, b, c] });
     const { styles } = extractEffectStyles(doc(root));
     expect(styles).toHaveLength(1);
-    expect(styles[0]!.name).toBe('shadow/md');
+    expect(styles[0]?.name).toBe('shadow/md');
   });
 
   it('radius buckets: sm ≤ 4, md ≤ 12, lg ≤ 24, xl > 24', () => {
@@ -521,7 +521,7 @@ describe('extractEffectStyles', () => {
       effects: [{ type: 'LAYER_BLUR', radius: 6, visible: true }],
     });
     const { styles } = extractEffectStyles(doc(root));
-    expect(styles[0]!.name).toBe('blur/md');
+    expect(styles[0]?.name).toBe('blur/md');
   });
 
   it('mixed shadow + blur stacks use the fx/* family', () => {
@@ -531,7 +531,7 @@ describe('extractEffectStyles', () => {
     ];
     const root = frame({ effects: mixed });
     const { styles } = extractEffectStyles(doc(root));
-    expect(styles[0]!.name).toBe('fx/md');
+    expect(styles[0]?.name).toBe('fx/md');
   });
 
   it('collects effects inside component masters too', () => {
@@ -552,8 +552,8 @@ describe('applyEffectStyles', () => {
     const { styleIdByKey } = extractEffectStyles(doc(root));
     const applied = applyEffectStyles(doc(root), styleIdByKey);
     const children = (applied.root as FrameNode).children as FrameNode[];
-    expect(children[0]!.effectStyleId).toBe('shadow/md');
-    expect(children[1]!.effectStyleId).toBe('shadow/md');
+    expect(children[0]?.effectStyleId).toBe('shadow/md');
+    expect(children[1]?.effectStyleId).toBe('shadow/md');
   });
 
   it('also stamps effectStyleId on frames inside component masters', () => {
@@ -566,7 +566,7 @@ describe('applyEffectStyles', () => {
     const { styleIdByKey } = extractEffectStyles(document);
     const applied = applyEffectStyles(document, styleIdByKey);
     expect((applied.root as FrameNode).effectStyleId).toBe('shadow/md');
-    expect((applied.components[0]!.root as FrameNode).effectStyleId).toBe('shadow/md');
+    expect((applied.components[0]?.root as FrameNode).effectStyleId).toBe('shadow/md');
   });
 
   it('leaves effectStyleId unset on frames with no effects', () => {
@@ -574,8 +574,8 @@ describe('applyEffectStyles', () => {
     const { styleIdByKey } = extractEffectStyles(doc(root));
     const applied = applyEffectStyles(doc(root), styleIdByKey);
     const children = (applied.root as FrameNode).children as FrameNode[];
-    expect(children[0]!.effectStyleId).toBe('shadow/md');
-    expect(children[1]!.effectStyleId).toBeUndefined();
+    expect(children[0]?.effectStyleId).toBe('shadow/md');
+    expect(children[1]?.effectStyleId).toBeUndefined();
   });
 });
 

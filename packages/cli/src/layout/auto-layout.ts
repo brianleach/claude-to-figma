@@ -108,11 +108,23 @@ export function mapFlexChild(
   // has no STRETCH value — instead per-child layoutAlign STRETCH does the
   // job. So if `align-self` is unset and parent's `align-items` is stretch
   // (or unset → CSS default), the child should stretch on the cross axis.
+  //
+  // CSS caveat: `align-items: stretch` does NOT stretch a child that has
+  // an explicit cross-axis size. A 9×9 dot in a `display:flex; gap:5px`
+  // titlebar stays 9×9 even though the parent's align-items defaults to
+  // stretch. Without this guard, Figma's layoutAlign:STRETCH overrides
+  // the child's fixed height and turns every titlebar dot into a tall
+  // pill the full height of the parent.
   const alignSelf = (childStyle.get('align-self') ?? '').toLowerCase();
   const parentAlignItems = (parentStyle.get('align-items') ?? 'stretch').toLowerCase();
+  const flexDirection = (parentStyle.get('flex-direction') ?? 'row').toLowerCase();
+  const parentIsColumn = flexDirection === 'column' || flexDirection === 'column-reverse';
+  const crossAxisSize = parentIsColumn ? 'width' : 'height';
+  const hasExplicitCross = childStyle.has(crossAxisSize);
   const stretches =
-    alignSelf === 'stretch' ||
-    (alignSelf === '' && (parentAlignItems === 'stretch' || parentAlignItems === 'normal'));
+    !hasExplicitCross &&
+    (alignSelf === 'stretch' ||
+      (alignSelf === '' && (parentAlignItems === 'stretch' || parentAlignItems === 'normal')));
   const layoutAlign: 'INHERIT' | 'STRETCH' = stretches ? 'STRETCH' : 'INHERIT';
 
   return {

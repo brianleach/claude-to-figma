@@ -8,7 +8,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
       "name": "Card",
       "root": {
         "childLayout": {
-          "layoutAlign": "STRETCH",
+          "layoutAlign": "INHERIT",
           "layoutGrow": 0,
           "layoutPositioning": "AUTO",
         },
@@ -205,7 +205,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
         "children": [
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -224,7 +224,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -251,7 +251,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -278,7 +278,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -305,7 +305,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -332,7 +332,7 @@ exports[`convertHtml > card-grid > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -1748,7 +1748,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
         "children": [
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -1767,7 +1767,7 @@ exports[`convertHtml > flex-align-variations > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3271,7 +3271,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
       "name": "Tile",
       "root": {
         "childLayout": {
-          "layoutAlign": "STRETCH",
+          "layoutAlign": "INHERIT",
           "layoutGrow": 0,
           "layoutPositioning": "AUTO",
         },
@@ -3325,7 +3325,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
         "children": [
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3344,7 +3344,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3363,7 +3363,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3382,7 +3382,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3401,7 +3401,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -3420,7 +3420,7 @@ exports[`convertHtml > flex-wrap > emits stable IR snapshot 1`] = `
           },
           {
             "childLayout": {
-              "layoutAlign": "STRETCH",
+              "layoutAlign": "INHERIT",
               "layoutGrow": 0,
               "layoutPositioning": "AUTO",
             },
@@ -5210,6 +5210,107 @@ exports[`convertHtml > text-heavy > emits stable IR snapshot 1`] = `
             "id": "text-4",
             "name": "The shift is small in code and l",
             "opacity": 1,
+            "runs": [
+              {
+                "end": 50,
+                "fills": [
+                  {
+                    "color": {
+                      "a": 1,
+                      "b": 0.13333333333333333,
+                      "g": 0.13333333333333333,
+                      "r": 0.13333333333333333,
+                    },
+                    "opacity": 1,
+                    "type": "SOLID",
+                    "visible": true,
+                  },
+                ],
+                "start": 0,
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontStyle": "Regular",
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0,
+                  },
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 160,
+                  },
+                  "textAlign": "LEFT",
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE",
+                },
+              },
+              {
+                "end": 77,
+                "fills": [
+                  {
+                    "color": {
+                      "a": 1,
+                      "b": 0.13333333333333333,
+                      "g": 0.13333333333333333,
+                      "r": 0.13333333333333333,
+                    },
+                    "opacity": 1,
+                    "type": "SOLID",
+                    "visible": true,
+                  },
+                ],
+                "start": 50,
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontStyle": "Bold",
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0,
+                  },
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 160,
+                  },
+                  "textAlign": "LEFT",
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE",
+                },
+              },
+              {
+                "end": 102,
+                "fills": [
+                  {
+                    "color": {
+                      "a": 1,
+                      "b": 0.13333333333333333,
+                      "g": 0.13333333333333333,
+                      "r": 0.13333333333333333,
+                    },
+                    "opacity": 1,
+                    "type": "SOLID",
+                    "visible": true,
+                  },
+                ],
+                "start": 77,
+                "textStyle": {
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontStyle": "Regular",
+                  "letterSpacing": {
+                    "unit": "PIXELS",
+                    "value": 0,
+                  },
+                  "lineHeight": {
+                    "unit": "PERCENT",
+                    "value": 160,
+                  },
+                  "textAlign": "LEFT",
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE",
+                },
+              },
+            ],
             "textStyle": {
               "fontFamily": "Inter",
               "fontSize": 16,

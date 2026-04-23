@@ -272,7 +272,13 @@ function computeGridTrackWidths(
   }
   const frSpace = Math.max(0, contentWidth - totalGap - fixedTotal);
   const frUnit = frTotal > 0 ? frSpace / frTotal : 0;
-  return tracks.map((t) => (t.px != null ? t.px : (t.fr ?? 1) * frUnit));
+  // Floor `fr` tracks to integer px — yoga's flex-wrap wraps on the first
+  // child that overflows by any amount (including sub-pixel). Three equal
+  // `1fr` tracks of 110.33px across a 346px container end up summing to
+  // 330.99px + 16px gap = 346.99px, just enough to wrap the third cell
+  // to a new row. Flooring keeps the sum at-or-below the container width
+  // so every track stays on one row.
+  return tracks.map((t) => (t.px != null ? t.px : Math.floor((t.fr ?? 1) * frUnit)));
 }
 
 /**
@@ -304,8 +310,10 @@ function computeContentWidth(
   parentContentWidth: number | undefined,
   ctx: LengthContext,
 ): number | undefined {
-  const cssWidth = parsePx(style.get('width'), ctx);
-  const maxWidth = parsePx(style.get('max-width'), ctx);
+  const rawWidth = style.get('width');
+  const rawMaxWidth = style.get('max-width');
+  const cssWidth = resolveLengthOrPercent(rawWidth, parentContentWidth, ctx);
+  const maxWidth = resolveLengthOrPercent(rawMaxWidth, parentContentWidth, ctx);
   let myWidth = cssWidth ?? parentContentWidth;
   if (myWidth == null) return undefined;
   if (cssWidth == null) {
@@ -317,9 +325,44 @@ function computeContentWidth(
   // clamped 1280 available, not the 1440 viewport. Otherwise grid track
   // sizing comes out too wide and cells overflow their parent.
   if (maxWidth != null && myWidth > maxWidth) myWidth = maxWidth;
+  // Subtract padding AND border — yoga treats both as outside the content
+  // box in border-box mode, so `.figma-card { border: 1px solid }` leaves
+  // content area 2px narrower than the element's width. Without this,
+  // grid-track sizing on descendants comes out 2px too big and wraps.
   const padL = readEdgePx(style, 'padding', 'left', ctx);
   const padR = readEdgePx(style, 'padding', 'right', ctx);
-  return Math.max(0, myWidth - padL - padR);
+  const borderL = readBorderWidth(style, 'left', ctx);
+  const borderR = readBorderWidth(style, 'right', ctx);
+  return Math.max(0, myWidth - padL - padR - borderL - borderR);
+}
+
+function readBorderWidth(
+  style: ComputedStyle,
+  edge: 'top' | 'right' | 'bottom' | 'left',
+  ctx: LengthContext,
+): number {
+  return parsePx(style.get(`border-${edge}-width`), ctx) ?? 0;
+}
+
+/**
+ * `parsePx` doesn't handle percentages — they need the containing block's
+ * resolved width. Without this, `.figma-card { width: 78% }` silently
+ * falls back to its parent's full content width and every descendant
+ * inherits the wrong size, which breaks grid-track sizing in particular.
+ */
+function resolveLengthOrPercent(
+  value: string | undefined,
+  parentWidth: number | undefined,
+  ctx: LengthContext,
+): number | undefined {
+  if (!value) return undefined;
+  const px = parsePx(value, ctx);
+  if (px != null) return px;
+  const pct = /^(-?\d+(?:\.\d+)?)%$/i.exec(value.trim());
+  if (pct && pct[1] != null && parentWidth != null) {
+    return (Number(pct[1]) / 100) * parentWidth;
+  }
+  return undefined;
 }
 
 /**

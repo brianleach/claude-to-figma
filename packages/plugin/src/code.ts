@@ -407,14 +407,28 @@ async function buildText(
     }
   }
 
-  // Figma TEXT nodes default to `WIDTH_AND_HEIGHT` auto-resize, which
-  // grows the node wide enough to fit all characters on one line. That
-  // blows past the IR-measured geometry and makes long headings / body
-  // copy overflow their parent frame. Set `HEIGHT` so the width is
-  // fixed at the IR-measured value and the height auto-grows by wrap.
+  // Figma defaults to `WIDTH_AND_HEIGHT` auto-resize, which grows the
+  // node to fit all characters on one line. That blows past the IR's
+  // measured width on long headings / body paragraphs — hero subtitle
+  // at 520×58 would become a single 900px line instead of wrapping
+  // onto two. So HEIGHT is right for MULTI-line copy.
+  //
+  // But for single-line runs (nav links, eyebrow, CTA labels), the
+  // Chromium measurement is tight against its fallback font (Google
+  // Fonts blocked by hydrate's offline mode → Chromium uses
+  // Helvetica/system-ui). Figma renders Inter slightly wider, so a
+  // fixed width forces a mid-word wrap ("Problem" → "Prob / lem").
+  // WIDTH_AND_HEIGHT for single-line nodes lets Figma measure with
+  // its own font and size accordingly — no mid-word wrap, no overflow
+  // because the text really is one line.
   if (node.geometry && node.geometry.width > 0) {
-    text.textAutoResize = 'HEIGHT';
-    text.resize(node.geometry.width, text.height);
+    const singleLine = isSingleLine(node);
+    if (singleLine) {
+      text.textAutoResize = 'WIDTH_AND_HEIGHT';
+    } else {
+      text.textAutoResize = 'HEIGHT';
+      text.resize(node.geometry.width, text.height);
+    }
     text.x = node.geometry.x;
     text.y = node.geometry.y;
   } else if (node.geometry) {
@@ -460,6 +474,19 @@ function buildImage(node: Extract<IRNode, { type: 'IMAGE' }>): RectangleNode {
     ? node.fills.map(toFigmaPaint)
     : [{ type: 'SOLID', color: { r: 0.9, g: 0.9, b: 0.92 } }];
   return rect;
+}
+
+/**
+ * True if the IR geometry fits roughly one line of the declared font
+ * size. `lineHeight.auto` on 14px text resolves to ~17px; CSS defaults
+ * commonly multiply by 1.2–1.5. Anything at or below `fontSize × 1.7`
+ * is treated as single-line. Multi-line paragraphs (height > 1.7×)
+ * keep their fixed width so Figma wraps where the browser did.
+ */
+function isSingleLine(node: Extract<IRNode, { type: 'TEXT' }>): boolean {
+  if (!node.geometry || node.geometry.height <= 0) return false;
+  const fontSize = node.textStyle.fontSize;
+  return node.geometry.height <= fontSize * 1.7;
 }
 
 /** IR scale-mode values map 1:1 to Figma's ImagePaint scale modes. */

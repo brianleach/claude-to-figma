@@ -45,6 +45,13 @@ function structuralFingerprint(node: IRNode): unknown {
         // A "Card" 320×180 and a "Card" 280×140 with identical structure
         // and styles are the same component, just different sizes.
         ch: node.children.map(structuralFingerprint),
+        // `svgSource` and data-URI snapshots are identity-defining. Four
+        // `.e-card`s with structurally similar Frame trees but different
+        // snapshot images are DIFFERENT components — merging them into
+        // one master + text overrides silently paints card #1's snapshot
+        // onto every instance. Including the raw svgSource in the hash
+        // keeps each visually-unique card its own structural signature.
+        v: node.svgSource ?? null,
       };
     case 'TEXT':
       return {
@@ -63,8 +70,12 @@ function structuralFingerprint(node: IRNode): unknown {
         sm: node.scaleMode,
         f: node.fills,
         cr: node.cornerRadius ?? null,
-        // name, imageRef, and geometry intentionally excluded — same reasoning
-        // as FRAME (size varies between instances) and TEXT (content-driven).
+        // name and geometry intentionally excluded. But imageRef IS included
+        // when it's a data-URI snapshot (`data-c2f="snapshot"` subtrees):
+        // each snapshot is a unique asset and must not dedupe. External-URL
+        // imageRefs (`<img src="…">`) still content-vary between instances
+        // and stay out of the hash.
+        r: node.imageRef.startsWith('data:') ? node.imageRef : null,
       };
     case 'VECTOR':
       return {
@@ -73,6 +84,7 @@ function structuralFingerprint(node: IRNode): unknown {
         f: node.fills,
         s: node.strokes,
         // name and geometry intentionally excluded
+        v: node.svgSource ?? null,
       };
     case 'INSTANCE':
       return {

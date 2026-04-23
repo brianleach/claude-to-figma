@@ -127,6 +127,19 @@ export async function hydrateHtml(
     }
 
     const entries = await measureTextLeaves(page);
+    // Expand the viewport to cover the full page height before taking
+    // snapshot screenshots. `page.screenshot({ clip })` refuses a clip
+    // region outside the current viewport — any element below the
+    // 900px default viewport (step icons, feature-card demos, footer
+    // illustrations) would silently fail to capture otherwise.
+    const pageHeight = await page.evaluate(
+      () => document.documentElement.scrollHeight || document.body.scrollHeight,
+    );
+    const viewportWidth = opts.viewportWidth ?? 1440;
+    await page.setViewportSize({
+      width: viewportWidth,
+      height: Math.max(pageHeight, opts.viewportHeight ?? 900),
+    });
     const snapshots = await captureSnapshots(page);
     const html = await page.content();
     return {

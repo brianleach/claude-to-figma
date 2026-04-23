@@ -95,14 +95,16 @@ export function mapFlexChild(
     childPosition === 'absolute' || childPosition === 'fixed' ? 'ABSOLUTE' : 'AUTO';
 
   const flexGrowCss = Number(childStyle.get('flex-grow') ?? '0');
-  let layoutGrow = Number.isFinite(flexGrowCss) && flexGrowCss > 0 ? flexGrowCss : 0;
-
-  // Grid children without explicit sizing should fill their track — mirror
-  // the flex-basis + shrink pair we apply in yoga.ts with layoutGrow 1 so
-  // the Figma auto-layout cell also fills available space.
-  if (parentIsGrid && !childStyle.has('width') && !childStyle.has('flex-basis')) {
-    if (layoutGrow === 0) layoutGrow = 1;
-  }
+  const layoutGrow = Number.isFinite(flexGrowCss) && flexGrowCss > 0 ? flexGrowCss : 0;
+  // Historical note: grid children without explicit width used to also get
+  // `layoutGrow = 1` to mirror yoga's flex-basis pair and "fill the track".
+  // That interacts badly with Figma's WRAP mode — when every child of a
+  // wrap container has layoutGrow=1, Figma distributes them equally across
+  // a single row (ignoring the per-cell width we set from the grid track
+  // computation) instead of wrapping at the expected track count. Since
+  // `applyGridCellSize` in yoga.ts already sets each child's width to the
+  // exact track width, the grow-1 fallback is redundant and actively
+  // harmful for wrapped grids. Let flex-grow flow through from CSS only.
 
   // align-items defaults to `stretch` in CSS. Figma's counterAxisAlignItems
   // has no STRETCH value — instead per-child layoutAlign STRETCH does the

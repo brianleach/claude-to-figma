@@ -187,12 +187,19 @@ describe('grid → auto-layout IR props', () => {
     expect(grid.layout?.counterAxisSpacing).toBe(8);
   });
 
-  it('decorates grid children with layoutGrow 1 when they have no explicit width', () => {
+  it('leaves grid children at layoutGrow 0 so Figma WRAP honours per-cell widths', () => {
+    // Early versions forced `layoutGrow: 1` on grid children without an
+    // explicit CSS width, on the theory that it would make each child
+    // fill its track. In practice it breaks Figma's WRAP mode — every
+    // child with `layoutGrow: 1` gets equal-distribution across a
+    // single row regardless of the track-width we set in yoga. Track
+    // widths from `applyGridCellSize` already size each cell exactly,
+    // so `layoutGrow` should only come from explicit CSS `flex-grow`.
     const ir = convertHtml(
       `<html><body style="margin:0;width:600px;">
          <div id="grid" style="display:grid;grid-template-columns:repeat(2,1fr);">
            <div id="a" style="height:50px;"></div>
-           <div id="b" style="height:50px;width:100px;"></div>
+           <div id="b" style="height:50px;width:100px;flex-grow:1;"></div>
          </div>
        </body></html>`,
       { name: 'grid-layout-grow' },
@@ -200,8 +207,9 @@ describe('grid → auto-layout IR props', () => {
 
     const a = findFrame(ir.root, 'a');
     const b = findFrame(ir.root, 'b');
-    expect(a.childLayout?.layoutGrow).toBe(1);
-    // B has explicit width — don't override its flex-grow.
-    expect(b.childLayout?.layoutGrow).toBe(0);
+    // No CSS flex-grow → layoutGrow 0 (not the old "grow to fill the track").
+    expect(a.childLayout?.layoutGrow).toBe(0);
+    // Explicit CSS flex-grow passes through unchanged.
+    expect(b.childLayout?.layoutGrow).toBe(1);
   });
 });

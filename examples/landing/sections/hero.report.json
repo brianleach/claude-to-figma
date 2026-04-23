@@ -1,0 +1,16 @@
+{
+  "source": "/Users/brian.leach/code/claude-to-figma/examples/landing/sections/hero.html",
+  "output": "/Users/brian.leach/code/claude-to-figma/examples/landing/sections/hero.ir.json",
+  "stats": {
+    "nodes": 16,
+    "components": 0,
+    "instances": 0,
+    "paintStyles": 6,
+    "textStyles": 4,
+    "effectStyles": 0
+  },
+  "warnings": [
+    "<link href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap\"> could not be resolved"
+  ],
+  "generatedAt": "2026-04-23T00:13:55.925Z"
+}

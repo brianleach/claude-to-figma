@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>claude-to-figma — hero section</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EDE0;
+    --paper-2: #EAE3D2;
+    --paper-3: #DDD4BE;
+    --ink: #1C1A16;
+    --ink-2: #3A362E;
+    --ink-3: #6B6555;
+    --rule: #C9C0A7;
+    --accent: #B5471F;
+    --accent-soft: #E8C9B6;
+    --shadow: 0 1px 0 rgba(28,26,22,.06), 0 12px 40px -18px rgba(28,26,22,.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 80px 0 96px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 76px;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 28px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h1.hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 520px;
+    margin: 0 0 40px;
+  }
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  /* ---------- Hero visual: before/after Figma mocks ---------- */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1 / 0.92;
+  }
+  .figma-card {
+    background: #FAFAF8;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: absolute;
+    width: 78%;
+  }
+  .figma-card.before {
+    top: 0;
+    left: 0;
+    transform: rotate(-2.5deg);
+  }
+  .figma-card.after {
+    bottom: 0;
+    right: 0;
+    transform: rotate(1.5deg);
+    z-index: 2;
+  }
+  .figma-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+    background: #F0EDE5;
+  }
+  .figma-titlebar .dots { display: flex; gap: 5px; }
+  .figma-titlebar .dots span {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #D4CEBC;
+  }
+  .figma-titlebar .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-left: 8px;
+  }
+  .figma-tag {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--paper-3);
+  }
+  .figma-card.after .figma-tag {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .figma-body {
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    min-height: 240px;
+  }
+  .figma-canvas {
+    padding: 18px;
+    background: #F5F2EA;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .figma-panel {
+    padding: 12px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+  }
+  .figma-panel .panel-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .layer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: var(--ink-2);
+    font-size: 11px;
+  }
+  .layer.indent { padding-left: 18px; }
+  .layer.indent2 { padding-left: 30px; }
+  .layer .glyph {
+    width: 12px; height: 12px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .layer.master { color: var(--accent); font-weight: 600; }
+  .layer.master .glyph { background: var(--accent); border-radius: 2px; }
+  .layer.instance .glyph {
+    border: 1.2px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 2px;
+  }
+  .layer.frame .glyph { border: 1.2px solid var(--ink-3); border-radius: 2px; }
+
+  /* "before" canvas */
+  .locked-shot {
+    width: 100%;
+    height: 200px;
+    background: var(--paper-2);
+    border: 1px dashed var(--ink-3);
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    position: relative;
+  }
+  .locked-shot .lock {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 22px; height: 22px;
+    border: 1px solid var(--ink-3);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    background: var(--paper);
+  }
+
+  /* "after" canvas */
+  .live-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .mini-card {
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 8px;
+    height: 64px;
+    position: relative;
+  }
+  .mini-card .bar {
+    height: 4px;
+    background: var(--ink);
+    border-radius: 2px;
+    width: 60%;
+    margin-bottom: 5px;
+  }
+  .mini-card .bar.short { width: 40%; height: 3px; background: var(--ink-3); }
+  .mini-card .swatch {
+    position: absolute;
+    bottom: 6px; right: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> v0.1 · open source · MIT</div>
+        <h1 class="hero-title">Your Claude&nbsp;Design exports, <em>editable in Figma.</em></h1>
+        <p class="hero-sub">Real frames, real auto-layout, real components — not a screenshot.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://github.com/brianleach/claude-to-figma">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.5-1.08-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.66 3.94.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+            View on GitHub
+          </a>
+          <a class="btn secondary" href="#how">How it works →</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" data-c2f="snapshot">
+        <!-- BEFORE -->
+        <div class="figma-card before">
+          <div class="figma-titlebar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="label">today.fig — landing-page.png</span>
+            <span class="figma-tag">screenshot</span>
+          </div>
+          <div class="figma-body">
+            <div class="figma-canvas">
+              <div class="locked-shot">
+                <div class="lock">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="2" y="4.5" width="6" height="4.5" rx="0.5" stroke="#6B6555" stroke-width="1"/><path d="M3.5 4.5V3a1.5 1.5 0 0 1 3 0v1.5" stroke="#6B6555" stroke-width="1"/></svg>
+                </div>
+                page.png · 1440 × 2400
+              </div>
+            </div>
+            <div class="figma-panel">
+              <div class="panel-title">Layers</div>
+              <div class="layer frame"><span class="glyph"></span> page.png</div>
+            </div>
+          </div>
+        </div>
+        <!-- AFTER -->
+        <div class="figma-card after">
+          <div class="figma-titlebar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="label">tomorrow.fig — landing-page</span>
+            <span class="figma-tag">editable</span>
+          </div>
+          <div class="figma-body">
+            <div class="figma-canvas">
+              <div class="live-card-grid">
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+                <div class="mini-card"><div class="bar"></div><div class="bar short"></div><div class="swatch"></div></div>
+              </div>
+            </div>
+            <div class="figma-panel">
+              <div class="panel-title">Layers</div>
+              <div class="layer frame"><span class="glyph"></span> Page</div>
+              <div class="layer indent frame"><span class="glyph"></span> CardGrid</div>
+              <div class="layer indent2 master"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+              <div class="layer indent2 instance"><span class="glyph"></span> Card</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

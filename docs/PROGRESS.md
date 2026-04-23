@@ -15,9 +15,11 @@ execution against that spec.
 **Active milestone:** M12 — landing-page dogfood pass. Section-by-
 section rebuild in Figma from `examples/landing/sections/`. Nav shipped,
 hero shipped with `data-c2f="snapshot"` covering the decorative
-before/after mockups. Next: paste the FULL landing IR (not just a
-section) and see where the whole-page render stands.
-**Last tag:** `m10`
+before/after mockups. M10 + M11 flipped to ✅ after being exercised
+through the nav/hero paste-and-build cycles. Next: paste the FULL
+landing IR (not just a section) and see where the whole-page render
+stands.
+**Last tag:** `m11`
 **Next action:** dogfood the full `examples/landing/source/index.html`
 through convert + plugin; catch remaining per-section bugs without
 re-carving each section as a fixture. Solo-dev workflow: commit directly
@@ -67,8 +69,8 @@ on the remote for archive only.
 | M7  | ✅ | `m7` | brianleach @ 2026-04-18 | Token extraction: paint + text styles in registry, fillStyleId + textStyleId stamped on nodes. |
 | M8  | ✅ | `m8` | brianleach @ 2026-04-18 | Integration harness, --verbose / --report flags, LIMITATIONS.md (19 entries), CONTRIBUTING.md, README polish. |
 | M9  | ✅ | `m9` | brianleach @ 2026-04-21 | Visual fidelity pass driven by `docs/quality-gap-report.md`. 8 commits closing gaps #1–#8, #10, #13. ADRs 0006 (Chromium text measurement), 0007 (shorthand registry), 0008 (grid → flex-wrap), 0009 (gradient paints). |
-| M10 | 🟡 | `m10` | _pending visual verify_ | Designer-usable output: manual-Figma-build fixes (text wrap, components sibling frame, H/V path expansion), per-shape SVG rendering with paint attributes, role-aware paint style names (ADR 0010), weight-suffixed text-style names. Gaps #15, #16 closed plus post-M9 render bugs surfaced by real paste-and-build testing. **Tag pushed before manual Figma verification — when user confirms the render, flip status to ✅ and backfill the "Verified by" cell.** |
-| M11 | 🟡 | — | _pending visual verify_ | Shared effect styles (ADR 0011). Inline DROP/INNER_SHADOW + LAYER_BLUR + BACKGROUND_BLUR stacks collapse into `styles.effects`; every linked FRAME carries an `effectStyleId`. Plugin registers each as a Figma EffectStyle so designers can edit one shadow and see all linked frames update. LIMITATIONS #14 (effects half) closed; stroke-style sharing stays deferred. Landing dogfood: 3 inline `.figma-card` shadow stacks → 1 `shadow/xl` style. 277 workspace tests green. |
+| M10 | ✅ | `m10` | brianleach @ 2026-04-22 | Designer-usable output: manual-Figma-build fixes (text wrap, components sibling frame, H/V path expansion), per-shape SVG rendering with paint attributes, role-aware paint style names (ADR 0010), weight-suffixed text-style names. Gaps #15, #16 closed plus post-M9 render bugs surfaced by real paste-and-build testing. Verified through the M12 nav + hero dogfood — text wraps, components attach cleanly, path rewrites land without Figma errors. |
+| M11 | ✅ | `m11` | brianleach @ 2026-04-22 | Shared effect styles (ADR 0011). Inline DROP/INNER_SHADOW + LAYER_BLUR + BACKGROUND_BLUR stacks collapse into `styles.effects`; every linked FRAME carries an `effectStyleId`. Plugin registers each as a Figma EffectStyle so designers can edit one shadow and see all linked frames update. LIMITATIONS #14 (effects half) closed; stroke-style sharing stays deferred. Landing dogfood: 3 inline `.figma-card` shadow stacks → 1 `shadow/xl` style. 277 workspace tests green. Verified in M12 dogfood (shadows + shared stroke paint styles register + apply). |
 | M12 | 🟢 | — | _in progress_ | Landing-page dogfood rebuild in Figma, section by section. Fixtures live under `examples/landing/sections/`. Nav + hero shipped — nav surfaced `place-items` shorthand, `color: inherit` resolution, `currentColor` in SVG, native SVG import via `figma.createNodeFromSvg`, `counterAxisSizingMode: AUTO` on wrap; hero surfaced mixed-style text runs (`<em>` inside `<h1>`), grid sizing against `%` widths + border-box, fr-track flooring, `border-radius: 50%`, empty-span fallback, `<span class="pill">` → FRAME, `overflow: hidden` → clipsContent. New `data-c2f="snapshot"` opt-in: author marks decorative subtrees and `--hydrate` captures a Playwright PNG (union-of-descendants bounds) that becomes a single IMAGE IR node with base64 data URI; plugin registers via `figma.createImage(...)`. Hero IR 84 nodes → 16 with the hero-visual snapshotted. 284 CLI / 302 workspace tests green. |
 
 Legend: ✅ done · 🟢 in progress · 🟡 awaiting verification · ⬜ not started · ❌ blocked
